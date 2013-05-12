@@ -8,7 +8,7 @@
 #ifndef _STRING_H
 #define _STRING_H
 
-// TODO include
+// TODO include (when changing to POSIX conform one ;)
 //#include <stddef.h>
 
 #ifndef NULL

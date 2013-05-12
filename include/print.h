@@ -1,6 +1,7 @@
 /* include/print.h
  * 
  * Provides functions to print strings and formatted strings to the screen.
+ * This file is an addition to the posix library for kernel debugging purpposes.
  */
 
 #ifndef _PRINT_H
