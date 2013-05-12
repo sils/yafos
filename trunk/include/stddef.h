@@ -8,7 +8,9 @@
 #ifndef _STDDEF_H
 #define _STDDEF_H
 
+#ifndef NULL
 #define NULL 0
+#endif /* NULL */
 
 // Unsigned integer type of the result of the sizeof operator.
 #define	unsigned int	size_t

@@ -4,7 +4,7 @@ INCDIRS	= -I ./include/ -I ./HAL/
 EXCLUDE	= -nostdlib -nostdinc -fno-builtin -nostartfiles -nodefaultlibs\
 -ffreestanding -fno-stack-protector
 # All and extra warnings
-WARNLEV	= -Wall -Wextra -std=c99 -pedantic -Werror
+WARNLEV	= -Wall -Wextra -std=c99 -pedantic
 # Crosscompile 32 bit kernel
 ARCH	= -m32
 # Compile with debug symbols (e.g. for gdb) and without optimization

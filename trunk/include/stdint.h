@@ -1,7 +1,8 @@
 /* include/stdint.h
  * 
- * Provides architecture independent data types compliant to POSIX standard.
- * TODO Make some research about POSIX and post a link here
+ * This file tries to follow the standardizations specified in the POSIX
+ * Programmers Manual wich can be reached through
+ * 		http://pubs.opengroup.org/onlinepubs/009695399/basedefs/stdint.h.html
  */
 
 #ifndef _STDINT_H
@@ -15,5 +16,7 @@ typedef int                 int32_t;
 typedef unsigned            uint32_t;
 typedef long long           int64_t;
 typedef unsigned long long  uint64_t;
+
+// TODO least, fast, greatest
 
 #endif /* _STDINT_H */
