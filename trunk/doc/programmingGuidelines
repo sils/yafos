@@ -2,42 +2,139 @@ PROGRAMMING GUIDELINES
 
 CONTENTS
 
-1. CODE STYLE
-2. CONFORMITY
-3. INCLUDE GUIDELINES
+1.  READING THIS DOCUMENT
+2.  HEADER
+3.  CONFORMITY
+4.  INCLUDE GUIDELINES
+5.  NAMING CONVENTIONS
+6.  BRACES AND BRACKETS
+7.  INDENTATION
+8.  LOCAL AND GLOBAL VARIABLES
+9.  COMMENTS
+10. NEW CONVENTIONS
 
 
-1. CODE STYLE
-	Make sure that over every header file and in all code files without such a
-	header file one finds the following header:
-
-/* dir/filename.h
- *
- * Short description. Optional a link to a documentation file in doc/
- *
- * Copyright (C) <year> <name of author>. All Rights Reserved.
- * Written by <name of author> (<mail of author>)
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- */
-	
-	(In other languages the first two signs of every line might have to be
-	altered.)
-	If a code file includes a header file wich belongs to the code
-	file (stdint.c -> stdint.h) this header does not have to be placed in the
-	code file.
+1.  READING THIS DOCUMENT
+	//TODO must and shall
 
 
-2. CONFORMITY
+2.  HEADER
+	2.1. Header of the headers
+		Make sure that over every header file and in all code files without such
+		a header file one finds the following header:
+
+		/* dir/filename.h
+		*
+		* Short description. Optional a link to a documentation file in doc/
+		*
+		* Copyright (C) <year> <name of author>. All Rights Reserved.
+		* Written by <name of author> (<mail of author>)
+		*
+		* This program is free software: you can redistribute it and/or modify it under
+		* the terms of the GNU General Public License as published by the Free Software
+		* Foundation, either version 3 of the License, or (at your option) any later
+		* version.
+		*/
+		
+		(In other languages the first two signs of every line might have to be
+		altered.)
+		If a code file includes a header file wich belongs to the code file
+		(stdint.c -> stdint.h) this header does not have to be placed in the
+		code file.
+		
+	2.2. Function prototypes
+		Function prototypes must follow the naming conventions given in 5.1.
+		Every function which is not only used in the corresponding code file has
+		to have a prototype in the header file. Functions without prototypes are
+		to mark to the compiler with the keyword 'static'.
+
+
+3.  CONFORMITY
 	Especially when you rewrite standard include files look up if the file you
 	want to provide underlies any POSIX standard. One of the goals of this
 	project is to be POSIX conform from the beginning on. More information about
 	POSIX can be achieved on:
 		http://www.opengroup.org/
+	So please use the prototypes given by opengroup.
 
 
-3. INCLUDE GUIDELINES
+4.  INCLUDE GUIDELINES
 	TODO
+
+
+5.  NAMING CONVENTIONS
+	5.1. Functions
+		
+	5.2. Variables
+		
+	5.3. Files
+		If for your application there is a POSIX documentation name the header
+		file accordingly. The corresponding codefile must have the same base
+		file name. (Only the extension differs.)
+		If no POSIX standard applies give your file a recognizable name in lower
+		case letters. The length of the base name shall not exceed 10 letters.
+		
+	5.4. Counter variables
+		Counter variables shall be named with i and the direct followers in the
+		latin alphabet. They shall not exceed n. If you need more, you
+		definitely write too long functions.
+		
+	5.5. Structs
+		Structs have to be anonymously defined and be assigned via typedef to an
+		appropriate name wich follows the conventions given in 5.2.:
+		
+		typedef struct	
+		{
+			//contents
+		}__attribute__((packed)) typeName;
+		
+		ATTENTION: be sure to add the "__attribute__((packed))" statement when
+		the exact placement of the contents is important! (e.g. if the struct
+		represents the structure of a given bitfield)
+
+
+6.  BRACES AND BRACKETS
+	Matching brackets may be either in the same line:
+		functionPtr[element](arg);
+	Matching braces (or "curly brackets") are not to be in the same line but in
+	the same column. Every block of code has to be surrounded by brackets.
+	Therefore the following use of e.g. conditions is INVALID:
+	
+	if(condition)
+		singleExpression;
+	
+	Correct use of brackets:
+	
+	if(condition)
+	{
+		expressions;
+	}
+	
+
+
+7.  INDENTATION
+	The bracket following to a keyword (e.g. struct) or condition is NOT to be
+	indented. Any block surrounded by brackets is to be indented with one tab.
+	For faster editing one must use tabs and it is not allowed to use any count
+	of spaces. Please configure your editor that way that one tab will be shown
+	as 4 spaces (but not replaced by it).
+
+
+8.  LOCAL AND GLOBAL VARIABLES
+	TODO
+
+
+9.  COMMENTS
+	Comments must not exceed the 80th column of every document. (you can make
+	this visible in your grafical editor. Maybe even somehow in VIM and friends)
+	Write comments whenever you want - but do it in english.
+
+
+10. NEW CONVENTIONS
+	If you have an idea how to improve the code through this standardization
+	even more just write an email to lasse.schuirmann@gmail.com . I'll see over
+	it.
+
+Greetings,
+
+Lasse Schuirmann
