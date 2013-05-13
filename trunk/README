@@ -1,0 +1,18 @@
+YAFOS Kernel - Prealpha.
+
+WHAT IS YAFOS
+	TODO
+
+BUILD
+	Just execute the qemu.sh script to compile the kernel and start qemu.
+	Qemu may be interfaced with gdb via the command:
+		target remote localhost:1234
+	TODO: extend the makefile so it can automatically create a burnable ISO.
+
+CONTRIBUTING
+	Contact lasse.schuirmann@gmail.com to contribute to this project.
+	Be sure to read the programming guidelines, provided in
+		doc/programmingGuidelines
+	before contributing or even committing any code.
+	
+	Be aware the the contributed code will be published under the GPL3 License.

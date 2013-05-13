@@ -1,0 +1,43 @@
+PROGRAMMING GUIDELINES
+
+CONTENTS
+
+1. CODE STYLE
+2. CONFORMITY
+3. INCLUDE GUIDELINES
+
+
+1. CODE STYLE
+	Make sure that over every header file and in all code files without such a
+	header file one finds the following header:
+
+/* dir/filename.h
+ *
+ * Short description. Optional a link to a documentation file in doc/
+ *
+ * Copyright (C) <year> <name of author>. All Rights Reserved.
+ * Written by <name of author> (<mail of author>)
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ */
+	
+	(In other languages the first two signs of every line might have to be
+	altered.)
+	If a code file includes a header file wich belongs to the code
+	file (stdint.c -> stdint.h) this header does not have to be placed in the
+	code file.
+
+
+2. CONFORMITY
+	Especially when you rewrite standard include files look up if the file you
+	want to provide underlies any POSIX standard. One of the goals of this
+	project is to be POSIX conform from the beginning on. More information about
+	POSIX can be achieved on:
+		http://www.opengroup.org/
+
+
+3. INCLUDE GUIDELINES
+	TODO
