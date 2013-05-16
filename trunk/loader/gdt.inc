@@ -1,6 +1,6 @@
-; loader/include.inc
+; include/gdt.inc
 ;
-; Includes all nessecary assembler code.
+; Contains functions to load the global descriptor table.
 ;
 ; Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
 ; Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -10,4 +10,10 @@
 ; Foundation, either version 3 of the License, or (at your option) any later
 ; version.
 
-%include "loader/gdt.inc"
+global loadGdt
+extern globalGdtPtr
+
+loadGdt:
+	cli ; just to be sure
+	lgdt [globalGdtPtr]
+	ret

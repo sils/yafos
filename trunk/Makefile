@@ -15,10 +15,10 @@ EXCLUDE	= -nostdlib -nostdinc -fno-builtin -nostartfiles -nodefaultlibs\
 -ffreestanding -fno-stack-protector
 # All and extra warnings
 WARNLEV	= -Wall -Wextra -std=c99 -pedantic
-# Crosscompile 32 bit kernel
-ARCH	= -m32
+# Crosscompile 32 bit kernel, use intel syntax for inline assebly
+ARCH	= -m32 -masm=intel
 # Compile with debug symbols (e.g. for gdb) and without optimization
-# DEBUG	= -g -O0
+DEBUG	= -g -O0
 
 CC	= gcc
 CFLAGS	= $(ARCH) $(WARNLEV) $(EXCLUDE) $(INCDIRS) $(DEBUG)
