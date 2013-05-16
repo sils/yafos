@@ -1,7 +1,7 @@
 /* init.c
  * 
  * Initializes the kernel properly. That includes specificly:
- * 		TODO Set up a global descriptor table
+ * 		Set up a global descriptor table
  * 		TODO Set up a interrupt descriptor table
  * 		TODO Set up a timer for time measurement
  * 		TODO Set up memory management

@@ -45,7 +45,7 @@ static void scrollUp()
 	{
 		if(i % 2)
 			videoram[i]=0;
-		else videoram[i]=' ';
+		else videoram[i]=BLANK;
 	}
 }
 
@@ -54,7 +54,7 @@ void put(const unsigned char val, const uint8_t color)
 	static uint8_t x=0, y=0;
 	volatile unsigned char *videoram = (unsigned char *)0xB8000;
 	
-	if(val == '\n')
+	if(val == NEWLN)
 	{
 		x=0;
 		y++;
@@ -66,12 +66,12 @@ void put(const unsigned char val, const uint8_t color)
 		return;
 	}
 	
-	if(val == '\b')
+	if(val == BACKSP)
 	{
 		if(x>0)
 		{
 			x--;
-			videoram[2*(y*80 + x)] = ' ';
+			videoram[2*(y*80 + x)] = BLANK;
 			videoram[2*(y*80 + x)+1] = color;
 			return;
 		}

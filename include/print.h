@@ -28,6 +28,11 @@ void print(char *);
 // puts a char (white on black) to the screen
 #define putChar(toput) put((toput), 0x0f)
 
+
+#define NEWLN	'\n'
+#define BLANK	' '
+#define BACKSP	'\b'
+
 #include <string.h>
 
 #endif /* _PRINT_H */

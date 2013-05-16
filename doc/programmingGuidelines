@@ -23,18 +23,18 @@ CONTENTS
 		Make sure that over every header file and in all code files without such
 		a header file one finds the following header:
 
-		/* dir/filename.h
-		*
-		* Short description. Optional a link to a documentation file in doc/
-		*
-		* Copyright (C) <year> <name of author>. All Rights Reserved.
-		* Written by <name of author> (<mail of author>)
-		*
-		* This program is free software: you can redistribute it and/or modify it under
-		* the terms of the GNU General Public License as published by the Free Software
-		* Foundation, either version 3 of the License, or (at your option) any later
-		* version.
-		*/
+/* dir/filename.h
+ *
+ * Short description. Optional a link to a documentation file in doc/
+ *
+ * Copyright (C) <year> <name of author>. All Rights Reserved.
+ * Written by <name of author> (<mail of author>)
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ */
 		
 		(In other languages the first two signs of every line might have to be
 		altered.)
@@ -43,29 +43,67 @@ CONTENTS
 		code file.
 		
 	2.2. Function prototypes
-		Function prototypes must follow the naming conventions given in 5.1.
 		Every function which is not only used in the corresponding code file has
 		to have a prototype in the header file. Functions without prototypes are
 		to mark to the compiler with the keyword 'static'.
+		
+	2.3. Include guards
+		Every header file has to have an include guard compliant to the
+		following example:
+		
+		//Header - see 2.1.
+		
+		#ifndef _<UPPER_CASE_FILE_BASENAME>_<UPPER_CASE_FILE_EXTENSION>
+		#define _<UPPER_CASE_FILE_BASENAME>_<UPPER_CASE_FILE_EXTENSION>
+		
+		//prototype includes
+		
+		//prototypes
+		
+		//code includes
+		
+		#endif /* _<UPPER_CASE_FILE_BASENAME>_<UPPER_CASE_FILE_EXTENSION> */
 
 
 3.  CONFORMITY
-	Especially when you rewrite standard include files look up if the file you
+	Especially when you rewrite standard libraries look up if the file you
 	want to provide underlies any POSIX standard. One of the goals of this
 	project is to be POSIX conform from the beginning on. More information about
 	POSIX can be achieved on:
 		http://www.opengroup.org/
 	So please use the prototypes given by opengroup.
+	
+	If you write a posix conform header file the short description given in the
+	header should comply to this example:
+/* include/<basename>.h
+ * 
+ * This file tries to follow the standardizations specified in the POSIX
+ * Programmers Manual wich can be reached through
+ * 		http://pubs.opengroup.org/<subpath/to/specific/header>
+ *
+ * <other stuff>
+ */
 
 
 4.  INCLUDE GUIDELINES
-	TODO
+	In every code file, just include the proper header file. If there are header
+	files wich are needed for the prototypes (!) only those files may be
+	included before the prototypes. All includes only needed in the code file
+	are to be included right before the end of the include guard.
 
 
 5.  NAMING CONVENTIONS
 	5.1. Functions
+		Any function name should be a very short description of its purpose:
+		
+		type shortDesc(paramOne, ...);
+		
+		Underscores are not allowed, use upper case and lower case letters to
+		differentiate between words. (As in the previous example.)
 		
 	5.2. Variables
+		Use the same specifications as for functions. (See 5.1.)
+		An exception are the counter variables - see 5.4.
 		
 	5.3. Files
 		If for your application there is a POSIX documentation name the header
@@ -77,7 +115,7 @@ CONTENTS
 	5.4. Counter variables
 		Counter variables shall be named with i and the direct followers in the
 		latin alphabet. They shall not exceed n. If you need more, you
-		definitely write too long functions.
+		definitely write far too long functions.
 		
 	5.5. Structs
 		Structs have to be anonymously defined and be assigned via typedef to an
@@ -91,6 +129,11 @@ CONTENTS
 		ATTENTION: be sure to add the "__attribute__((packed))" statement when
 		the exact placement of the contents is important! (e.g. if the struct
 		represents the structure of a given bitfield)
+		
+	5.6. Macros
+		Macros are to be named in upper case letters.
+		Bitset macros are to be named with (regex syntax)
+		[A-Z_]+_BIT[S]?
 
 
 6.  BRACES AND BRACKETS
@@ -121,7 +164,9 @@ CONTENTS
 
 
 8.  LOCAL AND GLOBAL VARIABLES
-	TODO
+	Use local variables whenever possible. Pass pointers to functions for
+	avioding global variables. If global variables are really (!) nessecary they
+	have to be declared in a header file. (Definition follows in the code file.)
 
 
 9.  COMMENTS
