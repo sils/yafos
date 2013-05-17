@@ -2,8 +2,8 @@
 #
 # Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
 # Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
-#
-# This program is free software: you can redistribute it and/or modify it under
+# 
+# This program is free software. You can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
 # Foundation, either version 3 of the License, or (at your option) any later
 # version.
@@ -16,7 +16,7 @@ EXCLUDE	= -nostdlib -nostdinc -fno-builtin -nostartfiles -nodefaultlibs\
 # All and extra warnings
 WARNLEV	= -Wall -Wextra -std=c99 -pedantic
 # Crosscompile 32 bit kernel, use intel syntax for inline assebly
-ARCH	= -m32 -masm=intel
+ARCH	= -m32
 # Compile with debug symbols (e.g. for gdb) and without optimization
 DEBUG	= -g -O0
 

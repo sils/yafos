@@ -66,15 +66,17 @@ CONTENTS
 
 
 3.  CONFORMITY
-	Especially when you rewrite standard libraries look up if the file you
-	want to provide underlies any POSIX standard. One of the goals of this
-	project is to be POSIX conform from the beginning on. More information about
-	POSIX can be achieved on:
-		http://www.opengroup.org/
-	So please use the prototypes given by opengroup.
-	
-	If you write a posix conform header file the short description given in the
-	header should comply to this example:
+	3.1. POSIX
+		Especially when you rewrite standard libraries look up if the file you
+		want to provide underlies any POSIX standard. One of the goals of this
+		project is to be POSIX conform from the beginning on. More information about
+		POSIX can be achieved on:
+			http://www.opengroup.org/
+		So please use the prototypes given by opengroup.
+		
+		If you write a posix conform header file the short description given in the
+		header should comply to this example:
+		
 /* include/<basename>.h
  * 
  * This file tries to follow the standardizations specified in the POSIX
@@ -83,6 +85,12 @@ CONTENTS
  *
  * <other stuff>
  */
+ 
+	3.2. Use of data types
+		If you implement POSIX functions use the datatypes given by the
+		standard. If not use the types defined in include/stdint.h for any
+		integer to get a guaranteed number of bits. (int32_t -> guaranteed 32
+		bit integer) Think about how many bits you need.
 
 
 4.  INCLUDE GUIDELINES

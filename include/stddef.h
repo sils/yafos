@@ -21,7 +21,8 @@
 #endif /* NULL */
 
 // Unsigned integer type of the result of the sizeof operator.
-#define	unsigned int	size_t
+typedef unsigned int size_t;
+
 /* TODO
  offsetof(type, member-designator)
  I nteger constant expression of type size_t, the value of whi*ch is the offset in bytes to the structure member (member-designator), from the beginning of its structure (type).
