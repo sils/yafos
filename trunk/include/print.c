@@ -1,5 +1,11 @@
 #include "print.h"
 
+// TODO move this to a file where it belongs
+static void strcpy(char *dest, char *src)
+{
+	while((*dest++ = *src++));
+}
+
 // TODO remove this stupid function
 char charDigit(const unsigned char val)
 {

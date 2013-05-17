@@ -1,4 +1,8 @@
 TODOS
-- Implement most used functions in assembly
+- Implement the most used functions in assembly
+- extend the makefile so it can automatically create a burnable ISO.
+
+hints for long mode:
+	use IRETQ for interrupt return
 
 KNOWN BUGS

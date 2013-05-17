@@ -1,10 +1,7 @@
-/* HAL/boot/boot.h
+/* HAL/PIC/pic.h
  * 
- * Defines nessecary structures for reading information passed by multiboot
- * compliant bootloaders. See
- * 		http://www.gnu.org/software/grub/manual/multiboot/multiboot.pdf
- * for more information.
- *
+ * Provides functions for using the programmable interval controller (PIC).
+ * 
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
  *
@@ -14,12 +11,4 @@
  * version.
  */
 
-#ifndef _BOOT_H
-#define _BOOT_H
-
-#include <stdint.h>
-
-//TODO multiboot structure
-//See multiboot.pdf, page 9
-
-#endif /* _BOOT_H */
+#include <sys/io.h>
