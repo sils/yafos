@@ -11,4 +11,18 @@
  * version.
  */
 
+#ifndef _PIC_H
+#define _PIC_H
+
+void remapIrqs(void);
+
 #include <sys/io.h>
+#include <IDT/idt.h>
+
+#ifndef IRQ0
+	#warning "IRQ0 undefined! Should be defined in HAL/IDT/idt.h and is needed\
+		in HAL/PIC/pic.h. Defining it now with standard value 0x20 (32)."
+	#define IRQ0 0x20
+#endif
+
+#endif /* _PIC_H */

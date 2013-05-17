@@ -16,9 +16,11 @@
 
 #include <stdint.h>
 
-#define cli() __asm__ __volatile__ ("cli")
-#define sti() __asm__ __volatile__ ("sti")
-#define hlt() __asm__ __volatile__ ("hlt")
+#define cli()			__asm__ __volatile__ ("cli")
+#define sti()			__asm__ __volatile__ ("sti")
+#define hlt()			__asm__ __volatile__ ("hlt")
+#define lidt(idtptr)	__asm__ __volatile__("lidt %0" : : "m" (idtptr));
+#define lgdt(gdtptr)	__asm__ __volatile__("lgdt %0" : : "m" (gdtptr));
 
 void outb(uint8_t value, uint16_t port);
 

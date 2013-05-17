@@ -15,7 +15,6 @@
 
 #ifndef _GDT_H
 #define _GDT_H
-//TODO test it with switching code and data segments andinvoking wrong interrupts
 
 #include <stdint.h>
 
@@ -46,12 +45,12 @@ gdtPtr   tgdtPtr;
 #define G_EXP_DIR_BIT	0x04
 #define G_EXEC_BIT		0x08
 #define G_CODEDATA_BIT	0x10//if unset this is for other use than code or data
-#define G_DPL_BITS(dpl)	((dpl)<<5) //bits 5 and 6
+#define G_DPL_BITS(dpl)	((dpl)<<5)	//bits 5 and 6
 #define G_PRESENT_BIT	0x80
 
-#define G_LIMIT_BITS(a)	(((a) >> 15) & 0xF) //(a<<16)>>8, 4 bits
+#define G_LIMIT_BITS(a)	(((a) >> 15) & 0xF)	//(a<<16)>>8, 4 bits
 #define G_AVAIL_BIT		0x10
-#define G_LONG_BIT		0x20 //only for 64 bit mode!!!
+#define G_LONG_BIT		0x20				//only for 64 bit mode!!!
 #define G_32_BIT		0x40
 #define G_GRAN_BIT		0x80
 

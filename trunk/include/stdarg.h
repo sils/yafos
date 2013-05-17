@@ -1,6 +1,7 @@
 /* include/stdarg.h
  * 
  * Should provide the standard functionality of the stdarg library.
+ * TODO make conform header (POSIX!)
  * 
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
