@@ -10,3 +10,14 @@
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
  */
+
+#ifndef _TIMERINT_H
+#define _TIMERINT_H
+
+#include <cpu/registers.h>
+
+void generalTimerHandler(registers_t *regs);
+
+#include <print.h>
+
+#endif /* _TIMERINT_H */

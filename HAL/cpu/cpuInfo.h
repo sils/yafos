@@ -10,3 +10,12 @@
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
  */
+
+#ifndef _CPUINFO_H
+#define _CPUINFO_H
+
+#include <stdint.h>
+
+void cpuid(int code, uint32_t *a, uint32_t *d);
+
+#endif /* _CPUINFO_H */

@@ -9,38 +9,14 @@ static void idtSetGate(uint8_t index, uint32_t entry, uint16_t selector, uint16_
 	idt[index].entryHigh = (entry>>16) & 0xFFFF;
 }
 
-static void remapIrqs(void)
-{
-	//init master PIC
-	outb(0x20, 0x11);
-	outb(0x21, 0x20);
-	outb(0x21, 0x04);
-	outb(0x21, 0x01);
-	
-	//init slave PIC
-	outb(0xA0, 0x11);
-	outb(0xA1, 0x28);
-	outb(0xA1, 0x02);
-	outb(0xA1, 0x01);
-	
-	//activate IRQs
-	outb(0x20,0x0);
-	outb(0xA0, 0x0);
-	
-	//TODO read article about PIC, put this to a PIC file in HAL
-}
-
 void installIdt(void)
 {
-	cli();
-	
-	remapIrqs();
-	
 	tidtPtr.limit = (sizeof(idtEntry) * IDT_ENTRIES)-1;
 	tidtPtr.base  = &idt;
 	
 	memset((void *)idt, 0, sizeof(idtEntry)*IDT_ENTRIES);
 	
+	//set gates for all exceptions
 	idtSetGate(0 , (uint32_t)isr0 , CALC_SEL(1), I_PRESENT_BIT | I_DPL_BITS(0) | I_INT_GATE_BITS);
 	idtSetGate(1 , (uint32_t)isr1 , CALC_SEL(1), I_PRESENT_BIT | I_DPL_BITS(0) | I_INT_GATE_BITS);
 	idtSetGate(2 , (uint32_t)isr2 , CALC_SEL(1), I_PRESENT_BIT | I_DPL_BITS(0) | I_INT_GATE_BITS);
@@ -74,6 +50,7 @@ void installIdt(void)
 	idtSetGate(30, (uint32_t)isr30, CALC_SEL(1), I_PRESENT_BIT | I_DPL_BITS(0) | I_INT_GATE_BITS);
 	idtSetGate(31, (uint32_t)isr31, CALC_SEL(1), I_PRESENT_BIT | I_DPL_BITS(0) | I_INT_GATE_BITS);
 	
+	//set gates for all hardware IRQs (with one master and slave its 16 IRQs)
 	idtSetGate(32, (uint32_t)irq0 , CALC_SEL(1), I_PRESENT_BIT | I_DPL_BITS(0) | I_INT_GATE_BITS);
 	idtSetGate(33, (uint32_t)irq1 , CALC_SEL(1), I_PRESENT_BIT | I_DPL_BITS(0) | I_INT_GATE_BITS);
 	idtSetGate(34, (uint32_t)irq2 , CALC_SEL(1), I_PRESENT_BIT | I_DPL_BITS(0) | I_INT_GATE_BITS);
@@ -91,5 +68,8 @@ void installIdt(void)
 	idtSetGate(46, (uint32_t)irq14, CALC_SEL(1), I_PRESENT_BIT | I_DPL_BITS(0) | I_INT_GATE_BITS);
 	idtSetGate(47, (uint32_t)irq15, CALC_SEL(1), I_PRESENT_BIT | I_DPL_BITS(0) | I_INT_GATE_BITS);
 	
-	__asm__ volatile("lidt %0" : : "m" (tidtPtr));
+	//flush :)
+	cli();
+	remapIrqs();
+	lidt(tidtPtr);
 }

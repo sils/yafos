@@ -1,12 +1,6 @@
 #include "print.h"
 
-// TODO move this to a file where it belongs
-static void strcpy(char *dest, char *src)
-{
-	while((*dest++ = *src++));
-}
-
-// TODO remove this stupid function
+// TODO remove this stupid function -> MACRO :)
 char charDigit(const unsigned char val)
 {
 	if(val<10)
@@ -50,9 +44,19 @@ static void scrollUp()
 	for(; i<2*25*80;i++)
 	{
 		if(i % 2)
-			videoram[i]=0;
+			videoram[i]=COLCODE(STDFG, STDBG);
 		else videoram[i]=BLANK;
 	}
+}
+
+void clearScreen()
+{
+	uint16_t i;
+	volatile unsigned char *videoram = (unsigned char *)0xB8000;
+	for(i=0;i<25*80*2;i++)
+		if(i % 2)
+			videoram[i]=COLCODE(STDFG, STDBG);
+		else videoram[i]=BLANK;
 }
 
 void put(const unsigned char val, const uint8_t color)

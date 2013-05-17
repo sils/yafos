@@ -24,14 +24,35 @@ void kprintf(const char *, ...);
 void put(const unsigned char, const uint8_t);
 // prints a string to the screen
 void print(char *);
+// clears the screen ;)
+void clearScreen();
 
 // puts a char (white on black) to the screen
-#define putChar(toput) put((toput), 0x0f)
+#define putChar(toput) put((toput), COLCODE(STDFG, STDBG))
 
-
+//special signs
 #define NEWLN	'\n'
 #define BLANK	' '
 #define BACKSP	'\b'
+
+//standard colors
+#define STDBG	T_WHITE
+#define STDFG	T_BLACK
+
+//color
+#define T_BLACK		0
+#define T_BLUE		1
+#define T_GREEN		2
+#define T_CYAN		3
+#define T_RED		4
+#define T_MAGENTA	5
+#define T_BROWN		6
+#define T_LIGHTGRAY	7
+#define T_WHITE		T_LIGHT(T_LIGHTGRAY)
+
+#define COLCODE(fore, back) (((back)<<4) + (fore))
+
+#define T_LIGHT(col) ((col)+0x8)
 
 #include <string.h>
 

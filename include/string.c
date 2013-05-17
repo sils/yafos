@@ -16,3 +16,17 @@ void *memset(void * dst, int val, size_t len)
 		*dt++ = (char)val;
 	return dst;
 }
+
+char *strcpy(char *restrict dest, const char *restrict src)
+{
+	char * dt = dest;
+	while((*dest++ = *src++));
+	return dt;
+}
+
+size_t strlen(const char * s)
+{
+	size_t i;
+	for (i = 0; s[i] != '\0'; i++) ;
+	return i;
+}

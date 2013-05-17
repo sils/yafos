@@ -18,6 +18,6 @@ void regDump(registers_t regs)
 	kprintf("   ues: %x\n",regs.useresp);
 	kprintf("   ss : %x\n",regs.ss);
 	
-	kprintf("   int_no: %x\n",regs.int_no);
-	kprintf("   err_code: %x\n",regs.err_code);
+	kprintf("   intNo: %x\n",regs.intNo);
+	kprintf("   errCode: %x\n",regs.errCode);
 }

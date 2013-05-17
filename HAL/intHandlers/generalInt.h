@@ -11,5 +11,10 @@
  * version.
  */
 
+#ifndef _GENERAL_INT_H
+#define _GENERAL_INT_H
+
 #include <cpu/registers.h>
 #include <print.h>
+
+#endif /* _GENERAL_INT_H */

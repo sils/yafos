@@ -11,3 +11,14 @@
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
  */
+
+#ifndef _KEYBOARDINT_H
+#define _KEYBOARDINT_H
+
+#include <cpu/registers.h>
+
+void generalKbdHandler(registers_t *regs);
+
+#include <print.h>
+
+#endif /* _KEYBOARDINT_H */

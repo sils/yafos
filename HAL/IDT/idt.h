@@ -115,7 +115,7 @@ extern void irq15();
 #define CALC_SEL(param) (param)*8
 
 #include <sys/io.h>
-#include <print.h>
 #include <string.h>
+#include <PIC/pic.h>
 
 #endif /* _IDT_H */

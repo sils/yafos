@@ -1,6 +1,5 @@
 #include "gdt.h"
 
-//TODO think about nbon-global solution - maybe as before...?
 static void gdtSetGate(uint8_t index, uint32_t baseAddr, uint32_t limit, uint8_t access, uint8_t gran)
 {
 	gdt[index].baseLow	= 0xFFFF & baseAddr;
@@ -28,7 +27,7 @@ void installGdt(void)
 	SET_CODE_GATE(1, 0, 0xFFFFFFFF, 0);
 	SET_DATA_GATE(2, 0, 0xFFFFFFFF, 0);
 	
-	//flush
+	//flush! :)
 	cli();
-	__asm__ volatile("lgdt %0" : : "m" (tgdtPtr));
+	lgdt(tgdtPtr);
 }
