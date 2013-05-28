@@ -34,8 +34,6 @@
 #define PIT_ACCESS(am)	(am)	<< 4
 #define PIT_CHANNEL(ch)	(ch)	<< 6
 
-//possible modes:
-#define PIT_MODE(m)		(m)
 //waits for hardware to trigger countdown
 #define PIT_M_HW_WAIT	PIT_MODE(5)
 

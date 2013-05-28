@@ -15,6 +15,29 @@
 #define _PIC_H
 
 void remapIrqs(void);
+#define endInterrupt(intNo)	(intNo)<IRQ8\
+		? PIC_MASTER_CMD(PIC_EOI)\
+		: PIC_SLAVE_CMD(PIC_EOI)
+
+#define PIC_MASTER_CMD(cmd)	outb(PIC_MASTER_CMD_B, (cmd))
+#define PIC_SLAVE_CMD(cmd)	outb(PIC_SLAVE_CMD_B , (cmd))
+
+//
+// CONSTANTS
+//
+
+//useful things
+#define PIC_MASTER_CMD_B	0x20
+#define PIC_SLAVE_CMD_B		0xA0
+#define PIC_MASTER_DAT_B	PIC_MASTER_CMD_B+1
+#define PIC_SLAVE_DAT_B 	PIC_SLAVE_CMD_B+1
+
+//end of interrupt
+#define PIC_EOI				0x20
+
+//for remapping
+#define PIC_MASTER_OFFS		IRQ0
+#define PIC_SLAVE_OFFS		PIC_MASTER_OFFS+0x08
 
 #include <sys/io.h>
 #include <IDT/idt.h>

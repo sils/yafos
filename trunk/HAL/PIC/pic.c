@@ -3,13 +3,12 @@
 //TODO rewrite this with macros
 void remapIrqs(void)
 {
-	//init master PIC
 	//TODO test somehow if this works right since we get a double fault
-	outb(0x20, 0x11); /* write ICW1 to PICM, we are gonna write commands to PICM */
-	outb(0xA0, 0x11); /* write ICW1 to PICS, we are gonna write commands to PICS */
+	PIC_MASTER_CMD(0x11);
+	PIC_SLAVE_CMD(0x11);
 	
-	outb(0x21, IRQ0); /* remap PICM to 0x20 (32 decimal) */
-	outb(0xA1, IRQ0 + 0x09); /* remap PICS to 0x28 (40 decimal) */
+	outb(0x21, PIC_MASTER_OFFS);
+	outb(0xA1, PIC_SLAVE_OFFS);
 	
 	outb(0x21, 0x04); /* IRQ2 -> connection to slave */ 
 	outb(0xA1, 0x02);

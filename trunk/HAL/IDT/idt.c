@@ -70,6 +70,7 @@ void installIdt(void)
 	
 	//flush :)
 	cli();
+	kprintf("Remapping IRQs.\n");
 	remapIrqs();
 	lidt(tidtPtr);
 }
