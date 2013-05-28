@@ -16,5 +16,6 @@
 
 #include <cpu/registers.h>
 #include <print.h>
+#include <PIC/pic.h>
 
 #endif /* _GENERAL_INT_H */

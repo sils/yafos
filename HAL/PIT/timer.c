@@ -2,7 +2,7 @@
 
 uint8_t initTimer(uint16_t freq)
 {
-	if(freq < PIT_MINFREQ || freq > PIT_MAXFREQ)
+	if(freq < PIT_MINFREQ)
 	{
 		return -1;//TODO use errno
 	}
@@ -10,7 +10,7 @@ uint8_t initTimer(uint16_t freq)
 	uint16_t counter = PIT_FREQ / freq;
 	//lets get channel 0 to mode 2, access first low, then high
 	PIT_COMMAND(PIT_MODE(2) | PIT_ACCESS_ALL | PIT_CHANNEL(0));
-	//writes the low and high bit
-	PIT_WRITE(counter);
+	//writes the low and high bit to channel 0
+	PIT_WRITE(0, counter);
 	return 0;
 }

@@ -22,12 +22,13 @@
 //interrupts
 #define cli()			__asm__ __volatile__ ("cli")
 #define sti()			__asm__ __volatile__ ("sti")
-#define callint			__asm__ __volatile__ ("int $0x03") //TODO lets call user specified interrupt ;)
+#define callint3		__asm__ __volatile__ ("int $0x03") //TODO lets call user specified interrupt ;)
 
 //load tables
 #define lidt(idtptr)	__asm__ __volatile__("lidt %0" : : "m" (idtptr));
 #define lgdt(gdtptr)	__asm__ __volatile__("lgdt %0" : : "m" (gdtptr));
 
 void outb(uint8_t value, uint16_t port);
+uint8_t inb (uint16_t port);
 
 #endif /* _SYS_IO_H */

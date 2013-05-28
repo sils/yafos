@@ -2,11 +2,11 @@
  * 
  * Initializes the kernel properly. That includes specificly:
  * 		Set up a global descriptor table
- * 		TODO Set up a interrupt descriptor table CORRECTLY (I presume it isn't)
+ * 		Set up a interrupt descriptor table
  * 		TODO Set up a timer for time measurement
  * 		TODO Set up memory management
  * 		TODO Set up a dispatcher and scheduler
- * 
+ *
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
  *
@@ -19,6 +19,8 @@
 #ifndef _INIT_H
 #define _INIT_H
 
+void init();
+
 //This function is defined in loader.s and just halts the CPU in a loop.
 extern void hltLoop();
 
@@ -30,5 +32,7 @@ extern void hltLoop();
 #include <GDT/gdt.h>
 //Setting up an interrupt descriptor table
 #include <IDT/idt.h>
+//For initializing the timer
+#include <PIT/timer.h>
 
 #endif /* _INIT_H */

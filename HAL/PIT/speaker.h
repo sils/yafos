@@ -11,4 +11,7 @@
  * version.
  */
 
-//TODO include guard
+#ifndef _PIT_SPEAKER_H
+#define _PIT_SPEAKER_H
+
+#endif /* _PIT_SPEAKER_H */
