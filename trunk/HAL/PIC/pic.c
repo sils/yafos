@@ -1,5 +1,6 @@
 #include "pic.h"
 
+//TODO rewrite this with macros
 void remapIrqs(void)
 {
 	//init master PIC
@@ -8,7 +9,7 @@ void remapIrqs(void)
 	outb(0xA0, 0x11); /* write ICW1 to PICS, we are gonna write commands to PICS */
 	
 	outb(0x21, IRQ0); /* remap PICM to 0x20 (32 decimal) */
-	outb(0xA1, IRQ0 + 0x08); /* remap PICS to 0x28 (40 decimal) */
+	outb(0xA1, IRQ0 + 0x09); /* remap PICS to 0x28 (40 decimal) */
 	
 	outb(0x21, 0x04); /* IRQ2 -> connection to slave */ 
 	outb(0xA1, 0x02);

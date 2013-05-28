@@ -16,9 +16,15 @@
 
 #include <stdint.h>
 
+//most general
+#define hlt()			__asm__ __volatile__ ("hlt")
+
+//interrupts
 #define cli()			__asm__ __volatile__ ("cli")
 #define sti()			__asm__ __volatile__ ("sti")
-#define hlt()			__asm__ __volatile__ ("hlt")
+#define callint			__asm__ __volatile__ ("int $0x03") //TODO lets call user specified interrupt ;)
+
+//load tables
 #define lidt(idtptr)	__asm__ __volatile__("lidt %0" : : "m" (idtptr));
 #define lgdt(gdtptr)	__asm__ __volatile__("lgdt %0" : : "m" (gdtptr));
 

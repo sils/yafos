@@ -20,19 +20,24 @@
 #define NULL 0
 #endif /* NULL */
 
+//Standard integer is assumed as 32 bit integer on a 32 bit platform.
+
 // Unsigned integer type of the result of the sizeof operator.
-typedef unsigned int size_t;
+typedef unsigned int	size_t;
+
+// Integer capable of holding the difference of two pointers.
+//  (wich can also be 1<<32 - 0x0 -> result with an ordinary integer: overflow)
+typedef long int		ptrdiff_t;
+
+// Integer for holding all implemented types of character codes. Currently this
+//  isn't much ;) later it grows.
+typedef unsigned char	wchar_t;
 
 /* TODO
  offsetof(type, member-designator)
- I nteger constant expression of type size_t, the value of whi*ch is the offset in bytes to the structure member (member-designator), from the beginning of its structure (type).
- 
- The <stddef.h> header shall define the following types:
- 
- ptrdiff_t
- Signed integer type of the result of subtracting two pointers.
- wchar_t
- Integer type whose range of values can represent distinct wide-character codes for all members of the largest character set specified among the locales supported by the compilation environment: the null character has the code value 0 and each member of the portable character set has a code value equal to its value when used as the lone character in an integer character constant.
- size_t */
+ Integer constant expression of type size_t, the value of which is the offset
+ in bytes to the structure member (member-designator), from the beginning of
+ its structure (type).
+ */
 
 #endif /* _STDDEF_H */
