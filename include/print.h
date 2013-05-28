@@ -28,7 +28,7 @@ void print(char *);
 void clearScreen();
 
 // puts a char (white on black) to the screen
-#define putChar(toput) put((toput), COLCODE(STDFG, STDBG))
+#define putChar(toput) put((toput), STDCOL)
 
 //special signs
 #define NEWLN	'\n'
@@ -36,8 +36,9 @@ void clearScreen();
 #define BACKSP	'\b'
 
 //standard colors
-#define STDBG	T_WHITE
-#define STDFG	T_BLACK
+#define STDBG	T_GREEN
+#define STDFG	T_WHITE
+#define STDCOL	COLCODE(STDFG, STDBG)
 
 //color
 #define T_BLACK		0

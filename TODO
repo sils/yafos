@@ -1,6 +1,7 @@
 TODOS
 - Implement the most used functions in assembly
 - extend the makefile so it can automatically create a burnable ISO.
+- Get a cross compiler working
 
 hints for long mode:
 	use IRETQ for interrupt return

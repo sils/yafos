@@ -2,7 +2,7 @@
  * 
  * Initializes the kernel properly. That includes specificly:
  * 		Set up a global descriptor table
- * 		TODO Set up a interrupt descriptor table
+ * 		TODO Set up a interrupt descriptor table CORRECTLY (I presume it isn't)
  * 		TODO Set up a timer for time measurement
  * 		TODO Set up memory management
  * 		TODO Set up a dispatcher and scheduler
