@@ -1,4 +1,4 @@
-/* include/stdarg.h
+/* stdarg.h
  * 
  * Should provide the standard functionality of the stdarg library.
  * TODO make conform header (POSIX!)

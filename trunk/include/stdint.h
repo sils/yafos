@@ -1,4 +1,4 @@
-/* include/stdint.h
+/* stdint.h
  * 
  * This file tries to follow the standardizations specified in the POSIX
  * Programmers Manual wich can be reached through

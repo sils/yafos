@@ -1,6 +1,7 @@
 /* HAL/PIC/pic.h
  * 
  * Provides functions for using the programmable interval controller (PIC).
+ * See http://www.lowlevel.eu/wiki/PIC for more information.
  * 
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -21,6 +22,8 @@ void remapIrqs(void);
 
 #define PIC_MASTER_CMD(cmd)	outb(PIC_MASTER_CMD_B, (cmd))
 #define PIC_SLAVE_CMD(cmd)	outb(PIC_SLAVE_CMD_B , (cmd))
+#define PIC_MASTER_DAT(cmd)	outb(PIC_MASTER_DAT_B, (cmd))
+#define PIC_SLAVE_DAT(cmd)	outb(PIC_SLAVE_DAT_B , (cmd))
 
 //
 // CONSTANTS
@@ -35,9 +38,20 @@ void remapIrqs(void);
 //end of interrupt
 #define PIC_EOI				0x20
 
-//for remapping
+//ICW1
+#define PIC_ICW4_FOLLOWS	1
+#define PIC_SINGLE_MODE		2
+#define PIC_INIT			0x10
+//ICW2
 #define PIC_MASTER_OFFS		IRQ0
 #define PIC_SLAVE_OFFS		PIC_MASTER_OFFS+0x08
+//ICW3
+#define PIC_SLAVE_IRQ		4
+#define PIC_MASTER_IRQ		2
+//ICW4
+#define PIC_PC				1
+#define PIC_AUTO_EOI		1<<1
+
 
 #include <sys/io.h>
 #include <IDT/idt.h>
