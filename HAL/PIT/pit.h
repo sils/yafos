@@ -20,7 +20,7 @@
 							outb(PIT_DATA(ch), (val) >> 8)
 
 //
-// All the nice constants
+// All the nice constants for a 8253/8254 chip
 //
 
 //ports

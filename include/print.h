@@ -1,4 +1,4 @@
-/* include/print.h
+/* print.h
  * 
  * Provides functions to print strings and formatted strings to the screen.
  * This file is an addition to the posix library for kernel debugging purpposes.
@@ -35,6 +35,7 @@ void clearScreen();
 #define BLANK	' '
 #define BACKSP	'\b'
 
+//TODO find nice and friendly standard colours wich are used for the whole system
 //standard colors
 #define STDBG	T_GREEN
 #define STDFG	T_WHITE

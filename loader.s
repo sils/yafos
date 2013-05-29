@@ -18,7 +18,6 @@
 
 ; Declarations
 global loader
-global hltLoop
 extern init
 
 ; Definition macros

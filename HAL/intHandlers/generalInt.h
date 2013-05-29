@@ -14,6 +14,26 @@
 #ifndef _GENERAL_INT_H
 #define _GENERAL_INT_H
 
+//these messages use 2 pages in space (about 0x2000 bytes)
+char exceptionMessage[16][28] = {
+	"Division by zero occurred.",
+	"Single step",
+	"Non maskable interrupt",
+	"Breakpoint",
+	"Overflow",
+	"Bounds check",
+	"Undefined OP Code!",
+	"No coprocessor",
+	"Double fault!",
+	"Coprocessor segment overrun",
+	"Invalit TSS!",
+	"Segment not present.",
+	"Task segment overrun",
+	"General protection fault!",
+	"Page fault!",
+	"Unassigned"
+};
+
 #include <cpu/registers.h>
 #include <print.h>
 #include <PIC/pic.h>

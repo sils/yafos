@@ -21,9 +21,6 @@
 
 void init();
 
-//This function is defined in loader.s and just halts the CPU in a loop.
-extern void hltLoop();
-
 //For reading information passed from bootloader
 #include <boot/boot.h>
 //For printing out text to video memory
