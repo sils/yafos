@@ -16,6 +16,12 @@ void remapIrqs(void)
 	PIC_SLAVE_DAT (PIC_SLAVE_IRQ);
 	
 	//ICW4 - send flags
-	PIC_MASTER_DAT(PIC_PC|PIC_AUTO_EOI);
-	PIC_SLAVE_DAT (PIC_PC|PIC_AUTO_EOI);
+	PIC_MASTER_DAT(PIC_PC);
+	PIC_SLAVE_DAT (PIC_PC);
+}
+
+extern inline void maskIrqs(uint16_t mask)
+{
+	PIC_MASTER_DAT((uint8_t)(mask));
+	PIC_SLAVE_DAT((uint8_t)(mask >> 8));
 }

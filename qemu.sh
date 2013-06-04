@@ -18,7 +18,7 @@
 if make
 then
 	echo "Compiled successfully. Starting kernel..."
-	qemu-system-i386  -soundhw pcspk  -kernel kernel.img  -gdb tcp::1234
+	qemu-system-i386  -soundhw pcspk  -kernel kernel.img  -gdb tcp::1234 -d int -D qemu.log
 else
 	echo "Failed compiling! Please check compiler errors."
 fi

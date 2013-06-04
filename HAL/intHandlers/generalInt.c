@@ -11,14 +11,15 @@ void generalIntHandler(registers_t *regs)
 	if(regs->intNo <= 16)
 	{
 		c++;
-		kprintf("Unhandled exception (%u). Message: %s\n",
+		kprintf("Unhandled exception (%x). Message: %s\n",
 			regs->intNo, exceptionMessage[regs->intNo]);
 		//TODO standardize exception handling, maybe use keyboard driver to ask
 			//which information is to be shown? Continue? Halt?
-		//regDump(*regs);//maybe later - for now it's not so nice
+		//if(regs->intNo == 8)
+		//	regDump(*regs);//maybe later - for now it's not so nice
 		if(c > 3)
 		{
-			kprintf("Enought exceptions. Halting kernel now.");
+			kprintf("Halting kernel.");
 			for(;;)
 			{
 				cli();
@@ -27,5 +28,5 @@ void generalIntHandler(registers_t *regs)
 		}
 	}
 	else
-		kprintf("Unhandled interrupt (%u)\n", regs->intNo);
+		kprintf("Unhandled interrupt (%x)!\n", regs->intNo);
 }

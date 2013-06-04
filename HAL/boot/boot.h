@@ -19,6 +19,12 @@
 
 #include <stdint.h>
 
+//defined by linker script
+extern uint8_t kernelStart;
+extern uint8_t kernelEnd;
+#define KERNEL_START	&kernelStart
+#define KERNEL_END	&kernelEnd
+
 //TODO multiboot structure
 //See multiboot.pdf, page 9
 

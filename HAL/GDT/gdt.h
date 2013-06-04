@@ -40,28 +40,28 @@ gdtEntry gdt[GDT_ENTRIES];
 gdtPtr   tgdtPtr;
 
 // See http://wiki.osdev.org/Global_Descriptor_Table for more information
-#define G_ACCESSED_BIT	0x01
-#define G_RW_BIT		0x02
-#define G_EXP_DIR_BIT	0x04
-#define G_EXEC_BIT		0x08
-#define G_CODEDATA_BIT	0x10//if unset this is for other use than code or data
-#define G_DPL_BITS(dpl)	((dpl)<<5)	//bits 5 and 6
-#define G_PRESENT_BIT	0x80
+#define G_ACCESSED	0x01
+#define G_RW		0x02
+#define G_EXP_DIR	0x04
+#define G_EXEC		0x08
+#define G_CODEDATA	0x10//if unset this is for other use than code or data
+#define G_DPL(dpl)	((dpl)<<5)	//bits 5 and 6
+#define G_PRESENT	0x80
 
-#define G_LIMIT_BITS(a)	(((a) >> 15) & 0xF)	//(a<<16)>>8, 4 bits
-#define G_AVAIL_BIT		0x10
-#define G_LONG_BIT		0x20				//only for 64 bit mode!!!
-#define G_32_BIT		0x40
-#define G_GRAN_BIT		0x80
+#define G_LIMIT(a)	(((a) >> 15) & 0xF)	//(a<<16)>>8, 4 bits
+#define G_AVAIL		0x10
+#define G_LONG		0x20				//only for 64 bit mode!!!
+#define G_32		0x40
+#define G_GRAN		0x80
 
 #define SET_CODE_GATE(index, addr, limit, dpl)\
 	gdtSetGate((index), (addr), (limit),\
-	G_PRESENT_BIT | G_CODEDATA_BIT | G_DPL_BITS(dpl) | G_RW_BIT | G_EXEC_BIT,\
-	G_GRAN_BIT | G_32_BIT | G_GRAN_BIT)
+	G_PRESENT | G_CODEDATA | G_DPL(dpl) | G_RW | G_EXEC,\
+	G_GRAN | G_32 | G_GRAN)
  #define SET_DATA_GATE(index, addr, limit, dpl)\
 	gdtSetGate((index), (addr), (limit),\
-	G_PRESENT_BIT | G_CODEDATA_BIT | G_DPL_BITS(dpl) | G_RW_BIT,\
-	G_GRAN_BIT | G_32_BIT | G_GRAN_BIT)
+	G_PRESENT | G_CODEDATA | G_DPL(dpl) | G_RW,\
+	G_GRAN | G_32 | G_GRAN)
 #define SET_ZERO_GATE(index)					gdtSetGate((index),0,0,0,0)
 
 #include <sys/io.h>

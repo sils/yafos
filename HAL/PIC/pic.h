@@ -15,7 +15,17 @@
 #ifndef _PIC_H
 #define _PIC_H
 
+#include <stdint.h>
+#include <IDT/idt.h>
+
+#ifndef IRQ0
+	#warning "IRQ0 undefined! Should be defined in HAL/IDT/idt.h and is needed\
+		in HAL/PIC/pic.h. Defining it now with standard value 0x20 (32)."
+	#define IRQ0 0x20
+#endif
+
 void remapIrqs(void);
+void maskIrqs(uint16_t mask);
 #define endInterrupt(intNo)	(intNo)<IRQ8\
 		? PIC_MASTER_CMD(PIC_EOI)\
 		: PIC_SLAVE_CMD(PIC_EOI)
@@ -54,12 +64,5 @@ void remapIrqs(void);
 
 
 #include <sys/io.h>
-#include <IDT/idt.h>
-
-#ifndef IRQ0
-	#warning "IRQ0 undefined! Should be defined in HAL/IDT/idt.h and is needed\
-		in HAL/PIC/pic.h. Defining it now with standard value 0x20 (32)."
-	#define IRQ0 0x20
-#endif
 
 #endif /* _PIC_H */
