@@ -32,7 +32,7 @@ typedef struct
 	void     *base;
 } __attribute__((packed)) idtPtr;
 
-#define IDT_ENTRIES 255
+#define IDT_ENTRIES 48
 void installIdt(void);
 idtEntry idt[IDT_ENTRIES];
 idtPtr   tidtPtr;
@@ -105,12 +105,12 @@ extern void irq15();
 #define IRQ14 46
 #define IRQ15 47
 
-#define I_PRESENT_BIT		1<<7
-#define I_DPL_BITS(dpl)		((dpl)<<5)
-#define I_STORAGE_BIT		1<<4
-#define I_TASK_GATE_BITS	0x5//TODO find out about this gate bits EXACTLY
-#define I_TRAP_GATE_BITS	0xF
-#define I_INT_GATE_BITS		0xE
+#define I_PRESENT	1<<7
+#define I_DPL(dpl)	((dpl)<<5)
+#define I_STORAGE	1<<4
+#define I_TASK_GATE	0x5//TODO find out about this gate bits EXACTLY
+#define I_TRAP_GATE	0xF
+#define I_INT_GATE	0xE
 
 #define CALC_SEL(param) (param)*8
 

@@ -9,7 +9,7 @@ static void gdtSetGate(uint8_t index, uint32_t baseAddr, uint32_t limit, uint8_t
 	gdt[index].limitLow	= 0xFFFF & limit;
 	
 	gdt[index].access	= access;
-	gdt[index].granularity = gran | G_LIMIT_BITS(limit);
+	gdt[index].granularity = gran | G_LIMIT(limit);
 }
 
 void installGdt(void)

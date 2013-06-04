@@ -22,6 +22,9 @@
 //interrupts
 #define cli()			__asm__ __volatile__ ("cli")
 #define sti()			__asm__ __volatile__ ("sti")
+#define callint8		__asm__ __volatile__ ("int $0x08")
+#define callint13		__asm__ __volatile__ ("int $0x13")
+#define callint20		__asm__ __volatile__ ("int $0x20")
 #define callint3		__asm__ __volatile__ ("int $0x03") //TODO lets call user specified interrupt ;)
 
 //load tables
