@@ -33,6 +33,9 @@ default: kernel.img
 
 all: clean kernel.img
 
+run: kernel.img
+	qemu-system-i386  -soundhw pcspk  -kernel kernel.img  -gdb tcp::1234
+
 .s.o:
 	nasm -f elf -o $@ $<
 

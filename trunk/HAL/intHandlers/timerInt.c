@@ -15,12 +15,11 @@ char tmsg[TCOUNT][18] = {
 void generalTimerHandler(registers_t *regs)
 {
 	static uint8_t c=0;
-	static uint8_t t=0;
+	static uint8_t t=20;
 	c++;
 	if(c % 100 == 0)
 	{
-		t %= TCOUNT;
-		kprintf("%s another second is over.\n", tmsg[t]);
+		kprintf("%s another second is over.\n", tmsg[t%TCOUNT]);
 		c = 0;
 		t++;
 	}

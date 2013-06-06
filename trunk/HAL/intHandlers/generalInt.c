@@ -3,8 +3,8 @@
 static intHandler intHandlers[IDT_ENTRIES];
 
 //these messages use 2 pages in space (about 0x2000 bytes)
-char exceptionMessage[16][28] = {
-	"Division by zero occurred.",
+static char exceptionMessage[16][28] = {
+	"Division by zero",
 	"Single step",
 	"Non maskable interrupt",
 	"Breakpoint",
@@ -14,7 +14,7 @@ char exceptionMessage[16][28] = {
 	"No coprocessor",
 	"Double fault!",
 	"Coprocessor segment overrun",
-	"Invalit TSS!",
+	"Invalid TSS!",
 	"Segment not present.",
 	"Task segment overrun",
 	"General protection fault!",
