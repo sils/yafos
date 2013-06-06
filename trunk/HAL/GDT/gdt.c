@@ -23,11 +23,12 @@ void installGdt(void)
 		#error "Update the GDT entry counter!"
 	#endif
 	
+	//remember to edit the gdtFlush function when editing the gates
 	SET_ZERO_GATE(0);
 	SET_CODE_GATE(1, 0, 0xFFFFFFFF, 0);
 	SET_DATA_GATE(2, 0, 0xFFFFFFFF, 0);
 	
 	//flush! :)
 	cli();
-	lgdt(tgdtPtr);
+	gdtFlush();
 }

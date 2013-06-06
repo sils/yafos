@@ -11,3 +11,4 @@
 ; version.
 
 %include "loader/intHandler.inc"
+%include "loader/gdtFlush.inc"

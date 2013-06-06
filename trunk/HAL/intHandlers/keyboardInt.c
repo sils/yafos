@@ -2,7 +2,8 @@
 
 void generalKbdHandler(registers_t *regs)
 {
-	kprintf("Unhandled kbd interrupt (%d)\nHalting kernel.\n", regs->intNo);
-	kprintf("TODO - Kbd handler\n");
+	kprintf("Unhandled keyboard interrupt (%d) TODO\n", regs->intNo);
+	//remove scancode
+	inb(0x60);
 	return;
 }

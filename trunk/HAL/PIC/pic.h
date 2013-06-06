@@ -64,5 +64,6 @@ void maskIrqs(uint16_t mask);
 
 
 #include <sys/io.h>
+#include <intHandlers/generalInt.h>
 
 #endif /* _PIC_H */

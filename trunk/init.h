@@ -32,4 +32,7 @@ void init();
 //For initializing the timer
 #include <PIT/timer.h>
 
+//just temporarily
+#include <intHandlers/keyboardInt.h>
+
 #endif /* _INIT_H */
