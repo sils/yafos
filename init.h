@@ -3,7 +3,8 @@
  * Initializes the kernel properly. That includes specificly:
  * 		Set up a global descriptor table
  * 		Set up a interrupt descriptor table
- * 		TODO Set up a timer for time measurement
+ * 		Set up a timer for time measurement
+* 		TODO Get the speaker running and play a welcome-tone ;)
  * 		TODO Set up memory management
  * 		TODO Set up a dispatcher and scheduler
  *
