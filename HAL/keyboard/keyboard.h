@@ -1,7 +1,6 @@
-/* HAL/intHandlers/keyboardInt.h
+/* HAL/keyboard/keyboard.h
  * 
- * Provides the keyboard interrupt handler wich uses the keyboard driver for
- * getting the information.
+ * TODO
  * 
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -12,14 +11,10 @@
  * version.
  */
 
-#ifndef _KEYBOARDINT_H
-#define _KEYBOARDINT_H
+#ifndef _KEYBOARD_KEYBOARD_H
+#define _KEYBOARD_KEYBOARD_H
 
-#include <cpu/registers.h>
+//TODO
+void initKeyboard();
 
-void generalKbdHandler(registers_t *regs);
-
-#include <print.h>
-#include <sys/io.h>
-
-#endif /* _KEYBOARDINT_H */
+#endif /* _KEYBOARD_KEYBOARD_H */

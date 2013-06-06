@@ -14,7 +14,7 @@ void installIdt(void)
 	tidtPtr.limit = (sizeof(idtEntry) * IDT_ENTRIES)-1;
 	tidtPtr.base  = &idt;
 	
-	memset((void *)idt, 0, sizeof(idtEntry)*IDT_ENTRIES);
+	memset((void *)&idt, 0, sizeof(idtEntry)*IDT_ENTRIES);
 	
 	//set gates for all exceptions
 	idtSetGate(0 , (uint32_t)isr0 , CALC_SEL(1), I_PRESENT | I_DPL(0) | I_INT_GATE);

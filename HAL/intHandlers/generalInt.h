@@ -14,28 +14,15 @@
 #ifndef _GENERAL_INT_H
 #define _GENERAL_INT_H
 
-//these messages use 2 pages in space (about 0x2000 bytes)
-char exceptionMessage[16][28] = {
-	"Division by zero occurred.",
-	"Single step",
-	"Non maskable interrupt",
-	"Breakpoint",
-	"Overflow",
-	"Bounds check",
-	"Undefined OP Code!",
-	"No coprocessor",
-	"Double fault!",
-	"Coprocessor segment overrun",
-	"Invalit TSS!",
-	"Segment not present.",
-	"Task segment overrun",
-	"General protection fault!",
-	"Page fault!",
-	"Unassigned"
-};
-
+#include <IDT/idt.h>
+#include <stdint.h>
 #include <cpu/registers.h>
+
+typedef void (*intHandler)(registers_t*);
+void registerIntHandler(uint16_t id, intHandler func);
+
 #include <print.h>
 #include <PIC/pic.h>
+#include <intHandlers/timerInt.h>
 
 #endif /* _GENERAL_INT_H */

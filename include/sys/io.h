@@ -31,7 +31,7 @@
 #define lidt(idtptr)	__asm__ __volatile__("lidt %0" : : "m" (idtptr));
 #define lgdt(gdtptr)	__asm__ __volatile__("lgdt %0" : : "m" (gdtptr));
 
-void outb(uint8_t value, uint16_t port);
-uint8_t inb (uint16_t port);
+void outb(uint16_t port, uint8_t value);//TODO check die.net on parameter order
+uint8_t inb (uint16_t);
 
 #endif /* _SYS_IO_H */

@@ -9,19 +9,15 @@ void init()
 	
 	clearScreen();
 	installGdt();
-	//initTimer(100);
+	initTimer(100);
 	installIdt();
-	kprintf("%s\n\n",welcomeString);
-	kprintf("Welcome to this eco-friendly green system!\n");
-	kprintf("Masking IRQs...\n");
-	maskIrqs(0xFFFF);
+	while ((inb(0x64) & 0x2)); //wait until keyboard is ready
+    outb(0x60,0xF4);
+	registerIntHandler(IRQ1, &generalKbdHandler);
+	kprintf("%s",welcomeString);
+	kprintf("...to this eco-friendly green system!\n");
 	sti();
-	callint20;
-	callint3;
-	callint13;
-	callint8;
 	
-	kprintf("Kernel size: %x pages\n", ((uint32_t)KERNEL_END - (uint32_t)KERNEL_START)/0x1000);
 	for(;;)
 	{
 		hlt();

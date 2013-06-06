@@ -1,32 +1,53 @@
 #include "generalInt.h"
 
+static intHandler intHandlers[IDT_ENTRIES];
+
+//these messages use 2 pages in space (about 0x2000 bytes)
+char exceptionMessage[16][28] = {
+	"Division by zero occurred.",
+	"Single step",
+	"Non maskable interrupt",
+	"Breakpoint",
+	"Overflow",
+	"Bounds check",
+	"Undefined OP Code!",
+	"No coprocessor",
+	"Double fault!",
+	"Coprocessor segment overrun",
+	"Invalit TSS!",
+	"Segment not present.",
+	"Task segment overrun",
+	"General protection fault!",
+	"Page fault!",
+	"Unassigned"
+};
+
 void generalIntHandler(registers_t *regs)
 {
-	static int c=0;
-	/* shouldn't be nessecary
-	if(regs->intNo > IRQ0)
-	{
-		endInterrupt(regs->intNo);
-	}*/
+	//auto EOI is active -> no need to send EOI here :)
+	
 	if(regs->intNo <= 16)
 	{
-		c++;
-		kprintf("Unhandled exception (%x). Message: %s\n",
+		kprintf("Unhandled exception (%x). Message: %s\nHalting kernel.\n",
 			regs->intNo, exceptionMessage[regs->intNo]);
-		//TODO standardize exception handling, maybe use keyboard driver to ask
-			//which information is to be shown? Continue? Halt?
-		//if(regs->intNo == 8)
-		//	regDump(*regs);//maybe later - for now it's not so nice
-		if(c > 3)
-		{
-			kprintf("Halting kernel.");
-			for(;;)
-			{
-				cli();
-				hlt();
-			}
-		}
+		for(;;)
+			hlt();
+		//TODO standardize exception handling
 	}
 	else
-		kprintf("Unhandled interrupt (%x)!\n", regs->intNo);
+	{
+		if(intHandlers[regs->intNo])
+		{
+			intHandlers[regs->intNo](regs);
+		}
+		else
+		{
+			kprintf("Unhandled interrupt (%x)!\n", regs->intNo);
+		}
+	}
+}
+
+extern inline void registerIntHandler(uint16_t id, intHandler func)
+{
+	intHandlers[id] = func;
 }

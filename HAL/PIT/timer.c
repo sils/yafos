@@ -12,5 +12,8 @@ uint8_t initTimer(uint16_t freq)
 	PIT_COMMAND(PIT_MODE(2) | PIT_ACCESS_ALL | PIT_CHANNEL(0));
 	//writes the low and high bit to channel 0
 	PIT_WRITE(0, counter);
+	
+	registerIntHandler(IRQ0, &generalTimerHandler);
+	
 	return 0;
 }

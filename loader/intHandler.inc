@@ -1,4 +1,4 @@
-; loader/include.inc
+; loader/intHandler.inc
 ;
 ; Provides interrupt handler that call kernel procedures.
 ;

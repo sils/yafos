@@ -20,5 +20,7 @@ uint8_t initTimer(uint16_t freq);
 
 #include <PIT/pit.h>
 #include <sys/io.h>
+#include <intHandlers/generalInt.h>
+#include <intHandlers/timerInt.h>
 
 #endif /* _PIT_TIMER_H */

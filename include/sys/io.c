@@ -3,7 +3,7 @@
 //definition has to be extern inline to be visible for other files since inline
 //in gcc C99 standard contains an implicit static if not mentioned else
 //TODO understand this fully
-extern inline void outb (uint8_t value, uint16_t port)
+extern inline void outb (uint16_t port, uint8_t value)
 {
 	__asm__ __volatile__ ("outb %b0,%w1": :"a" (value), "Nd" (port));
 }
