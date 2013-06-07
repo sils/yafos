@@ -22,6 +22,7 @@
 //interrupts
 #define cli()			__asm__ __volatile__ ("cli")
 #define sti()			__asm__ __volatile__ ("sti")
+#define nop()			__asm__ __volatile__ ("nop")
 #define callint8		__asm__ __volatile__ ("int $0x08")
 #define callint13		__asm__ __volatile__ ("int $0x13")
 #define callint20		__asm__ __volatile__ ("int $0x20")
@@ -31,7 +32,7 @@
 #define lidt(idtptr)	__asm__ __volatile__("lidt %0" : : "m" (idtptr));
 #define lgdt(gdtptr)	__asm__ __volatile__("lgdt %0" : : "m" (gdtptr));
 
-void outb(uint16_t port, uint8_t value);//TODO check die.net on parameter order
+void outb(uint16_t port, uint8_t value);
 uint8_t inb (uint16_t);
 
 #endif /* _SYS_IO_H */

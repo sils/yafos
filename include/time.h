@@ -31,7 +31,7 @@ struct tm
 	int tm_wday,//0 = Sunday
 	int tm_yday,
 	int tm_isdst//1: summertime :) 0: winter time :(
-				//-x: information unavailable :'(
+				//abs(tm_isdst) != tm_isdst: information unavailable :'(
 }
 
 /* POSIX says:

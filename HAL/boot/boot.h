@@ -25,7 +25,20 @@ extern uint8_t kernelEnd;
 #define KERNEL_START	&kernelStart
 #define KERNEL_END	&kernelEnd
 
-//TODO multiboot structure
-//See multiboot.pdf, page 9
+typedef struct
+{
+	uint32_t flags;
+	uint32_t memLower;
+	uint32_t memUpper;
+	uint32_t bootDevice;
+	uint32_t cmdLine;
+	uint32_t modsCount;
+	void *   modsAddr;
+	uint32_t syms[4];
+	uint32_t mMapLength;
+	void *   mMapAddr;
+	//further information is not needed for now
+	//if needed: look at the mentioned pdf at page 11.
+} __attribute__((packed)) multiBoot;
 
 #endif /* _BOOT_H */

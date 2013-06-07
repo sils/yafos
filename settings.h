@@ -1,7 +1,7 @@
-/* HAL/intHandlers/timerInt.h
+/* init.c
  * 
- * Provides timer hinterrupt handlers.
- * 
+ * Defines some constants for easily adjust settings
+ *
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
  *
@@ -11,17 +11,11 @@
  * version.
  */
 
-#ifndef _TIMERINT_H
-#define _TIMERINT_H
+#ifndef _SETTINGS_H
+#define _SETTINGS_H
 
-#include <cpu/registers.h>
+#define DEBUG		true
+#define IRQ_0_FREQ	80
+#define BEEP //if its defined it will beep ;)
 
-void generalTimerHandler(registers_t *regs);
-#define registerTimerHandler(irq)	registerIntHandler((irq), &generalTimerHandler)
-
-#include <print.h>
-#include <IDT/idt.h>
-#include <../settings.h>
-#include <PIT/speaker.h>
-
-#endif /* _TIMERINT_H */
+#endif /* _SETTINGS_H */

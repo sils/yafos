@@ -4,9 +4,14 @@
  * 		Set up a global descriptor table
  * 		Set up a interrupt descriptor table
  * 		Set up a timer for time measurement
-* 		TODO Get the speaker running and play a welcome-tone ;)
- * 		TODO Set up memory management
+ * 		TODO Get the speaker running and play a welcome-tone ;)
+ * 			-> IRQ0
+ * 		TODO Set up physical memory management
+ * 		TODO Set up virtual memory management
+ * 		TODO Set up heap management
+ * 		TODO Load modules via multiboot compliant loader
  * 		TODO Set up a dispatcher and scheduler
+ * 		TODO shutdown the system ;)
  *
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -32,8 +37,10 @@ void init();
 #include <IDT/idt.h>
 //For initializing the timer
 #include <PIT/timer.h>
-
-//just temporarily
+#include <intHandlers/timerInt.h>
+//For initializing the keyboard
 #include <intHandlers/keyboardInt.h>
+//For using the speaker ;)
+#include <PIT/speaker.h>
 
 #endif /* _INIT_H */

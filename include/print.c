@@ -1,14 +1,23 @@
 #include "print.h"
 
-// TODO remove this stupid function -> MACRO :)
-char charDigit(const unsigned char val)
+//TODO
+void printErr()
 {
-	if(val<10)
-		return val+'0';
-	return val-10+'A';
 }
 
+void printFatalErr()
+{
+}
+
+void printDebug()
+{
+}
+
+// TODO place this where it belongs -> POSIX???
+#define charDigit(val)	(val<10?val+'0':val-10+'A')
+
 // TODO move this to a file where it belongs
+// and make it posix conform or so.
 static void uIntToStr(char *dest, uint32_t val, const uint8_t base)
 {
 	//at binary representation we can have max 32 digits
@@ -25,6 +34,7 @@ static void uIntToStr(char *dest, uint32_t val, const uint8_t base)
 }
 
 // TODO move this to a file where it belongs
+// and make it posix conform or so.
 static void intToStr(char *dest, const int32_t val, const uint8_t base)
 {
 	if(val<0)
@@ -38,10 +48,10 @@ static void intToStr(char *dest, const int32_t val, const uint8_t base)
 static void scrollUp()
 {
 	uint16_t i;
-	volatile unsigned char *videoram = (unsigned char *)0xB8000;
-	for(i=0;i<24*80*2;i++)
-		videoram[i]=videoram[i+160];
-	for(; i<2*25*80;i++)
+	volatile unsigned char *videoram = (unsigned char *)FB_MEM_LOCATION;
+	for(i=0;i<(FB_LINES-1)*FB_COLUMNS*2;i++)
+		videoram[i]=videoram[i+(FB_COLUMNS * 2)];
+	for(; i<2*FB_LINES*FB_COLUMNS;i++)
 	{
 		if(i % 2)
 			videoram[i]=COLCODE(STDFG, STDBG);
@@ -52,17 +62,27 @@ static void scrollUp()
 void clearScreen()
 {
 	uint16_t i;
-	volatile unsigned char *videoram = (unsigned char *)0xB8000;
+	volatile unsigned char *videoram = (unsigned char *)FB_MEM_LOCATION;
 	for(i=0;i<25*80*2;i++)
 		if(i % 2)
 			videoram[i]=COLCODE(STDFG, STDBG);
 		else videoram[i]=BLANK;
 }
 
+static void setCursor(int pos)
+{
+	outb(FB_CMD,  FB_HIGH_B);
+	outb(FB_DATA, (pos>>8) & 0xFF);
+	outb(FB_CMD,  FB_LOW_B);
+	outb(FB_DATA, pos & 0xFF);
+}
+
 void put(const unsigned char val, const uint8_t color)
 {
 	static uint8_t x=0, y=0;
-	volatile unsigned char *videoram = (unsigned char *)0xB8000;
+	volatile unsigned char *videoram = (unsigned char *)FB_MEM_LOCATION;
+	
+	//add support for color codes :)
 	
 	if(val == NEWLN)
 	{
@@ -73,6 +93,7 @@ void put(const unsigned char val, const uint8_t color)
 			scrollUp();
 			y--;
 		}
+		setCursor(GET_POS(x,y));
 		return;
 	}
 	
@@ -81,12 +102,15 @@ void put(const unsigned char val, const uint8_t color)
 		if(x>0)
 		{
 			x--;
-			videoram[2*(y*80 + x)] = BLANK;
-			videoram[2*(y*80 + x)+1] = color;
+			videoram[2*GET_POS(x,y)] = BLANK;
+			videoram[2*GET_POS(x,y)+1] = color;
+			setCursor(GET_POS(x,y));
 			return;
 		}
 		else
+		{
 			return;
+		}
 	}
 	
 	if(x>79)
@@ -100,15 +124,17 @@ void put(const unsigned char val, const uint8_t color)
 		y--;
 	}
 	
-	videoram[2*(y*80 + x)] = val;
-	videoram[2*(y*80 + x)+1] = color;
+	videoram[2*GET_POS(x,y)] = val;
+	videoram[2*GET_POS(x,y)+1] = color;
+	setCursor(GET_POS(x,y));
 	x++;
 }
 
 void print(char *str)
 {
 	while(*str)
-		putChar(*str++);
+		putChar(*str++);//TODO make the color a static global variable
+		//wich can be changed through sending standard hex values
 }
 
 void kprintf(const char *format, ...)

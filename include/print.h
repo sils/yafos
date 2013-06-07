@@ -35,7 +35,7 @@ void clearScreen();
 #define BLANK	' '
 #define BACKSP	'\b'
 
-//TODO find nice and friendly standard colours wich are used for the whole system
+//TODO find nice and friendly standard colors wich are used for the whole system
 //standard colors
 #define STDBG	T_GREEN
 #define STDFG	T_WHITE
@@ -56,6 +56,19 @@ void clearScreen();
 
 #define T_LIGHT(col) ((col)+0x8)
 
+#define GET_POS(x,y)	((y)*80 + (x))
+
+#define FB_CMD		0x3D4
+#define FB_DATA		0x3D5
+#define FB_HIGH_B	14
+#define FB_LOW_B	15
+
+#define FB_LINES	25
+#define FB_COLUMNS	80
+
+#define FB_MEM_LOCATION	0xB8000
+
 #include <string.h>
+#include <sys/io.h>
 
 #endif /* _PRINT_H */

@@ -18,8 +18,10 @@
 #include <cpu/registers.h>
 
 void generalKbdHandler(registers_t *regs);
+#define registerKbdHandler(irq)	registerIntHandler((irq), &generalKbdHandler)
 
 #include <print.h>
+#include <intHandlers/generalInt.h>
 #include <sys/io.h>
 
 #endif /* _KEYBOARDINT_H */
