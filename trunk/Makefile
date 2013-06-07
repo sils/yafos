@@ -42,6 +42,9 @@ all: clean kernel.img
 run: kernel.img
 	$(EMUL)  -soundhw pcspk  -kernel $< $(EDEBUG)
 
+toolchain:
+	bash ./cc/toolchain.sh
+
 .s.o:
 	nasm -f elf -o $@ $<
 

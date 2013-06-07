@@ -1,10 +1,20 @@
 #!/bin/bash
 
+# install.sh
+#
+# Copyright (C) 2013 Matthias Riegler. All Rights Reserved.
+# Written by Matthias Riegler (riegler.matthias2@gmail.com)
+# 
+# This program is free software. You can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+
 echo "/-------------------------------------------\\"
 echo "|                                           |"
 echo "|                 YAFOS CCI                 |"
 echo "|     (Installer for the cross compiler)    |"
-echo "|        (c) 2013 by Lasse Schuirmann       |"
+echo "|        (c) 2013 by Matthias Riegler       |"
 echo "|                                           |"
 echo "\\-------------------------------------------/"
 
@@ -15,50 +25,49 @@ fi
 
 echo
 echo "Welcome to this Q&D tool." # if this ever works...
-echo "It will create a directory 'cc' in your home directory for all temporary files."
-echo "Where do you want the cross compiler to be? (exact path please! e.g. /home/user/cross or global /usr/local/cross)"
-read cpath
-mkdir $cpath
-ctarget=i586-elf
 
-echo
+
 echo "Creating working directory."
 mkdir ~/cc
 cd ~/cc
-wget ftp://ftp.gnu.org/gnu/gcc/gcc-4.8.0/gcc-4.8.0.tar.bz2
-tar -xjf gcc-4.8.0.tar.bz2 &
-gccpid=$!
 
-wget ftp://ftp.gnu.org/gnu/binutils/binutils-2.23.2.tar.bz2
-tar -xjf binutils-2.23.2.tar.bz2 &
-binupid=$!
+echo "getting crosstool-ng"
+## first get the crosstool-ng toolchain builder
+wget http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-1.15.3.tar.bz2
+echo "done"
+echo "...now extracting source"
+##extract source
+tar xf crosstool-ng-1.15.3.tar.bz2
+echo "done"
 
-wget ftp://ftp.gmplib.org/pub/gmp-5.1.2/gmp-5.1.2.tar.bz2
-tar -xjf gmp-5.1.2.tar.bz2
+cd -
 
-wget http://multiprecision.org/mpc/download/mpc-1.0.1.tar.gz
-tar -xf mpc-1.0.1.tar.gz
+## get into the source tree
+cd ~/cc/crosstool-ng-1.15.3
+echo "configure toolchain"
+##configure
+./configure --prefix=/opt/cross-ng/
+echo "done"
+## compile
 
-wget http://www.mpfr.org/mpfr-current/mpfr-3.1.2.tar.bz2
-tar -xjf mpfr-3.1.2.tar.bz2
+echo "... install"
 
-echo "Moving sources."
-mv gmp-5.1.2 gcc-4.8.0/gmp
-mv mpfr-3.1.2 gcc-4.8.0/mpfr
-mv mpc-1.0.1 gcc-4.8.0/mpc
+make install
 
-mkdir buildgcc
-mkdir buildbinutils
+cd -
 
-cd buildgcc
-echo "Check if binutils is unpacked. If not wait."
-wait $binupid
-# TODO
-#../binutils-2.23.2/configure --target=$ctarget --prefix=$PREFIX --disable-nls
-#make
-#make install
+mkdir -p ~/cc/toolchain 
 
-cd ..
+## copy config file
+cp CONFIG_YAFOS ~/cc/toolchain/.config
 
-cd buildgcc
-wait $gccpid
+cd ~/cc/toolchain
+
+
+##build toolchain
+echo "building toolchain, this process can take up to 3 houres!!"
+/opt/cross-ng/bin/ct-ng build
+
+
+
+
