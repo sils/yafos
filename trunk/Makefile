@@ -12,16 +12,18 @@
 INCDIRS	= -I ./include/ -I ./HAL/
 # Don't let the C compiler do anything from itself
 EXCLUDE	= -nostdlib -nostdinc -fno-builtin -nostartfiles -nodefaultlibs\
--ffreestanding -fno-stack-protector
+-ffreestanding
+# No optimization
+OPT	= -O0
 # All and extra warnings
 WARNLEV	= -Wall -Wextra -std=c99 -pedantic
 # Crosscompile 32 bit kernel, use intel syntax for inline assebly
 ARCH	= -m32
-# Compile with debug symbols (e.g. for gdb) and without optimization
-DEBUG	= -g -O0
+# Compile with debug symbols (e.g. for gdb) __attribute__((packed))
+DEBUG	= -g
 
 CC	= gcc
-CFLAGS	= $(ARCH) $(WARNLEV) $(EXCLUDE) $(INCDIRS) $(DEBUG)
+CFLAGS	= $(ARCH) $(WARNLEV) $(EXCLUDE) $(INCDIRS) $(DEBUG) $(OPT)
 LD	= ld
 # 32 bit plus specify linker script
 LDFLAGS	= -melf_i386 -T linker.ld
@@ -29,12 +31,16 @@ LDFLAGS	= -melf_i386 -T linker.ld
 SRCS	= $(shell find -name '*.[csS]')
 OBJFILES= $(addsuffix .o,$(basename $(SRCS)))
 
+# EMULATOR SETTINGS
+EMUL	=qemu-system-i386
+EDEBUG	=-gdb tcp::1234
+
 default: kernel.img
 
 all: clean kernel.img
 
 run: kernel.img
-	qemu-system-i386  -soundhw pcspk  -kernel kernel.img  -gdb tcp::1234
+	$(EMUL)  -soundhw pcspk  -kernel $< $(EDEBUG)
 
 .s.o:
 	nasm -f elf -o $@ $<
@@ -44,10 +50,8 @@ run: kernel.img
 
 kernel.img: $(OBJFILES)
 	$(LD) $(LDFLAGS) -o $@ $^
-# maybe it does some difference if loader.o is linked first
 
 #TODO maybe automatically build an iso
-#TODO do some research over the phony expression
 
 clean:
 	$(RM) $(OBJFILES) kernel.img

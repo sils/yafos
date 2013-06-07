@@ -1,26 +1,46 @@
 #include "timerInt.h"
 
-//TODO remove this
-#define TCOUNT 7
-char tmsg[TCOUNT][18] = {
-	"Well,",
-	"And now",
-	"D'you know:",
-	"What about this:",
-	"Huuuuh -",
-	"Bored? Sorry but",
-	"Let's say"
+#define FREQCOUNT	12
+#define CHORDCOUNT	4
+static uint32_t freqs[CHORDCOUNT][FREQCOUNT] =
+{
+{ 200, 250, 301, 400, 500, 600, 800, 600, 500, 400, 301, 250 },
+{ 225, 250, 301, 400, 500, 600, 800, 600, 500, 400, 301, 250 },
+{ 200, 250, 301, 400, 500, 600, 800, 600, 500, 400, 301, 250 },
+{ 200, 250, 301, 400, 500, 600, 200, 600, 500, 400, 301, 250 }
 };
 
 void generalTimerHandler(registers_t *regs)
 {
-	static uint8_t c=0;
-	static uint8_t t=20;
-	c++;
-	if(c % 100 == 0)
+	static uint32_t c=0;
+	
+#ifdef BEEP
+	static uint32_t offs=0, chord=0, d=0;
+	
+	if(((d%=6) == 0) && (chord == 0 || chord % CHORDCOUNT != 0))
 	{
-		kprintf("%s another second is over.\n", tmsg[t%TCOUNT]);
+		beepOn(freqs[chord][offs]);
+		offs++;
+		offs %= FREQCOUNT;
+		if(offs==0)
+		{
+			chord++;
+			if(chord % CHORDCOUNT == 0)
+				beepOff();
+		}
+	}
+	d++;
+#endif /* BEEP */
+	c++;
+	if(regs->intNo != IRQ0)
+	{
+		kprintf("The timer was called by the wrong interrupt. Something went wrong!");
+		kprintf(" Are you a developer? Have a look at intHandlers/timerInt.c.");
+	}
+	
+	if((c % IRQ_0_FREQ) == 0)
+	{
+		//kprintf("Another second is over.\n");
 		c = 0;
-		t++;
 	}
 }

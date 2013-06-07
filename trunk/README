@@ -1,10 +1,17 @@
-YAFOS Kernel - Prealpha.
+Yet Another Free Operating System
 
 WHAT IS YAFOS
-	TODO
+	YAFOS (Yet Another Free Operating System) is a free open source kernel
+	maintained by a large community (currently at maximum two active people ;)).
+	The goals at this stage are specificly to build a multitasking OS wich
+	supports multiple processor cores and the 64 bit intel architecture.
+	(Yeah... hopefully it will. Until then it's just fun to write this ;))
+
+CURRENT STATUS
+	TODO?
 
 BUILD
-	Just execute the qemu.sh script to compile the kernel and start qemu.
+	Just execute 'make run' to compile the kernel and start the qemu emulator.
 	Qemu may be interfaced with gdb via the command:
 		target remote localhost:1234
 

@@ -9,13 +9,13 @@ void init()
 	
 	clearScreen();
 	installGdt();
-	initTimer(100);
+	initStdTimer(IRQ_0_FREQ);
+	registerTimerHandler(IRQ0);//TODO move this to initStdTimer
 	installIdt();
-	while ((inb(0x64) & 0x2)); //wait until keyboard is ready
-    outb(0x60,0xF4);
-	registerIntHandler(IRQ1, &generalKbdHandler);
+	registerKbdHandler(IRQ1);
 	kprintf("%s",welcomeString);
 	kprintf("...to this eco-friendly green system!\n");
+	//beepOn(150);
 	sti();
 	
 	for(;;)

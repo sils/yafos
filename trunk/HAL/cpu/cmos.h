@@ -1,6 +1,6 @@
 /* HAL/cpu/cmos.h
  * 
- * TODO
+ * Provides functions to read and write abstract data to the CMOS.
  * 
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)

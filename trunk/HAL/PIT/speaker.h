@@ -14,4 +14,15 @@
 #ifndef _PIT_SPEAKER_H
 #define _PIT_SPEAKER_H
 
+#include <stdint.h>
+
+void beepOn(uint32_t frequency);
+void beepOff();
+//TODO wait function without polling
+//void beep(uint32_t frequency, );
+
+#include <PIT/timer.h>
+#include <PIT/pit.h>
+#include <sys/io.h>
+
 #endif /* _PIT_SPEAKER_H */

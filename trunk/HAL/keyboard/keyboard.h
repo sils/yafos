@@ -1,6 +1,7 @@
 /* HAL/keyboard/keyboard.h
  * 
- * TODO
+ * Provides functions to initialize and use the keyboard. Everything hardware
+ * specific goes in here.
  * 
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
