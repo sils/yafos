@@ -17,14 +17,12 @@ EXCLUDE	= -nostdlib -nostdinc -fno-builtin -nostartfiles -nodefaultlibs\
 OPT	= -O0
 # All and extra warnings
 WARNLEV	= -Wall -Wextra -std=c99 -pedantic
-# Crosscompile 32 bit kernel, use intel syntax for inline assebly
-ARCH	= -m32
 # Compile with debug symbols (e.g. for gdb) __attribute__((packed))
 DEBUG	= -g
 
-CC	= gcc
+CC	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-gcc
 CFLAGS	= $(ARCH) $(WARNLEV) $(EXCLUDE) $(INCDIRS) $(DEBUG) $(OPT)
-LD	= ld
+LD	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-ld
 # 32 bit plus specify linker script
 LDFLAGS	= -melf_i386 -T linker.ld
 
