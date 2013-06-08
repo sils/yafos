@@ -23,8 +23,8 @@ DEBUG	= -g
 CC	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-gcc
 CFLAGS	= $(ARCH) $(WARNLEV) $(EXCLUDE) $(INCDIRS) $(DEBUG) $(OPT)
 LD	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-ld
-# 32 bit plus specify linker script
-LDFLAGS	= -melf_i386 -T linker.ld
+#  specify linker script
+LDFLAGS	= -T linker.ld
 
 SRCS	= $(shell find -name '*.[csS]')
 OBJFILES= $(addsuffix .o,$(basename $(SRCS)))
