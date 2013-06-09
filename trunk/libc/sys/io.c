@@ -1,4 +1,4 @@
-#include "io.h"
+#include <sys/io.h>
 
 //definition has to be extern inline to be visible for other files since inline
 //in gcc C99 standard contains an implicit static if not mentioned else

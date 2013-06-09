@@ -21,7 +21,7 @@ void generalTimerHandler(registers_t *regs);
 
 #include <print.h>
 #include <IDT/idt.h>
-#include <../settings.h>
+#include <settings.h>
 #include <PIT/speaker.h>
 
 #endif /* _TIMERINT_H */
