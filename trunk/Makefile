@@ -17,13 +17,14 @@ EXCLUDE	= -nostdlib -nostdinc -fno-builtin -nostartfiles -nodefaultlibs\
 OPT	= -O0
 # All and extra warnings
 WARNLEV	= -Wall -Wextra -std=c99 -pedantic
-# Compile with debug symbols (e.g. for gdb) __attribute__((packed))
+# Compile with debug symbols (e.g. for gdb)
 DEBUG	= -g
 
 CC	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-gcc
 CFLAGS	= $(ARCH) $(WARNLEV) $(EXCLUDE) $(INCDIRS) $(DEBUG) $(OPT)
 LD	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-ld
-#  specify linker script
+
+# Linker script
 LDFLAGS	= -T linker.ld
 
 SRCS	= $(shell find -name '*.[csS]')
