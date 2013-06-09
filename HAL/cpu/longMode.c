@@ -1,5 +1,4 @@
-#include "longMode.c"
-
+#include "longMode.h"
 
 void initLongMode()
 {

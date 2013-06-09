@@ -6,6 +6,9 @@ WHAT IS YAFOS
 	The goals at this stage are specificly to build a multitasking OS wich
 	supports multiple processor cores and the 64 bit intel architecture.
 	(Yeah... hopefully it will. Until then it's just fun to write this ;))
+	
+	If you need any information, take a look at the doc/ directory or write an
+	email to me.
 
 CURRENT STATUS
 	TODO?

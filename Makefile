@@ -9,7 +9,7 @@
 # version.
 
 # Standard include directories
-INCDIRS	= -I ./include/ -I ./HAL/
+INCDIRS	= -I ./include/ -I ./HAL/ -I ./kernel/
 # Don't let the C compiler do anything from itself
 EXCLUDE	= -nostdlib -nostdinc -fno-builtin -nostartfiles -nodefaultlibs\
 -ffreestanding
@@ -41,7 +41,7 @@ run: kernel.img
 	$(EMUL)  -soundhw pcspk  -kernel $< $(EDEBUG)
 
 toolchain:
-	bash ./cc/toolchain.sh
+	bash ./tools/cc/toolchain.sh
 
 .s.o:
 	nasm -f elf -o $@ $<
