@@ -38,10 +38,18 @@ echo "done"
 
 cd -
 
+## copy patch
+cp ./cc/patch_makefile_recursion.patch ~/cc/crosstool-ng-1.18.0/
+
+
 ## get into the source tree
 cd ~/cc/crosstool-ng-1.18.0
+
+## patch
+echo "Patch Makefile.in"
+patch -p1 < patch_makefile_recursion.patch
 echo "configure toolchain"
-##configure
+## configure
 ./configure --prefix=/tmp/ct-ng/
 echo "done"
 ## compile
@@ -64,6 +72,8 @@ cd ~/cc/toolchain
 echo "building toolchain, this process can take up to 3 houres!!"
 /tmp/ct-ng/bin/ct-ng build
 
-
+echo "cleaning"
+#rm -R ~/cc
+echo "done"
 
 
