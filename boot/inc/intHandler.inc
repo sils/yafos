@@ -90,32 +90,35 @@ IRQ  14,    46
 IRQ  15,    47
 
 ;now the nasty things:
-;TODO understand this better
 extern generalIntHandler
 commonInt:
-    pusha                    ; Pushes edi,esi,ebp,esp,ebx,edx,ecx,eax
+	; push everything compliant to the registers_t structure of the kernel
+    pusha ; pushes edi,esi,ebp,esp,ebx,edx,ecx,eax
 
-    mov ax, ds               ; Lower 16-bits of eax = ds.
-    push eax                 ; Save the data segment descriptor
+    ; save data segment
+    mov ax, ds
+    push eax
 
-    mov ax, 0x10             ; Load the kernel data segment descriptor
+    ; get to kernel segment
+    mov ax, 0x10
     mov ds, ax
     mov es, ax
     mov fs, ax
     mov gs, ax
     mov ss, ax
 
-    push esp    	     	 ; Push a pointer to the current top of stack - this becomes the registers_t* parameter.
-    call generalIntHandler   ; Call into our C code.
-    add esp, 4		     	 ; Remove the registers_t* parameter.
+    ; push pointer to stack
+    push esp
+    call generalIntHandler; Call into our C code.
+    add esp, 4; TODO whats this
 
-    pop ebx                  ; Reload the original data segment descriptor
+    pop ebx                 ; Reload the original data segment descriptor
     mov ds, bx
     mov es, bx
     mov fs, bx
     mov gs, bx
     mov ss, bx
 
-    popa                     ; Pops edi,esi,ebp...
-    add esp, 8               ; Cleans up the pushed error code and pushed ISR number
-    iret                     ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
+    popa                    ; Pops edi,esi,ebp...
+    add esp, 8              ; Cleans up the pushed error code and pushed ISR number
+    iret                    ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP

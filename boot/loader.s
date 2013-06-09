@@ -26,11 +26,11 @@ extern init
 section .multiboot 
 ; setting up the Multiboot header - see GRUB docs for details
 ; a multiboot compliant bootloader will read the parameters from here
-%define MODULEALIGN  1<<0
-%define MEMINFO      1<<1
-MAGIC       equ  0x1BADB002
-FLAGS       equ  MODULEALIGN | MEMINFO
-CHECKSUM    equ -(MAGIC + FLAGS)
+%define MODULEALIGN	1<<0
+%define MEMINFO		1<<1
+MAGIC		equ		0x1BADB002
+FLAGS		equ		MODULEALIGN | MEMINFO
+CHECKSUM	equ		-(MAGIC + FLAGS)
 
 align 4 ; these are 4 bytes in length for meeting multiboot requirements
     dd MAGIC

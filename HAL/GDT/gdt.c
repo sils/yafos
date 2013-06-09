@@ -14,7 +14,6 @@ static void gdtSetGate(uint8_t index, uint32_t baseAddr, uint32_t limit, uint8_t
 
 void installGdt(void)
 {
-	
 	tgdtPtr.limit = (sizeof(gdtEntry)*GDT_ENTRIES)-1;
 	tgdtPtr.base  = &gdt;
 	
