@@ -3,7 +3,11 @@ TODOS
 - extend the makefile so it can automatically create a burnable ISO.
 - Get a cross compiler working
 
-hints for long mode:
+http://wiki.osdev.org/Creating_a_64-bit_kernel
+Roadmap for long mode:
+	Build x86_64 crosscompiler
+	Update the linker file
+	Set up Higher half kernel -> research nessecary
 	use IRETQ for interrupt return
 
 KNOWN BUGS
