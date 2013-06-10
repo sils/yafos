@@ -55,7 +55,7 @@ hltLoop:
 	jmp hltLoop
 
 ; All the code needed by the C kernel
-%include "boot/inc/include.inc"
+%include "kernel/boot/inc/include.inc"
 
 section .bss
 align 4

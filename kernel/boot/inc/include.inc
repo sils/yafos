@@ -10,5 +10,5 @@
 ; Foundation, either version 3 of the License, or (at your option) any later
 ; version.
 
-%include "boot/inc/intHandler.inc"
-%include "boot/inc/gdtFlush.inc"
+%include "kernel/boot/inc/intHandler.inc"
+%include "kernel/boot/inc/gdtFlush.inc"
