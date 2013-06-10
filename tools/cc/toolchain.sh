@@ -85,7 +85,7 @@ echo "Done."
 cd -
 
 ## copy patch
-cp ./cc/patch_makefile_recursion.patch $wdir/crosstool-ng-1.18.0/
+cp ./tools/cc/patch_makefile_recursion.patch $wdir/crosstool-ng-1.18.0/
 
 
 ## get into the source tree
@@ -114,7 +114,7 @@ cd -
 mkdir -p $wdir/toolchain 
 
 ## copy config file
-cp cc/CONFIG_YAFOS $wdir/toolchain/.config
+cp tools/cc/CONFIG_YAFOS $wdir/toolchain/.config
 
 cd $wdir/toolchain
 
