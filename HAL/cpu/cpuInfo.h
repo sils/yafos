@@ -1,5 +1,5 @@
-/* HAL/cpu/cpuInfo.h
- * 
+/* cpuInfo.h
+ *
  * Provides functions to get information about the CPU.
  * 
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.

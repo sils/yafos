@@ -1,4 +1,4 @@
-/* HAL/PIT/timer.h
+/* timer.h
  * 
  * Provides functions to initialize and use timers hardware independent!
  * 
@@ -11,8 +11,8 @@
  * version.
  */
 
-#ifndef _PIT_TIMER_H
-#define _PIT_TIMER_H
+#ifndef _TIMER_H
+#define _TIMER_H
 
 #include <stdint.h>
 
@@ -25,4 +25,4 @@ uint8_t	initChannel(uint16_t freq, uint8_t channel, uint8_t mode);
 #include <intHandlers/generalInt.h>
 #include <intHandlers/timerInt.h>
 
-#endif /* _PIT_TIMER_H */
+#endif /* _TIMER_H */

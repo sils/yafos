@@ -1,4 +1,4 @@
-/* HAL/PIT/pit.h
+/* pit.h
  * 
  * Making life easier when arguing with the PIT.
  * See http://wiki.osdev.org/PIT for more information about modes and so on.

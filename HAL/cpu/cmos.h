@@ -1,4 +1,4 @@
-/* HAL/cpu/cmos.h
+/* cmos.h
  * 
  * Provides functions to read and write abstract data to the CMOS.
  * 

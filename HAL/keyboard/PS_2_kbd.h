@@ -1,6 +1,7 @@
-/* HAL/intHandlers/generalInt.h
+/* PS_2_kbd.h
  * 
- * Provides the general interrupt handler.
+ * Provides functions to initialize and use the keyboard. Everything hardware
+ * specific goes in here.
  * 
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -11,18 +12,10 @@
  * version.
  */
 
-#ifndef _GENERAL_INT_H
-#define _GENERAL_INT_H
+#ifndef _PS_2_KBD_H
+#define _PS_2_KBD_H
 
-#include <IDT/idt.h>
-#include <stdint.h>
-#include <cpu/registers.h>
+//TODO
+void initKeyboard();
 
-typedef void (*intHandler)(registers_t*);
-void registerIntHandler(uint16_t id, intHandler func);
-
-#include <print.h>
-#include <PIC/pic.h>
-#include <intHandlers/timerInt.h>
-
-#endif /* _GENERAL_INT_H */
+#endif /* _PS_2_KBD_H */

@@ -1,4 +1,4 @@
-/* HAL/GDT/gdt.h
+/* gdt.h
  * 
  * Provides function headers for manipulating the global descriptor table.
  * See http://wiki.osdev.org/Global_Descriptor_Table for more information about

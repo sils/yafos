@@ -77,7 +77,7 @@ CONTENTS
 		If you write a posix conform header file the short description given in the
 		header should comply to this example:
 		
-/* include/<basename>.h
+/* <basename>.h
  * 
  * This file tries to follow the standardizations specified in the POSIX
  * Programmers Manual wich can be reached through

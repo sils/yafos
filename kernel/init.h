@@ -32,15 +32,15 @@ void init();
 //For printing out text to video memory
 #include <print.h>
 //Setting up a global descriptor table
-#include <GDT/gdt.h>
+#include <cpu/GDT/gdt.h>
 //Setting up an interrupt descriptor table
-#include <IDT/idt.h>
+#include <cpu/IDT/idt.h>
 //For initializing the timer
 #include <PIT/timer.h>
 #include <intHandlers/timerInt.h>
 //For initializing the keyboard
 #include <intHandlers/keyboardInt.h>
 //For using the speaker ;)
-#include <PIT/speaker.h>
+#include <sound/speaker.h>
 
 #endif /* _INIT_H */

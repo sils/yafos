@@ -1,4 +1,4 @@
-/* HAL/cpu/longMode.h
+/* longMode.h
  * 
  * TODO
  * 

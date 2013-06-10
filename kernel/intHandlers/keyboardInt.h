@@ -1,4 +1,4 @@
-/* HAL/intHandlers/keyboardInt.h
+/* keyboardInt.h
  * 
  * Provides the keyboard interrupt handler wich uses the keyboard driver for
  * getting the information.
