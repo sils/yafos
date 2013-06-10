@@ -1,4 +1,4 @@
-/* HAL/cpu/registers.h
+/* registers.h
  * 
  * Provides the register structure and some dump functions.
  * 

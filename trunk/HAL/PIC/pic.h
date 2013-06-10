@@ -1,4 +1,4 @@
-/* HAL/PIC/pic.h
+/* pic.h
  * 
  * Provides functions for using the programmable interval controller (PIC).
  * See http://www.lowlevel.eu/wiki/PIC for more information.
@@ -16,7 +16,7 @@
 #define _PIC_H
 
 #include <stdint.h>
-#include <IDT/idt.h>
+#include <cpu/IDT/idt.h>
 
 #ifndef IRQ0
 	#warning "IRQ0 undefined! Should be defined in HAL/IDT/idt.h and is needed\
@@ -24,6 +24,7 @@
 	#define IRQ0 0x20
 #endif
 
+//TODO parameters for remapIRQs
 void remapIrqs(void);
 void maskIrqs(uint16_t mask);
 #define endInterrupt(intNo)	(intNo)<IRQ8\

@@ -1,6 +1,6 @@
-/* HAL/PIT/speaker.h
+/* timerInt.h
  * 
- * Library to get sound of the speaker via channel 2 of the PIT.
+ * Provides timer hinterrupt handlers.
  * 
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -11,18 +11,17 @@
  * version.
  */
 
-#ifndef _PIT_SPEAKER_H
-#define _PIT_SPEAKER_H
+#ifndef _TIMERINT_H
+#define _TIMERINT_H
 
-#include <stdint.h>
+#include <cpu/registers.h>
 
-void beepOn(uint32_t frequency);
-void beepOff();
-//TODO wait function without polling
-//void beep(uint32_t frequency, );
+void generalTimerHandler(registers_t *regs);
+#define registerTimerHandler(irq)	registerIntHandler((irq), &generalTimerHandler)
 
-#include <PIT/timer.h>
-#include <PIT/pit.h>
-#include <sys/io.h>
+#include <print.h>
+#include <cpu/IDT/idt.h>
+#include <settings.h>
+#include <sound/speaker.h>
 
-#endif /* _PIT_SPEAKER_H */
+#endif /* _TIMERINT_H */

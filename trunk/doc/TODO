@@ -8,6 +8,7 @@ Roadmap for long mode:
 	Build x86_64 crosscompiler
 	Update the linker file
 	Set up Higher half kernel -> research nessecary
-	use IRETQ for interrupt return
+	-> use IRETQ for interrupt return
+	-> set long-bit in GDT Entries
 
 KNOWN BUGS

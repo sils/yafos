@@ -12,6 +12,7 @@ static void gdtSetGate(uint8_t index, uint32_t baseAddr, uint32_t limit, uint8_t
 	gdt[index].granularity = gran | G_LIMIT(limit);
 }
 
+//TODO remove this to somewhere in the kernel
 void installGdt(void)
 {
 	tgdtPtr.limit = (sizeof(gdtEntry)*GDT_ENTRIES)-1;

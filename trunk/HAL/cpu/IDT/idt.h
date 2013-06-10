@@ -1,4 +1,4 @@
-/* HAL/IDT/idt.h
+/* idt.h
  * 
  * Provides function headers for manipulating the interrupt descriptor table.
  * 

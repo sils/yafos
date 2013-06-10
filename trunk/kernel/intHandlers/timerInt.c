@@ -1,5 +1,6 @@
 #include "timerInt.h"
 
+#ifdef BEEP
 #define FREQCOUNT	12
 #define CHORDCOUNT	4
 static uint32_t freqs[CHORDCOUNT][FREQCOUNT] =
@@ -9,6 +10,7 @@ static uint32_t freqs[CHORDCOUNT][FREQCOUNT] =
 { 200, 250, 301, 400, 500, 600, 800, 600, 500, 400, 301, 250 },
 { 200, 250, 301, 400, 500, 600, 200, 600, 500, 400, 301, 250 }
 };
+#endif /* BEEP */
 
 void generalTimerHandler(registers_t *regs)
 {
@@ -31,6 +33,7 @@ void generalTimerHandler(registers_t *regs)
 	}
 	d++;
 #endif /* BEEP */
+
 	c++;
 	if(regs->intNo != IRQ0)
 	{

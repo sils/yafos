@@ -1,4 +1,4 @@
-/* HAL/boot/boot.h
+/* boot.h
  * 
  * Defines nessecary structures for reading information passed by multiboot
  * compliant bootloaders. See

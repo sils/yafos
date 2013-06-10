@@ -1,7 +1,6 @@
-/* HAL/keyboard/keyboard.h
+/* generalInt.h
  * 
- * Provides functions to initialize and use the keyboard. Everything hardware
- * specific goes in here.
+ * Provides the general interrupt handler.
  * 
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -12,10 +11,18 @@
  * version.
  */
 
-#ifndef _KEYBOARD_KEYBOARD_H
-#define _KEYBOARD_KEYBOARD_H
+#ifndef _GENERAL_INT_H
+#define _GENERAL_INT_H
 
-//TODO
-void initKeyboard();
+#include <cpu/IDT/idt.h>
+#include <stdint.h>
+#include <cpu/registers.h>
 
-#endif /* _KEYBOARD_KEYBOARD_H */
+typedef void (*intHandler)(registers_t*);
+void registerIntHandler(uint16_t id, intHandler func);
+
+#include <print.h>
+#include <PIC/pic.h>
+#include <intHandlers/timerInt.h>
+
+#endif /* _GENERAL_INT_H */
