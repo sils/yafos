@@ -16,8 +16,8 @@
 #define _PIT_PIT_H
 
 #define PIT_COMMAND(cmd)	outb(PIT_CMD, (cmd))
-#define PIT_WRITE(ch, val)	outb(PIT_DATA(ch), (val) & 0xFF);\
-							outb(PIT_DATA(ch), (val) >> 8)
+#define PIT_WRITE(ch, val);	outb(PIT_DATA(ch), (val) & 0xFF);\
+							outb(PIT_DATA(ch), (val) >> 8);
 
 //
 // All the nice constants for a 8253/8254 chip

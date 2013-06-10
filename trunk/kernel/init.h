@@ -1,4 +1,4 @@
-/* init.c
+/* init.h
  * 
  * Initializes the kernel properly. That includes specificly:
  * 		Set up a global descriptor table
