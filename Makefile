@@ -1,5 +1,14 @@
 # Makefile
 #
+# Provides the following options
+#	default:compile all changes files and link
+#	all:	remakes the whole project
+#	run:	compile all changed files, link and execute qemu
+#	clean:	delete all object files and the kernel image
+#	toolchain: configure the crosscompiler for this user of this system
+#		Missing dependencies for ubuntu: gperf, bison, ncurses-dev, gawk
+#		Missing dependencies for arch: wget, gperf
+#
 # Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
 # Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
 # 
@@ -42,7 +51,7 @@ run: kernel.img
 	$(EMUL)  -soundhw pcspk  -kernel $< $(EDEBUG)
 
 toolchain:
-	bash ./tools/cc/toolchain.sh
+	bash ./tools/cc32/toolchain.sh
 
 .s.o:
 	nasm -f elf -o $@ $<

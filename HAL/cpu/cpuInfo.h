@@ -18,4 +18,6 @@
 
 void cpuid(int code, uint32_t *a, uint32_t *d);
 
+#include <stdMacro.h>
+
 #endif /* _CPUINFO_H */

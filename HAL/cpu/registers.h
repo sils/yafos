@@ -15,14 +15,16 @@
 #define _REGISTERS_H
 
 #include <stdint.h>
+#include <stdMacro.h>
 
-typedef struct
+//TODO rename this so that it's clear that this file is for 32 bit architecture
+STRUCT
 {
 	uint32_t ds;                  // Data segment selector
 	uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax; // Pushed by pusha.
 	uint32_t intNo, errCode;    // Interrupt number and error code (if applicable)
 	uint32_t eip, cs, eflags, useresp, ss; // Pushed by the processor automatically.
-} __attribute__((packed)) registers_t;
+} PACKED registers_t;
 
 void regDump(registers_t);
 extern void hltLoop();

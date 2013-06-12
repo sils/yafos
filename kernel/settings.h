@@ -14,7 +14,17 @@
 #ifndef _SETTINGS_H
 #define _SETTINGS_H
 
+//Architecture (may be: 32, 64)
+#define ARCH		32
+
+//Memory
+//let a page be 4 KiB
+#define PAGE_SIZE	0x1000
+
+//Debug settings
 #define DEBUG		true
+
+//Sound settings
 #define IRQ_0_FREQ	80
 #define BEEP //if its defined it will beep ;)
 

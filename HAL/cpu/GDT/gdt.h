@@ -17,8 +17,9 @@
 #define _GDT_H
 
 #include <stdint.h>
+#include <stdMacro.h>
 
-typedef struct
+STRUCT
 {
 	uint16_t limitLow;
 	uint16_t baseLow;
@@ -26,13 +27,13 @@ typedef struct
 	uint8_t  access;
 	uint8_t  granularity;
 	uint8_t  baseHigh;
-}__attribute__((packed)) gdtEntry;
+} PACKED gdtEntry;
 
-typedef struct
+STRUCT
 {
 	uint16_t limit;
 	void    *base;
-}__attribute__((packed)) gdtPtr;
+} PACKED gdtPtr;
 
 #define GDT_ENTRIES 3
 void installGdt(void);

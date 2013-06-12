@@ -15,22 +15,22 @@
 #define _IDT_H
 
 #include <stdint.h>
+#include <stdMacro.h>
 
-
-typedef struct
+STRUCT
 {
 	uint16_t entryLow;
 	uint16_t selector;
 	uint8_t  zero;
 	uint8_t  attr;
 	uint16_t entryHigh;
-}__attribute__((packed)) idtEntry;
+} PACKED idtEntry;
 
-typedef struct
+STRUCT
 {
 	uint16_t  limit;
 	void     *base;
-} __attribute__((packed)) idtPtr;
+} PACKED idtPtr;
 
 #define IDT_ENTRIES 48
 void installIdt(void);

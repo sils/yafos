@@ -25,7 +25,7 @@ isr%1:
 global isr%1
 isr%1:
 	cli
-	; error code is pushed automatically, push int number
+	; error code is pushed automatically, push interrupt number
 	push byte %1
 
 	jmp commonInt
@@ -90,6 +90,7 @@ IRQ  14,    46
 IRQ  15,    47
 
 ;now the nasty things:
+; TODO support 64 bit registers
 extern generalIntHandler
 commonInt:
 	; push everything compliant to the registers_t structure of the kernel
@@ -112,13 +113,14 @@ commonInt:
     call generalIntHandler; Call into our C code.
     add esp, 4; TODO whats this
 
-    pop ebx                 ; Reload the original data segment descriptor
+    ;return to original segment
+    pop ebx
     mov ds, bx
     mov es, bx
     mov fs, bx
     mov gs, bx
     mov ss, bx
 
-    popa                    ; Pops edi,esi,ebp...
-    add esp, 8              ; Cleans up the pushed error code and pushed ISR number
-    iret                    ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
+    popa
+    add esp, 8; TODO Cleans up the pushed error code and pushed ISR number
+    iret ; TODO maybe macro -> use iretq while in 64 bit mode
