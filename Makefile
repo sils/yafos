@@ -28,10 +28,14 @@ OPT	= -O0
 WARNLEV	= -Wall -Wextra -std=c99 -pedantic
 # Compile with debug symbols (e.g. for gdb)
 DEBUG	= -g
-
-CC	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-gcc
 CFLAGS	= $(ARCH) $(WARNLEV) $(EXCLUDE) $(INCDIRS) $(DEBUG) $(OPT)
-LD	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-ld
+
+
+CC32	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-gcc
+CC64	= ~/x-tools/x86_64-yafos-elf/bin/x86_64-yafos-elf-gcc
+LD32	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-ld
+LD64	= ~/x-tools/x86_64-yafos-elf/bin/x86_64-yafos-elf-ld
+
 
 # Linker script
 LDFLAGS	= -T linker.ld
@@ -50,17 +54,19 @@ all: clean kernel.img
 run: kernel.img
 	$(EMUL)  -soundhw pcspk  -kernel $< $(EDEBUG)
 
-toolchain:
+cc32:
 	bash ./tools/cc32/toolchain.sh
+cc64:	
+	bash ./tools/cc64/toolchain.sh
 
 .s.o:
 	nasm -f elf -o $@ $<
 
 .c.o:
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC32) $(CFLAGS) -o $@ -c $<
 
 kernel.img: $(OBJFILES)
-	$(LD) $(LDFLAGS) -o $@ $^
+	$(LD32) $(LDFLAGS) -o $@ $^
 
 #TODO maybe automatically build an iso
 

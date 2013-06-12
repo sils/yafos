@@ -116,7 +116,7 @@ cd -
 mkdir -p $wdir/toolchain 
 
 ## copy config file
-cp tools/cc32/CONFIG_YAFOS $wdir/toolchain/.config
+cp tools/cc64/CONFIG_YAFOS $wdir/toolchain/.config
 
 cd $wdir/toolchain
 
