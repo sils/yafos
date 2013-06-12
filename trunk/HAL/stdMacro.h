@@ -1,6 +1,6 @@
-/* cmos.h
+/* stdMacro.h
  * 
- * Provides functions to read and write abstract data to the CMOS.
+ * Provides some macros for general use.
  * 
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -11,12 +11,14 @@
  * version.
  */
 
-#ifndef _CMOS_H
-#define _CMOS_H
+#ifndef _STDMACRO_H
+#define _STDMACRO_H
 
-#include <time.h>
+//For structs, lets use typedefs
+#define STRUCT		typedef struct
+#define PACKED		__attribute__((packed))
 
-struct tm getCmosTime();//TODO
-//TODO some macros
+//Using assembly
+#define ASM			__asm__ __volatile__
 
-#endif /* _CMOS_H */
+#endif /* _STDMACRO_H */

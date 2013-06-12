@@ -1,7 +1,6 @@
 TODOS
 - Implement the most used functions in assembly
 - extend the makefile so it can automatically create a burnable ISO.
-- Get a cross compiler working
 
 http://wiki.osdev.org/Creating_a_64-bit_kernel
 Roadmap for long mode:
@@ -10,5 +9,12 @@ Roadmap for long mode:
 	Set up Higher half kernel -> research nessecary
 	-> use IRETQ for interrupt return
 	-> set long-bit in GDT Entries
+	-> use ARCH macro in settings.h
+		maybe let settings determine automatically wether the compiler compiles
+		to 64 bit???
+
+TOOLCHAIN:
+	rename it to cc32 and add cc64
+	provide support for ubuntu and dependency list for ubuntu.
 
 KNOWN BUGS

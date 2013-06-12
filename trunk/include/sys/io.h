@@ -15,22 +15,24 @@
 #define _IO_H
 
 #include <stdint.h>
+#include <stdMacro.h>
 
 //most general
-#define hlt()			__asm__ __volatile__ ("hlt")
+#define hlt()			ASM("hlt")
 
 //interrupts
-#define cli()			__asm__ __volatile__ ("cli")
-#define sti()			__asm__ __volatile__ ("sti")
-#define nop()			__asm__ __volatile__ ("nop")
-#define callint8		__asm__ __volatile__ ("int $0x08")
-#define callint13		__asm__ __volatile__ ("int $0x13")
-#define callint20		__asm__ __volatile__ ("int $0x20")
-#define callint3		__asm__ __volatile__ ("int $0x03") //TODO lets call user specified interrupt ;)
+#define cli()			ASM("cli")
+#define sti()			ASM("sti")
+#define nop()			ASM("nop")
+#define callint8		ASM("int $0x08")
+#define callint13		ASM("int $0x13")
+#define callint20		ASM("int $0x20")
+#define callint3		ASM("int $0x03") //TODO lets call user specified interrupt ;)
 
 //load tables
-#define lidt(idtptr)	__asm__ __volatile__("lidt %0" : : "m" (idtptr));
-#define lgdt(gdtptr)	__asm__ __volatile__("lgdt %0" : : "m" (gdtptr));
+#define lidt(idtptr)	ASM("lidt %0" : : "m" (idtptr));
+//CAUTION: a far jump is needed to jump into the new segment!
+#define lgdt(gdtptr)	ASM("lgdt %0" : : "m" (gdtptr));
 
 void outb(uint16_t port, uint8_t value);
 uint8_t inb (uint16_t);

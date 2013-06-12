@@ -18,6 +18,7 @@
 #define _BOOT_H
 
 #include <stdint.h>
+#include <stdMacro.h>
 
 //defined by linker script
 extern uint8_t kernelStart;
@@ -25,7 +26,7 @@ extern uint8_t kernelEnd;
 #define KERNEL_START	&kernelStart
 #define KERNEL_END	&kernelEnd
 
-typedef struct
+STRUCT
 {
 	uint32_t flags;
 	uint32_t memLower;
@@ -39,6 +40,6 @@ typedef struct
 	void *   mMapAddr;
 	//further information is not needed for now
 	//if needed: look at the mentioned pdf at page 11.
-} __attribute__((packed)) multiBoot;
+} PACKED multiBoot;
 
 #endif /* _BOOT_H */

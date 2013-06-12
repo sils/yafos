@@ -1,7 +1,6 @@
-/* paging.h
+/* pMem.h
  * 
- * Provides hardware dependend functions to set up paging. (In 32 bit mode right
- * now.)
+ * Provides a physical memory manager which provides pages.
  *
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -12,9 +11,13 @@
  * version.
  */
 
-#ifndef _PAGING_H
-#define _PAGING_H
+#ifndef _PMEM_H
+#define _PMEM_H
 
-//TODO
+#include <settings.h>//TODO try to make functions page size independent!
+//use PAGE_SIZE macro!
 
-#endif /* _PAGING_H */
+void	pMemInit(/* TODO parameter multiboot structure */);//TODO
+void *	pMemAlloc(uint32_t count);//assume: no one needs more than 2^32 pages
+
+#endif /* _PMEM_H */
