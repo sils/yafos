@@ -14,6 +14,7 @@
 global gdtFlush
 extern tgdtPtr
 
+; TODO make a farjump function out of this conforming to c calling convention
 gdtFlush:
 	lgdt [tgdtPtr]
 	; Load new data segment offset into segment registers
