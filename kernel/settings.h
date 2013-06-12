@@ -15,7 +15,12 @@
 #define _SETTINGS_H
 
 //Architecture (may be: 32, 64)
+#ifdef __ILP32__
 #define ARCH		32
+#endif
+#ifdef __x86_64__
+#define ARCH		64
+#endif
 
 //Memory
 //let a page be 4 KiB

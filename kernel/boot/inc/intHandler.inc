@@ -2,8 +2,7 @@
 ;
 ; Provides interrupt handler that call kernel procedures.
 ;
-; Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
-; Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
+; Copyright?
 ;
 ; This program is free software: you can redistribute it and/or modify it under
 ; the terms of the GNU General Public License as published by the Free Software
@@ -111,7 +110,8 @@ commonInt:
     ; push pointer to stack
     push esp
     call generalIntHandler; Call into our C code.
-    add esp, 4; TODO whats this
+    ; no need to pop esp from stack
+    add esp, 4
 
     ;return to original segment
     pop ebx
@@ -122,5 +122,5 @@ commonInt:
     mov ss, bx
 
     popa
-    add esp, 8; TODO Cleans up the pushed error code and pushed ISR number
+    add esp, 8; count stack up over the pushed error code and int no
     iret ; TODO maybe macro -> use iretq while in 64 bit mode

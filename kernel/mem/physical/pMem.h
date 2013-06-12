@@ -14,10 +14,11 @@
 #ifndef _PMEM_H
 #define _PMEM_H
 
+#include <stdint.h>
 #include <settings.h>//TODO try to make functions page size independent!
 //use PAGE_SIZE macro!
 
 void	pMemInit(/* TODO parameter multiboot structure */);//TODO
-void *	pMemAlloc(uint32_t count);//assume: no one needs more than 2^32 pages
+void *	pMemAlloc(uint64_t count);
 
 #endif /* _PMEM_H */
