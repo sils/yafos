@@ -15,4 +15,4 @@
 echo "Enter your preferred editor:"
 read editor
 
-$editor doc/* tools/*/* README Makefile linker.ld openall.sh */*.[ch] */*/*.[chs]  */*/*/*.inc */*/*/*.[ch] & >> /dev/null &> /dev/null
+$editor doc/* tools/*/* */*.[ch] */*/*.[chs]  */*/*/*.inc */*/*/*.[ch] Makefile linker.ld openall.sh README & >> /dev/null &> /dev/null
