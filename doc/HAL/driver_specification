@@ -1,0 +1,35 @@
+DRIVER CONCEPT:
+
+TODO ;)
+
+1. Drivers are lowlevel
+	Drivers have to be as small as possible. As "Linux Device Drivers v3" states
+	they are mechanisms, not functionalities. Therefore they all act at the
+	lowest possible information structure: a bytestream.
+	They follow a standard protocol defined later.
+2. Access to drivers
+	Every driver will be mapped to a Virtual Filesystem (short: VFS) as linux
+	does. Other software may access these via write(), read(), open(), close()
+	or similar functions (that's not decided yet). More abstract access will be
+	provided via some abstract drivers, wich may use the mapped drivers
+	directly. E.G. a filesystem driver is an abstract driver and may access the
+	data storage device via the lowlevel driver of e.g. a harddrive. Any program
+	may use the abstract driver to do functional things.
+	So any lowlevel driver will be mapped to the VFS to a kind of file wich may
+	be of one of these types:
+	1. Unidirectional (in)
+	2. Unidirectional (out)
+	3. Bidirectional
+3. Communication to lowlevel drivers
+	There will be a standard protocol. If one opens a lowlevel driver one has to
+	send a magic number to it. The contents of the reply will contain a
+	standardised description of the protocol the driver wants to use.
+	(Like UDP and TCP.) This may be:
+	MCDSSMTDSS
+	(Write:	Magic number, Command, Data, two checksum bytes
+	Read:	Magic number, Type, Data, two checksum bytes)
+4. Command bytes
+	The following command bytes are reserved for the descripted use only since
+	an abstract driver may use any lowlevel driver in a standardised form:
+		0x01	Write <Data> to the device
+		0x02	Read from the device

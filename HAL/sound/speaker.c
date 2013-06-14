@@ -1,5 +1,6 @@
 #include "speaker.h"
 
+//TODO macros :)
 void beepOn(uint32_t frequency)
 {
 	uint8_t tmp;

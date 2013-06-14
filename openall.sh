@@ -15,4 +15,5 @@
 echo "Enter your preferred editor:"
 read editor
 
-$editor doc/* tools/*/[Cpt]* */*.[ch] */*/*.[chs]  */*/*/*.inc */*/*/*.[ch] Makefile linker.ld openall.sh README & >> /dev/null &> /dev/null
+# TODO yeah, thats dirty, sometimes I added a little specification to prevent opening directories...
+$editor doc/[CLpT]* doc/*/* tools/*/[Cpt]* */*.[ch] */*/*.[chs]  */*/*/*.inc */*/*/*.[ch] Makefile linker.ld openall.sh README & >> /dev/null &> /dev/null
