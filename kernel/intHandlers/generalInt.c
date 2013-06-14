@@ -3,7 +3,8 @@
 static intHandler intHandlers[IDT_ENTRIES];
 
 //these messages use 2 pages in space (about 0x2000 bytes)
-static char exceptionMessage[16][28] = {
+static char exceptionMessage[16][28] =
+{
 	"Division by zero",
 	"Single step",
 	"Non maskable interrupt",

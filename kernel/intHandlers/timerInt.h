@@ -17,11 +17,11 @@
 #include <cpu/registers.h>
 
 void generalTimerHandler(registers_t *regs);
-#define registerTimerHandler(irq)	registerIntHandler((irq), &generalTimerHandler)
+#define registerTimerHandler(irq)	registerIntHandler((irq),\
+	&generalTimerHandler)
 
 #include <print.h>
 #include <cpu/IDT/idt.h>
 #include <settings.h>
-#include <sound/speaker.h>
 
 #endif /* _TIMERINT_H */

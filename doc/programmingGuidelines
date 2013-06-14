@@ -19,6 +19,8 @@ CONTENTS
 
 
 2.  HEADER
+	//TODO update the header; isn't it easier to say that we all hold the
+	//copyright?
 	2.1. Header of the headers
 		Make sure that over every header file and in all code files without such
 		a header file one finds the following header:
@@ -90,7 +92,8 @@ CONTENTS
 		If you implement POSIX functions use the datatypes given by the
 		standard. If not use the types defined in include/stdint.h for any
 		integer to get a guaranteed number of bits. (int32_t -> guaranteed 32
-		bit integer) Think about how many bits you need.
+		bit integer) Think about how many bits you need! Everything has to be
+		as efficient as possible.
 
 
 4.  INCLUDE GUIDELINES
@@ -139,9 +142,8 @@ CONTENTS
 		represents the structure of a given bitfield)
 		
 	5.6. Macros
-		Macros are to be named in upper case letters.
-		Bitset macros are to be named with (regex syntax)
-		[A-Z_]+_BIT[S]?
+		Macros are to be named in upper case letters and may also continue
+		underscores.
 
 
 6.  BRACES AND BRACKETS
@@ -175,6 +177,8 @@ CONTENTS
 	Use local variables whenever possible. Pass pointers to functions for
 	avioding global variables. If global variables are really (!) nessecary they
 	have to be declared in a header file. (Definition follows in the code file.)
+	If a variable is used for several functions, mark it as static so that's
+	only visible in this code file.
 
 
 9.  COMMENTS

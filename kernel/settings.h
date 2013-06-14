@@ -15,7 +15,7 @@
 #define _SETTINGS_H
 
 //Architecture (may be: 32, 64)
-#ifdef __ILP32__
+#ifdef __i386__
 #define ARCH		32
 #endif
 #ifdef __x86_64__
@@ -31,6 +31,5 @@
 
 //Sound settings
 #define IRQ_0_FREQ	80
-#define BEEP //if its defined it will beep ;)
 
 #endif /* _SETTINGS_H */

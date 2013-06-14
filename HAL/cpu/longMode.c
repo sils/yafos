@@ -2,5 +2,6 @@
 
 void initLongMode()
 {
+	kprintf("TODO initLongMode");
 	return;
 }

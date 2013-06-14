@@ -17,11 +17,12 @@
 #include <stdint.h>
 #include <settings.h>//TODO try to make functions page size independent!
 //use PAGE_SIZE macro!
+//TODO determine memory size
 
 void	pMemInit(/* TODO parameter multiboot structure */);//TODO
 #if ARCH == 32
 void *	pMemAlloc(uint32_t count);
-#elseif ARCH == 64
+#elif ARCH == 64
 void *	pMemAlloc(uint64_t count);
 #endif
 

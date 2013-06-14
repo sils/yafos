@@ -13,13 +13,42 @@ WHAT IS YAFOS
 CURRENT STATUS
 	TODO?
 
+INSTALL THE TOOLCHAIN
+	YAFOS has it's own toolchain to provide independency from gcc updates. (They
+	may do harm. TODO make some research on using more of the options given by an
+	own compiler.)
+	There are currently binaries for Archlinux, 64 bit available in
+		tools/cc32/bin/arch
+	Copy these to
+		~/x-tools/i386-yafos-elf/bin/
+	(You'll have to create the directory before.)
+
+	If you are using an yet unsupported system you may compile your own
+	crosscompiler using
+		make cc32
+	This will do everything automatically. If it fails, see that all needed
+	software is installed (e.g. wget, bison, gperf, gawk) and retry after doing
+		rm -R /tmp/ct-ng
+	Since there may be temporary files saved.
+	The script will create a working directory in your home directory
+		~/cc
+	If this already exists it will append 'c' until it doesn't. It should remove
+	it automatically but that's not guaranteed! Feel free to delete it, it has no
+	use after building the toolchain.
+
 BUILD
+	Be sure to read and follow the instructions given in [INSTALL THE TOOLCHAIN].
 	Just execute 'make run' to compile the kernel and start the qemu emulator.
 	Qemu may be interfaced with gdb via the command:
 		target remote localhost:1234
 
 CONTRIBUTING
-	Contact lasse.schuirmann@gmail.com to contribute to this project.
+	To open all project files we have an editor independend project file. (Yes,
+	it's a bash script that just executes your favorite editor with all the files)
+	Be sure that your editor supports tabs or so - else you'll get a lot of
+	windows. (And who wants windows...)
+
+	Please contact lasse.schuirmann@gmail.com to contribute to this project.
 	Be sure to read the programming guidelines, provided in
 		doc/programmingGuidelines
 	before contributing or even committing any code.
