@@ -14,12 +14,13 @@
 #ifndef _SETTINGS_H
 #define _SETTINGS_H
 
-//Architecture (may be: 32, 64)
+//Architecture
 #ifdef __i386__
 #define ARCH		32
-#endif
-#ifdef __x86_64__
+#elif __x86_64__
 #define ARCH		64
+#else
+#error "Unsupported architecture!"
 #endif
 
 //Memory

@@ -19,27 +19,17 @@
 #include <stdint.h>
 
 #if ARCH == 32
+
 typedef uint32_t	pageDirEntry;
 typedef uint32_t	pageTableEntry;
 
-#define P_ADDR(addr)	addr & 0xFFFFF000
-//flags
-#define P_PRESENT		0x01
-#define P_RW			0x02
-#define P_SUPER			0x04
-#define P_WRITE_THROUGH	0x08 //TODO what is write through? See wiki, cache
-#define P_NO_CACHE		0x10
-#define P_USED			0x20
-#if PAGE_SIZE == 0x1000
-#define P_PAGE_SIZE		0x80
-#else
-#define P_PAGE_SIZE		0x00//this would be either 2 MiB or 4 MiB
-//dependend on some bit in some register...
-#endif
-//TODO there is more...
+void initPaging();
+void mapPage(uint32_t physicalAddr, uint32_t virtualAddr);
 
 #else
 #error "[ERROR] Currently there is only 32 bit support!"
 #endif /* ARCH == 32 */
+
+#include <string.h>
 
 #endif /* _PAGING_H */
