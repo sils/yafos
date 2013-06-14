@@ -16,6 +16,8 @@
 ; Foundation, either version 3 of the License, or (at your option) any later
 ; version.
 
+BITS 32
+
 ; Declarations
 global loader
 extern init

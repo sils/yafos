@@ -14,6 +14,12 @@
 #ifndef _LONGMODE_H
 #define _LONGMODE_H
 
-void initLongMode();
+#include <stdint.h>
+
+//checks if long mode is available
+uint8_t	checkLongMode();
+void	initLongMode();
+
+#include <print.h>
 
 #endif /* _MONGMODE_H */

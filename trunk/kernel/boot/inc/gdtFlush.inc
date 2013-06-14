@@ -25,6 +25,6 @@ gdtFlush:
 	mov gs, ax
 	mov ss, ax
 	; far jump to code segment (offset 0x08)
-	jmp 0x08:flush2
-flush2:
+	jmp 0x08:farjmp
+farjmp:
 	ret

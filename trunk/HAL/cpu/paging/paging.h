@@ -18,7 +18,7 @@
 #include <settings.h>
 #include <stdint.h>
 
-#ifdef __i386__
+#if ARCH == 32
 typedef uint32_t	pageDirEntry;
 typedef uint32_t	pageTableEntry;
 
