@@ -24,12 +24,13 @@ typedef uint32_t	pageDirEntry;
 typedef uint32_t	pageTableEntry;
 
 void initPaging();
-void mapPage(uint32_t physicalAddr, uint32_t virtualAddr);
+int8_t mapPage(uint32_t physicalAddr, uint32_t virtualAddr);
 
 #else
 #error "[ERROR] Currently there is only 32 bit support!"
 #endif /* ARCH == 32 */
 
 #include <string.h>
+#include <errno.h>
 
 #endif /* _PAGING_H */

@@ -34,8 +34,6 @@ STRUCT
 
 #define IDT_ENTRIES 48
 void installIdt(void);
-idtEntry idt[IDT_ENTRIES];
-idtPtr   tidtPtr;
 
 // interrupt handler routines
 extern void isr0 ();

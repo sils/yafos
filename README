@@ -18,9 +18,9 @@ INSTALL THE TOOLCHAIN
 	may do harm. TODO make some research on using more of the options given by an
 	own compiler.)
 	There are currently binaries for Archlinux, 64 bit available in
-		tools/cc32/bin/arch
+		tools/cc32/bin/arch64
 	Copy these to
-		~/x-tools/i386-yafos-elf/bin/
+		~/yafoscc/i386-yafos-elf/bin/
 	(You'll have to create the directory before.)
 
 	If you are using an yet unsupported system you may compile your own
@@ -35,6 +35,10 @@ INSTALL THE TOOLCHAIN
 	If this already exists it will append 'c' until it doesn't. It should remove
 	it automatically but that's not guaranteed! Feel free to delete it, it has no
 	use after building the toolchain.
+	
+	Be sure to install qemu before trying to test. Alternatively you can create
+	an ISO with grub and the kernel and reboot everytime you want to test. Good
+	luck ;)
 
 BUILD
 	Be sure to read and follow the instructions given in [INSTALL THE TOOLCHAIN].

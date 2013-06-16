@@ -30,20 +30,25 @@ pageTableEntry	pageTable[1024];
 
 void initPaging()
 {
+	//set 1024 * 4 bytes to zero
 	memset(pageDir, 0x1000, 0);
 }
 
-void mapPage(uint32_t physicalAddr, uint32_t virtualAddr)
+int8_t mapPage(uint32_t physicalAddr, uint32_t virtualAddr)
 {
 	if(P_PRESENT & pageDir[P_DIR_OFFS(virtualAddr)])
 	{
+		uint32_t pTable = P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
+		return -NOT_IMPLEMENTED;
 		//page table exists
 	}
 	else
 	{
+		return -NOT_IMPLEMENTED;
+		//allocate 1024 bytes of memory
+		//pageDir[P_DIR_OFFS(virtualAddr)] = stdDirEntry(memaddr);
 		//create page table
 	}
-	return;
 }
 
 #else

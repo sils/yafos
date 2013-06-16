@@ -31,10 +31,10 @@ DEBUG	= -g
 CFLAGS	= $(ARCH) $(WARNLEV) $(EXCLUDE) $(INCDIRS) $(DEBUG) $(OPT)
 
 
-CC32	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-gcc
-CC64	= ~/x-tools/x86_64-yafos-elf/bin/x86_64-yafos-elf-gcc
-LD32	= ~/x-tools/i386-yafos-elf/bin/i386-yafos-elf-ld
-LD64	= ~/x-tools/x86_64-yafos-elf/bin/x86_64-yafos-elf-ld
+CC32	= ~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-gcc
+CC64	= ~/yafoscc/x86_64-yafos-elf/bin/x86_64-yafos-elf-gcc
+LD32	= ~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-ld
+LD64	= ~/yafoscc/x86_64-yafos-elf/bin/x86_64-yafos-elf-ld
 
 
 # Linker script
@@ -48,6 +48,10 @@ EMUL	=qemu-system-i386
 EDEBUG	=-gdb tcp::1234
 
 default: kernel.img
+
+# just to test how parameters can be used - TODO: invoke codechecker script
+echo:
+	echo $(TEXT)
 
 all: clean kernel.img
 

@@ -16,7 +16,7 @@
 
 #include <stdint.h>
 
-void cpuid(int code, uint32_t *a, uint32_t *d);
+void cpuid(int code, uint32_t *a, uint32_t *d);//TODO
 
 #include <stdMacro.h>
 
