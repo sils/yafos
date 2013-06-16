@@ -11,7 +11,8 @@ CONTENTS
 7.  INDENTATION
 8.  LOCAL AND GLOBAL VARIABLES
 9.  COMMENTS
-10. NEW CONVENTIONS
+10. ERROR HANDLING
+11. NEW CONVENTIONS
 
 
 1.  READING THIS DOCUMENT
@@ -188,7 +189,17 @@ CONTENTS
 	Write comments whenever you want - but do it in english.
 
 
-10. NEW CONVENTIONS
+10. ERROR HANDLING
+	If no error occurs the return value of any function has to be non-negative.
+	Any negative value indicates an error where abs(return value) is the error
+	number constant defined in errno.h. So if you return an error code, include
+	the <errno.h> at the end of your header file and use those constants:
+		return -NOT_IMPLEMENTED;
+	Since the constants in errno.h are positive, don't forget the sign! Also
+	make sure your function doesn't return an unsigned value.
+
+
+11. NEW CONVENTIONS
 	If you have an idea how to improve the code through this standardization
 	even more just write an email to lasse.schuirmann@gmail.com . I'll see over
 	it.

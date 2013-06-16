@@ -1,5 +1,8 @@
 #include "idt.h"
 
+static idtEntry idt[IDT_ENTRIES];
+static idtPtr   tidtPtr;
+
 static void idtSetGate(const uint8_t index, const uint32_t entry, const uint16_t selector, const uint16_t attr)
 {
 	idt[index].zero = 0x00;
@@ -12,9 +15,9 @@ static void idtSetGate(const uint8_t index, const uint32_t entry, const uint16_t
 void installIdt(void)
 {
 	tidtPtr.limit = (sizeof(idtEntry) * IDT_ENTRIES)-1;
-	tidtPtr.base  = &idt;
+	tidtPtr.base  = idt;//TODO is there an & nessecary?
 	
-	memset((void *)&idt, 0, sizeof(idtEntry)*IDT_ENTRIES);
+	memset((void *)idt, 0, sizeof(idtEntry)*IDT_ENTRIES);
 	
 	//set gates for all exceptions
 	idtSetGate(0 , (uint32_t)isr0 , CALC_SEL(1), I_PRESENT | I_DPL(0) | I_INT_GATE);

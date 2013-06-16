@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# install.sh
+# toolchain.sh
 #
-# Compiles the crosscompiler using crosstool-ng.
+# Compiles the 64-bit crosscompiler using crosstool-ng.
 #
 # Copyright (C) 2013 Matthias Riegler. All Rights Reserved.
 # Written by Matthias Riegler (riegler.matthias2@gmail.com)

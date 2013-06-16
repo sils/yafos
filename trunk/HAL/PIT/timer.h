@@ -24,5 +24,6 @@ uint8_t	initChannel(uint16_t freq, uint8_t channel, uint8_t mode);
 #include <sys/io.h>
 #include <intHandlers/generalInt.h>
 #include <intHandlers/timerInt.h>
+#include <errno.h>
 
 #endif /* _TIMER_H */
