@@ -32,7 +32,7 @@ INSTALL THE TOOLCHAIN
 	YAFOS has it's own toolchain to provide independency from gcc updates. (They
 	may do harm. TODO make some research on using more of the options given by an
 	own compiler.)
-	There are currently binaries for Archlinux, 64 bit available in
+	There are currently binaries for Archlinux, 64 bit (host ;)) available in
 		tools/cc32/bin/arch64
 	Copy these to
 		~/yafoscc/i386-yafos-elf/bin/
