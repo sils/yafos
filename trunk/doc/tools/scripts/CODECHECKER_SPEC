@@ -1,0 +1,128 @@
+-- Specification for codechecker for YAFOS project --
+All files shall lie directly in the tools/scripts/codechecker if not specified
+else.
+
+FILE STRUCTURE
+1. codeChecker.py
+	Main file wich is invoked in the following syntax:
+		codeChecker.py [OPTIONS] [FILE]
+		(both optional arguments, order independend)
+		
+		Possible options:
+			-d DIR
+				Change the current directory to the given one. All (!) relative
+				filenames will be seen from this point of view.
+			-c FILENAME1 [...]
+				Use the given rule files. Several may be specified.
+			-f EXT1 EXT2 ...
+				Check only files with the given endings.
+			-b EXT1 EXT2
+				Do not check files with the given endings.
+			-a
+				Checks for all errors.
+			-t NUM1 NUM2 ...
+				Also check errors with the given typenumbers.
+			-e NUM1 NUM2 ...
+				Also check errors with the given error codes.
+			-i NUM
+				Prints detailed information in a nice way about the given error
+				code. If in addition to the parameter i a filename is given,
+				-e NUM shall be assumed.
+			-r
+				If -r parameter is given, the FILENAME is assumed to be a
+				regular expression!
+			-h
+				Display a help. Maybe copy large parts of this.
+		
+		Any number shall be given as a decimal or hexadecimal value. It is
+		assumed a hexadecimal value if '0x' or '0X' proceeds the number.
+		
+		If an unknown option is processed there shall be an error and the help
+		dialog is to be shown. It's case sensitive!
+		
+		The last argument has a higher priority than the ones before. E.g.:
+			codechecker.py -d DIR1 -d DIR2
+		Will be interpreted the same as
+			codechecker.py -d DIR2
+		
+		If neither -a nor -t nor -e nor -i is given, default is -a. Make sure
+		that the program does accept things like
+			codechecker.py -ac rules/rules.cc
+		The following statement
+			codechecker.py -ai 332 -b s -f s inc
+		will print out error information for error with number 332 and check all
+		rules on all files wich have the ending .s or .inc. (-f has higher
+		priority than -b!)
+		
+		If any specified error number or type number is not found there shall be
+		an error message.
+		
+		If a file named .cc lies in the home directory of the user, the script
+		shall read some settings from it. See point 4 for detailed information.
+		
+		File name extensions may be passed with or without a leading dot.
+2. io.py
+	Contains IO-functions for the codechecker. E.g. a function for printing and
+	logging an error message.
+		printError(FILE, LINE, ENUM, TYPE, MESSAGE);
+	I look forward to a colored output. (Use ANSII Codes to change the color.)
+	io.py shall also be responsible for processing the argument list.
+	
+	Maybe write a function getFullFilename() wich takes care of the -d parameter
+	or so.
+	
+3. rules/rules.cc
+	A freely configurable file where each line shall have one of the following
+	syntaxes:
+	
+# Anything
+	Yes, thats a one-line-comment.
+/* Anything
+here
+to
+*/
+	Yes, thats a several-line-comment.
+
+INCLUDE FILENAME
+	while FILENAME may be relative to the position of the invoking script or to
+	the file where the include lies.
+
+REGEX_WITH_ESCAPED_TABS	CODE	TYPE	FILE_EXTENSION	"Short error Message."	"Long description."
+	while the arguments are obviously seperated via tabs ('\t'). In every
+	argument therefore tabs have to be escaped if they are used.
+	FILE_EXTENSION
+		contains a regex wich describes the file extension this rule applies to.
+		E.g. for all C code and header files:
+			.[ch]
+	CODE
+		Freely choosable UNIQUE hexadecimal number including proceeding 0x.
+	TYPE
+		A number that represents the type of an error. Is used to group errors.
+		If TYPE & 0x01 is true, the rule applies to a whole FILE! If its false,
+		it has to applie to all lines.
+	REGEX_WITH_ESCAPED_TABS
+		Contains a regex. If it doesn't match, the error message will be
+		printed out.
+	
+	Make sure that it's that modular that
+		- another syntax may be added easily
+		- all syntaxes may be extended easily
+
+4. ~/.cc
+	The configuration file may contain some settings and the options may grow.
+	The following options would be nice:
+	- Standard directory
+DIR	DIRECTORY
+		-d DIRECTORY shall be a default when reading this line. It may
+		be overwritten if the user specifies the -d argument manually. Easiest
+		way is to just put the parameter before all others. See the priority
+		sentence in 1.
+INCEXT	EXT1 EXT2 ...
+		-f EXT1 EXT2 ... shall be assumed default.
+EXCEXT	EXT1 EXT2 ...
+		-b EXT1 EXT2 ... shall be assumed default
+STDRULE	FILENAME
+		Use FILENAME as default rule file.
+
+5. Other files
+	Just be modular. I think I wrote enought.
