@@ -22,9 +22,10 @@ void init(multiBoot * mbStruct)
 	kprintf("- Beeping\n");
 	#ifdef DEBUG
 	kprintf("\n--- FOR DEBUG PURPOSES ---\n");
-	kprintf("MEMORY MANAGER:\n");
+	kprintf("MEMORY MANAGER:\nInitialize:\n");
 	pMemInit();
-	kprintf("Initialization complete.");
+	kprintf("Initialization complete.\n");
+	printMem();
 	#endif
 	
 	sti();

@@ -5,6 +5,21 @@ static uint32_t bitmap[BITMAP_SIZE];
 
 static uint32_t lastFreeIndex;
 
+void printMem()
+{
+	uint32_t tmp = 0;
+	kprintf("MEMORY MAP:\n");
+	while(tmp<BITMAP_SIZE)
+	{
+		kprintf("GAS: %x       Bitmap: %x\n", tmp/32, bitmap[tmp/32]);
+		if(bitmap[tmp/32])
+		{
+			kprintf("Map: %x       Bitmap: %x\n", tmp/32, bitmap[tmp/32]);
+		}
+		tmp +=32;
+	}
+}
+
 #ifdef USE_GRUB_MAP
 void pMemInit(const mMap * mMapAddr, const uint32_t mMapLen)
 #else
