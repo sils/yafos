@@ -1,4 +1,4 @@
-#!/usr/bin/env/python
+#!/usr/bin/env python
 
 import argparse #processing of arguments
 import sys	#unused til now
