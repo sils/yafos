@@ -28,6 +28,8 @@ void	pMemInit(const mMap * mMapAddr, const uint32_t mMapLen);//TODO
 void 	pMemInit();
 #endif
 
+void printMem();
+
 #if ARCH == 32
 void *	pMemAlloc(uint32_t count);
 void	pMemFreeAdv(const uintptr_t addr, uint32_t count);

@@ -4,9 +4,8 @@
  * 		Set up a global descriptor table
  * 		Set up a interrupt descriptor table
  * 		Set up a timer for time measurement
- * 		TODO Get the speaker running and play a welcome-tone ;)
- * 			-> IRQ0
- * 		TODO Set up physical memory management
+ * 		Set up physical memory management
+ * 		TODO Test it
  * 		TODO Set up virtual memory management
  * 		TODO Set up heap management
  * 		TODO Load modules via multiboot compliant loader
