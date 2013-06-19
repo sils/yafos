@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html dir="ltr" class="client-js" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Detecting Memory (x86) - OSDev Wiki</title>
+<meta charset="UTF-8">
+<meta name="generator" content="MediaWiki 1.18.0">
+<link rel="shortcut icon" href="http://wiki.osdev.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://wiki.osdev.org/opensearch_desc.php" title="OSDev Wiki (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://wiki.osdev.org/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="OSDev Wiki Atom feed" href="http://wiki.osdev.org/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="Detecting%20Memory%20%28x86%29%20-%20OSDev%20Wiki_files/load.css">
+<style type="text/css" media="all">.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:8b08bdc91c52a9ffba396dccfb5b473c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="Detecting%20Memory%20%28x86%29%20-%20OSDev%20Wiki_files/load_002.css">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+<script src="Detecting%20Memory%20%28x86%29%20-%20OSDev%20Wiki_files/load_003.php"></script><script src="Detecting%20Memory%20%28x86%29%20-%20OSDev%20Wiki_files/load_002.php"></script>
+<script>if(window.mw){
+	mw.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "Detecting_Memory_(x86)", "wgTitle": "Detecting Memory (x86)", "wgCurRevisionId": 13960, "wgArticleId": 2279, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": ["X86"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": []});
+}
+</script><script>if(window.mw){
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script><script type="text/javascript" src="Detecting%20Memory%20%28x86%29%20-%20OSDev%20Wiki_files/load.php"></script>
+<style type="text/css">/*<![CDATA[*/
+.source-asm {line-height: normal;}
+.source-asm li, .source-asm pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for asm
+ * CSS class: source-asm, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.asm.source-asm .de1, .asm.source-asm .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.asm.source-asm  {font-family:monospace;}
+.asm.source-asm .imp {font-weight: bold; color: red;}
+.asm.source-asm li, .asm.source-asm .li1 {font-weight: normal; vertical-align:top;}
+.asm.source-asm .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.asm.source-asm .li2 {font-weight: bold; vertical-align:top;}
+.asm.source-asm .kw1 {color: #00007f; font-weight: bold;}
+.asm.source-asm .kw2 {color: #0000ff; font-weight: bold;}
+.asm.source-asm .kw3 {color: #00007f;}
+.asm.source-asm .kw4 {color: #000000; font-weight: bold;}
+.asm.source-asm .kw5 {color: #000000; font-weight: bold;}
+.asm.source-asm .co1 {color: #666666; font-style: italic;}
+.asm.source-asm .co2 {color: #adadad; font-style: italic;}
+.asm.source-asm .es0 {color: #000099; font-weight: bold;}
+.asm.source-asm .br0 {color: #009900; font-weight: bold;}
+.asm.source-asm .sy0 {color: #339933;}
+.asm.source-asm .st0 {color: #7f007f;}
+.asm.source-asm .nu0 {color: #0000ff;}
+.asm.source-asm .ln-xtra, .asm.source-asm li.ln-xtra, .asm.source-asm div.ln-xtra {background-color: #ffc;}
+.asm.source-asm span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style><style type="text/css">/*<![CDATA[*/
+.source-c {line-height: normal;}
+.source-c li, .source-c pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for c
+ * CSS class: source-c, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.c.source-c .de1, .c.source-c .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.c.source-c  {font-family:monospace;}
+.c.source-c .imp {font-weight: bold; color: red;}
+.c.source-c li, .c.source-c .li1 {font-weight: normal; vertical-align:top;}
+.c.source-c .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.c.source-c .li2 {font-weight: bold; vertical-align:top;}
+.c.source-c .kw1 {color: #b1b100;}
+.c.source-c .kw2 {color: #000000; font-weight: bold;}
+.c.source-c .kw3 {color: #000066;}
+.c.source-c .kw4 {color: #993333;}
+.c.source-c .co1 {color: #666666; font-style: italic;}
+.c.source-c .co2 {color: #339933;}
+.c.source-c .coMULTI {color: #808080; font-style: italic;}
+.c.source-c .es0 {color: #000099; font-weight: bold;}
+.c.source-c .es1 {color: #000099; font-weight: bold;}
+.c.source-c .es2 {color: #660099; font-weight: bold;}
+.c.source-c .es3 {color: #660099; font-weight: bold;}
+.c.source-c .es4 {color: #660099; font-weight: bold;}
+.c.source-c .es5 {color: #006699; font-weight: bold;}
+.c.source-c .br0 {color: #009900;}
+.c.source-c .sy0 {color: #339933;}
+.c.source-c .st0 {color: #ff0000;}
+.c.source-c .nu0 {color: #0000dd;}
+.c.source-c .nu6 {color: #208080;}
+.c.source-c .nu8 {color: #208080;}
+.c.source-c .nu12 {color: #208080;}
+.c.source-c .nu16 {color:#800080;}
+.c.source-c .nu17 {color:#800080;}
+.c.source-c .nu18 {color:#800080;}
+.c.source-c .nu19 {color:#800080;}
+.c.source-c .me1 {color: #202020;}
+.c.source-c .me2 {color: #202020;}
+.c.source-c .ln-xtra, .c.source-c li.ln-xtra, .c.source-c div.ln-xtra {background-color: #ffc;}
+.c.source-c span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style><!--[if lt IE 7]><style type="text/css">body{behavior:url("/skins/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Detecting_Memory_x86 action-view skin-vector">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content">
+			<a id="top"></a>
+			<div class="js-messagebox" id="mw-js-message" style="display:none;"></div>
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">Detecting Memory (x86)</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">From OSDev Wiki</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div dir="ltr" class="mw-content-ltr" lang="en"><p>One of the most 
+vital pieces of information that an OS needs in order to initialize 
+itself is a map of the available RAM on a machine.
+Fundamentally, the best way (and really the <b>only</b> way) an OS can 
+get that information is by using the BIOS.
+There may be rare machines where you have no other choice but to try to 
+detect memory yourself -- however, doing so is unwise in any other 
+situation.
+</p><p>It is perfectly reasonable to say to yourself, "How does the BIOS
+ detect RAM? I'll just do it that way." Unfortunately, the answer is 
+disappointing:<br>
+Most BIOSes can't use any RAM until they detect the type of RAM 
+installed, then detect the size of each memory module, then configure 
+the chipset
+to use the detected RAM. All of this depends on chipset specific 
+methods, and is usually documented in the datasheets for the memory 
+controller
+(northbridge). The RAM is unusable for running programs during this 
+process. The BIOS initially is running from ROM, so it can play the 
+necessary
+games with the RAM chips. But it is completely impossible to do this 
+from inside any other program.
+</p><p>It is also reasonable to wish to reclaim the memory from 0xA0000 
+to 0xFFFFF and make your RAM contiguous. Again the answer is 
+disappointing:<br>
+Forget about it. It is likely that some of it is being used regularly by
+ SMM or ACPI. Some of it you will probably need again, even after the 
+machine is booted.
+Reclaiming pieces of it would require a significant amount of 
+motherboard- or chipset-specific control. It <i>is</i> possible to write
+ a "chipset
+driver" that may allow you to reclaim a little of it. However, it is 
+almost certainly impossible to reclaim it all. The minuscule results 
+will
+not be worth the effort, in general.
+</p><p>It might be important to note that all PCs require a memory hole 
+just below 4GB for additional memory mapped hardware (including the 
+actual BIOS ROM).
+So, for a machine with &gt;3G of RAM, the motherboard / chipset / BIOS 
+may map some of that RAM (that would overlap mapped hardware) above 4G 
+--
+use <a href="http://wiki.osdev.org/PAE" title="PAE" class="mw-redirect">PAE</a> or <a href="http://wiki.osdev.org/Long_Mode" title="Long Mode" class="mw-redirect">Long Mode</a> to access it.
+</p><p>See <a href="http://wiki.osdev.org/Memory_Map_%28x86%29" title="Memory Map (x86)">Memory Map (x86)</a> for a generic layout of memory.
+</p><p><br>
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Detecting_Low_Memory"><span class="tocnumber">1</span> <span class="toctext">Detecting Low Memory</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Detecting_Upper_Memory"><span class="tocnumber">2</span> <span class="toctext">Detecting Upper Memory</span></a>
+<ul>
+<li class="toclevel-2 tocsection-3"><a href="#BIOS_Function:_INT_0x15.2C_EAX_.3D_0xE820"><span class="tocnumber">2.1</span> <span class="toctext">BIOS Function: INT 0x15, EAX = 0xE820</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="#Other_Methods"><span class="tocnumber">2.2</span> <span class="toctext">Other Methods</span></a>
+<ul>
+<li class="toclevel-3 tocsection-5"><a href="#PnP"><span class="tocnumber">2.2.1</span> <span class="toctext">PnP</span></a></li>
+<li class="toclevel-3 tocsection-6"><a href="#SMBios"><span class="tocnumber">2.2.2</span> <span class="toctext">SMBios</span></a></li>
+<li class="toclevel-3 tocsection-7"><a href="#BIOS_Function:_INT_0x15.2C_AX_.3D_0xE881"><span class="tocnumber">2.2.3</span> <span class="toctext">BIOS Function: INT 0x15, AX = 0xE881</span></a></li>
+<li class="toclevel-3 tocsection-8"><a href="#BIOS_Function:_INT_0x15.2C_AX_.3D_0xE801"><span class="tocnumber">2.2.4</span> <span class="toctext">BIOS Function: INT 0x15, AX = 0xE801</span></a></li>
+<li class="toclevel-3 tocsection-9"><a href="#BIOS_Function:_INT_0x15.2C_AX_.3D_0xDA88"><span class="tocnumber">2.2.5</span> <span class="toctext">BIOS Function: INT 0x15, AX = 0xDA88</span></a></li>
+<li class="toclevel-3 tocsection-10"><a href="#BIOS_Function:_INT_0x15.2C_AH_.3D_0x88"><span class="tocnumber">2.2.6</span> <span class="toctext">BIOS Function: INT 0x15, AH = 0x88</span></a></li>
+<li class="toclevel-3 tocsection-11"><a href="#BIOS_Function:_INT_0x15.2C_AH_.3D_0x8A"><span class="tocnumber">2.2.7</span> <span class="toctext">BIOS Function: INT 0x15, AH = 0x8A</span></a></li>
+<li class="toclevel-3 tocsection-12"><a href="#BIOS_Function:_INT_0x15.2C_AH_.3D_0xC7"><span class="tocnumber">2.2.8</span> <span class="toctext">BIOS Function: INT 0x15, AH = 0xC7</span></a></li>
+<li class="toclevel-3 tocsection-13"><a href="#CMOS"><span class="tocnumber">2.2.9</span> <span class="toctext">CMOS</span></a></li>
+<li class="toclevel-3 tocsection-14"><a href="#E820h"><span class="tocnumber">2.2.10</span> <span class="toctext">E820h</span></a></li>
+<li class="toclevel-3 tocsection-15"><a href="#Manual_Probing"><span class="tocnumber">2.2.11</span> <span class="toctext">Manual Probing</span></a>
+<ul>
+<li class="toclevel-4 tocsection-16"><a href="#Theoretical_obstacles_to_probing"><span class="tocnumber">2.2.11.1</span> <span class="toctext">Theoretical obstacles to probing</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-17"><a href="#Memory_Map_Via_GRUB"><span class="tocnumber">3</span> <span class="toctext">Memory Map Via GRUB</span></a></li>
+<li class="toclevel-1 tocsection-18"><a href="#Memory_Detection_in_Emulators"><span class="tocnumber">4</span> <span class="toctext">Memory Detection in Emulators</span></a></li>
+<li class="toclevel-1 tocsection-19"><a href="#Code_Examples"><span class="tocnumber">5</span> <span class="toctext">Code Examples</span></a>
+<ul>
+<li class="toclevel-2 tocsection-20"><a href="#Getting_a_GRUB_Memory_Map"><span class="tocnumber">5.1</span> <span class="toctext">Getting a GRUB Memory Map</span></a></li>
+<li class="toclevel-2 tocsection-21"><a href="#Getting_an_E820_Memory_Map"><span class="tocnumber">5.2</span> <span class="toctext">Getting an E820 Memory Map</span></a></li>
+<li class="toclevel-2 tocsection-22"><a href="#Manual_Probing_in_C"><span class="tocnumber">5.3</span> <span class="toctext">Manual Probing in C</span></a></li>
+<li class="toclevel-2 tocsection-23"><a href="#Manual_Probing_in_ASM"><span class="tocnumber">5.4</span> <span class="toctext">Manual Probing in ASM</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-24"><a href="#See_Also"><span class="tocnumber">6</span> <span class="toctext">See Also</span></a>
+<ul>
+<li class="toclevel-2 tocsection-25"><a href="#Threads"><span class="tocnumber">6.1</span> <span class="toctext">Threads</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<h2> <span class="mw-headline" id="Detecting_Low_Memory">Detecting Low Memory</span></h2>
+<p>"Low memory" is the available RAM below 1Mb, and usually below 640Kb. There are two <a href="http://wiki.osdev.org/Memory_Map_%28x86%29#BIOS_functions" title="Memory Map (x86)">BIOS functions</a> to get the size of it.
+</p><p>INT 0x12: The INT 0x12 call will return AX = total number of Kb 
+(or an error).
+The AX value measures from 0, up to the bottom of the EBDA (of course, 
+you probably shouldn't use the first 0x500 bytes of the space either --
+i.e. the IVT or BDA).
+</p><p>Usage:
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1">    <span class="co1">; Nullify the A-register.</span>
+    <span class="kw1">xor</span> <span class="kw3">ax</span><span class="sy0">,</span> <span class="kw3">ax</span>
+&nbsp;
+    <span class="co1">; Switch to the BIOS (= request low memory size).</span>
+    <span class="kw1">int</span> <span class="nu0">0x12</span>
+&nbsp;
+    <span class="co1">; The carry flag is set, it failed.</span>
+    <span class="kw1">jc</span> <span class="sy0">.</span><span class="kw5">Error</span>
+&nbsp;
+    <span class="co1">; Test the A-register with itself.</span>
+    <span class="kw1">test</span> <span class="kw3">ax</span><span class="sy0">,</span> <span class="kw3">ax</span>
+&nbsp;
+    <span class="co1">; The zero flag is set, it failed.</span>
+    <span class="kw1">jz</span> <span class="sy0">.</span><span class="kw5">Error</span>
+&nbsp;
+    <span class="co1">; AX = amount of continuous memory in kB starting from 0.</span></pre></div></div>
+<p>Alternately, you can just use INT 0x15, EAX = 0xE820 (see below).
+</p>
+<h2> <span class="mw-headline" id="Detecting_Upper_Memory">Detecting Upper Memory</span></h2>
+<h3> <span class="mw-headline" id="BIOS_Function:_INT_0x15.2C_EAX_.3D_0xE820">BIOS Function: INT 0x15, EAX = 0xE820</span></h3>
+<p>By far the best way to detect the memory of a PC is by using the INT 0x15, EAX = 0xE820 command.
+This function is available on all PCs built since 2002, and on most existing PCs before then. It is the only BIOS function that
+can detect memory areas above 4G. It is meant to be the ultimate memory detection BIOS function.
+</p><p>In reality, this function returns an unsorted list that may 
+contain unused entries and (in rare/dodgy cases) may return overlapping 
+areas.
+Each list entry is stored in memory at ES:DI, and DI is <b>not</b> 
+incremented for you. The format of an entry is 2 qwords and a dword in 
+the 20 byte version,
+plus one additional dword in the 24 byte ACPI 3.0 version (but nobody 
+has ever seen a 24 byte one).
+It is probably best to always store the list entries as 24 byte 
+quantities -- to preserve qword alignments, if nothing else. (Make sure 
+to set
+that last dword to 1 before each call, to make your map compatible with 
+ACPI).
+</p>
+<ul><li> First qword = Base address
+</li><li> Second qword = Length of "region" (if this value is 0, ignore the entry)
+</li><li> Next dword = Region "type"
+<ul><li> Type 1: Usable (normal) RAM
+</li><li> Type 2: Reserved - unusable
+</li><li> Type 3: ACPI reclaimable memory
+</li><li> Type 4: ACPI NVS memory
+</li><li> Type 5: Area containing bad memory
+</li></ul>
+</li><li> Next dword = ACPI 3.0 Extended Attributes bitfield (if 24 bytes are returned, instead of 20)
+<ul><li> Bit 0 of the Extended Attributes indicates if the entire entry 
+should be ignored (if the bit is clear). This is going to be a huge 
+compatibility problem because most current OSs won't read this bit and 
+won't ignore the entry.
+</li><li> Bit 1 of the Extended Attributes indicates if the entry is 
+non-volatile (if the bit is set) or not. The standard states that 
+"Memory reported as non-volatile may require characterization to 
+determine its suitability for use as conventional RAM."
+</li><li> The remaining 30 bits of the Extended Attributes are currently undefined.
+</li></ul>
+</li></ul>
+<p>Basic Usage:<br>
+For the first call to the function, point ES:DI at the destination 
+buffer for the list. Clear EBX. Set EDX to the magic number 0x534D4150. 
+Set EAX to
+0xE820 (note that the upper word of EAX should be set to 0). Set ECX to 
+24. Do an INT 0x15.
+</p><p>If the first call to the function is successful, EAX will be set to 0x534D4150, and the Carry flag will be clear.
+EBX will be set to some non-zero value, which must be preserved for the next call to the function. CL will contain the
+number of bytes actually stored at ES:DI (probably 20).
+</p><p>For the subsequent calls to the function: increment DI by your list entry size, reset EAX to 0xE820, and ECX to 24.
+When you reach the end of the list, EBX may reset to 0. If you call the function again with EBX = 0, the list will start
+over. If EBX does not reset to 0, the function will return with Carry set when you try to access the entry after the last
+valid entry.
+</p><p>(See the <a href="#Getting_an_E820_Memory_Map">code examples</a> below for a detailed ASM example, implementing the algorithm.)
+</p><p>Notes:
+</p>
+<ul><li> After getting the list, it may be desirable to: sort the list, 
+combine adjacent ranges of the same type, change any overlapping areas 
+to the most restrictive type, and change any unrecognised "type" values 
+to type 2.
+</li><li> Type 3 "ACPI reclaimable" memory regions may be used like (and
+ combined with) normal "available RAM" areas as long as you're finished 
+using the ACPI tables that are stored there (i.e. it can be 
+"reclaimed").
+</li><li> Types 2, 4, 5 (reserved, ACPI non-volatile, bad) mark areas that should be avoided when you are allocating physical memory.
+</li><li> Treat unlisted regions as Type 2 -- reserved.
+</li><li> Your code must be able to handle areas that don't start or end on any sort of "page boundary".
+</li></ul>
+<p>Typical Output by a call to INT 15h, EAX=E820 in Bochs:
+</p>
+<pre>  Base Address       | Length             | Type
+  0x0000000000000000 | 0x000000000009FC00 | Free Memory (1)
+  0x000000000009FC00 | 0x0000000000000400 | Reserved Memory (2)
+  0x00000000000E8000 | 0x0000000000018000 | Reserved Memory (2)
+  0x0000000000100000 | 0x0000000001F00000 | Free Memory (1)
+  0x00000000FFFC0000 | 0x0000000000040000 | Reserved Memory (2)
+</pre>
+<h3> <span class="mw-headline" id="Other_Methods">Other Methods</span></h3>
+<h4> <span class="mw-headline" id="PnP">PnP</span></h4>
+<p>It is possible to get a fairly good memory map using Plug 'n Play (PnP) calls. {Need description and code.}
+</p><p><br>
+</p>
+<h4> <span class="mw-headline" id="SMBios">SMBios</span></h4>
+<p>SMBIOS is designed to allow "administrators" to assess hardware 
+upgrade options or maintain a catalogue of what hardware a company 
+current has in use (ie. it provides information for use by humans, 
+rather than for use by software). It may not give reliable results on 
+many computers -- see:
+<a rel="nofollow" class="external autonumber" href="http://www.pcpitstop.com/faq/smbios.asp">[1]</a>.
+</p><p>SMBIOS will try to tell you the number of memory sticks installed
+ and their size in MB. SMBIOS can be called from protected mode.
+However, some manufacturers don't make their systems fully compliant. 
+e.g. HP Itanium goes by the DIG64 specification so their SMBIOS doesn't 
+return all the required device types.
+</p><p>Detecting memory with these functions completely ignores the concept of memory holes / memory mapped devices / reserved areas.
+</p><p><br>
+</p>
+<h4> <span class="mw-headline" id="BIOS_Function:_INT_0x15.2C_AX_.3D_0xE881">BIOS Function: INT 0x15, AX = 0xE881</span></h4>
+<p>Note: This function is identical to the E801 function, except that is
+ uses extended registers (EAX/EBX/ECX/EDX). It only reports contiguous 
+(usable) RAM.
+It cannot detect any more memory than the E801 function, but there is a 
+chance that this function may succeed on BIOSes where E801 fails.
+</p>
+<h4> <span class="mw-headline" id="BIOS_Function:_INT_0x15.2C_AX_.3D_0xE801">BIOS Function: INT 0x15, AX = 0xE801</span></h4>
+<p>This function has been around since about 1994, so all systems from after then up to now should have this function.
+It is built to handle the 15M memory hole, but stops at the next hole / memory mapped device / reserved area above that.
+That is, it is only designed to handle contiguous memory above 16M.
+</p><p>Typical Output: <br>
+AX = CX = extended memory between 1M and 16M, in K (max 3C00h = 15MB)
+</p><p>BX = DX = extended memory above 16M, in 64K blocks
+</p><p>There are some BIOSes that always return with AX = BX = 0. Use 
+the CX/DX pair in that case. Some other BIOSes will return CX = DX = 0.
+Linux initializes the CX/DX pair to 0 before the INT opcode, and then 
+uses CX/DX, unless they are still 0 (when it will use AX/BX). In any 
+case, it is best to do a sanity check
+on the values in the registers that you use before you trust the 
+results. (GRUB just trusts AX/BX -- this is not good.)
+</p><p>Linux Usage:
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1">	<span class="kw1">XOR</span> <span class="kw3">CX</span><span class="sy0">,</span> <span class="kw3">CX</span>
+	<span class="kw1">XOR</span> <span class="kw3">DX</span><span class="sy0">,</span> <span class="kw3">DX</span>
+	<span class="kw1">MOV</span> <span class="kw3">AX</span><span class="sy0">,</span> <span class="nu0">0xE801</span>
+	<span class="kw1">INT</span> <span class="nu0">0x15</span>		<span class="co1">; request upper memory size</span>
+	<span class="kw1">JC</span> <span class="kw4">SHORT</span> <span class="sy0">.</span><span class="kw4">ERR</span>
+	<span class="kw1">CMP</span> <span class="kw3">AH</span><span class="sy0">,</span> <span class="nu0">0x86</span>		<span class="co1">; unsupported function</span>
+	<span class="kw1">JE</span> <span class="kw4">SHORT</span> <span class="sy0">.</span><span class="kw4">ERR</span>
+	<span class="kw1">CMP</span> <span class="kw3">AH</span><span class="sy0">,</span> <span class="nu0">0x80</span>		<span class="co1">; invalid command</span>
+	<span class="kw1">JE</span> <span class="kw4">SHORT</span> <span class="sy0">.</span><span class="kw4">ERR</span>
+	<span class="kw1">JCXZ</span> <span class="sy0">.</span>USEAX		<span class="co1">; was the CX result invalid?</span>
+&nbsp;
+	<span class="kw1">MOV</span> <span class="kw3">AX</span><span class="sy0">,</span> <span class="kw3">CX</span>
+	<span class="kw1">MOV</span> <span class="kw3">BX</span><span class="sy0">,</span> <span class="kw3">DX</span>
+<span class="sy0">.</span>USEAX<span class="sy0">:</span>
+	<span class="co1">; AX = number of contiguous Kb, 1M to 16M</span>
+	<span class="co1">; BX = contiguous 64Kb pages above 16M</span></pre></div></div>
+<h4> <span class="mw-headline" id="BIOS_Function:_INT_0x15.2C_AX_.3D_0xDA88">BIOS Function: INT 0x15, AX = 0xDA88</span></h4>
+<p>This function returns the number of contiguous KiB of usable RAM 
+starting at 0x00100000 in Cl:BX in KiB. This is very similar to "INT 
+0x15, AX=0x8A" - if this function says there's 14 MiB of RAM at 
+0x00100000 then you can't assume there isn't more RAM at 0x01000000, so 
+you'd probe for any extra memory starting at 0x01000000. 
+</p><p>If this function isn't supported it'll return "carry = set".
+</p><p><br>
+</p>
+<h4> <span class="mw-headline" id="BIOS_Function:_INT_0x15.2C_AH_.3D_0x88">BIOS Function: INT 0x15, AH = 0x88</span></h4>
+<p>Note: This function may limit itself to reporting 15M (for legacy reasons) even if BIOS detects more
+memory than that. It may also report up to 64M. It only reports contiguous (usable) RAM.
+</p><p>Usage:
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1">	<span class="kw1">MOV</span> <span class="kw3">AH</span><span class="sy0">,</span> <span class="nu0">0x88</span>
+	<span class="kw1">INT</span> <span class="nu0">0x15</span>		<span class="co1">; request upper memory size</span>
+	<span class="kw1">JC</span> <span class="kw4">SHORT</span> <span class="sy0">.</span><span class="kw4">ERR</span>
+	<span class="kw1">TEST</span> <span class="kw3">AX</span><span class="sy0">,</span> <span class="kw3">AX</span>		<span class="co1">; size = 0 is an error</span>
+	<span class="kw1">JE</span> <span class="kw4">SHORT</span> <span class="sy0">.</span><span class="kw4">ERR</span>
+	<span class="kw1">CMP</span> <span class="kw3">AH</span><span class="sy0">,</span> <span class="nu0">0x86</span>		<span class="co1">; unsupported function</span>
+	<span class="kw1">JE</span> <span class="kw4">SHORT</span> <span class="sy0">.</span><span class="kw4">ERR</span>
+	<span class="kw1">CMP</span> <span class="kw3">AH</span><span class="sy0">,</span> <span class="nu0">0x80</span>		<span class="co1">; invalid command</span>
+	<span class="kw1">JE</span> <span class="kw4">SHORT</span> <span class="sy0">.</span><span class="kw4">ERR</span>
+	<span class="co1">; AX = number of contiguous Kb above 1M</span></pre></div></div>
+<h4> <span class="mw-headline" id="BIOS_Function:_INT_0x15.2C_AH_.3D_0x8A">BIOS Function: INT 0x15, AH = 0x8A</span></h4>
+<p>This function returns the extended memory size in DX:AX in KiB, or to
+ be more specific, it returns the number of contiguous KiB of usable RAM
+ starting at 0x00100000. This is also where it starts getting tricky...
+</p><p>If the ISA memory hole is present (which is a 1 MiB hole from 
+0x00F00000 to 0x00FFFFFF used by ISA devices for memory mapped I/O - 
+e.g. an ISA video card's linear frame buffer) then this function might 
+not report all usable RAM. For example, it might report RAM from 
+0x00100000 to 0x00F00000 and wouldn't be able to report any RAM above 
+0x01000000 (if present).
+</p><p>Basically, if this function says there's 14 MiB of RAM at 
+0x00100000 then you can't assume there isn't more RAM at 0x01000000. In 
+this case, it's likely that none of the other methods will be able to 
+tell you more, so you'd probe for any extra memory starting at 
+0x01000000.
+</p><p>If this function isn't supported it'll return "carry = set".
+</p><p><br>
+</p>
+<h4> <span class="mw-headline" id="BIOS_Function:_INT_0x15.2C_AH_.3D_0xC7">BIOS Function: INT 0x15, AH = 0xC7</span></h4>
+<p>Although not widely supported, this function defined by IBM, provides
+ a nice memory map (although not as nice as 0xE820). DS:SI points to the
+ following memory map table:
+</p>
+<pre>Size   Offset  Description                                  
+
+ Word     00h   Number of significant bytes of returned data (excluding this word)
+ Dword    02h   Amount of local memory between 1-16MB, in 1KB blocks
+ Dword    06h   Amount of local memory between 16MB and 4GB, in 1KB blocks
+ Dword    0Ah   Amount of system memory between 1-16MB, in 1KB blocks
+ Dword    0Eh   Amount of system memory between 16MB and 4GB, in 1KB blocks
+ Dword    12h   Amount of cacheable memory between 1-16MB, in 1KB blocks
+ Dword    16h   Amount of cacheable memory between 16MB and 4GB, in 1KB blocks
+ Dword    1Ah   Number of 1KB blocks before start of nonsystem memory between 1-16MB
+ Dword    1Eh   Number of 1KB blocks before start of nonsystem memory between 16MB and 4GB
+ Word     22h   Starting segment of largest block of free memory in 0C000h and 0D000h segments
+ Word     24h   Amount of free memory in the block defined by offset 22h
+</pre>
+<p>The minimum number which can be returned by the first word is 66 bytes. Here's how the memory types are defined:
+</p>
+<ul><li> Local Memory on the system board or memory that is not accessible from the channel. It can be system or nonsystem memory.
+</li><li> Channel Memory on adapters. It can be system or nonsystem memory.
+</li><li> System Memory that is managed and allocated by the primary operating system. This memory is cached if the cache is enabled.
+</li><li> Nonsystem Memory that is not managed or allocated by the 
+primary operating system. This memory includes memory-mapped I/O 
+devices; memory that is on an adapter and can be directly modified by 
+the adapter; and memory that can be relocated within its address space, 
+such as bank-switched and expanded-memory-specifications (EMS) memory. 
+This memory is not cached.
+</li></ul>
+<h4> <span class="mw-headline" id="CMOS">CMOS</span></h4>
+<p>The CMOS memory size information may ignore the standard memory hole at 15M. If you use the CMOS size, you may want to simply
+assume that this memory hole exists. Of course, it also has no information about any other reserved regions.
+</p><p>Usage:
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="c source-c"><pre class="de1">    <span class="kw4">unsigned</span> <span class="kw4">short</span> total<span class="sy0">;</span>
+    <span class="kw4">unsigned</span> <span class="kw4">char</span> lowmem<span class="sy0">,</span> highmem<span class="sy0">;</span>
+&nbsp;
+    outportb<span class="br0">(</span><span class="nu12">0x70</span><span class="sy0">,</span> <span class="nu12">0x30</span><span class="br0">)</span><span class="sy0">;</span>
+    lowmem <span class="sy0">=</span> inportb<span class="br0">(</span><span class="nu12">0x71</span><span class="br0">)</span><span class="sy0">;</span>
+    outportb<span class="br0">(</span><span class="nu12">0x70</span><span class="sy0">,</span> <span class="nu12">0x31</span><span class="br0">)</span><span class="sy0">;</span>
+    highmem <span class="sy0">=</span> inportb<span class="br0">(</span><span class="nu12">0x71</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+    total <span class="sy0">=</span> lowmem <span class="sy0">|</span> highmem <span class="sy0">&lt;&lt;</span> <span class="nu0">8</span><span class="sy0">;</span>
+    <span class="kw1">return</span> total<span class="sy0">;</span></pre></div></div>
+<h4> <span class="mw-headline" id="E820h">E820h</span></h4>
+<p>There are a few other BIOS functions that claim to give you memory 
+information. However, they are so widely unsupported that it is 
+impossible to even find machines to test the code on. <b>All</b> current
+ machines support E820 (above). If some user should happen to dig up 
+such a dinosaur of a machine that its BIOS does not support any standard
+ memory detection function -- they will not complain that your modern OS
+ fails to support that machine. Just give an error message.
+</p>
+<h4> <span class="mw-headline" id="Manual_Probing">Manual Probing</span></h4>
+<p><b>WE DISCOURAGE YOU FROM DIRECTLY PROBING MEMORY</b>
+</p><p>Use BIOS to get a memory map, or use <a href="http://wiki.osdev.org/GRUB" title="GRUB">GRUB</a> (which calls BIOS for you).
+</p><p>When perfectly implemented, directly probing memory may allow you
+ to detect extended memory even on systems where the BIOS fails to 
+provide the appropriate
+support (or without even worrying about whether your BIOS can do it or 
+not). The algorithm may or may not take into account potential holes in
+system memory or previously detected memory mapped devices, such as 
+frame buffering SVGA cards, etc.
+</p><p>However, the BIOS knows things you ignore about your motherboard 
+and PCI devices. Probing memory-mapped PCI devices may have 
+*unpredictable results* and
+may theoretically *damage your system*, so once again we <b>discourage</b> its use.
+</p><p>Note: You will never get an error from trying to read/write 
+memory that does not exist -- this is important to understand: you will 
+not get valid results, but you won't get an error, either.
+</p>
+<h5> <span class="mw-headline" id="Theoretical_obstacles_to_probing">Theoretical obstacles to probing</span></h5>
+<ul><li> There can be a memory mapped device from 15 MB to 16 MB 
+(typically "VESA local bus" video cards, or older ISA cards that aren't 
+limited to just video).
+</li><li> There can also be an (extremely rare) "memory hole" at 0x00080000 for some sort of compatibility with ancient cards.
+</li><li> On modern systems there can also be faulty RAM that INT 0x15, 
+eax=0xE820 says not to use, that can be anywhere (except in the first 1 
+MB, probably).
+</li><li> There can also be large arbitrary memory holes. (e.g. a NUMA 
+system with RAM up to 0x1FFFFFFF, a hole from 0x20000000 to 0x3FFFFFFF, 
+then more RAM from 0x40000000 to 0x5FFFFFFF.)
+</li><li> It's possible for physical addresses to be truncated in 
+various ways. For example, older chipsets often have less address lines 
+than supported by the processor and typically on motherboard using such 
+chipsets, the extra address lines are simply not connected. For example,
+ Intel desktop chipsets prior to the 955X only have 32 address lines, 
+even though they are usually used with a processor that supports at 
+least PAE. The extra address lines (A32-A35) are simply not connected on
+ the motherboard, and if the processor attempts to access memory using 
+physical addresses exceeding 32-bit, the physical address is truncated 
+by virtue of the extra address lines not being connected on the 
+motherboard.
+</li><li> There are memory mapped devices (PCI video cards, HPET, PCI 
+express configuration space, APICs, etc) with addresses that must be 
+avoided.
+</li><li> There are also (typically older) motherboards where you can 
+write a value to "nothing" and read the same value back due to bus 
+capacitance; there are motherboards where you write a value to cache and
+ read the same value back from cache even though no RAM is at that 
+address.
+</li><li> There are (older, mostly 80386) motherboards that remap the 
+RAM underneath the option ROMs and BIOS to the end of RAM. (e.g. with 4 
+MB of RAM installed you get RAM from 0x00000000 to 0x000A0000 and more 
+RAM from 0x00100000 to 0x00460000, which causes problems if you test 
+each MB of RAM because you get the wrong answer -- either under-counting
+ RAM up to 0x00400000, or over-counting RAM up to 0x00500000).
+</li><li> There can be important data structures left in RAM by the BIOS (e.g. the ACPI tables) that you'd trash.
+</li><li> If you write the code properly (ie. to avoid as many of the problems as you can), then it is <i>insanely</i> slow.
+</li><li> Lastly, testing for RAM (if it actually works) will only tell 
+you where RAM is - it doesn't give you a complete map of the physical 
+address space. You won't know where you can safely put memory mapped PCI
+ devices because you won't know which areas are reserved for chipset 
+things (e.g. SMM, ROMs), etc.
+</li></ul>
+<p>In contrast to this, using the BIOS functions isn't too hard, is much
+ more reliable, gives complete information, and is extremely fast in 
+comparison.
+</p>
+<h2> <span class="mw-headline" id="Memory_Map_Via_GRUB">Memory Map Via GRUB</span></h2>
+<p><a href="http://wiki.osdev.org/GRUB" title="GRUB">GRUB</a>, or any bootloader implementing <a rel="nofollow" class="external text" href="http://www.gnu.org/software/grub/manual/multiboot/multiboot.html">The Multiboot Specification</a>
+ provides a convenient way of detecting the amount of RAM your machine 
+has.  Rather than re-invent the wheel, you can ride on the hard work 
+that others have done by utilizing the multiboot_info structure.  When 
+GRUB runs, it loads this structure into memory and leaves the address of
+ this structure in the EBX register.  You may also view this structure 
+at the GRUB command-line with the GRUB command <tt>displaymem</tt>.
+</p><p>The methods it uses are:
+</p>
+<ul><li> Try BIOS Int 0x15, eax = 0xE820
+</li><li> If that didn't work, try BIOS Int 0x15, ax = 0xE801 and BIOS Int 0x12
+</li><li> If that didn't work, try BIOS Int 0x15, ah = 0x88 and BIOS Int 0x12
+</li></ul>
+<p>However, it does not take into account any bugs that are known to effect some BIOSs (see entries in <a href="http://wiki.osdev.org/RBIL" title="RBIL" class="mw-redirect">RBIL</a>). It does not check "E801" and/or "88" returning with carry set.
+</p><p><br>
+To utilize the information that GRUB passes to you, first include the file <a rel="nofollow" class="external text" href="http://www.gnu.org/software/grub/manual/multiboot/html_node/multiboot.h.html">multiboot.h</a>
+ in your kernel's main file.  Then, make sure that when you load your 
+_main function from your assembly loader, you push EBX onto the stack. 
+The <a href="http://wiki.osdev.org/Category:Bare_bones_tutorials" title="Category:Bare bones tutorials">Bare bones tutorials</a> have already done this for you.
+</p><p>The key for memory detection lies in the multiboot_info struct.  
+To get access to it, you've already pushed it onto the stack...define 
+your start function as such:
+</p>
+<pre>_main (multiboot_info_t* mbd, unsigned int magic) {...}
+</pre>
+<p>To determine the contiguous memory size, you may simply check <tt>mbd-&gt;flags</tt> to verify bit 0 is set, and then you can safely refer to <tt>mbd-&gt;mem_lower</tt> for conventional memory (e.g. physical addresses ranging between 0 and 640KB) and <tt>mbd-&gt;mem_upper</tt> for high memory (e.g. from 1MB). Both are given in "real" kilobytes, i.e. blocks of 1024 bytes each.
+</p><p>To get a complete memory map, check bit 6 of <tt>mbd-&gt;flags</tt> and use <tt>mbd-&gt;mmap_addr</tt> to access the BIOS-provided memory map. Quoting <a rel="nofollow" class="external text" href="http://www.gnu.org/software/grub/manual/multiboot/html_node/Boot-information-format.html#Boot%20information%20format">specifications</a>,
+</p>
+<table class="toccolours" style="padding: 20px 30px 10px 10px;" align="center" width="75%">
+
+<tbody><tr>
+<td>
+<div class="scroll"> If bit 6 in the flags word is set, then the mmap_* 
+fields are valid, and indicate the address and length of a buffer 
+containing a memory map of the machine provided by the BIOS. mmap_addr 
+is the address, and mmap_length is the total size of the buffer. The 
+buffer consists of one or more of the following size/structure pairs 
+(size is really used for skipping to the next pair):
+</div>
+<p style="text-align: right;">
+
+</p>
+</td></tr></tbody></table>
+<dl><dd><table style="margin-top:1em; margin-bottom:1em; background:#f9f9f9; border:1px #aaa solid; border-collapse:collapse;" border="2" cellpadding="4" cellspacing="0">
+
+<tbody><tr>
+<th> -4
+</th>
+<td> size
+</td></tr>
+<tr>
+<th> 0
+</th>
+<td> base_addr_low
+</td></tr>
+<tr>
+<th> 4
+</th>
+<td> base_addr_high
+</td></tr>
+<tr>
+<th> 8
+</th>
+<td> length_low
+</td></tr>
+<tr>
+<th> 12
+</th>
+<td> length_high
+</td></tr>
+<tr>
+<th> 16
+</th>
+<td> type
+</td></tr>
+</tbody></table></dd></dl>
+<ul><li> "size" is the size of the associated structure in bytes, which 
+can be greater than the minimum of 20 bytes. base_addr_low is the lower 
+32 bits of the starting address, and base_addr_high is the upper 32 
+bits, for a total of a 64-bit starting address. length_low is the lower 
+32 bits of the size of the memory region in bytes, and length_high is 
+the upper 32 bits, for a total of a 64-bit length. type is the variety 
+of address range represented, where a value of 1 indicates available 
+RAM, and all other values currently indicated a reserved area.
+</li><li> GRUB simply uses INT 15h, EAX=E820 to get the detailed memory 
+map, and does not verify the "sanity" of the map. It also will not sort 
+the entries, retrieve any available ACPI 3.0 extended DWORD (with the 
+"ignore this entry" bit), or clean up the table in any other way.
+</li><li> One of the problems you have to deal with is that grub can 
+theoretically place its multiboot information, and all the tables it 
+references (elf sections, mmap and modules) anywhere in memory, 
+according to the multiboot specification. In reality, in current grub 
+legacy, they are allocated as parts of the grub program itself, below 
+1MB, but that is not guaranteed to remain the same. For that reason, you
+ should try to protect these tables before you start using a certain bit
+ of memory. (You might scan the tables to make sure their addresses are 
+all below 1M.)
+</li><li> Another problem is that the "type" field is defined as "1 = 
+usable RAM" and "anything else is unusable". Despite what the multi-boot
+ specification says, lots of people assume that the type field is taken 
+directly from INT 15h, EAX=E820 (and in older versions of GRUB it is). 
+However GRUB2 supports booting from UEFI/EFI (and other sources) and 
+code that assumes the type field is taken directly from INT 15h, 
+EAX=E820 will become broken. This means that (until a new multi-boot 
+specification is released) you shouldn't make assumptions about the 
+type, and can't do things like reclaiming the "ACPI reclaimable" areas 
+or supporting S4/hibernate states (as an OS needs to save/restore areas 
+marked as "ACPI NVS" to do that). Fortunately a new version of the 
+multi-boot specification should be released soon which hopefully fixes 
+this problem (but unfortunately, you won't be able to tell if your OS 
+was started from "GRUB-legacy" or "GRUB2", unless it adopts the new 
+multi-boot header and becomes incompatible with GRUB-legacy).
+</li></ul>
+<h2> <span class="mw-headline" id="Memory_Detection_in_Emulators">Memory Detection in Emulators</span></h2>
+<p>When you tell an emulator how much memory you want emulated, the 
+concept is a little "fuzzy" because of the emulated missing bits of RAM
+below 1M. If you tell an emulator to emulate 32M, does that mean your 
+address space definitely goes from 0 to 32M -1, with missing bits?
+Not necessarily. The emulator might assume that you mean 32M of <i>contiguous</i> memory above 1M, so it might end at 33M -1.
+Or it might assume that you mean 32M of total <i>usable</i> RAM, going from 0 to 32M + 384K -1. So don't be surprised if you see a "detected memory size"
+that does not exactly match your expectations.
+</p><p><br>
+</p>
+<h2> <span class="mw-headline" id="Code_Examples">Code Examples</span></h2>
+<h3> <span class="mw-headline" id="Getting_a_GRUB_Memory_Map">Getting a GRUB Memory Map</span></h3>
+<p>Declare the appropriate structure, get the pointer to the first 
+instance, grab whatever address and length information you want, and 
+finally skip to the next memory map instance by adding size+4 to the 
+pointer, tacking on the 4 to account for GRUB treating base_addr_low as 
+offset 0 in the structure.  You must also use mmap_length to make sure 
+you don't overshoot the entire buffer.
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="c source-c"><pre class="de1"><span class="kw4">typedef</span> <span class="kw4">struct</span> multiboot_memory_map <span class="br0">{</span>
+	<span class="kw4">unsigned</span> <span class="kw4">int</span> size<span class="sy0">;</span>
+	<span class="kw4">unsigned</span> <span class="kw4">int</span> base_addr_low<span class="sy0">,</span>base_addr_high<span class="sy0">;</span>
+<span class="co1">// You can also use: unsigned long long int base_addr; if supported.</span>
+	<span class="kw4">unsigned</span> <span class="kw4">int</span> length_low<span class="sy0">,</span>length_high<span class="sy0">;</span>
+<span class="co1">// You can also use: unsigned long long int length; if supported.</span>
+	<span class="kw4">unsigned</span> <span class="kw4">int</span> type<span class="sy0">;</span>
+<span class="br0">}</span> multiboot_memory_map_t<span class="sy0">;</span>
+&nbsp;
+<span class="kw4">int</span> main<span class="br0">(</span>multiboot_info<span class="sy0">*</span> mbt<span class="sy0">,</span> <span class="kw4">unsigned</span> <span class="kw4">int</span> magic<span class="br0">)</span> <span class="br0">{</span>
+	...
+	<span class="me1">multiboot_memory_map_t</span><span class="sy0">*</span> mmap <span class="sy0">=</span> mbt<span class="sy0">-&gt;</span>mmap_addr<span class="sy0">;</span>
+	<span class="kw1">while</span><span class="br0">(</span>mmap <span class="sy0">&lt;</span> mbt<span class="sy0">-&gt;</span>mmap_addr <span class="sy0">+</span> mbt<span class="sy0">-&gt;</span>mmap_length<span class="br0">)</span> <span class="br0">{</span>
+		...
+		<span class="me1">mmap</span> <span class="sy0">=</span> <span class="br0">(</span>multiboot_memory_map_t<span class="sy0">*</span><span class="br0">)</span> <span class="br0">(</span> <span class="br0">(</span><span class="kw4">unsigned</span> <span class="kw4">int</span><span class="br0">)</span>mmap <span class="sy0">+</span> mmap<span class="sy0">-&gt;</span>size <span class="sy0">+</span> <span class="kw4">sizeof</span><span class="br0">(</span><span class="kw4">unsigned</span> <span class="kw4">int</span><span class="br0">)</span> <span class="br0">)</span><span class="sy0">;</span>
+	<span class="br0">}</span>
+	...
+<span class="br0">}</span></pre></div></div>
+<p><br>
+</p>
+<h3> <span class="mw-headline" id="Getting_an_E820_Memory_Map">Getting an E820 Memory Map</span></h3>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1"><span class="co1">; use the INT 0x15, eax= 0xE820 BIOS function to get a memory map</span>
+<span class="co1">; inputs: es:di -&gt; destination buffer for 24 byte entries</span>
+<span class="co1">; outputs: bp = entry count, trashes all registers except esi</span>
+do_e820<span class="sy0">:</span>
+	<span class="kw1">xor</span> <span class="kw3">ebx</span><span class="sy0">,</span> <span class="kw3">ebx</span>		<span class="co1">; ebx must be 0 to start</span>
+	<span class="kw1">xor</span> <span class="kw3">bp</span><span class="sy0">,</span> <span class="kw3">bp</span>		<span class="co1">; keep an entry count in bp</span>
+	<span class="kw1">mov</span> <span class="kw3">edx</span><span class="sy0">,</span> <span class="nu0">0x0534D4150</span>	<span class="co1">; Place "SMAP" into edx</span>
+	<span class="kw1">mov</span> <span class="kw3">eax</span><span class="sy0">,</span> <span class="nu0">0xe820</span>
+	<span class="kw1">mov</span> <span class="br0">[</span><span class="kw3">es</span><span class="sy0">:</span><span class="kw3">di</span> <span class="sy0">+</span> <span class="nu0">20</span><span class="br0">]</span><span class="sy0">,</span> <span class="kw5">dword</span> <span class="nu0">1</span>	<span class="co1">; force a valid ACPI 3.X entry</span>
+	<span class="kw1">mov</span> <span class="kw3">ecx</span><span class="sy0">,</span> <span class="nu0">24</span>		<span class="co1">; ask for 24 bytes</span>
+	<span class="kw1">int</span> <span class="nu0">0x15</span>
+	<span class="kw1">jc</span> <span class="kw4">short</span> <span class="sy0">.</span>failed	<span class="co1">; carry set on first call means "unsupported function"</span>
+	<span class="kw1">mov</span> <span class="kw3">edx</span><span class="sy0">,</span> <span class="nu0">0x0534D4150</span>	<span class="co1">; Some BIOSes apparently trash this register?</span>
+	<span class="kw1">cmp</span> <span class="kw3">eax</span><span class="sy0">,</span> <span class="kw3">edx</span>		<span class="co1">; on success, eax must have been reset to "SMAP"</span>
+	<span class="kw1">jne</span> <span class="kw4">short</span> <span class="sy0">.</span>failed
+	<span class="kw1">test</span> <span class="kw3">ebx</span><span class="sy0">,</span> <span class="kw3">ebx</span>		<span class="co1">; ebx = 0 implies list is only 1 entry long (worthless)</span>
+	<span class="kw1">je</span> <span class="kw4">short</span> <span class="sy0">.</span>failed
+	<span class="kw1">jmp</span> <span class="kw4">short</span> <span class="sy0">.</span>jmpin
+<span class="sy0">.</span>e820lp<span class="sy0">:</span>
+	<span class="kw1">mov</span> <span class="kw3">eax</span><span class="sy0">,</span> <span class="nu0">0xe820</span>		<span class="co1">; eax, ecx get trashed on every int 0x15 call</span>
+	<span class="kw1">mov</span> <span class="br0">[</span><span class="kw3">es</span><span class="sy0">:</span><span class="kw3">di</span> <span class="sy0">+</span> <span class="nu0">20</span><span class="br0">]</span><span class="sy0">,</span> <span class="kw5">dword</span> <span class="nu0">1</span>	<span class="co1">; force a valid ACPI 3.X entry</span>
+	<span class="kw1">mov</span> <span class="kw3">ecx</span><span class="sy0">,</span> <span class="nu0">24</span>		<span class="co1">; ask for 24 bytes again</span>
+	<span class="kw1">int</span> <span class="nu0">0x15</span>
+	<span class="kw1">jc</span> <span class="kw4">short</span> <span class="sy0">.</span>e820f		<span class="co1">; carry set means "end of list already reached"</span>
+	<span class="kw1">mov</span> <span class="kw3">edx</span><span class="sy0">,</span> <span class="nu0">0x0534D4150</span>	<span class="co1">; repair potentially trashed register</span>
+<span class="sy0">.</span>jmpin<span class="sy0">:</span>
+	<span class="kw1">jcxz</span> <span class="sy0">.</span>skipent		<span class="co1">; skip any 0 length entries</span>
+	<span class="kw1">cmp</span> <span class="kw3">cl</span><span class="sy0">,</span> <span class="nu0">20</span>		<span class="co1">; got a 24 byte ACPI 3.X response?</span>
+	<span class="kw1">jbe</span> <span class="kw4">short</span> <span class="sy0">.</span>notext
+	<span class="kw1">test</span> <span class="kw5">byte</span> <span class="br0">[</span><span class="kw3">es</span><span class="sy0">:</span><span class="kw3">di</span> <span class="sy0">+</span> <span class="nu0">20</span><span class="br0">]</span><span class="sy0">,</span> <span class="nu0">1</span>	<span class="co1">; if so: is the "ignore this data" bit clear?</span>
+	<span class="kw1">je</span> <span class="kw4">short</span> <span class="sy0">.</span>skipent
+<span class="sy0">.</span>notext<span class="sy0">:</span>
+	<span class="kw1">mov</span> <span class="kw3">ecx</span><span class="sy0">,</span> <span class="br0">[</span><span class="kw3">es</span><span class="sy0">:</span><span class="kw3">di</span> <span class="sy0">+</span> <span class="nu0">8</span><span class="br0">]</span>	<span class="co1">; get lower dword of memory region length</span>
+	<span class="kw1">or</span> <span class="kw3">ecx</span><span class="sy0">,</span> <span class="br0">[</span><span class="kw3">es</span><span class="sy0">:</span><span class="kw3">di</span> <span class="sy0">+</span> <span class="nu0">12</span><span class="br0">]</span>	<span class="co1">; "or" it with upper dword to test for zero</span>
+	<span class="kw1">jz</span> <span class="sy0">.</span>skipent		<span class="co1">; if length qword is 0, skip entry</span>
+	<span class="kw1">inc</span> <span class="kw3">bp</span>			<span class="co1">; got a good entry: ++count, move to next storage spot</span>
+	<span class="kw1">add</span> <span class="kw3">di</span><span class="sy0">,</span> <span class="nu0">24</span>
+<span class="sy0">.</span>skipent<span class="sy0">:</span>
+	<span class="kw1">test</span> <span class="kw3">ebx</span><span class="sy0">,</span> <span class="kw3">ebx</span>		<span class="co1">; if ebx resets to 0, list is complete</span>
+	<span class="kw1">jne</span> <span class="kw4">short</span> <span class="sy0">.</span>e820lp
+<span class="sy0">.</span>e820f<span class="sy0">:</span>
+	<span class="kw1">mov</span> <span class="br0">[</span>mmap_ent<span class="br0">]</span><span class="sy0">,</span> <span class="kw3">bp</span>	<span class="co1">; store the entry count</span>
+	<span class="kw1">clc</span>			<span class="co1">; there is "jc" on end of list to this point, so the carry must be cleared</span>
+	<span class="kw1">ret</span>
+<span class="sy0">.</span>failed<span class="sy0">:</span>
+	<span class="kw1">stc</span>			<span class="co1">; "function unsupported" error exit</span>
+	<span class="kw1">ret</span></pre></div></div>
+<p>Sample in C (assuming we are in a bootloader environment, real mode, DS and CS = 0000):
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="c source-c"><pre class="de1"><span class="co1">// running in real mode may require:</span>
+__asm__<span class="br0">(</span><span class="st0">".code16gcc<span class="es1">\n</span>"</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// SMAP entry structure</span>
+<span class="co2">#include &lt;stdint.h&gt;</span>
+<span class="kw4">typedef</span> <span class="kw4">struct</span> SMAP_entry <span class="br0">{</span>
+&nbsp;
+	<span class="kw4">uint32_t</span> BaseL<span class="sy0">;</span> <span class="co1">// base address QWORD</span>
+	<span class="kw4">uint32_t</span> BaseH<span class="sy0">;</span>
+	<span class="kw4">uint32_t</span> LengthL<span class="sy0">;</span> <span class="co1">// length QWORD</span>
+	<span class="kw4">uint32_t</span> LengthH<span class="sy0">;</span>
+	<span class="kw4">uint16_t</span> Type<span class="sy0">;</span> <span class="co1">// entry Ttpe</span>
+	<span class="kw4">uint16_t</span> ACPI<span class="sy0">;</span> <span class="co1">// exteded</span>
+&nbsp;
+<span class="br0">}</span>__attribute__<span class="br0">(</span><span class="br0">(</span>packed<span class="br0">)</span><span class="br0">)</span> SMAP_entry_t<span class="sy0">;</span>
+&nbsp;
+<span class="co1">// load memory map to buffer - note: regparm(3) avoids stack issues with gcc in realmode</span>
+<span class="kw4">int</span> __attribute__<span class="br0">(</span><span class="br0">(</span>noinline<span class="br0">)</span><span class="br0">)</span> __attribute__<span class="br0">(</span><span class="br0">(</span>regparm<span class="br0">(</span><span class="nu0">3</span><span class="br0">)</span><span class="br0">)</span><span class="br0">)</span> detectMemory<span class="br0">(</span>SMAP_entry_t<span class="sy0">*</span> buffer<span class="sy0">,</span> <span class="kw4">int</span> maxentries<span class="br0">)</span>
+<span class="br0">{</span>
+	<span class="kw4">uint32_t</span> contID <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+	<span class="kw4">int</span> entries <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">,</span> signature<span class="sy0">,</span> bytes<span class="sy0">;</span>
+	<span class="kw1">do</span> 
+	<span class="br0">{</span>
+		__asm__ __volatile__ <span class="br0">(</span><span class="st0">"int  $0x15"</span> 
+				<span class="sy0">:</span> <span class="st0">"=a"</span><span class="br0">(</span>signature<span class="br0">)</span><span class="sy0">,</span> <span class="st0">"=c"</span><span class="br0">(</span>bytes<span class="br0">)</span><span class="sy0">,</span> <span class="st0">"=b"</span><span class="br0">(</span>contID<span class="br0">)</span>
+				<span class="sy0">:</span> <span class="st0">"a"</span><span class="br0">(</span><span class="nu12">0xE820</span><span class="br0">)</span><span class="sy0">,</span> <span class="st0">"b"</span><span class="br0">(</span>contID<span class="br0">)</span><span class="sy0">,</span> <span class="st0">"c"</span><span class="br0">(</span><span class="nu0">24</span><span class="br0">)</span><span class="sy0">,</span> <span class="st0">"d"</span><span class="br0">(</span><span class="nu12">0x534D4150</span><span class="br0">)</span><span class="sy0">,</span> <span class="st0">"D"</span><span class="br0">(</span>buffer<span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+		<span class="kw1">if</span> <span class="br0">(</span>signature <span class="sy0">!=</span> <span class="nu12">0x534D4150</span><span class="br0">)</span> 
+			<span class="kw1">return</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span> <span class="co1">// error</span>
+		<span class="kw1">if</span> <span class="br0">(</span>bytes <span class="sy0">&gt;</span> <span class="nu0">20</span> <span class="sy0">&amp;&amp;</span> <span class="br0">(</span>buffer<span class="sy0">-&gt;</span>ACPI <span class="sy0">&amp;</span> <span class="nu12">0x0001</span><span class="br0">)</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">)</span>
+		<span class="br0">{</span>
+			<span class="co1">// ignore this entry</span>
+		<span class="br0">}</span>
+		<span class="kw1">else</span> <span class="br0">{</span>
+			buffer<span class="sy0">++;</span>
+			entries<span class="sy0">++;</span>
+		<span class="br0">}</span>
+	<span class="br0">}</span> 
+	<span class="kw1">while</span> <span class="br0">(</span>contID <span class="sy0">!=</span> <span class="nu0">0</span> <span class="sy0">&amp;&amp;</span> entries <span class="sy0">&lt;</span> maxentries<span class="br0">)</span><span class="sy0">;</span>
+	<span class="kw1">return</span> entries<span class="sy0">;</span>
+<span class="br0">}</span>
+&nbsp;
+<span class="co1">// in your main routine - memory map is stored in 0000:1000 - 0000:2FFF for example</span>
+<span class="br0">[</span>...<span class="br0">]</span> <span class="br0">{</span>
+	<span class="br0">[</span>...<span class="br0">]</span>
+	SMAP_entry_t<span class="sy0">*</span> smap <span class="sy0">=</span> <span class="br0">(</span>SMAP_entry_t<span class="sy0">*</span><span class="br0">)</span> <span class="nu12">0x1000</span><span class="sy0">;</span>
+	<span class="kw4">const</span> <span class="kw4">int</span> smap_size <span class="sy0">=</span> <span class="nu12">0x2000</span><span class="sy0">;</span>
+&nbsp;
+	<span class="kw4">int</span> entry_count <span class="sy0">=</span> detectMemory<span class="br0">(</span>smap<span class="sy0">,</span> smap_size <span class="sy0">/</span> <span class="kw4">sizeof</span><span class="br0">(</span>SMAP_entry_t<span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+	<span class="kw1">if</span> <span class="br0">(</span>entry_count <span class="sy0">==</span> <span class="sy0">-</span><span class="nu0">1</span><span class="br0">)</span> <span class="br0">{</span>
+		<span class="co1">// error - halt system and/or show error message</span>
+		<span class="br0">[</span>...<span class="br0">]</span>
+	<span class="br0">}</span> <span class="kw1">else</span> <span class="br0">{</span>
+		<span class="co1">// process memory map</span>
+		<span class="br0">[</span>...<span class="br0">]</span>
+	<span class="br0">}</span>
+<span class="br0">}</span></pre></div></div>
+<h3> <span class="mw-headline" id="Manual_Probing_in_C">Manual Probing in C</span></h3>
+<p>Notes:
+</p>
+<ul><li> the interrupt disable and the cache invalidation keep memory consistent.
+</li><li> the assembly language manual probing code that follows this example is better
+</li></ul>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="c source-c"><pre class="de1"> <span class="coMULTI">/*
+  * void count_memory (void)
+  *
+  * probes memory above 1mb
+  *
+  * last mod&nbsp;: 05sep98 - stuart george
+  *            08dec98 - ""     ""
+  *            21feb99 - removed dummy calls
+  *
+  */</span>
+<span class="kw4">void</span> count_memory<span class="br0">(</span><span class="kw4">void</span><span class="br0">)</span>
+<span class="br0">{</span>
+	<span class="kw4">register</span> ULONG <span class="sy0">*</span>mem<span class="sy0">;</span>
+	ULONG	mem_count<span class="sy0">,</span> a<span class="sy0">;</span>
+	USHORT	memkb<span class="sy0">;</span>
+	UCHAR	irq1<span class="sy0">,</span> irq2<span class="sy0">;</span>
+	ULONG	cr0<span class="sy0">;</span>
+&nbsp;
+	<span class="coMULTI">/* save IRQ's */</span>
+	irq1<span class="sy0">=</span>inb<span class="br0">(</span><span class="nu12">0x21</span><span class="br0">)</span><span class="sy0">;</span>
+	irq2<span class="sy0">=</span>inb<span class="br0">(</span><span class="nu12">0xA1</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+	<span class="coMULTI">/* kill all irq's */</span>
+	outb<span class="br0">(</span><span class="nu12">0x21</span><span class="sy0">,</span> <span class="nu12">0xFF</span><span class="br0">)</span><span class="sy0">;</span>
+	outb<span class="br0">(</span><span class="nu12">0xA1</span><span class="sy0">,</span> <span class="nu12">0xFF</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+	mem_count<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+	memkb<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+&nbsp;
+	<span class="co1">// store a copy of CR0</span>
+	__asm__ __volatile<span class="br0">(</span><span class="st0">"movl&nbsp;%%cr0,&nbsp;%%eax"</span><span class="sy0">:</span><span class="st0">"=a"</span><span class="br0">(</span>cr0<span class="br0">)</span><span class="br0">)</span><span class="sy0">::</span><span class="st0">"eax"</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+	<span class="co1">// invalidate the cache</span>
+	<span class="co1">// write-back and invalidate the cache</span>
+	__asm__ __volatile__ <span class="br0">(</span><span class="st0">"wbinvd"</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+	<span class="co1">// plug cr0 with just PE/CD/NW</span>
+	<span class="co1">// cache disable(486+), no-writeback(486+), 32bit mode(386+)</span>
+	__asm__ __volatile__<span class="br0">(</span><span class="st0">"movl&nbsp;%%eax,&nbsp;%%cr0"</span><span class="sy0">,</span> <span class="sy0">::</span>
+		<span class="st0">"a"</span> <span class="br0">(</span>cr0 <span class="sy0">|</span> <span class="nu12">0x00000001</span> <span class="sy0">|</span> <span class="nu12">0x40000000</span> <span class="sy0">|</span> <span class="nu12">0x20000000</span><span class="br0">)</span> <span class="sy0">:</span> <span class="st0">"eax"</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+	<span class="kw1">do</span> <span class="br0">{</span>
+		memkb<span class="sy0">++;</span>
+		mem_count <span class="sy0">+=</span> <span class="nu0">1024</span><span class="sy0">*</span><span class="nu0">1024</span><span class="sy0">;</span>
+		mem<span class="sy0">=</span> <span class="br0">(</span>ULONG<span class="sy0">*</span><span class="br0">)</span> mem_count<span class="sy0">;</span>
+&nbsp;
+		a<span class="sy0">=</span> <span class="sy0">*</span>mem<span class="sy0">;</span>
+		<span class="sy0">*</span>mem<span class="sy0">=</span> <span class="nu12">0x55AA55AA</span><span class="sy0">;</span>
+&nbsp;
+          <span class="co1">// the empty asm calls tell gcc not to rely on what's in its registers</span>
+          <span class="co1">// as saved variables (this avoids GCC optimisations)</span>
+		asm<span class="br0">(</span><span class="st0">""</span><span class="sy0">:::</span><span class="st0">"memory"</span><span class="br0">)</span><span class="sy0">;</span>
+		<span class="kw1">if</span> <span class="br0">(</span><span class="sy0">*</span>mem<span class="sy0">!=</span><span class="nu12">0x55AA55AA</span><span class="br0">)</span> mem_count<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+		<span class="kw1">else</span> <span class="br0">{</span>
+			<span class="sy0">*</span>mem<span class="sy0">=</span><span class="nu12">0xAA55AA55</span><span class="sy0">;</span>
+			asm<span class="br0">(</span><span class="st0">""</span><span class="sy0">:::</span><span class="st0">"memory"</span><span class="br0">)</span><span class="sy0">;</span>
+			<span class="kw1">if</span><span class="br0">(</span><span class="sy0">*</span>mem<span class="sy0">!=</span><span class="nu12">0xAA55AA55</span><span class="br0">)</span>
+			mem_count<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+		<span class="br0">}</span>
+&nbsp;
+		asm<span class="br0">(</span><span class="st0">""</span><span class="sy0">:::</span><span class="st0">"memory"</span><span class="br0">)</span><span class="sy0">;</span>
+		<span class="sy0">*</span>mem<span class="sy0">=</span>a<span class="sy0">;</span>
+&nbsp;
+	<span class="br0">}</span> <span class="kw1">while</span> <span class="br0">(</span>memkb<span class="sy0">&lt;</span><span class="nu0">4096</span> <span class="sy0">&amp;&amp;</span> mem_count<span class="sy0">!=</span><span class="nu0">0</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+	__asm__ __volatile__<span class="br0">(</span><span class="st0">"movl&nbsp;%%eax,&nbsp;%%cr0"</span><span class="sy0">,</span> <span class="sy0">::</span> <span class="st0">"a"</span> <span class="br0">(</span>cr0<span class="br0">)</span> <span class="sy0">:</span> <span class="st0">"eax"</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+	mem_end <span class="sy0">=</span> memkb<span class="sy0">&lt;&lt;</span><span class="nu0">20</span><span class="sy0">;</span>
+	mem <span class="sy0">=</span> <span class="br0">(</span>ULONG<span class="sy0">*</span><span class="br0">)</span> <span class="nu12">0x413</span><span class="sy0">;</span>
+	bse_end<span class="sy0">=</span> <span class="br0">(</span><span class="sy0">*</span>mem <span class="sy0">&amp;</span> <span class="nu12">0xFFFF</span><span class="br0">)</span> <span class="sy0">&lt;&lt;</span><span class="nu0">6</span><span class="sy0">;</span>
+&nbsp;
+	outb<span class="br0">(</span><span class="nu12">0x21</span><span class="sy0">,</span> irq1<span class="br0">)</span><span class="sy0">;</span>
+	outb<span class="br0">(</span><span class="nu12">0xA1</span><span class="sy0">,</span> irq2<span class="br0">)</span><span class="sy0">;</span>
+<span class="br0">}</span></pre></div></div>
+<h3> <span class="mw-headline" id="Manual_Probing_in_ASM">Manual Probing in ASM</span></h3>
+<p>This is the "least unsafe" algorithm for memory probing. It is 
+"non-destructive" of the contents of memory, and is just generally 
+better than the above C code.
+</p><p>Notes:
+</p>
+<ul><li> <b>NEVER</b> use manual probing unless you absolutely <b>MUST</b>.
+ This implies that the manual probing code is only used for dodgy old 
+computers, and that the code for manual probing needs to be designed for
+ dodgy old computers (assumptions that are "good" assumptions for modern
+ computers, like "it's unlikely that an ISA video card is present", 
+don't apply). 
+</li><li> minimize the amount of manual probing you do. For example, if 
+the BIOS supports "Int 0x12" (they all do) then use it to avoid probing 
+RAM below 1 MB. If "Int 0x15, AH=0x88" says there's 0xFFFF KB at 
+0x00100000 and you think there's more (because a 16-bit value can't tell
+ you there's more if there is) then probe from the end of known RAM (not
+ from 0x00100000). 
+</li><li> don't assume that writes to "non-RAM" won't be cached (flush 
+the cache with WBINVD or CLFLUSH after testing to make sure you're 
+testing the physical address and not the cache). 
+</li><li> don't assume that writes to "non-RAM" won't be retained due to
+ bus capacitance (use a dummy write at a different address to avoid 
+this, so you read back the dummy value and not the test value if there's
+ no RAM at the address). 
+</li><li> don't write a set value to an address and read it back to test
+ for RAM (for e.g. "mov [address],0x12345678; mov [dummy],0x0; wbinvd; 
+cmp [address],0x12345678") because you might be unlucky and find a ROM 
+that contains the same value you're using. Instead try to modify what's 
+already there. 
+</li><li> test the last bytes of each block, not the first bytes of each
+ block, and make sure that the size of each block is less than 16 KB. 
+This is because some older motherboards relocate the RAM underneath the 
+ROM area to the top of memory (e.g. a computer with 2 MB of RAM might 
+have 128 KB of ROM from 0x000E0000 0x000FFFFF and RAM from 0x00100000 to
+ 0x0020FFFF. 
+</li><li> don't make any assumptions about the "top of memory". Just 
+because the last byte of RAM is at 0x0020FFFF doesn't mean that there's 
+2176 KB of RAM installed, and just because there's 2 MB of RAM installed
+ doesn't mean that the last byte of RAM will be at 0x001FFFFF. 
+</li><li> it's better to assume that memory holes are present (and risk 
+skipping some RAM) than to assume that memory holes aren't present (and 
+risk crashing). This means assuming that the area from 0x00F00000 to 
+0x00FFFFFF can't be used and not probing this area at all (it's possible
+ that some sort of ISA device is in this area, and that any write to 
+this area can cause problems).
+</li></ul>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1"><span class="co1">;Probe to see if there's RAM at a certain address </span>
+<span class="co1">;</span>
+<span class="co1">; note: "dummy" -&gt; a known good memory address that has nothing important in it</span>
+<span class="co1">; </span>
+<span class="co1">;Input </span>
+<span class="co1">; edx   Maximum number of bytes to test </span>
+<span class="co1">; esi   Starting address </span>
+<span class="co1">; </span>
+<span class="co1">;Output </span>
+<span class="co1">; ecx   Number of bytes of RAM found </span>
+<span class="co1">; esi   Address of RAM </span>
+&nbsp;
+&nbsp;
+probeRAM<span class="sy0">:</span> 
+    <span class="kw1">push</span> <span class="kw3">eax</span>
+    <span class="kw1">push</span> <span class="kw3">ebx</span>
+    <span class="kw1">push</span> <span class="kw3">edx</span>
+    <span class="kw1">push</span> <span class="kw3">ebp</span> 
+    <span class="kw1">mov</span> <span class="kw3">ebp</span><span class="sy0">,</span><span class="kw3">esi</span>             <span class="co1">;ebp = starting address</span>
+    <span class="kw1">add</span> <span class="kw3">esi</span><span class="sy0">,</span><span class="nu0">0x00000FFF</span>      <span class="co1">;round esi up to block boundary</span>
+    <span class="kw1">and</span> <span class="kw3">esi</span><span class="sy0">,</span> ~<span class="nu0">0x00000FFF</span>    <span class="co1">;truncate to block boundary</span>
+    <span class="kw1">push</span> <span class="kw3">esi</span>                <span class="co1">;Save corrected starting address for later</span>
+    <span class="kw1">mov</span> <span class="kw3">eax</span><span class="sy0">,</span> <span class="kw3">esi</span>            <span class="co1">;eax = corrected starting address</span>
+    <span class="kw1">sub</span> <span class="kw3">eax</span><span class="sy0">,</span> <span class="kw3">ebp</span>            <span class="co1">;eax = bytes to skip from original starting address, due to rounding</span>
+    <span class="kw1">xor</span> <span class="kw3">ecx</span><span class="sy0">,</span><span class="kw3">ecx</span>             <span class="co1">;ecx = number of bytes of RAM found so far (none)</span>
+    <span class="kw1">sub</span> <span class="kw3">edx</span><span class="sy0">,</span><span class="kw3">eax</span>             <span class="co1">;edx = number of bytes left to test</span>
+    <span class="kw1">jc</span> <span class="sy0">.</span>done                <span class="co1">;  all done if nothing left after rounding</span>
+    <span class="kw1">or</span> <span class="kw3">esi</span><span class="sy0">,</span><span class="nu0">0x00000FFC</span>       <span class="co1">;esi = address of last dword in first block</span>
+    <span class="kw1">shr</span> <span class="kw3">edx</span><span class="sy0">,</span><span class="nu0">12</span>              <span class="co1">;edx = number of blocks to test (rounded down)</span>
+    <span class="kw1">je</span> <span class="sy0">.</span>done                <span class="co1">; Is there anything left after rounding?</span>
+&nbsp;
+<span class="sy0">.</span>testAddress<span class="sy0">:</span>
+    <span class="kw1">mov</span> <span class="kw3">eax</span><span class="sy0">,</span><span class="br0">[</span><span class="kw3">esi</span><span class="br0">]</span>           <span class="co1">;eax = original value</span>
+    <span class="kw1">mov</span> <span class="kw3">ebx</span><span class="sy0">,</span><span class="kw3">eax</span>             <span class="co1">;ebx = original value</span>
+    <span class="kw1">not</span> <span class="kw3">eax</span>                 <span class="co1">;eax = reversed value</span>
+    <span class="kw1">mov</span> <span class="br0">[</span><span class="kw3">esi</span><span class="br0">]</span><span class="sy0">,</span><span class="kw3">eax</span>           <span class="co1">;Modify value at address</span>
+    <span class="kw1">mov</span> <span class="br0">[</span>dummy<span class="br0">]</span><span class="sy0">,</span><span class="kw3">ebx</span>         <span class="co1">;Do dummy write (that's guaranteed to be a different value)</span>
+    <span class="kw1">wbinvd</span>                  <span class="co1">;Flush the cache</span>
+    <span class="kw1">mov</span> <span class="kw3">ebp</span><span class="sy0">,</span><span class="br0">[</span><span class="kw3">esi</span><span class="br0">]</span>           <span class="co1">;ebp = new value</span>
+    <span class="kw1">mov</span> <span class="br0">[</span><span class="kw3">esi</span><span class="br0">]</span><span class="sy0">,</span><span class="kw3">ebx</span>           <span class="co1">;Restore the original value (even if it's not RAM, in case it's a memory mapped device or something)</span>
+    <span class="kw1">cmp</span> <span class="kw3">ebp</span><span class="sy0">,</span><span class="kw3">eax</span>             <span class="co1">;Was the value changed?</span>
+    <span class="kw1">jne</span> <span class="sy0">.</span>done               <span class="co1">; no, definitely not RAM -- exit to avoid damage</span>
+                            <span class="co1">; yes, assume we've found some RAM</span>
+&nbsp;
+    <span class="kw1">add</span> <span class="kw3">ecx</span><span class="sy0">,</span><span class="nu0">0x00001000</span>      <span class="co1">;ecx = new number of bytes of RAM found</span>
+    <span class="kw1">add</span> <span class="kw3">esi</span><span class="sy0">,</span><span class="nu0">0x00001000</span>      <span class="co1">;esi = new address to test</span>
+    <span class="kw1">dec</span> <span class="kw3">edx</span>                 <span class="co1">;edx = new number of blocks remaining</span>
+    <span class="kw1">jne</span> <span class="sy0">.</span>testAddress        <span class="co1">;more blocks remaining?</span>
+                            <span class="co1">;If not, we're done</span>
+&nbsp;
+<span class="sy0">.</span>done<span class="sy0">:</span>
+    <span class="kw1">pop</span> <span class="kw3">esi</span>                 <span class="co1">;esi = corrected starting address (rounded up)</span>
+    <span class="kw1">pop</span> <span class="kw3">ebp</span>
+    <span class="kw1">pop</span> <span class="kw3">edx</span>
+    <span class="kw1">pop</span> <span class="kw3">ebx</span>
+    <span class="kw1">pop</span> <span class="kw3">eax</span>
+    <span class="kw1">ret</span></pre></div></div>
+<p>Further Notes:
+</p>
+<ul><li> Depending on how it's used some of the initial code could be 
+skipped (e.g. if you know the starting address is always aligned on a 4 
+KB boundary). 
+</li><li> the WBINVD instruction seriously affects performance because 
+it invalidates all data in all caches (except the TLB). It would be 
+better to use CLFLUSH so you only invalidate the cache line that needs 
+to be invalidated, but CLFLUSH isn't supported on older CPUs (and older 
+computers is what this code is for). For older computers It shouldn't be
+ too slow because the speed difference between cache and RAM wasn't so 
+much and there's usually only a small amount of RAM (e.g. 64 MB or 
+less). Modern computers have a lot more RAM to test and rely on caches a
+ lot more. For example, an 80486 with 32 MB of RAM might take 1 second, 
+but a Pentium 4 with 2 GB of RAM might take 30 seconds or more. 
+</li><li> Increasing the block size (e.g. testing every 16 KB instead of
+ testing every 4 KB) will improve performance (and increase risk). 16 KB
+ blocks is probably safe, and larger blocks sizes are not safe. Very 
+large block sizes (e.g. testing every 1 MB) will probably work on modern
+ computers (but you shouldn't need to probe at all on modern computers),
+ and anything larger than 1 MB is guaranteed to give wrong results 
+regularly.
+</li><li> WBINVD isn't supported on 80386 and older computers. This 
+means that for 80386 and older you can't flush the cache, but this 
+shouldn't matter (for 80386 and older memory ran at the same speed as 
+the CPU so there was no need for a cache). You will need to flush cache 
+on later CPUs though. Having one routine that uses WBINVD and another 
+routine that doesn't use WBINVD is probably better than doing an "if 
+(CPU_is_80486_or_newer) { WBINVD }" in the middle of the loop.
+</li></ul>
+<h2> <span class="mw-headline" id="See_Also">See Also</span></h2>
+<h3> <span class="mw-headline" id="Threads">Threads</span></h3>
+<ul><li> <a rel="nofollow" class="external text" href="http://www.osdev.org/phpBB2/viewtopic.php?t=11391">Grub's multiboot memory map</a>, featuring real examples of GRUB/BIOS reported memory map.
+</li></ul>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 267/1000000
+Post-expand include size: 696/2097152 bytes
+Template argument size: 384/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key wikidb:pcache:idhash:2279-0!*!0!!en!*!* and timestamp 20130612161457 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Retrieved from "<a href="http://wiki.osdev.org/index.php?title=Detecting_Memory_%28x86%29&amp;oldid=13960">http://wiki.osdev.org/index.php?title=Detecting_Memory_(x86)&amp;oldid=13960</a>"				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a href="http://wiki.osdev.org/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="http://wiki.osdev.org/Category:X86" title="Category:X86">X86</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+		<li id="pt-login"><a href="http://wiki.osdev.org/index.php?title=Special:UserLogin&amp;returnto=Detecting_Memory_%28x86%29" title="You are encouraged to log in; however, it is not mandatory [alt-shift-o]" accesskey="o">Log in</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li id="ca-nstab-main" class="selected"><span><a href="http://wiki.osdev.org/Detecting_Memory_%28x86%29" title="View the content page [alt-shift-c]" accesskey="c">Page</a></span></li>
+					<li id="ca-talk"><span><a href="http://wiki.osdev.org/Talk:Detecting_Memory_%28x86%29" title="Discussion about the content page [alt-shift-t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="http://wiki.osdev.org/Detecting_Memory_%28x86%29">Read</a></span></li>
+					<li id="ca-viewsource"><span><a href="http://wiki.osdev.org/index.php?title=Detecting_Memory_%28x86%29&amp;action=edit" title="This page is protected.
+You can view its source [alt-shift-e]" accesskey="e">View source</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://wiki.osdev.org/index.php?title=Detecting_Memory_%28x86%29&amp;action=history" title="Past revisions of this page [alt-shift-h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/index.php" id="searchform">
+		<input name="title" value="Special:Search" type="hidden">
+				<input name="search" title="Search OSDev Wiki [alt-shift-f]" accesskey="f" id="searchInput" type="search">		<input name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton" type="submit">		<input name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton" type="submit">			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(/skins/common/images/osdev.png);" href="http://wiki.osdev.org/Main_Page" title="Visit the main page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id="p-navigation">
+	<h5>Navigation</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage"><a href="http://wiki.osdev.org/Main_Page" title="Visit the main page [alt-shift-z]" accesskey="z">Main Page</a></li>
+			<li id="n-portal"><a href="http://forum.osdev.org/" rel="nofollow" title="About the project, what you can do, where to find things">Forums</a></li>
+			<li id="n-FAQ"><a href="http://wiki.osdev.org/Category:FAQ">FAQ</a></li>
+			<li id="n-OS-Projects"><a href="http://wiki.osdev.org/Projects">OS Projects</a></li>
+			<li id="n-randompage"><a href="http://wiki.osdev.org/Special:Random" title="Load a random page [alt-shift-x]" accesskey="x">Random page</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- about -->
+<div class="portal" id="p-about">
+	<h5>About</h5>
+	<div class="body">
+		<ul>
+			<li id="n-This-site"><a href="http://wiki.osdev.org/OSDevWiki:About">This site</a></li>
+			<li id="n-Joining"><a href="http://wiki.osdev.org/OSDevWiki:Joining">Joining</a></li>
+			<li id="n-Editing-help"><a href="http://wiki.osdev.org/OSDevWiki:Editing">Editing help</a></li>
+			<li id="n-recentchanges"><a href="http://wiki.osdev.org/Special:RecentChanges" title="A list of recent changes in the wiki [alt-shift-r]" accesskey="r">Recent changes</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /about -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- TOOLBOX -->
+<div class="portal" id="p-tb">
+	<h5>Toolbox</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="http://wiki.osdev.org/Special:WhatLinksHere/Detecting_Memory_%28x86%29" title="A list of all wiki pages that link here [alt-shift-j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="http://wiki.osdev.org/Special:RecentChangesLinked/Detecting_Memory_%28x86%29" title="Recent changes in pages linked from this page [alt-shift-k]" accesskey="k">Related changes</a></li>
+			<li id="t-specialpages"><a href="http://wiki.osdev.org/Special:SpecialPages" title="A list of all special pages [alt-shift-q]" accesskey="q">Special pages</a></li>
+			<li><a href="http://wiki.osdev.org/index.php?title=Detecting_Memory_%28x86%29&amp;printable=yes" rel="alternate">Printable version</a></li>
+			<li id="t-permalink"><a href="http://wiki.osdev.org/index.php?title=Detecting_Memory_%28x86%29&amp;oldid=13960" title="Permanent link to this revision of the page">Permanent link</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- LANGUAGES -->
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 7 September 2012, at 13:14.</li>
+											<li id="footer-info-viewcount">This page has been accessed 96,399 times.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="http://wiki.osdev.org/OSDev_Wiki:Privacy_policy" title="OSDev Wiki:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="http://wiki.osdev.org/OSDev_Wiki:About" title="OSDev Wiki:About">About OSDev Wiki</a></li>
+											<li id="footer-places-disclaimer"><a href="http://wiki.osdev.org/OSDev_Wiki:General_disclaimer" title="OSDev Wiki:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-poweredbyico">
+						<a href="http://www.mediawiki.org/"><img src="Detecting%20Memory%20%28x86%29%20-%20OSDev%20Wiki_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" height="31" width="88"></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		<script src="Detecting%20Memory%20%28x86%29%20-%20OSDev%20Wiki_files/load_006.php"></script>
+<script>if(window.mw){
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax"]);
+}
+</script><script type="text/javascript" src="Detecting%20Memory%20%28x86%29%20-%20OSDev%20Wiki_files/load_004.php"></script>
+<script src="Detecting%20Memory%20%28x86%29%20-%20OSDev%20Wiki_files/load_005.php"></script>
+<script>if(window.mw){
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: wikidb:resourceloader:filter:minify-js:4:19a4b18a9ac79a6b8c60b24af4668814 */
+}
+</script><!-- Served in 0.093 secs. -->
+	
+
+</body></html>

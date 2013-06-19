@@ -44,17 +44,20 @@ align 4 ; these are 4 bytes in length for meeting multiboot requirements
 section .text
 
 loader:
-	mov  esp, stack
-	; TODO pass multiboot structure to the stack
-	cli ; clear interrupts before enabled controlled by the kernel
+	; clear interrupts before enabled controlled by the kernel
+	cli
+	; set up stack
+	mov		esp, stack
+	; ebx contains adress of multiboot structure
+	push	ebx
 	; init function is defined in init.c
-	call init
+	call	init
 	; If the kernel returns halt the system
-	jmp hltLoop
+	jmp		hltLoop
 
 hltLoop:
 	hlt
-	jmp hltLoop
+	jmp		hltLoop
 
 ; All the code needed by the C kernel
 %include "kernel/boot/inc/include.inc"

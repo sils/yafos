@@ -14,6 +14,12 @@
 #ifndef _IDT_H
 #define _IDT_H
 
+#include <settings.h>
+#if ARCH != 32
+#error "The interrupt descriptor table can't handle 64 bits interrupts for now.\
+		Do not forget to use iretq when returning from std int handler."
+#endif
+
 #include <stdint.h>
 #include <stdMacro.h>
 

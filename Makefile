@@ -56,7 +56,7 @@ echo:
 all: clean kernel.img
 
 run: kernel.img
-	$(EMUL)  -soundhw pcspk  -kernel $< $(EDEBUG)
+	$(EMUL)  -soundhw pcspk -m 5.5M -kernel $< $(EDEBUG)
 
 cc32:
 	bash ./tools/cc32/toolchain.sh

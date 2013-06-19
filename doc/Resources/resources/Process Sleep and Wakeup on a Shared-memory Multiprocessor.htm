@@ -1,0 +1,900 @@
+<html><head>
+
+    <title>Process Sleep and Wakeup on a Shared-memory Multiprocessor</title>
+
+    <link rel="stylesheet" href="Process%20Sleep%20and%20Wakeup%20on%20a%20Shared-memory%20Multiprocessor_files/style.css" type="text/css" media="screen, handheld" title="default">
+    <link rel="shortcut icon" href="http://doc.cat-v.org/favicon.ico" type="image/vnd.microsoft.icon">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+
+
+<meta name="verify-v1" content="6zEoK0WMlnLmIS/w7Pnh6+srZECHsvnMGN0kQmowSGk=">
+<meta name="google-site-verification" content="z5zCyEitNLNZmhVblsogrEiy6Acf0UZROsFMtLjioN4">
+<meta name="y_key" content="49dff3fad5352458"><meta name="y_key" content="5dc40bfee9494e98"><meta name="y_key" content="b60a53d1fa98f4c8">
+<meta name="msvalidate.01" content="5008C6E6B172BEB1F43E770296C3D560">
+<meta name="alexaVerifyID" content="l1vBNiKWqe9hCZhp0jV8OKPyjps">
+
+<script src="Process%20Sleep%20and%20Wakeup%20on%20a%20Shared-memory%20Multiprocessor_files/ga.js" async="" type="text/javascript"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34855242-1']);
+  _gaq.push(['_setDomainName', 'cat-v.org']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+
+
+
+</head>
+<body>
+
+<div id="header">
+    <div class="superHeader">
+<!--<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>-->
+<div class="left">
+      <!-- 
+    <div class="g-plusone" data-size="small"></div>
+<g:plusone size="small"></g:plusone>
+<span style="padding-left: 4.4em">|</span><!--  -->
+      <a href="http://quotes.cat-v.org/">quotes</a> |
+      <a href="http://doc.cat-v.org/">docs</a> |
+      <a href="http://repo.cat-v.org/">repo</a> |
+      <a href="http://go-lang.cat-v.org/">golang</a> |
+      <a href="http://sam.cat-v.org/">sam</a> |
+      <a href="http://man.cat-v.org/">man</a> |
+      <a href="http://acme.cat-v.org/">acme</a> |
+      <a href="http://glenda.cat-v.org/">Glenda</a> |
+      <a href="http://ninetimes.cat-v.org/">9times</a> |
+      <a href="http://harmful.cat-v.org/">harmful</a> |
+      <a href="http://9p.cat-v.org/">9P</a> |
+      <a href="http://cat-v.org/">cat-v.org</a>
+    </div>
+
+    <div class="right">
+      <span class="doNotDisplay">Related sites:</span>
+      | <a href="http://cat-v.org/update_log">site updates</a>
+      | <a href="http://doc.cat-v.org/sitemap">site map</a> |
+
+
+
+    </div>
+
+    </div>
+
+    <div class="midHeader">
+     <h1 class="headerTitle"><a href="http://doc.cat-v.org/">/sys/doc/ 
+         <span id="headerSubTitle">Documentation archive</span>
+     </a></h1>
+    </div>
+    
+    <div class="subHeader"><br></div>
+</div>
+
+    <div id="side-bar">
+        <div>
+<p class="sideBarTitle">Sections:</p>
+<ul>
+<li><a href="http://doc.cat-v.org/bell_labs/">› bell labs/</a></li>
+<li><a href="http://doc.cat-v.org/economics/">› economics/</a></li>
+<li><a href="http://doc.cat-v.org/feynman/">› feynman/</a></li>
+<li><a href="http://doc.cat-v.org/henry_spencer/">› henry spencer/</a></li>
+<li><a href="http://doc.cat-v.org/inferno/">› inferno/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/" class="thisPage">»<i> plan 9/</i></a></li>
+<li><ul>
+<li><a href="http://doc.cat-v.org/plan_9/1st_edition/">› 1st edition/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/2nd_edition/">› 2nd edition/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/3rd_edition/">› 3rd edition/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/" class="thisPage">»<i> 4th edition/</i></a></li>
+<li><ul>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/" class="thisPage">»<i> papers/</i></a></li>
+<li><ul>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/812/">› 812/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/9">› 9</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/acid">› acid</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/acidpaper">› acidpaper</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/acme/">› acme/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/ape">› ape</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/asm">› asm</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/auth">› auth</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/backup">› backup</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/comp">› comp</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/compiler">› compiler</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/fossil/">› fossil/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/fs/">› fs/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/il/">› il/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/lexnames">› lexnames</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/libmach">› libmach</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/lp">› lp</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/mk">› mk</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/mkfiles">› mkfiles</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/names">› names</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/net/">› net/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/plumb">› plumb</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/port">› port</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/prog4">› prog4</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/rc">› rc</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/release3">› release3</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/release4">› release4</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/sam/">› sam/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/sleep" class="thisPage">»<i> sleep</i></a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/spin">› spin</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/troff/">› troff/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/utf">› utf</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/4th_edition/papers/venti/">› venti/</a></li>
+</ul></li>
+</ul></li>
+<li><a href="http://doc.cat-v.org/plan_9/IWP9/">› IWP9/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/blue_gene/">› blue gene/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/humour/">› humour/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/misc/">› misc/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/programming/">› programming/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/real_time/">› real time/</a></li>
+<li><a href="http://doc.cat-v.org/plan_9/translations/">› translations/</a></li>
+</ul></li>
+<li><a href="http://doc.cat-v.org/political_science/">› political science/</a></li>
+<li><a href="http://doc.cat-v.org/programming/">› programming/</a></li>
+<li><a href="http://doc.cat-v.org/unix/">› unix/</a></li>
+<li><a href="http://doc.cat-v.org/xml/">› xml/</a></li>
+</ul>
+        </div>
+        <div>
+<ul>
+<li><a href="http://man.cat-v.org/plan_9/">- Plan 9 Man Pages</a></li>
+<li><a href="http://ninetimes.cat-v.org/">- NineTimes News</a></li>
+</ul>
+        </div>
+    </div>
+
+<div id="main-copy">
+
+
+
+<p style="margin-top: 0; margin-bottom: 0.50in"></p>
+<p style="margin-top: 0; margin-bottom: 0.21in"></p>
+
+<p style="line-height: 1.4em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: center;">
+<span style="font-size: 12pt"><b>Process Sleep and Wakeup on a Shared-memory Multiprocessor</b></span></p>
+<p style="margin-top: 0; margin-bottom: 0.21in"></p>
+
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+<p style="line-height: 1.4em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: center;">
+<span style="font-size: 10pt"><i>Rob&nbsp;Pike</i></span></p>
+<p style="line-height: 1.4em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: center;">
+<span style="font-size: 10pt"><i>Dave&nbsp;Presotto</i></span></p>
+<p style="line-height: 1.4em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: center;">
+<span style="font-size: 10pt"><i>Ken&nbsp;Thompson</i></span></p>
+<p style="line-height: 1.4em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: center;">
+<span style="font-size: 10pt"><i>Gerard&nbsp;Holzmann</i></span></p>
+<p style="margin-top: 0; margin-bottom: 0.19in"></p>
+<p style="line-height: 1.4em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: center;">
+<span style="font-size: 10pt"><i>rob,presotto,ken,gerard@plan9.bell-labs.com</i></span></p>
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="margin-top: 0; margin-bottom: 0.33in"></p>
+<p style="line-height: 1.4em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: center;">
+<span style="font-size: 10pt"><i>ABSTRACT</i></span></p>
+<p style="margin-top: 0; margin-bottom: 0.19in"></p>
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="line-height: 1.2em; margin-left: 1.50in; text-indent: 0.00in; margin-right: 1.50in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">The problem of enabling a ‘sleeping’ process on a shared-memory multiprocessor
+is a difficult one, especially if the process is to be awakened by an interrupt-time
+event.  We present here the code
+for sleep and wakeup primitives that we use in our multiprocessor system.
+The code has been exercised by years of active use and by a verification
+system.
+</span></p><p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+<p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="margin-top: 0; margin-bottom: 0.50in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Our problem is to synchronise processes on a symmetric shared-memory multiprocessor.
+Processes suspend execution, or
+</span><span style="font-size: 10pt"><i>sleep,</i></span><span style="font-size: 10pt">
+while awaiting an enabling event such as an I/O interrupt.
+When the event occurs, the process is issued a
+</span><span style="font-size: 10pt"><i>wakeup</i></span><span style="font-size: 10pt">
+to resume its execution.
+During these events, other processes may be running and other interrupts
+occurring on other processors.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">More specifically, we wish to implement subroutines called
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">,
+callable by a process to relinquish control of its current processor,
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">,
+callable by another process or an interrupt to resume the execution
+of a suspended process.
+The calling conventions of these subroutines will remain unspecified
+for the moment.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">We assume the processors have an atomic test-and-set or equivalent
+operation but no other synchronisation method.  Also, we assume interrupts
+can occur on any processor at any time, except on a processor that has
+locally inhibited them.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">The problem is the generalisation to a multiprocessor of a familiar
+and well-understood uniprocessor problem.  It may be reduced to a
+uniprocessor problem by using a global test-and-set to serialise the
+sleeps and wakeups,
+which is equivalent to synchronising through a monitor.
+For performance and cleanliness, however,
+we prefer to allow the interrupt handling and process control to be multiprocessed.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Our attempts to solve the sleep/wakeup problem in Plan 9
+[Pik90]
+prompted this paper.
+We implemented solutions several times over several months and each
+time convinced ourselves — wrongly — they were correct.
+Multiprocessor algorithms can be
+difficult to prove correct by inspection and formal reasoning about them
+is impractical.  We finally developed an algorithm we trust by
+verifying our code using an
+empirical testing tool.
+We present that code here, along with some comments about the process by
+which it was designed.
+</span></p><p style="margin-top: 0; margin-bottom: 0.17in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt"><b>History
+</b></span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Since processes in Plan 9 and the UNIX
+system have similar structure and properties, one might ask if
+UNIX
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+[Bac86]
+could not easily be adapted from their standard uniprocessor implementation
+to our multiprocessor needs.
+The short answer is, no.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">The
+UNIX
+routines
+take as argument a single global address
+that serves as a unique
+identifier to connect the wakeup with the appropriate process or processes.
+This has several inherent disadvantages.
+From the point of view of
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">,
+it is difficult to associate a data structure with an arbitrary address;
+the routines are unable to maintain a state variable recording the
+status of the event and processes.
+(The reverse is of course easy — we could
+require the address to point to a special data structure —
+but we are investigating
+UNIX
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">,
+not the code that calls them.)
+Also, multiple processes sleep ‘on’ a given address, so
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+must enable them all, and let process scheduling determine which process
+actually benefits from the event.
+This is inefficient;
+a queueing mechanism would be preferable
+but, again, it is difficult to associate a queue with a general address.
+Moreover, the lack of state means that
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+cannot know what the corresponding process (or interrupt) is doing;
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+must be executed atomically.
+On a uniprocessor it suffices to disable interrupts during their
+execution.
+On a multiprocessor, however,
+most processors
+can inhibit interrupts only on the current processor,
+so while a process is executing
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+the desired interrupt can come and go on another processor.
+If the wakeup is to be issued by another process, the problem is even harder.
+Some inter-process mutual exclusion mechanism must be used,
+which, yet again, is difficult to do without a way to communicate state.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">In summary, to be useful on a multiprocessor,
+UNIX
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+must either be made to run atomically on a single
+processor (such as by using a monitor)
+or they need a richer model for their communication.
+</span></p><p style="margin-top: 0; margin-bottom: 0.17in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt"><b>The design
+</b></span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Consider the case of an interrupt waking up a sleeping process.
+(The other case, a process awakening a second process, is easier because
+atomicity can be achieved using an interlock.)
+The sleeping process is waiting for some event to occur, which may be
+modeled by a condition coming true.
+The condition could be just that the event has happened, or something
+more subtle such as a queue draining below some low-water mark.
+We represent the condition by a function of one
+argument of type
+</span><span style="font-size: 10pt"><tt>void*</tt></span><span style="font-size: 10pt">;
+the code supporting the device generating the interrupts
+provides such a function to be used by
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+to synchronise.  The function returns
+</span><span style="font-size: 10pt"><tt>false</tt></span><span style="font-size: 10pt">
+if the event has not occurred, and
+</span><span style="font-size: 10pt"><tt>true</tt></span><span style="font-size: 10pt">
+some time after the event has occurred.
+The
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+routines must, of course, work correctly if the
+event occurs while the process is executing
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">We assume that a particular call to
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+corresponds to a particular call to
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">,
+that is,
+at most one process is asleep waiting for a particular event.
+This can be guaranteed in the code that calls
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+by appropriate interlocks.
+We also assume for the moment that there will be only one interrupt
+and that it may occur at any time, even before
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+has been called.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">For performance,
+we desire that multiple instances of
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+may be running simultaneously on our multiprocessor.
+For example, a process calling
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+to await a character from an input channel need not
+wait for another process to finish executing
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+to await a disk block.
+At a finer level, we would like a process reading from one input channel
+to be able to execute
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+in parallel with a process reading from another input channel.
+A standard approach to synchronisation is to interlock the channel ‘driver’
+so that only one process may be executing in the channel code at once.
+This method is clearly inadequate for our purposes; we need
+fine-grained synchronisation, and in particular to apply
+interlocks at the level of individual channels rather than at the level
+of the channel driver.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Our approach is to use an object called a
+</span><span style="font-size: 10pt"><i>rendezvous</i></span><span style="font-size: 10pt">,
+which is a data structure through which
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+synchronise.
+(The similarly named construct in Ada is a control structure;
+ours is an unrelated data structure.)
+A rendezvous
+is allocated for each active source of events:
+one for each I/O channel,
+one for each end of a pipe, and so on.
+The rendezvous serves as an interlockable structure in which to record
+the state of the sleeping process, so that
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+can communicate if the event happens before or while
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+is executing.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Our design for
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+is therefore a function
+</span></p><p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>void&nbsp;sleep(Rendezvous&nbsp;*r,&nbsp;int&nbsp;(*condition)(void*),&nbsp;void&nbsp;*arg)</tt></span></p>
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">called by the sleeping process.
+The argument
+</span><span style="font-size: 10pt"><tt>r</tt></span><span style="font-size: 10pt">
+connects the call to
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+with the call to
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">,
+and is part of the data structure for the (say) device.
+The function
+</span><span style="font-size: 10pt"><tt>condition</tt></span><span style="font-size: 10pt">
+is described above;
+called with argument
+</span><span style="font-size: 10pt"><tt>arg</tt></span><span style="font-size: 10pt">,
+it is used by
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+to decide whether the event has occurred.
+</span><span style="font-size: 10pt"><tt>Wakeup</tt></span><span style="font-size: 10pt">
+has a simpler specification:
+</span></p><p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>void&nbsp;wakeup(Rendezvous&nbsp;*r).</tt></span></p>
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt"></span><span style="font-size: 10pt"><tt>Wakeup</tt></span><span style="font-size: 10pt">
+must be called after the condition has become true.
+</span></p><p style="margin-top: 0; margin-bottom: 0.17in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt"><b>An implementation
+</b></span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">The
+</span><span style="font-size: 10pt"><tt>Rendezvous</tt></span><span style="font-size: 10pt">
+data type is defined as
+</span></p><p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>typedef&nbsp;struct{</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;Lock&nbsp;&nbsp;&nbsp;&nbsp;l;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;Proc&nbsp;&nbsp;&nbsp;&nbsp;*p;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>}Rendezvous;</tt></span></p>
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Our
+</span><span style="font-size: 10pt"><tt>Locks</tt></span><span style="font-size: 10pt">
+are test-and-set spin locks.
+The routine
+</span><span style="font-size: 10pt"><tt>lock(Lock\f1*l)
+returns when the current process holds that lock;
+</tt></span><span style="font-size: 10pt"><tt>unlock(Lock\f5*l)
+releases the lock.
+</tt></span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Here is our implementation of
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">.
+Its details are discussed below.
+</span><span style="font-size: 10pt"><tt>Thisp</tt></span><span style="font-size: 10pt">
+is a pointer to the current process on the current processor.
+(Its value differs on each processor.)
+</span></p><p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>void</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>sleep(Rendezvous&nbsp;*r,&nbsp;int&nbsp;(*condition)(void*),&nbsp;void&nbsp;*arg)</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>{</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;s;</tt></span></p>
+<p style="margin-top: 0; margin-bottom: 0.15in"></p>
+
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;=&nbsp;inhibit();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;interrupts&nbsp;*/</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;lock(&amp;r-&gt;l);</tt></span></p>
+<p style="margin-top: 0; margin-bottom: 0.15in"></p>
+
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;/*</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;if&nbsp;condition&nbsp;happened,&nbsp;never&nbsp;mind</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;if((*condition)(arg)){&nbsp;&nbsp;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unlock(&amp;r-&gt;l);</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow();&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;interrupts&nbsp;*/</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;}</tt></span></p>
+<p style="margin-top: 0; margin-bottom: 0.15in"></p>
+
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;/*</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;now&nbsp;we&nbsp;are&nbsp;committed&nbsp;to</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;change&nbsp;state&nbsp;and&nbsp;call&nbsp;scheduler</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;if(r-&gt;p)</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error("double&nbsp;sleep&nbsp;%d&nbsp;%d",&nbsp;r-&gt;p-&gt;pid,&nbsp;thisp-&gt;pid);</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;thisp-&gt;state&nbsp;=&nbsp;Wakeme;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;r-&gt;p&nbsp;=&nbsp;thisp;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;unlock(&amp;r-&gt;l);</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;allow(s);&nbsp;&nbsp;&nbsp;/*&nbsp;interrupts&nbsp;*/</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;sched();&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;relinquish&nbsp;CPU&nbsp;*/</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>}</tt></span></p>
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Here is
+</span><span style="font-size: 10pt"><tt>wakeup.</tt></span><span style="font-size: 10pt">
+</span></p><p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>void</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>wakeup(Rendezvous&nbsp;*r)</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>{</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;Proc&nbsp;*p;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;s;</tt></span></p>
+<p style="margin-top: 0; margin-bottom: 0.15in"></p>
+
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;=&nbsp;inhibit();&nbsp;&nbsp;/*&nbsp;interrupts;&nbsp;return&nbsp;old&nbsp;state&nbsp;*/</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;lock(&amp;r-&gt;l);</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;r-&gt;p;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;if(p){</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r-&gt;p&nbsp;=&nbsp;0;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(p-&gt;state&nbsp;!=&nbsp;Wakeme)</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panic("wakeup:&nbsp;not&nbsp;Wakeme");</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ready(p);</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;}</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;unlock(&amp;r-&gt;l);</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;if(s)</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow();</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>}</tt></span></p>
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt"></span><span style="font-size: 10pt"><tt>Sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+both begin by disabling interrupts
+and then locking the rendezvous structure.
+Because
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+may be called in an interrupt routine, the lock must be set only
+with interrupts disabled on the current processor,
+so that if the interrupt comes during
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+it will occur only on a different processor;
+if it occurred on the processor executing
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">,
+the spin lock in
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+would hang forever.
+At the end of each routine, the lock is released and processor priority
+returned to its previous value.
+(</span><span style="font-size: 10pt"><tt>Wakeup</tt></span><span style="font-size: 10pt">
+needs to inhibit interrupts in case
+it is being called by a process;
+this is a no-op if called by an interrupt.)
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt"></span><span style="font-size: 10pt"><tt>Sleep</tt></span><span style="font-size: 10pt">
+checks to see if the condition has become true, and returns if so.
+Otherwise the process posts its name in the rendezvous structure where
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+may find it, marks its state as waiting to be awakened
+(this is for error checking only) and goes to sleep by calling
+</span><span style="font-size: 10pt"><tt>sched()</tt></span><span style="font-size: 10pt">.
+The manipulation of the rendezvous structure is all done under the lock,
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+only examines it under lock, so atomicity and mutual exclusion
+are guaranteed.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt"></span><span style="font-size: 10pt"><tt>Wakeup</tt></span><span style="font-size: 10pt">
+has a simpler job.  When it is called, the condition has implicitly become true,
+so it locks the rendezvous, sees if a process is waiting, and readies it to run.
+</span></p><p style="margin-top: 0; margin-bottom: 0.17in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt"><b>Discussion
+</b></span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">The synchronisation technique used here
+is similar to known methods, even as far back as Saltzer’s thesis
+[Sal66].
+The code looks trivially correct in retrospect: all access to data structures is done
+under lock, and there is no place that things may get out of order.
+Nonetheless, it took us several iterations to arrive at the above
+implementation, because the things that
+</span><span style="font-size: 10pt"><i>can</i></span><span style="font-size: 10pt">
+go wrong are often hard to see.  We had four earlier implementations
+that were examined at great length and only found faulty when a new,
+different style of device or activity was added to the system.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Here, for example, is an incorrect implementation of wakeup,
+closely related to one of our versions.
+</span></p><p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>void</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>wakeup(Rendezvous&nbsp;*r)</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>{</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;Proc&nbsp;*p;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;s;</tt></span></p>
+<p style="margin-top: 0; margin-bottom: 0.15in"></p>
+
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;r-&gt;p;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;if(p){</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;=&nbsp;inhibit();</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lock(&amp;r-&gt;l);</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r-&gt;p&nbsp;=&nbsp;0;</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(p-&gt;state&nbsp;!=&nbsp;Wakeme)</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panic("wakeup:&nbsp;not&nbsp;Wakeme");</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ready(p);</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unlock(&amp;r-&gt;l);</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(s)</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow();</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>&nbsp;&nbsp;&nbsp;&nbsp;}</tt></span></p>
+<p style="line-height: 1.1em; margin-left: 1.40in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 9pt"><tt>}</tt></span></p>
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="margin-top: 0; margin-bottom: 0.08in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">The mistake is that the reading of
+</span><span style="font-size: 10pt"><tt>r-&gt;p</tt></span><span style="font-size: 10pt">
+may occur just as the other process calls
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">,
+so when the interrupt examines the structure it sees no one to wake up,
+and the sleeping process misses its wakeup.
+We wrote the code this way because we reasoned that the fetch
+</span><span style="font-size: 10pt"><tt>p</tt></span><span style="font-size: 10pt">
+</span><span style="font-size: 10pt"><tt>=</tt></span><span style="font-size: 10pt">
+</span><span style="font-size: 10pt"><tt>r-&gt;p</tt></span><span style="font-size: 10pt">
+was inherently atomic and need not be interlocked.
+The bug was found by examination when a new, very fast device
+was added to the system and sleeps and interrupts were closely overlapped.
+However, it was in the system for a couple of months without causing an error.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">How many errors lurk in our supposedly correct implementation above?
+We would like a way to guarantee correctness; formal proofs are beyond
+our abilities when the subtleties of interrupts and multiprocessors are
+involved.
+With that in mind, the first three authors approached the last to see
+if his automated tool for checking protocols
+[Hol91]
+could be
+used to verify our new
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+for correctness.
+The code was translated into the language for that system
+(with, unfortunately, no way of proving that the translation is itself correct)
+and validated by exhaustive simulation.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">The validator found a bug.
+Under our assumption that there is only one interrupt, the bug cannot
+occur, but in the more general case of multiple interrupts synchronising
+through the same condition function and rendezvous,
+the process and interrupt can enter a peculiar state.
+A process may return from
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+with the condition function false
+if there is a delay between
+the condition coming true and
+</span><span style="font-size: 10pt"><tt>wakeup</tt></span><span style="font-size: 10pt">
+being called,
+with the delay occurring
+just as the receiving process calls
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">.
+The condition is now true, so that process returns immediately,
+does whatever is appropriate, and then (say) decides to call
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+again.  This time the condition is false, so it goes to sleep.
+The wakeup process then finds a sleeping process,
+and wakes it up, but the condition is now false.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">There is an easy (and verified) solution: at the end of
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+or after
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+returns,
+if the condition is false, execute
+</span><span style="font-size: 10pt"><tt>sleep</tt></span><span style="font-size: 10pt">
+again.  This re-execution cannot repeat; the second synchronisation is guaranteed
+to function under the external conditions we are supposing.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Even though the original code is completely
+protected by interlocks and had been examined carefully by all of us
+and believed correct, it still had problems.
+It seems to us that some exhaustive automated analysis is
+required of multiprocessor algorithms to guarantee their safety.
+Our experience has confirmed that it is almost impossible to
+guarantee by inspection or simple testing the correctness
+of a multiprocessor algorithm.  Testing can demonstrate the presence
+of bugs but not their absence
+[Dij72].
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">We close by claiming that the code above with
+the suggested modification passes all tests we have for correctness
+under the assumptions used in the validation.
+We would not, however, go so far as to claim that it is universally correct.
+</span></p><p style="margin-top: 0; margin-bottom: 0.17in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt"><b>References
+</b></span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">[Bac86] Maurice J. Bach,
+</span><span style="font-size: 10pt"><i>The Design of the UNIX Operating System,</i></span><span style="font-size: 10pt">
+Prentice-Hall,
+Englewood Cliffs,
+1986.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">[Dij72] Edsger W. Dijkstra,
+‘‘The Humble Programmer - 1972 Turing Award Lecture’’,
+</span><span style="font-size: 10pt"><i>Comm. ACM,</i></span><span style="font-size: 10pt">
+15(10), pp. 859-866, 
+October 1972.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">[Hol91] Gerard J. Holzmann,
+</span><span style="font-size: 10pt"><i>Design and Validation of Computer Protocols,</i></span><span style="font-size: 10pt">
+Prentice-Hall,
+Englewood Cliffs,
+1991.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">[Pik90]
+Rob Pike,
+Dave Presotto,
+Ken Thompson,
+Howard Trickey,
+‘‘Plan 9 from Bell Labs’’,
+</span><span style="font-size: 10pt"><i>Proceedings of the Summer 1990 UKUUG Conference,</i></span><span style="font-size: 10pt">
+pp. 1-9,
+London,
+July, 1990.
+</span></p><p style="margin-top: 0; margin-bottom: 0.05in"></p>
+<p style="line-height: 1.2em; margin-left: 1.00in; text-indent: 0.00in; margin-right: 1.00in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">[Sal66] Jerome H. Saltzer,
+</span><span style="font-size: 10pt"><i>Traffic Control in a Multiplexed Computer System</i></span><span style="font-size: 10pt">
+MIT,
+Cambridge, Mass.,
+1966.
+</span></p><p style="margin-top: 0; margin-bottom: 0.50in"></p>
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+<p style="line-height: 1.2em; margin-left: 1.50in; text-indent: 0.35in; margin-right: 1.50in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt"></span><span style="font-size: 10pt"><b>Notes</b></span><span style="font-size: 10pt">
+</span></p><p style="margin-top: 0; margin-bottom: 0.17in"></p>
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+<p style="line-height: 1.2em; margin-left: 1.50in; text-indent: 0.00in; margin-right: 1.50in; margin-top: 0; margin-bottom: 0; text-align: justify;">
+<span style="font-size: 10pt">Appeared in a slightly different form in
+</span><span style="font-size: 10pt"><i>Proceedings of the Spring 1991 EurOpen Conference,
+</i></span><span style="font-size: 10pt">Tromsø, Norway, 1991, pp. 161-166.
+</span></p><p style="margin-top: 0; margin-bottom: 0.17in"></p>
+<p style="margin-top: 0; margin-bottom: 0.17in"></p>
+
+
+
+
+</div>
+
+<div id="footer">
+<br class="doNotDisplay doNotPrint">
+
+<div class="left"><a href="http://werc.cat-v.org/">Powered by werc</a></div>
+
+<div class="right">
+<form action="http://www.google.com/cse" id="cse-search-box" style="display: inline">
+  <div style="display: inline">
+    <input name="cx" value="partner-pub-2060328396151526:ea9sar-xttn" type="hidden">
+    <input name="ie" value="UTF-8" type="hidden">
+    <input style="background: url(&quot;http://www.google.com/cse/intl/en/images/google_custom_search_watermark.gif&quot;) no-repeat scroll left center rgb(255, 255, 255);" name="q" size="32" type="text">
+    <input name="sa" value="Search" type="submit">
+  </div>
+<input value="doc.cat-v.org/plan_9/4th_edition/papers/sleep" name="siteurl" type="hidden"><input value="wiki.osdev.org/Multiprocessor_Scheduling" name="ref" type="hidden"><input name="ss" type="hidden"></form>
+<script type="text/javascript" src="Process%20Sleep%20and%20Wakeup%20on%20a%20Shared-memory%20Multiprocessor_files/brand"></script></div>
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="Process%20Sleep%20and%20Wakeup%20on%20a%20Shared-memory%20Multiprocessor_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1220719-1");
+pageTracker._setDomainName("cat-v.org");
+pageTracker._trackPageview();
+
+var pageTracker2 = _gat._getTracker("UA-1220719-12");
+pageTracker2._trackPageview();
+} catch(err) {}</script>
+</div>
+
+</body></html>

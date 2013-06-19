@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html class="client-firefox client-firefox-2 client-gecko client-linux" dir="ltr" lang="de"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Ausgabe 8 – Lowlevel</title>
+<meta name="generator" content="MediaWiki 1.17.2">
+<link rel="shortcut icon" href="http://www.lowlevel.eu/Favicon.png">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.lowlevel.eu/w/opensearch_desc.php" title="Lowlevel (de)">
+<link rel="EditURI" type="application/rsd+xml" href="http://www.lowlevel.eu/w/api.php?action=rsd">
+<link title="Creative Commons" type="application/rdf+xml" href="http://www.lowlevel.eu/w/index.php?title=Ausgabe_8&amp;action=creativecommons" rel="meta">
+<link rel="copyright" href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/">
+<link rel="alternate" type="application/atom+xml" title="Atom-Feed für „Lowlevel“" href="http://www.lowlevel.eu/w/index.php?title=Spezial:Letzte_%C3%84nderungen&amp;feed=atom">
+<link rel="stylesheet" href="Ausgabe%208%20%13%20Lowlevel_files/load_002.css">
+<link rel="stylesheet" href="Ausgabe%208%20%13%20Lowlevel_files/main.css" media="screen">
+<!--[if lt IE 5.5000]><link rel="stylesheet" href="/w/skins/monobook/IE50Fixes.css?301" media="screen" /><![endif]-->
+<!--[if IE 5.5000]><link rel="stylesheet" href="/w/skins/monobook/IE55Fixes.css?301" media="screen" /><![endif]-->
+<!--[if IE 6]><link rel="stylesheet" href="/w/skins/monobook/IE60Fixes.css?301" media="screen" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" href="/w/skins/monobook/IE70Fixes.css?301" media="screen" /><![endif]--><meta name="ResourceLoaderDynamicStyles" content=""><link rel="stylesheet" href="Ausgabe%208%20%13%20Lowlevel_files/load.css">
+<link rel="stylesheet" href="Ausgabe%208%20%13%20Lowlevel_files/load.css">
+<link rel="stylesheet" href="Ausgabe%208%20%13%20Lowlevel_files/load.css">
+
+<link href="Ausgabe%208%20%13%20Lowlevel_files/FF2Fixes.css" rel="stylesheet" type="text/css"></head>
+<body class="mediawiki ltr capitalize-all-nouns ns-0 ns-subject page-Ausgabe_8 skin-monobook">
+<div id="globalWrapper">
+<div id="column-content"><div id="content">
+	<a id="top"></a>
+	
+	<h1 id="firstHeading" class="firstHeading">Ausgabe 8</h1>
+	<div id="bodyContent">
+		<div id="siteSub">Aus Lowlevel</div>
+		<div id="contentSub"></div>
+		<div id="jump-to-nav">Wechseln zu: <a href="#column-one">Navigation</a>, <a href="#searchInput">Suche</a></div>
+		<!-- start content -->
+<table style="background-color: #f6f6f6; margin: 0 0em; padding: 0 0px; border: 1px solid #d6d6d6;" border="0" cellpadding="0" cellspacing="10" width="100%">
+<tbody><tr>
+<td> <font color="#bf111b" face="Arial, Helvetica, sans-serif" size="100%">©</font>
+</td>
+<td> Dieser Artikel ist urheberrechtlich geschützt.<br>Bitte beachte, dass die üblichen <a href="http://www.lowlevel.eu/wiki/Lowlevel:Urheberrecht" title="Lowlevel:Urheberrecht">Lizenzbestimmungen</a> des Wikis für diesen Artikel nicht gelten.
+</td></tr></tbody></table>
+<p><br>
+</p>
+<table style="width:100%; background-color: #D0D8FF; border: 1px solid #b8c0e8; text-align:center; margin-bottom: 10px;">
+<tbody><tr>
+<td style="width:33%; text-align:left;">«&nbsp;<a href="http://www.lowlevel.eu/wiki/Ausgabe_7" title="Ausgabe 7">Ausgabe 7</a></td>
+<td style="width:33%; text-align:center;"><b>Navigation</b></td>
+<td style="width:33%; text-align:right;"><a href="http://www.lowlevel.eu/wiki/Ausgabe_9" title="Ausgabe 9">Ausgabe 9</a>&nbsp;»</td>
+</tr>
+</tbody></table>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Inhaltsverzeichnis</h2> <span class="toctoggle">[<a href="#" class="internal" id="togglelink">Verbergen</a>]</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Vorwort"><span class="tocnumber">1</span> <span class="toctext">Vorwort</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#News"><span class="tocnumber">2</span> <span class="toctext">News</span></a>
+<ul>
+<li class="toclevel-2 tocsection-3"><a href="#MenuetOS"><span class="tocnumber">2.1</span> <span class="toctext">MenuetOS</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="#ReactOS"><span class="tocnumber">2.2</span> <span class="toctext">ReactOS</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="#SkyOS"><span class="tocnumber">2.3</span> <span class="toctext">SkyOS</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-6"><a href="#Thema_der_Ausgabe"><span class="tocnumber">3</span> <span class="toctext">Thema der Ausgabe</span></a>
+<ul>
+<li class="toclevel-2 tocsection-7"><a href="#Paging"><span class="tocnumber">3.1</span> <span class="toctext">Paging</span></a>
+<ul>
+<li class="toclevel-3 tocsection-8"><a href="#Ein_besonderes_PMode_Feature"><span class="tocnumber">3.1.1</span> <span class="toctext">Ein besonderes PMode Feature</span></a></li>
+<li class="toclevel-3 tocsection-9"><a href="#Wieso_Paging.3F"><span class="tocnumber">3.1.2</span> <span class="toctext">Wieso Paging?</span></a></li>
+<li class="toclevel-3 tocsection-10"><a href="#Funktionsweise:"><span class="tocnumber">3.1.3</span> <span class="toctext">Funktionsweise:</span></a></li>
+<li class="toclevel-3 tocsection-11"><a href="#Virtuelle_Speicheradresse_Physikalische_Speicheradresse:"><span class="tocnumber">3.1.4</span> <span class="toctext">Virtuelle Speicheradresse Physikalische Speicheradresse:</span></a></li>
+<li class="toclevel-3 tocsection-12"><a href="#Aufbau_eines_PageDirectory-Eintrages:"><span class="tocnumber">3.1.5</span> <span class="toctext">Aufbau eines PageDirectory-Eintrages:</span></a></li>
+<li class="toclevel-3 tocsection-13"><a href="#Paging_in_der_Praxis:_heutige_Betriebssysteme:"><span class="tocnumber">3.1.6</span> <span class="toctext">Paging in der Praxis: heutige Betriebssysteme:</span></a></li>
+<li class="toclevel-3 tocsection-14"><a href="#Kleines_Beispiel_zu_Paging:"><span class="tocnumber">3.1.7</span> <span class="toctext">Kleines Beispiel zu Paging:</span></a>
+<ul>
+<li class="toclevel-4 tocsection-15"><a href="#Vorbereitungen:"><span class="tocnumber">3.1.7.1</span> <span class="toctext">Vorbereitungen:</span></a></li>
+<li class="toclevel-4 tocsection-16"><a href="#Initialisieren_der_PageDirectory_und_PageTables:"><span class="tocnumber">3.1.7.2</span> <span class="toctext">Initialisieren der PageDirectory und PageTables:</span></a></li>
+<li class="toclevel-4 tocsection-17"><a href="#Paging_aktivieren:"><span class="tocnumber">3.1.7.3</span> <span class="toctext">Paging aktivieren:</span></a></li>
+<li class="toclevel-4 tocsection-18"><a href="#Schluss:"><span class="tocnumber">3.1.7.4</span> <span class="toctext">Schluss:</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-19"><a href="#Designtechnisches_HAL"><span class="tocnumber">4</span> <span class="toctext">Designtechnisches HAL</span></a>
+<ul>
+<li class="toclevel-2 tocsection-20"><a href="#1._Einleitung"><span class="tocnumber">4.1</span> <span class="toctext">1. Einleitung</span></a></li>
+<li class="toclevel-2 tocsection-21"><a href="#2._Beschreibung"><span class="tocnumber">4.2</span> <span class="toctext">2. Beschreibung</span></a></li>
+<li class="toclevel-2 tocsection-22"><a href="#3._Was_kommt_ins_HAL.3F"><span class="tocnumber">4.3</span> <span class="toctext">3. Was kommt ins HAL?</span></a></li>
+<li class="toclevel-2 tocsection-23"><a href="#4._Implementierung"><span class="tocnumber">4.4</span> <span class="toctext">4. Implementierung</span></a></li>
+<li class="toclevel-2 tocsection-24"><a href="#5._Schluss"><span class="tocnumber">4.5</span> <span class="toctext">5. Schluss</span></a>
+<ul>
+<li class="toclevel-3 tocsection-25"><a href="#Linux:"><span class="tocnumber">4.5.1</span> <span class="toctext">Linux:</span></a></li>
+<li class="toclevel-3 tocsection-26"><a href="#Windows_.28NT.2C_2000.2C_XP.29:"><span class="tocnumber">4.5.2</span> <span class="toctext">Windows (NT, 2000, XP):</span></a></li>
+<li class="toclevel-3 tocsection-27"><a href="#ReactOS:"><span class="tocnumber">4.5.3</span> <span class="toctext">ReactOS:</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-28"><a href="#Hardwaretechnisches:_Real_Time_Clock"><span class="tocnumber">5</span> <span class="toctext">Hardwaretechnisches: Real Time Clock</span></a>
+<ul>
+<li class="toclevel-2 tocsection-29"><a href="#1._Real_Time_Clock_.3D"><span class="tocnumber">5.1</span> <span class="toctext">1. Real Time Clock =</span></a></li>
+<li class="toclevel-2 tocsection-30"><a href="#2._Speicherstellen_des_RAM-Speichers"><span class="tocnumber">5.2</span> <span class="toctext">2. Speicherstellen des RAM-Speichers</span></a></li>
+<li class="toclevel-2 tocsection-31"><a href="#3._Schreiben.2FLesen_einer_Speicherstelle_des_RAM-Speichers"><span class="tocnumber">5.3</span> <span class="toctext">3. Schreiben/Lesen einer Speicherstelle des RAM-Speichers</span></a></li>
+<li class="toclevel-2 tocsection-32"><a href="#4._Statusregister_A"><span class="tocnumber">5.4</span> <span class="toctext">4. Statusregister A</span></a></li>
+<li class="toclevel-2 tocsection-33"><a href="#5._Statusregister_B"><span class="tocnumber">5.5</span> <span class="toctext">5. Statusregister B</span></a></li>
+<li class="toclevel-2 tocsection-34"><a href="#6._Statusregister_C"><span class="tocnumber">5.6</span> <span class="toctext">6. Statusregister C</span></a></li>
+<li class="toclevel-2 tocsection-35"><a href="#7._Statusregister_D"><span class="tocnumber">5.7</span> <span class="toctext">7. Statusregister D</span></a></li>
+<li class="toclevel-2 tocsection-36"><a href="#8._Diagnose-Byte"><span class="tocnumber">5.8</span> <span class="toctext">8. Diagnose-Byte</span></a></li>
+<li class="toclevel-2 tocsection-37"><a href="#9._Disketten-Beschreibung"><span class="tocnumber">5.9</span> <span class="toctext">9. Disketten-Beschreibung</span></a>
+<ul>
+<li class="toclevel-3 tocsection-38"><a href="#Typen:"><span class="tocnumber">5.9.1</span> <span class="toctext">Typen:</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-39"><a href="#Nachwort"><span class="tocnumber">5.10</span> <span class="toctext">Nachwort</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-40"><a href="#Software-_.26_Treibertechnisches:_Mode_13h"><span class="tocnumber">6</span> <span class="toctext">Software- &amp; Treibertechnisches: Mode 13h</span></a>
+<ul>
+<li class="toclevel-2 tocsection-41"><a href="#1._Geschichte"><span class="tocnumber">6.1</span> <span class="toctext">1. Geschichte</span></a></li>
+<li class="toclevel-2 tocsection-42"><a href="#2._Einrichten_des_Modus"><span class="tocnumber">6.2</span> <span class="toctext">2. Einrichten des Modus</span></a></li>
+<li class="toclevel-2 tocsection-43"><a href="#3._Farbpalette"><span class="tocnumber">6.3</span> <span class="toctext">3. Farbpalette</span></a></li>
+<li class="toclevel-2 tocsection-44"><a href="#4._Speicherzugriff"><span class="tocnumber">6.4</span> <span class="toctext">4. Speicherzugriff</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-45"><a href="#Tipps_.26_Tricks"><span class="tocnumber">7</span> <span class="toctext">Tipps &amp; Tricks</span></a>
+<ul>
+<li class="toclevel-2 tocsection-46"><a href="#0.29_Einleitung"><span class="tocnumber">7.1</span> <span class="toctext">0) Einleitung</span></a></li>
+<li class="toclevel-2 tocsection-47"><a href="#1.29_MOV_reg.2C_0"><span class="tocnumber">7.2</span> <span class="toctext">1) MOV reg, 0</span></a></li>
+<li class="toclevel-2 tocsection-48"><a href="#2.29_CMP_reg.2C_0"><span class="tocnumber">7.3</span> <span class="toctext">2) CMP reg, 0</span></a></li>
+<li class="toclevel-2 tocsection-49"><a href="#3.29_CMP_reg.2C_-1"><span class="tocnumber">7.4</span> <span class="toctext">3) CMP reg, -1</span></a></li>
+<li class="toclevel-2 tocsection-50"><a href="#4.29_MOVZX"><span class="tocnumber">7.5</span> <span class="toctext">4) MOVZX</span></a></li>
+<li class="toclevel-2 tocsection-51"><a href="#5.29_IMUL"><span class="tocnumber">7.6</span> <span class="toctext">5) IMUL</span></a></li>
+<li class="toclevel-2 tocsection-52"><a href="#6.29_Schleifen"><span class="tocnumber">7.7</span> <span class="toctext">6) Schleifen</span></a></li>
+<li class="toclevel-2 tocsection-53"><a href="#7.29_Nachwort"><span class="tocnumber">7.8</span> <span class="toctext">7) Nachwort</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-54"><a href="#Codeschnippsel"><span class="tocnumber">8</span> <span class="toctext">Codeschnippsel</span></a></li>
+<li class="toclevel-1 tocsection-55"><a href="#OS-Showcase"><span class="tocnumber">9</span> <span class="toctext">OS-Showcase</span></a>
+<ul>
+<li class="toclevel-2 tocsection-56"><a href="#.C3.9Cberblick:"><span class="tocnumber">9.1</span> <span class="toctext">Überblick:</span></a></li>
+<li class="toclevel-2 tocsection-57"><a href="#Entstehung_von_StormOS:"><span class="tocnumber">9.2</span> <span class="toctext">Entstehung von StormOS:</span></a>
+<ul>
+<li class="toclevel-3 tocsection-58"><a href="#Features:"><span class="tocnumber">9.2.1</span> <span class="toctext">Features:</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-59"><a href="#Fakten:"><span class="tocnumber">9.3</span> <span class="toctext">Fakten:</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-60"><a href="#Interview"><span class="tocnumber">10</span> <span class="toctext">Interview</span></a></li>
+<li class="toclevel-1 tocsection-61"><a href="#Kolumne"><span class="tocnumber">11</span> <span class="toctext">Kolumne</span></a>
+<ul>
+<li class="toclevel-2 tocsection-62"><a href="#Computer_sind_wie_Autos"><span class="tocnumber">11.1</span> <span class="toctext">Computer sind wie Autos</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-63"><a href="#Bericht_ausm_Forum"><span class="tocnumber">12</span> <span class="toctext">Bericht ausm Forum</span></a></li>
+<li class="toclevel-1 tocsection-64"><a href="#Vermischtes"><span class="tocnumber">13</span> <span class="toctext">Vermischtes</span></a>
+<ul>
+<li class="toclevel-2 tocsection-65"><a href="#Xen"><span class="tocnumber">13.1</span> <span class="toctext">Xen</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-66"><a href="#Schluss_und_Impressum"><span class="tocnumber">14</span> <span class="toctext">Schluss und Impressum</span></a></li>
+</ul>
+</td></tr></tbody></table>
+<h2> <span class="mw-headline" id="Vorwort"> Vorwort </span></h2>
+<p>Viel Zeit ist vergangen seit der letzten Ausgabe von Lowlevel. Einige
+ Anstrengungen hat es die Redaktion gekostet, all die Artikel zu 
+schreiben und zusammenzusammeln. Am anstrengendsten ist, die Erwartung 
+der Leser auszuhalten. Ständige Fragen wie "Wann ist das Magazin 
+fertig?" und "Wie weit seit ihr?" haben mich schon das ein oder andere 
+Mal zur Weissglut getrieben. Wir sind keine D-Züge. Wir machen dieses 
+Magazin nicht hauptberuflich, sondern haben nebenbei vorallem im "echten
+ Leben" noch haufenweise andere Sachen zu tun. Wir machen dieses Magazin
+ aus Spass, und den wollen wir uns nicht verderben lassen, weil andere 
+Leute drängeln. Wer unter Druck steht, kann keine befriedigende Leistung
+ abgeben. Ich hoffe, dass sich die entsprechenden Leute auch 
+angesprochen fühlen und einfach auf unsere Statusberichte warten. Wir 
+melden uns im Forum von alleine, wenn sich etwas an der Lage geändert 
+hat.
+Wir haben es trotzdem versucht und wir hoffen, es hat sich gelohnt und 
+ihr habt viel Spass mit dieser Ausgabe.
+Viel Spass beim Lesen der achten Ausgabe von Lowlevel diesmal wieder 
+unter der Regie von mir,
+</p><p>Joachim Neu.
+</p>
+<h2> <span class="mw-headline" id="News"> News </span></h2>
+<h3> <span class="mw-headline" id="MenuetOS"> MenuetOS </span></h3>
+<p>Die neue Beta-Version des bekannten MenuetOS (0.79 pre 1) wurde 
+zusammen mit der neuen Final-Version (0.78) des Betriebssystems 
+freigegeben.
+Grössere Änderungen wurden mit einem verbesserten Tastaturtreiber, 
+Warteschlangen im Kernel und verschiedenen neuen Programmen gemacht. (<a href="http://www.menuetos.de/" class="external free" rel="nofollow">http://www.menuetos.de</a>)
+</p>
+<h3> <span class="mw-headline" id="ReactOS"> ReactOS </span></h3>
+<p>Aber auch bei der "Konkurrenz" tut sich etwas. Besonders beim in der 
+letzten Ausgabe vorgestellten ReactOS wird viel gearbeitet. Eine neue 
+Homepage mit neuen Screenshots zeigen den aktuellen Entwicklungsstand 
+von ReactOS, welcher beachtlich ist. (<a href="http://www.reactos.org/xhtml/en/screenshots.html" class="external free" rel="nofollow">http://www.reactos.org/xhtml/en/screenshots.html</a>)
+Aber nicht nur das Erscheinungsbild der Website wurde verändert. Am 
+30.10.2005 wurde die neuste Version 0.2.8 freigegeben, welche auf der 
+Homepage downloadbar ist. (<a href="http://www.reactos.de/" class="external free" rel="nofollow">http://www.reactos.de</a>)
+</p>
+<h3> <span class="mw-headline" id="SkyOS"> SkyOS </span></h3>
+<p>Bei SkyOS bestimmen zur Zeit Updates und Bugfixes die Neuerungen. 
+SkyOS besticht bereits durch eine einwandfreie GUI, die es mit allen 
+anderen gängigen aufnehmen kann, jedoch vom Design her vereinzelt andere
+ Wege geht. (<a href="http://www.skyos.org/" class="external free" rel="nofollow">http://www.skyos.org</a>)
+</p>
+<h2> <span class="mw-headline" id="Thema_der_Ausgabe"> Thema der Ausgabe </span></h2>
+<h3> <span class="mw-headline" id="Paging"> Paging </span></h3>
+<p>(Hauptartikel: <a href="http://www.lowlevel.eu/wiki/Paging" title="Paging">Paging</a>)
+</p>
+<h4> <span class="mw-headline" id="Ein_besonderes_PMode_Feature"> Ein besonderes PMode Feature </span></h4>
+<p>Jeder, der auf niedrigster Ebene oder ein eigenes Betriebssystem 
+programmieren will, wird feststellen, wie viele Features man unter dem 
+Protected Mode einer x86-32 CPU verwenden kann. Einer der wichtigsten 
+dieser Features ist Paging, obwohl es erst mit dem 486er eingeführt 
+wurde und die erste Intel 32-Bit PMode CPU, der 386er, diese Technik 
+noch nicht kannte. Dies dürfte aber heutzutage in der Regel nicht mehr 
+allzusehr ins Gewicht fallen. Im folgenden möchte ich nun diese ganz 
+wichtige Technologie kurz beschreiben und euch einen kleinen Überblick 
+bieten.
+</p>
+<h4> <span class="mw-headline" id="Wieso_Paging.3F"> Wieso Paging? </span></h4>
+<p>Paging dient zur Implementierung eines virtuellen Speichermanagers. 
+Dadurch kann ein Betriebssystem den verfügbaren Speicherplatz effektiv 
+verwalten und gegebenenfalls Speicherblöcke auf die Festplatte 
+auslagern. Es ist auch möglich, dass jeder Prozess ganze 4 GB Speicher 
+bekommt, ohne dass so viel physikalischer Arbeitsspeicher überhaupt 
+verfügbar ist. Ausserdem können die einzelnen Prozesse voneinander 
+abgetrennt und geschützt werden.
+</p>
+<h4> <span class="mw-headline" id="Funktionsweise:"> Funktionsweise: </span></h4>
+<p>Das erste wäre ersteinmal das PageDirectory. Dieses ist 4 KB gross 
+und hat 1024 Einträge zu je 4 Byte. Jeder Eintrag kennzeichnet eine 
+PageTable, daher gibt es insgesamt 1024 PageTables. Die höheren 20 Bits 
+des Eintrages beschreiben die physikalische Adresse der PageTable, in 
+den restlichen niedrigeren 12 Bits stehen Attribute und Eigenschaften 
+der PageTable, wie z.B. ob die PageTable derzeit verfügbar ist, ob nur 
+Programme mit einem CPL von 0, 1 oder 2 auf diese Page zugreifen können 
+oder ob ein Speicherschutz auf die Page wirken soll. Die PageTable ist 
+ebenfalls 4 KB gross und hat wie die PageDirectory wiederum 1024 
+Einträge. Diesmal kennzeichnen die Einträge einzelne Pages. Paging wird 
+durch das setzten des Paging-Bits (Bit 31) im CR0-Register aktiviert. 
+Die physikalische Adresse der PageDirectory steht im CR3-Register.
+</p>
+<h4> <span class="mw-headline" id="Virtuelle_Speicheradresse_Physikalische_Speicheradresse:"> Virtuelle Speicheradresse Physikalische Speicheradresse: </span></h4>
+<p>Bei aktiviertem Paging wandelt die CPU die Speicheradresse, die 
+virtuelle Adresse, in die physikalische Adresse, die Adresse im 
+„richtigen“ Arbeitsspeicher, um und greift darauf zu. Der virtuelle 
+Adressraum ist normalerweise bis 4 GB gross. Dies ergibt sich aus 1024 
+PageTables * 1024 Pages je PageTable * 4 KB je Page. Der physikalische 
+Adressraum ist so gross wie der vorhandene Arbeitsspeicher. Ein 
+Betriebssystem kann dann für jeden Prozess ein eigenes PageDirectory 
+verwenden und hat somit seine eigenen 4 GB zur Verfügung. Die Verwaltung
+ des physikalischen Speichers liegt alleine in den Händen des 
+Betriebssystems. Es ist auch möglich an mehreren virtuellen Adressen den
+ gleichen physikalischen Speicher hinzumappen, der in Wirklichkeit nur 
+einmal im Arbeitsspeicher existiert.
+</p><p>Für die Adressumwandlung zerlegt die CPU die virtuelle Adresse in 3 Teile:
+</p><p>PageDirectory-Eintrag:
+Die höchsten 10 Bits (Bits 22 – 31) geben den Index der PageTable in der PageDirectory an.
+</p><p>PageTable-Eintrag:
+Die folgenden 10 Bits (Bits 12 – 21) geben den Index der Page in der ausgewählten PageTable an.
+</p><p>Page-Offset:
+Die niedrigen 12 Bits (Bits 0 – 11) geben die Offset Adresse innerhalb der Page an.
+</p>
+<h4> <span class="mw-headline" id="Aufbau_eines_PageDirectory-Eintrages:"> Aufbau eines PageDirectory-Eintrages: </span></h4>
+<p>Der 4 Byte grosse PageDirectory-Eintrag beinhaltet in den höheren 20 
+Bits die physikalische Adresse der Page. In den restlichen 12 Bits 
+werden Attribute und Eigenschaften der Page festgelegt. Übrigens: Ein 
+PageDirectory-Eintrag und ein PageTable-Eintrag unterscheiden sich 
+voneinander fast gar nicht oder nur unwesentlich.
+</p><p>Sonstige Biterklärungen:
+</p><p>Bit P:
+Steht für „Present“. Falls dieses Bit gesetzt ist, befindet sich die 
+angegebene Page im Speicher, sonst ist die Page ausgelagert oder nicht 
+verfügbar. Falls versucht wird auf eine nicht verfügbare Page 
+zuzugreifen tritt ein Page Fault Exception auf (Int 14).
+</p><p>Bit R/W:
+Dieses Bit kennzeichnet, ob auf die Page ein Schreibschutz wirkt oder 
+nicht. Falls dieses Bit gesetzt ist, kann auch auf diese Page schreibend
+ zugegriffen werden.
+</p><p>Bit U/S:
+Falls dieses Bit gesetzt ist, können nur Programme mit dem Privileg 
+Level von 0, 1 oder 2 auf diese Page zugreifen. Jeder Versuch, mit einem
+ Programm mit Privileg Level von 3 auf diese Page zuzugreifen, endet mit
+ einer Page Fault Exception.
+</p><p>Bit PWT:
+Das PWT Bit ist neben dem PCD Bit nur im 486er definiert und sollte 
+deshalb gemieden werden. PWT bedeutet soviel wie „page write-through“ 
+und dient zur Steuerung des Caches auf Seitenbasis. Ist das Bit gesetzt 
+werden alle Schreibaktionen sofort in den Arbeitsspeicher geschrieben, 
+sonst werden die Änderungen vorerst nur im Cache vorgenommen.
+</p><p>Bit PCD:
+Das PCD Bit ist wie das PWT Bit nur im 486er definiert. Falls das Bit 
+gesetzt ist, übernimmt der Prozessor aus dieser Seite geladene Daten 
+nicht in seinen internen Cache.
+</p><p>Bit A:
+Steht für „accessed“. Dieses Bit wird vom Prozessor selber gesetzt, wenn
+ irgendein Speicherzugriff auf diese Page geschieht 
+(Lese-/Schreibaktion, Programmausführung).
+</p><p>Bit D:
+Dieses Bit steht für „dirty“ und wird wiederum vom CPU selbst gesetzt. 
+Das Bit wird jedoch nur dann gesetzt, wenn ein Schreibzugriff auf die 
+entsprechende Page stattfindet. Dadurch wird der Speicherverwaltung 
+signalisiert, dass diese Seite nicht ohne zusätzliche Massnahmen aus dem
+ Speicher entfernt werden kann.
+</p><p><br>
+</p>
+<h4> <span class="mw-headline" id="Paging_in_der_Praxis:_heutige_Betriebssysteme:"> Paging in der Praxis: heutige Betriebssysteme: </span></h4>
+<p>Die Betriebssysteme von heute, daruter verstehe ich Windows oder 
+Linux, verwenden alle Paging. Wie oben schon einmal kurz erwähnt bekommt
+ dabei jeder Prozess sein eigenes PageDirectory und daher auch seine 
+eigenen PageTables, sprich jeder Prozess hat ganze 4 GB virtuellen 
+Speicher und alle Prozesse sind voneinander abgetrennt und geschützt. Es
+ können jedoch nicht immer die ganzen 4 GB für den Prozess ganz alleine 
+zur Verfügung stehen. Bei einen API Call oder einem Interrupt springt 
+die CPU ja zu einem Interrupt-Handler, der sich ja auch im Speicher 
+befinden muss. Unter Windows stehen deshalb jedem Prozess 2 GB zur 
+Verfügung, bei bestimmten WinNT-Einstellungen auch 3 GB. Der restliche 
+Speicherplatz wird von Windows selbst beansprucht, wie z.B. für 
+Interrupthandler, Shared Library, usw. Damit der Prozess aber nicht das 
+Betriebssystem zum Absturz bringen kann, kann man mit dem oben 
+beschriebenen U/S Bit in den PageDirectory/PageTable-Einträgen den 
+Betriebssystemspeicher für den Prozess einfach unzugänglich machen.
+</p>
+<h4> <span class="mw-headline" id="Kleines_Beispiel_zu_Paging:"> Kleines Beispiel zu Paging: </span></h4>
+<p>Im folgenden soll nun anhand eines kleinen Beispieles die 
+Wirkungsweise gezeigt werden, wie man Paging benutzt. Dieses Programm 
+soll ein 512 Byte großer Bootsektor werden, der komplett in Assembler 
+mit NASM Syntax geschrieben wird und der zuerst in den Proteced Mode 
+schalten, danach PageDirectory und PageTables initialisiert und Paging 
+aktiviert. In diesem Beispiel werde ich den Videotextspeicher, der 
+normalerweise an der Position 0xB8000 startet, an die Position 
+0xC0000000 ( 3 GB ) mappen und darauf zugreifen.
+</p>
+<h5> <span class="mw-headline" id="Vorbereitungen:"> Vorbereitungen: </span></h5>
+<p>Zuerst initialisiert der Beispiel-Bootloader die Segmentregister und 
+den Stack im RealMode, danach wird in den Protected Mode geschaltet und 
+wiederum alles initialisiert. Da dieses Tutorial vor allem 
+Paging-Kenntnisse vermitteln soll, will ich hier den Anfangscode und den
+ Sprung in den Protected Mode nicht allzu sehr kommentieren.
+</p>
+<h5> <span class="mw-headline" id="Initialisieren_der_PageDirectory_und_PageTables:"> Initialisieren der PageDirectory und PageTables: </span></h5>
+<p>Da unser Code an 0x7C00 liegt, reicht es aus, wenn wir das 
+PageDirectory an die Adresse 0x8000 und die zwei PageTables an die 
+Adressen 0x9000 und 0xA000 setzten. Die Adressen von der PageDirectory 
+und den PageTables müssen immer ein Alignment von 4096 haben, heisst 
+alle 4 KB (0x0000, 0x1000, 0x2000, ...). Zuerst füllen wir den 
+Speicherbereich, wo die PageDirectory und die beiden PageTables liegen, 
+mit 0en:
+</p>
+<pre class="asm">InitPageDirectoryAndPageTables:
+	<span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,<span style="color: #46aa03; font-weight:bold;">eax</span>			<span style="color: #adadad; font-style: italic;">; PageDirectory und 2 PageTables mit 0en füllen</span>
+	<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ecx</span>,<span style="color: #ff0000;">1024</span>*<span style="color: #ff0000;">3</span>			<span style="color: #adadad; font-style: italic;">; 1024 double word ≙ 4KB, insgesamt 12kB</span>
+	<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">edi</span>,0x8000
+	<span style="color: #00007f;">rep</span> <span style="color: #00007f;">stosd</span></pre>
+<p>Danach schreiben wir in die PageDirectory-Einträge für die beiden PageTables (PageTable 0 und PageTable 768):
+</p>
+<pre class="asm">WritePageDirectoryEntries:
+	<span style="color: #00007f;">mov</span> <span style="color: #0000ff;">DWORD</span><span style="color: #66cc66;">[</span>0x8000<span style="color: #ff0000;">+0</span><span style="color: #66cc66;">]</span>,<span style="color: #66cc66;">(</span>0x9000 | <span style="color: #ff0000;">000000000111b</span><span style="color: #66cc66;">)</span>
+	<span style="color: #00007f;">mov</span> <span style="color: #0000ff;">DWORD</span><span style="color: #66cc66;">[</span>0x8000<span style="color: #ff0000;">+3072</span><span style="color: #66cc66;">]</span>,<span style="color: #66cc66;">(</span>0xA000 | <span style="color: #ff0000;">000000000111b</span><span style="color: #66cc66;">)</span></pre>
+<p><br>
+Nun müssen wir nur noch die PageTables vorbereiten. In der PageTable 0 
+mappen wir die ersten 4 MB vom virtuellen Speicher mit den ersten 4 MB 
+vom physikalischen Speicher. Somit kann nach der Aktivierung von Paging 
+auf die ersten 4 MB beliebig zugegriffen werden. In der PageTable 768 
+werde ich nur eine einzige Page mappen, heisst den virtuellen 
+Speicherbereich 0xC0000000 bis 0xC0001000. Ich werde diese Page mit der 
+physikalischen Adresse 0xB8000 verknüpfen. Somit kann man also auch auf 
+den Videotextspeicher zugreifen, indem man an die Adresse 0xC0000000 
+schreibt. Da wir ja auch die ersten 4 MB vorhin gemappt haben (wobei 
+virtuelle Adresse = physikalische Adresse), kann auch durch die Adresse 
+0xB8000 auf den Videospeicher zugegriffen werden. Und hier der Code:
+</p>
+<pre class="asm">InitPageTable0:
+	<span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">ebx</span>,<span style="color: #46aa03; font-weight:bold;">ebx</span>
+	<span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">edx</span>,<span style="color: #46aa03; font-weight:bold;">edx</span>
+	.Loop1:
+		<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,<span style="color: #46aa03; font-weight:bold;">edx</span>
+		<span style="color: #00007f;">or</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,<span style="color: #ff0000;">000000000111b</span>
+		<span style="color: #00007f;">mov</span> <span style="color: #66cc66;">[</span>0x9000+<span style="color: #46aa03; font-weight:bold;">ebx</span><span style="color: #66cc66;">]</span>,<span style="color: #46aa03; font-weight:bold;">eax</span>
+		<span style="color: #00007f;">add</span> <span style="color: #46aa03; font-weight:bold;">ebx</span>,<span style="color: #ff0000;">4</span>
+		<span style="color: #00007f;">add</span> <span style="color: #46aa03; font-weight:bold;">edx</span>,<span style="color: #ff0000;">4096</span>
+		<span style="color: #00007f;">cmp</span> <span style="color: #46aa03; font-weight:bold;">edx</span>,<span style="color: #ff0000;">4096</span>*<span style="color: #ff0000;">1024</span>
+		<span style="color: #00007f;">jne</span> .Loop1
+&nbsp;
+InitPageTable768:
+	<span style="color: #00007f;">mov</span> <span style="color: #0000ff;">DWORD</span><span style="color: #66cc66;">[</span>0xA000<span style="color: #66cc66;">]</span>,<span style="color: #66cc66;">(</span>0xB8000 | <span style="color: #ff0000;">000000000111b</span><span style="color: #66cc66;">)</span></pre>
+<h5> <span class="mw-headline" id="Paging_aktivieren:"> Paging aktivieren: </span></h5>
+<p>So, und zu guter Letzt müssen wir nur noch die Adresse des 
+PageDirectory in das Register CR3 schreiben und das Paging-Bit im 
+Steuerungsregister CR0 setzen:
+</p>
+<pre class="asm">&nbsp;
+WritePageDirectoryAddrIntoCR3:
+	<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,0x8000
+	<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">cr3</span>,<span style="color: #46aa03; font-weight:bold;">eax</span>
+&nbsp;
+ActivatePaging:
+	<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,<span style="color: #46aa03; font-weight:bold;">cr0</span>
+	<span style="color: #00007f;">or</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,<span style="color: #ff0000;">10000000000000000000000000000000b</span>
+	<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">cr0</span>,<span style="color: #46aa03; font-weight:bold;">eax</span></pre>
+<h5> <span class="mw-headline" id="Schluss:"> Schluss: </span></h5>
+<p>So, nun sind wir schon am Ende. Ich hoffe, ich konnte die Grundlagen 
+von Paging deutlich machen und mit dem Beispiel anschaulich 
+demonstrieren, was mit Paging alles möglich ist. Für Kritik, Wünsche und
+ Anregungen kann man sich immer an mich per ICQ (UIN: 338417614) melden.
+</p><p><i>Stefan Marcik</i>
+</p>
+<h2> <span class="mw-headline" id="Designtechnisches_HAL"> Designtechnisches HAL </span></h2>
+<h3> <span class="mw-headline" id="1._Einleitung"> 1. Einleitung </span></h3>
+<p>In diesem Tutorial werde ich erklären, was ein HAL (Hardware 
+Abstraction Layer) ist und welche Vorteile es zum normalen Kernel-Design
+ bietet.
+</p>
+<h3> <span class="mw-headline" id="2._Beschreibung"> 2. Beschreibung </span></h3>
+<p>Wie der Name schon sagt, handelt es sich beim HAL um eine 
+Software-Schicht zwischen der Hardware und dem eigentlichen Kernel. Aber
+ wozu braucht man sowas? Die Antwort darauf ist einfach: Wer seinen 
+Kernel früher oder später auf andere Plattformen/Architekturen portieren
+ will, muss im schlimmsten Fall den kompletten Kernel umschreiben. Um 
+das so weit wie möglich zu verhindern, sind viele Kernel in ein HAL und 
+den Rest aufgeteilt. Das HAL übernimmt Aufgaben, wie z.B. Port-Zugriffe,
+ Interrupt-Verwaltung, usw. Der Rest des Kernels (also Multitasking, 
+Memory Managment, ...) greifen (so weit das möglich ist) nur über die 
+Funktionen des HALs auf die Hardware zu. Wenn man seinen Kernel dann 
+portieren will, muss man im Idealfall nur das HAL umschreiben – ganz so 
+einfach ist das zwar praktisch nie, aber das Portieren wird dadurch 
+deutlich vereinfacht.
+</p>
+<h3> <span class="mw-headline" id="3._Was_kommt_ins_HAL.3F"> 3. Was kommt ins HAL? </span></h3>
+<p>Die einzige sinnvolle Antwort auf diese Frage ist: Alles was du für 
+hardwarenah hältst. Damit aber nicht der komplette Kernel im HAL landet,
+ habe ich versucht einige wichtige Sachen aufzuzählen:
+</p>
+<ul><li> Port-Zugriffe
+</li><li> Direkte Zugriffe auf die Register
+</li><li> Viele Macros (Größe eines Words, Größe einer Page, ...)
+</li><li> Interrupts, Exceptions, IDT/IVT, ...
+</li></ul>
+<p>Interrupts sind in Bezug auf Portieren eine echt üble Sache. Man 
+sollte also so schnell wie möglich versuchen, sie in etwas anderes 
+„umzuwandeln“ (z.B. Popup-Threads)
+</p>
+<h3> <span class="mw-headline" id="4._Implementierung"> 4. Implementierung </span></h3>
+<p>Im wesentlichen gibt es zwei Ansätze zur Implementierung: Entweder 
+werden die Dateien, die zur HAL gehören wie der restliche Kernel 
+behandelt, das heisst, dass am Ende eine Datei entsteht, oder die HAL 
+wird zu einer eigenen Datei gelinkt und z.B. vom Bootloader mitgeladen. 
+Egal wie man sich entscheidet, sollte man sich schon vorher den 
+Verzeichnisbaum und die Dateinamen überlegen. Ein guter Anfang ist das 
+erstellen einer Datei, die z.B. hal_config.h heisst. In ihr stehen alle 
+hardwarespezifischen Macros, also für i386 in etwa so:
+</p>
+<ul><li> #define WORD_LENGTH 32
+</li><li> #define MAX_RAM 4194304
+</li><li> ...
+</li></ul>
+<p>Anschliessend überlegt man sich einen einheitlichen Funktionssatz, 
+der später von allen Architekturen unterstützt werden muss. Für jede 
+Architektur könnte jetzt ein Unterordner mit der Implementierung aller 
+Funktionen existieren. Und je nach verwendeter hal_config.h und 
+angegebenem Unterordner wird der Kernel für eine andere Plattform 
+kompatibel gemacht.
+</p>
+<h3> <span class="mw-headline" id="5._Schluss"> 5. Schluss </span></h3>
+<p>Zum Abschluss gibt es noch ein paar Beispiele:
+</p>
+<h4> <span class="mw-headline" id="Linux:"> Linux: </span></h4>
+<p>Im Unterordner /arch sind alle architekturabhängigen Sachen.
+</p>
+<h4> <span class="mw-headline" id="Windows_.28NT.2C_2000.2C_XP.29:"> Windows (NT, 2000, XP): </span></h4>
+<p>In der Datei hal.dll sind die echten Lowlevel-Funktionen 
+implementiert. In Dateien wie ntdll.dll oder ntoskrnl.exe wird noch 
+weiter abstrahiert.
+</p>
+<h4> <span class="mw-headline" id="ReactOS:"> ReactOS: </span></h4>
+<p>Da es sich hier ja um einen NT-Clone handelt, ist ReactOS natürlich 
+ziemlich identisch mit Windows – sogar die Funktionsnamen sind gleich. 
+Da ReactOS aber Open Source ist, kann man sich da inspirieren lassen.
+</p><p>So, das wars fürs erste, sollte jemand Fragen haben, kann er mir eine PN/Mail schreiben.
+</p>
+<h2> <span class="mw-headline" id="Hardwaretechnisches:_Real_Time_Clock"> Hardwaretechnisches: Real Time Clock </span></h2>
+<h3> <span class="mw-headline" id="1._Real_Time_Clock_.3D"> 1. Real Time Clock =</span></h3>
+<p>Ab den AT befindet sich in dem Computer standardmässig eine 
+batteriebetriebene Uhr. Im Englischen wird sie als RTC (Real Time Clock)
+ bezeichnet. Die Uhr enthält auch noch einen 64 Byte batteriegepufferten
+ RAM, der beschrieben und gelesen werden kann. Dieser RAM-Speicher 
+beinhaltet für die Uhr relevante Informationen, und wird von den Ports 
+70h – 7Fh angesprochen, wobei nur die Ports 70h und 71h hier von 
+Interesse sind.
+</p>
+<h3> <span class="mw-headline" id="2._Speicherstellen_des_RAM-Speichers"> 2. Speicherstellen des RAM-Speichers </span></h3>
+<table class="prettytable">
+<tbody><tr><th>Adr.</th><th>Inhalt</th></tr>
+<tr><td>0</td><td>aktuelle Sekunde</td></tr>
+<tr><td>1</td><td>Alarmsekunde</td></tr>
+<tr><td>2</td><td>aktuelle Minute</td></tr>
+<tr><td>3</td><td>Alarmminute</td></tr>
+<tr><td>4</td><td>aktuelle Stunde</td></tr>
+<tr><td>5</td><td>Alarmstunde</td></tr>
+<tr><td>6</td><td>Tag der Woche</td></tr>
+<tr><td>7</td><td>Tage des Monats</td></tr>
+<tr><td>8</td><td>Monat</td></tr>
+<tr><td>9</td><td>Jahr</td></tr>
+<tr><td>10</td><td>Statusregister A der Uhr</td></tr>
+<tr><td>11</td><td>Statusregister B der Uhr</td></tr>
+<tr><td>12</td><td>Statusregister C der Uhr</td></tr>
+<tr><td>13</td><td>Statusregister D der Uhr</td></tr>
+<tr><td>14</td><td>Diagnose-Byte</td></tr>
+<tr><td>15</td><td>Status beim Herunterfahren des Systems</td></tr>
+<tr><td>16</td><td>Diskettenbeschreibung</td></tr>
+<tr><td>17</td><td>reserviert</td></tr>
+<tr><td>18</td><td>Festplattenbeschreibung</td></tr>
+<tr><td>19</td><td>reserviert</td></tr>
+<tr><td>20</td><td>Konfiguration</td></tr>
+<tr><td>21</td><td>LoByte
+der Hauptspeichergrösse auf der Hauptplatine in KByte</td></tr>
+<tr><td>22</td><td>HiByte
+der Hauptspeichergrösse auf der Hauptplatine in KByte</td></tr>
+
+<tr><td>23</td><td>LoByte
+der Hauptspeichergrösse auf einer Zusatzplatine in KByte</td></tr>
+<tr><td>24</td><td>HiByte
+der Hauptspeichergrösse auf einer Zusatzplatine in KByte</td></tr>
+<tr><td>25-45</td><td>reserviert</td></tr>
+<tr><td>46</td><td>HiByte
+der Prüfsumme über die Speicherstellen 16 – 32</td></tr>
+<tr><td>47</td><td>LoByte
+der Prüfsumme über die Speicherstellen 16 – 32</td></tr>
+<tr><td>48</td><td>reserviert</td></tr>
+<tr><td>49</td><td>reserviert</td></tr>
+<tr><td>50</td><td>die ersten beiden Ziffern des Jahrhunderts in 
+BCDNotation</td></tr>
+<tr><td>52-63</td><td>
+reserviert</td></tr>
+</tbody></table>
+<p>Das Feld „Tag der Woche“ gibt die Nummer des aktuellen Wochentages an, wobei die folgenden Werte für die Wochentage gelten.
+</p>
+<table class="prettytable">
+<tbody><tr><th>Nummer</th><th>Bedeutung</th><th>Nummer</th><th>Bedeutung</th></tr>
+<tr><td>1</td><td>Sonntag</td><td>5</td><td>Donnerstag</td></tr>
+<tr><td>2</td><td>Montag</td><td>6</td><td>Freitag</td></tr>
+<tr><td>3</td><td>Dienstag</td><td>7</td><td>Samstag</td></tr>
+<tr><td>4</td><td>Mittwoch</td><td>-</td><td>-</td></tr>
+</tbody></table>
+<h3> <span class="mw-headline" id="3._Schreiben.2FLesen_einer_Speicherstelle_des_RAM-Speichers"> 3. Schreiben/Lesen einer Speicherstelle des RAM-Speichers </span></h3>
+<p>Um auf irgendeine Speicherstelle des 64 Byte grossen Speichers 
+zugreifen zu können, bedient man sich der Ports 70h und 71h. Als erstes 
+lädt man die zu adressierende Speicherstelle (siehe Tabelle) in das 
+AL-Register, und schickt diesen Wert mit Hilfe von "out" nach Port 70h. 
+Der Chip erkennt nun, dass auf eine Speicherstelle des Speichers 
+zugegriffen wird. Nun kann man entweder mit dem out-Befehl auf den Port 
+71h etwas in die Speicherstelle schreiben, oder mittels "in" aus Port 
+71h ein Byte auslesen.
+</p>
+<pre class="asm"><span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>, Speicherstelle
+<span style="color: #00007f;">out</span> 70h, <span style="color: #46aa03; font-weight:bold;">al</span>
+<span style="color: #00007f;">in</span> <span style="color: #46aa03; font-weight:bold;">al</span>, 71h</pre>
+<pre class="asm"><span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>, Speicherstelle
+<span style="color: #00007f;">out</span> 70h <span style="color: #46aa03; font-weight:bold;">al</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>, NeuerInhalt
+<span style="color: #00007f;">out</span> 71h, <span style="color: #46aa03; font-weight:bold;">al</span></pre>
+<h3> <span class="mw-headline" id="4._Statusregister_A"> 4. Statusregister A </span></h3>
+<p>Die nachfolgende Tabelle zeigt den Aufbau des Statusregisters A, welches 1 Byte gross ist.
+</p>
+<table class="prettytable">
+<tbody><tr>
+<th>7</th>
+<th>6</th>
+<th>5</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>0</th>
+</tr>
+<tr>
+<td>UIP</td>
+<td>Z</td>
+<td>Z</td>
+<td>Z</td>
+<td>F</td>
+<td>F</td>
+<td>F</td>
+<td>F</td>
+</tr>
+</tbody></table>
+<p>F =&gt; Interrupt-Frequenz<br>
+Z =&gt; Zeitfrequenz<br>
+wenn UIP = 1 =&gt; Uhrzeit wird gerade aktualisiert (UIPBit)
+</p><p>Die beiden Felder F und Z werden beim Start von dem BIOS gestzt 
+und danach nicht mehr verändert. Dabei bekommt das Feld F den Wert 0110b
+ zugewiesen, welcher 1024 Interrupts in der Sekunde bedeutet.
+Das Feld Z bekommt den Wert 010b zugewiesen, und lässt somit eine 
+Zeitfrequenz von 32.768 Kiloherz aus.
+Wenn das UIP Bit gleich 1 ist, signalisiert es, dass die Uhrzeit gerade 
+aktualisiert wird. Dann können nähmlich Fehler in der Uhrzeit auftreten,
+ z. B. wenn der Sekundenzähler gerade bei 59 inkrementiert wurde, der 
+Minutenzähler aber nicht. Dann gäbe es z. B. einen Sprung von 13:59:59 
+auf 13:59:00, was aber unlogisch und falsch wäre.
+</p>
+<h3> <span class="mw-headline" id="5._Statusregister_B"> 5. Statusregister B </span></h3>
+<p>Über das Statusregister lassen sich ein paar Einstellungen der Uhr programmieren. Hier sind die Bits der Reihe nach aufgelistet:
+</p><p>0: 0 = Sommerzeit-Umschaltung berücksichtigen<br>
+1: Stundenzähler (0 = 12-Stunden-Format, 1 = 24-Stunden-Format)<br>
+2: Zeit- und Datumsformat (0 = BCD, 1 = binär)<br>
+3: 1 = Rechteckgenerator an<br>
+4: 1 = Interruptaufruf nach Zeitaktualisierung<br>
+5: 1 = AlarmInterrupt aufrufen<br>
+6: 1 = periodischen Interrupt aufrufen<br>
+7: 0 = Zeit aktualisieren<br>
+</p><p>In dem Bit 0 wird gespeichert, ob Sommerzeit (1) oder Winterzeit 
+(0) ist. Bit 1 entscheidet darüber, ob die Uhr im 12-Stundenmodus (0) 
+oder im 24-Stundenmodus (1) läuft. Im 12-Stundenmodus schaltet sie immer
+ nach 12 Stunden auf 0 Uhr um (Mitternacht und Mittag), während sie im 
+24 Stundemodus erst nach 24 Stunden umschaltet. Bit 2 gibt Aufschluss, 
+ob das BCD Format (0) oder das binäre Format (1) für die Zeit verwendet 
+wird. Bit 4 entscheidet darüber, ob nach einer Aktualisierung der Zeit 
+ein Interrupt aufgerufen werden soll. Wenn ja, dann muss dieses Bit auf 0
+ gesetzt werden. Wenn ein Alarm zu einer bestimmten Zeit aufgerufen 
+werden soll, muss Bit 5 auf 1 gesetzt werden. Die Alarmzeit befindet 
+sich dann in den Speicherstellen 1, 3 und 5 (Sekunde, Minute, Stunde) 
+des RAM-Speichers der Uhr. Das AlarmInterrupt wird periodisch 
+aufgerufen, wenn Bit 6 auf eins gesetzt ist. Die Anzahl der Aufrufe 
+hängt von der Interrupt-Frequenz ab. (siehe Statusregister A) Mit dem 
+Bit 7 kann man bestimmen, ob die Zeit aktualisiert werden soll (0) oder 
+nicht (1). Daher sollte man im Falle einer Zeitänderung das Bit 7 
+vorerst auf 1 setzen, und nach der Aktualisierung wieder auf 0. Im Text 
+steht immer wieder etwas von Interrupts, welche aufgerufen werden. 
+Tatsächlich gibt es für die Zeit aber nur einen Interrupt; egal ob die 
+Alarmzeit erreicht ist, die Zeit aktualisiert worden ist, oder der 
+periodische Interrupt augerufen worden ist, es wird immer der Interrupt 
+70h ausgelöst.
+</p>
+<h3> <span class="mw-headline" id="6._Statusregister_C"> 6. Statusregister C </span></h3>
+<p>Da der Zeitinterrupt (70h) aus verschiedenen Anlässen aufgerufen 
+werden kann, muss man bestimmen können, wer der Auslöser (Sender) war. 
+Und hier kommt schon das Statusregister C ins Spiel. Man bedient sich 
+einfach der im Registers beinhalteten Informationen. Hierbei sind aber 
+nur die Bits 4, 5 und 6 von Bedeutung. Diese entsprechen den 
+korrespondierenden Bits im Statusregister B. Daher: Wenn z. B. die 
+Alarmzeit erreicht wurde, was nur dann erfolgen kann, wenn das Bit 5 im 
+Statusregister B gesetzt ist, ist auch das Bit 5 im Statusregister 
+gesetzt, um anzuzeigen, dass die Alarmzeit erreicht wurde (oder ist).
+</p><p>0:<br>
+1:<br>
+2:<br>
+3:<br>
+4: 1 = Zeitaktualisierung abgeschlossen<br>
+5: 1 = Alarm-Zeit erreicht<br>
+6: 1 = periodischer InterruptAufruf<br>
+7:<br>
+</p><p>Die erste Aufgabe der Funktion, die den Int 70h abfängt, ist 
+also, das Statusregister C auszulesen, um den Grund des Aufrufes 
+festzustellen und entsprechend zu reagieren.
+</p>
+<h3> <span class="mw-headline" id="7._Statusregister_D"> 7. Statusregister D </span></h3>
+<p>Das letzte Statusregister ist am dürftigsten belegt. Hier ist nur Bit
+ 7 von Bedeutung. Es zeigt den Zustand der UhrBatterie an. Bei dem Wert 0
+ im Bit 7 sollte die Batterie gewechselt werden, da sie leer ist.
+</p>
+<h3> <span class="mw-headline" id="8._Diagnose-Byte"> 8. Diagnose-Byte </span></h3>
+<p>0:<br>
+1:<br>
+2:<br>
+3: 1 = Festplatte oder Controller nicht in Ordnung<br>
+4: 1 = Angabe der Speichergrösse in den Speicherstellen 21 - 24 falsch<br>
+5: 1 = Konfigurations-Byte falsch<br>
+6: 1 = Prüfsumme in den Bytes 46 und 47 falsch<br>
+7: 1 = Batterie der Uhr leer<br>
+</p>
+<h3> <span class="mw-headline" id="9._Disketten-Beschreibung"> 9. Disketten-Beschreibung </span></h3>
+<p>0 - 3: Typ des zweiten Diskettenlaufwerks
+4 - 7: Typ des ersten Diskettenlaufwerks
+</p>
+<h4> <span class="mw-headline" id="Typen:"> Typen: </span></h4>
+<p>0000b: kein (zweites) Laufwerk
+0001b: 320/360KByteLaufwerk
+0001b: 1,2 MByteLaufwerk
+</p>
+<h3> <span class="mw-headline" id="Nachwort"> Nachwort </span></h3>
+<p>Wie ihr seht, ist die Programmierung der Uhr im Grunde sehr einfach. 
+Vor allem erhält man Unterstützung durch den Interrupt und die 
+Statusregister. Bei den Informationen beziehe ich mich auf den AT. Wenn 
+ihr Fragen habt, quatscht mich im ICQ unter der Nummer 249457459 an oder
+ schreibt mir eine EMail an T0ast3r@gmx.at. © 2005 Toaster Burger
+</p>
+<h2> <span class="mw-headline" id="Software-_.26_Treibertechnisches:_Mode_13h"> Software- &amp; Treibertechnisches: Mode 13h </span></h2>
+<h3> <span class="mw-headline" id="1._Geschichte"> 1. Geschichte </span></h3>
+<p>Der "Mode 13h" war zu DOS-Zeiten einer der beliebtesten Grafikmodi. 
+Im Vergleich zu anderen VGA-Modi lässt sich der Grafikspeicher linear 
+an- sprechen. Der Modus ist auf allen Standard-IBM-VGA-Karten verfügbar 
+und sollte noch heute auf jeder üblichen Grafikkarte laufen. Die 
+Auflösung beträgt 320x200 Pixel bei 8 Bit Farbtiefe (256 Farben). 
+Natürlich ist das sehr wenig für ein OS mit grafischer 
+Benutzeroberfläche, jedoch kann man diese Grafik vielleicht in einem 
+"abgesicherten Modus" verwenden. Ein weiterer beliebter Grafikmodus war 
+"Modus X". Er wurde nie von IBM dokumentiert, obschon er folgende 
+Eigenschaften hatte: 360x480 Pixel bei 8 Bit, Double Buffering, 
+Hardware-Scrolling und mehr. Ich will hier jedoch nicht weiter auf Mode X
+ eingehen.
+</p>
+<h3> <span class="mw-headline" id="2._Einrichten_des_Modus"> 2. Einrichten des Modus </span></h3>
+<p>Das Einrichten ist ganz einfach. Man benutzt den BIOS-Interrupt 10h:
+</p>
+<pre class="asm"><span style="color: #00007f;">MOV</span> <span style="color: #46aa03; font-weight:bold;">AX</span>, <span style="color: #ff0000;">0013h</span>                    <span style="color: #adadad; font-style: italic;">; Funktion 13h</span>
+<span style="color: #00007f;">INT</span> 10h</pre>
+<p>Diese zwei Assembler-Befehle reichen. Nun hat man bei der 
+Speicheradresse A0000h 64'000 Bytes - nicht 64 KB&nbsp;;) - 
+Grafikspeicher.
+</p>
+<h3> <span class="mw-headline" id="3._Farbpalette"> 3. Farbpalette </span></h3>
+<p>Nach dem Umschalten in Modus 13h sollte die Standardfarbpalette 
+geladen sein. Sie ist etwas komisch organisiert. Die ersten 16 Farben 
+entsprechen den Grundfarben (den Farben im 16-Farben-Modus). Danach 
+kommen 16 Grautöne. Danach kommen erweiterte Farben in verschiedenen 
+Tönen. Die Struktur ist jedenfalls nicht wirklich durchdacht.
+</p><p>Diese 256 Standardfarben sind zum Glück nicht konstant. Man kann 
+sich nähmlich aus genau 262'143 Farben eine eigene 256-Farben-Palette 
+zusammenstellen. Das passiert über die VGA-Register, ist aber auch 
+kinderleicht. Um eine einzelne Farbe der 256er-Palette zu ändern, geht 
+man folgendermassen vor:
+</p>
+<pre class="asm"><span style="color: #00007f;">MOV</span> <span style="color: #46aa03; font-weight:bold;">AL</span>, <span style="color: #ff0000;">193</span>                     <span style="color: #adadad; font-style: italic;">; hier soll die Farbe 193 festgelegt werden</span>
+<span style="color: #00007f;">MOV</span> <span style="color: #46aa03; font-weight:bold;">DX</span>, <span style="color: #ff0000;">03C8h</span>
+<span style="color: #00007f;">OUT</span> <span style="color: #46aa03; font-weight:bold;">DX</span>, <span style="color: #46aa03; font-weight:bold;">AL</span>                      <span style="color: #adadad; font-style: italic;">; an Port 3C8h senden</span>
+<span style="color: #00007f;">INC</span> <span style="color: #46aa03; font-weight:bold;">DX</span>                          <span style="color: #adadad; font-style: italic;">; folgendes an Port 3C9h senden</span>
+<span style="color: #00007f;">MOV</span> <span style="color: #46aa03; font-weight:bold;">AL</span>, 40h                     <span style="color: #adadad; font-style: italic;">; ROT-Anteil</span>
+<span style="color: #00007f;">OUT</span> <span style="color: #46aa03; font-weight:bold;">DX</span>, <span style="color: #46aa03; font-weight:bold;">AL</span>
+<span style="color: #00007f;">MOV</span> <span style="color: #46aa03; font-weight:bold;">AL</span>, 2Eh                     <span style="color: #adadad; font-style: italic;">; GRÜN-Anteil</span>
+<span style="color: #00007f;">OUT</span> <span style="color: #46aa03; font-weight:bold;">DX</span>, <span style="color: #46aa03; font-weight:bold;">AL</span>
+<span style="color: #00007f;">MOV</span> <span style="color: #46aa03; font-weight:bold;">AL</span>, <span style="color: #ff0000;">02h</span>                     <span style="color: #adadad; font-style: italic;">; BLAU-Anteil</span>
+<span style="color: #00007f;">OUT</span> <span style="color: #46aa03; font-weight:bold;">DX</span>, <span style="color: #46aa03; font-weight:bold;">AL</span></pre>
+<p>Zuerst sendet man die zu ändernde Farbe an Port 3C8h, dann je ein 
+Byte Rot, Grün und Blau (RGB-Farben). Achtung: Nur Bits 0-6 sind für die
+ Farbanteile signifikant, d.h. höhere Werte als 4Fh sind ungültig.
+</p><p>Das oben beschriebene Verfahren ist mühsam, wenn die gesamte 
+Palette festgelegt werden soll. Um die ganze Palette zu ändern, sendet 
+man 0 an 3C8h und anschliessend alle Farben der Reihe nach 
+(R-G-B-R-G-B-R-G-B...) wiederum an Port 3C9h.
+</p>
+<h3> <span class="mw-headline" id="4._Speicherzugriff"> 4. Speicherzugriff </span></h3>
+<p>Das letzte Kapitel ist das einfachste. Der Grafikspeicher bei Mode 13h ist folgendermassen aufgebaut:
+</p>
+<pre class="asm">Linke Spalte: Speicheradresse <span style="color: #66cc66;">(</span>hex<span style="color: #66cc66;">)</span>
+Rechte Spalte: Pixel <span style="color: #66cc66;">(</span>X, Y<span style="color: #66cc66;">)</span>
+&nbsp;
++-------+----------------+
+| A0000 | Pixel <span style="color: #66cc66;">(</span>  <span style="color: #ff0000;">0</span>, <span style="color: #ff0000;">0</span><span style="color: #66cc66;">)</span> |
++-------+----------------+
+| A0001 | Pixel <span style="color: #66cc66;">(</span>  <span style="color: #ff0000;">1</span>, <span style="color: #ff0000;">0</span><span style="color: #66cc66;">)</span> |
++-------+----------------+               Um also die Adresse eines Pixels
+| A0002 | Pixel <span style="color: #66cc66;">(</span>  <span style="color: #ff0000;">2</span>, <span style="color: #ff0000;">0</span><span style="color: #66cc66;">)</span> |               zu berechnen, muss man die Formel
++-------+----------------+
+| A0003 | Pixel <span style="color: #66cc66;">(</span>  <span style="color: #ff0000;">3</span>, <span style="color: #ff0000;">0</span><span style="color: #66cc66;">)</span> |               Adresse = A0000 + Y*<span style="color: #ff0000;">320</span> + X
++-------+----------------+
+¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦               benutzen.
++-------+----------------+
+| A013F | Pixel <span style="color: #66cc66;">(</span><span style="color: #ff0000;">319</span>, <span style="color: #ff0000;">0</span><span style="color: #66cc66;">)</span> |
++-------+----------------+
+| A0140 | Pixel <span style="color: #66cc66;">(</span>  <span style="color: #ff0000;">0</span>, <span style="color: #ff0000;">1</span><span style="color: #66cc66;">)</span> |
++-------+----------------+
+| A0141 | Pixel <span style="color: #66cc66;">(</span>  <span style="color: #ff0000;">1</span>, <span style="color: #ff0000;">1</span><span style="color: #66cc66;">)</span> |
++-------+----------------+
+| A0142 | Pixel <span style="color: #66cc66;">(</span>  <span style="color: #ff0000;">2</span>, <span style="color: #ff0000;">1</span><span style="color: #66cc66;">)</span> |
++-------+----------------+
+¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦</pre>
+<h2> <span class="mw-headline" id="Tipps_.26_Tricks"> Tipps &amp; Tricks </span></h2>
+<p>In dieser Ausgabe gibt es Tipps und Tricks zur Codeoptimierung mit Assembler.
+</p>
+<h3> <span class="mw-headline" id="0.29_Einleitung"> 0) Einleitung </span></h3>
+<p>Nur eine ganz kurze Einleitung: Da Assembler die Maschinensprache ist
+ und damit direkt auf die Leistungen der CPU zugreifen kann, ist es 
+möglich, ein- und dasselbe auf mehrere Arten zu machen. Da die 
+unterschiedlichen Befehle auch unterschiedliche Längen haben, und in 
+vielen Fällen die unnötig langen benutzt werden, habe ich mir gedacht, 
+ich schreibe ein kurzes Tut darüber, wie man Codes verkürzen kann. Also,
+ dann fangen wir mal an.
+</p>
+<h3> <span class="mw-headline" id="1.29_MOV_reg.2C_0"> 1) MOV reg, 0 </span></h3>
+<p>Hier ist ein häufig benutzter Befehl, der unnötig lange ist: Einen Register Null zu setzen. Hier im Beispiel ax.
+</p>
+<pre class="asm"><span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, <span style="color: #ff0000;">0</span>		<span style="color: #adadad; font-style: italic;">; 0xB8, 0x00, 0x00</span></pre>
+<p>Also ist dieser Befehl 3 Bytes groß. Das gleiche kann mit XOR oder SUB erreict werden, nur eben kleiner:
+</p>
+<pre class="asm"><span style="color: #00007f;">sub</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, <span style="color: #46aa03; font-weight:bold;">ax</span> 	<span style="color: #adadad; font-style: italic;">; 0x29, 0xC0</span>
+<span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, <span style="color: #46aa03; font-weight:bold;">ax</span> 	<span style="color: #adadad; font-style: italic;">; 0x31, 0xC0</span></pre>
+<p>Dieser Befehl braucht nur 2 Bytes, wir haben also ein Byte gespart.
+</p>
+<h3> <span class="mw-headline" id="2.29_CMP_reg.2C_0"> 2) CMP reg, 0 </span></h3>
+<p>Sagen wir mal, wir wollen einen Register mit 0 vergleichen:
+</p>
+<pre class="asm"><span style="color: #00007f;">cmp</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, 0x0	<span style="color: #adadad; font-style: italic;">; 0x83, 0xF8, 0x00</span>
+<span style="color: #00007f;">jz</span>  irgenwohin	<span style="color: #adadad; font-style: italic;">; 0x74, 0x00</span></pre>
+<p>5 Bytes, eigentlich zu viel&nbsp;:). Dann versuchen wir es mal kleiner:
+</p>
+<pre class="asm"><span style="color: #00007f;">test</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, <span style="color: #46aa03; font-weight:bold;">ax</span>	<span style="color: #adadad; font-style: italic;">; 0x85, 0xC0</span>
+<span style="color: #00007f;">jz</span>   irgenwohin	<span style="color: #adadad; font-style: italic;">; 0x74, 0x00</span></pre>
+<p>4 Bytes, schon mal nicht schlecht, aber es geht noch kleiner:
+</p>
+<pre class="asm"><span style="color: #00007f;">xchg</span> <span style="color: #46aa03; font-weight:bold;">cx</span>, <span style="color: #46aa03; font-weight:bold;">ax</span>	<span style="color: #adadad; font-style: italic;">; 0x91</span>
+<span style="color: #00007f;">jcxz</span> irgendwohin	<span style="color: #adadad; font-style: italic;">; 0xE3, 0x00</span></pre>
+<p>3 Bytes, und damit 2 Bytes eingespart. Das ist ein Erfolg&nbsp;:).
+</p>
+<h3> <span class="mw-headline" id="3.29_CMP_reg.2C_-1"> 3) CMP reg, -1 </span></h3>
+<p>Was auch oft gebraucht wird, ist der Vergleich eines Registers mit 
+-1. Zuerst die konventionelle Überprüfung, dann die optimierte:
+</p>
+<pre class="asm"><span style="color: #00007f;">cmp</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, <span style="color: #ff0000;">-1</span>		<span style="color: #adadad; font-style: italic;">; 0x83, 0xF8, 0xFF</span>
+<span style="color: #00007f;">je</span>  irgendwohin	<span style="color: #adadad; font-style: italic;">; 0x74, 0x00</span></pre>
+<p>5 Bytes, aber es geht kleiner:
+</p>
+<pre class="asm"><span style="color: #00007f;">inc</span> <span style="color: #46aa03; font-weight:bold;">ax</span>		<span style="color: #adadad; font-style: italic;">; 0x40</span>
+<span style="color: #00007f;">jz</span>  irgendwohin	<span style="color: #adadad; font-style: italic;">; 0x74, 0x01</span>
+<span style="color: #00007f;">dec</span> <span style="color: #46aa03; font-weight:bold;">ax</span>		<span style="color: #adadad; font-style: italic;">; 0x48</span></pre>
+<p>Damit haben wir ein Byte gespart.
+</p>
+<h3> <span class="mw-headline" id="4.29_MOVZX"> 4) MOVZX </span></h3>
+<p>Wenn wir einen 1-Byte-Wert in ein 16-Bit Register kopieren wollen, 
+müssen wir zuerst das 16-Bit Register löschen, um nicht einen Wert im 
+anderen 1-Byte Teil zu haben.
+</p>
+<pre class="asm"><span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, <span style="color: #46aa03; font-weight:bold;">ax</span> 	<span style="color: #adadad; font-style: italic;">; 0x31, 0xC0</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>, <span style="color: #46aa03; font-weight:bold;">bl</span>		<span style="color: #adadad; font-style: italic;">; 0x88, 0xD8</span></pre>
+<p>Und jetzt optimiert:
+</p>
+<pre class="asm"><span style="color: #00007f;">movzx</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, <span style="color: #46aa03; font-weight:bold;">bl</span>	<span style="color: #adadad; font-style: italic;">; 0x0F, 0xB6, 0xC3</span></pre>
+<p>Sehr fein, wieder ein Byte weniger&nbsp;:).
+</p>
+<h3> <span class="mw-headline" id="5.29_IMUL"> 5) IMUL </span></h3>
+<p>Wenn wir zwei Werte multiplizieren wollen, wird mit MUL der Wert von AX multipliziert, der erst nach AX kopiert werden muss:
+</p>
+<pre class="asm"><span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, 0x12	<span style="color: #adadad; font-style: italic;">; 0xB8, 0x12, 0x00</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">cx</span>, 0x13	<span style="color: #adadad; font-style: italic;">; 0xB9, 0x13, 0x00</span>
+<span style="color: #00007f;">mul</span> <span style="color: #46aa03; font-weight:bold;">cx</span>		<span style="color: #adadad; font-style: italic;">; 0xF7, 0xE1</span></pre>
+<p>8 Bytes sind schon viel, wenn es auch einfacher geht:
+</p>
+<pre class="asm"><span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, 0x12	<span style="color: #adadad; font-style: italic;">; 0xB8, 0x12, 0x00</span>
+<span style="color: #00007f;">imul</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, <span style="color: #46aa03; font-weight:bold;">ax</span>, 0x13	<span style="color: #adadad; font-style: italic;">; 0x6B, 0xC0, 0x13</span></pre>
+<p>2 Bytes reduziert, sehr schön&nbsp;:).
+</p>
+<h3> <span class="mw-headline" id="6.29_Schleifen"> 6) Schleifen </span></h3>
+<p>Wir müssen ja oft das selbe einige Male ausführen. Meistens sieht der Code dafür dann so oder so ähnlich aus:
+</p>
+<pre class="asm"><span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, <span style="color: #46aa03; font-weight:bold;">ax</span> 	<span style="color: #adadad; font-style: italic;">; 0x31, 0xC0</span>
+schleife:
+   ...
+   <span style="color: #00007f;">inc</span> <span style="color: #46aa03; font-weight:bold;">ax</span>		<span style="color: #adadad; font-style: italic;">; 0x40</span>
+   <span style="color: #00007f;">cmp</span> <span style="color: #46aa03; font-weight:bold;">ax</span>, <span style="color: #ff0000;">8</span>	<span style="color: #adadad; font-style: italic;">; 0x83, 0xF8, 0x08</span>
+<span style="color: #00007f;">jne</span> schleife	<span style="color: #adadad; font-style: italic;">; 0x75, 0xFA</span></pre>
+<p><br>
+Relativ groß, hmm? 8 Bytes nur für die Schleife. Dann machen wir das mal kleiner:
+</p>
+<pre class="asm"><span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">cx</span>, <span style="color: #ff0000;">8</span>		<span style="color: #adadad; font-style: italic;">; 0xB9, 0x08, 0x00</span>
+schleife:
+   ...
+<span style="color: #00007f;">loop</span> schleife	<span style="color: #adadad; font-style: italic;">; 0xE2, 0xFE</span></pre>
+<p>Von 8 auf 5 Bytes reduziert - ein voller Erfolg!
+</p>
+<h3> <span class="mw-headline" id="7.29_Nachwort"> 7) Nachwort </span></h3>
+<p>Das ist ein kleines Tutorial, das aber hilfreich sein kann. Ich muss 
+jetzt den Göttern des Optimierens, Super und Billy Belceb, für ihre 
+Codes und Tuts danken. Das ist alles...
+</p>
+<pre class="asm">  - - - - - - - - - - - - - - -
+    Second Part To Hell/<span style="color: #66cc66;">[</span>rRlf<span style="color: #66cc66;">]</span>
+    www.spth.de.vu
+    spth@priest.com
+    geschrieben am <span style="color: #ff0000;">11.05</span><span style="color: #ff0000;">.2005</span>
+    Österreich
+  - - - - - - - - - - - - - - -</pre>
+<h2> <span class="mw-headline" id="Codeschnippsel"> Codeschnippsel </span></h2>
+<pre class="asm"><span style="color: #66cc66;">[</span><span style="color: #0000ff;">ORG</span> 0x7C00<span style="color: #66cc66;">]</span>
+<span style="color: #66cc66;">[</span>BITS <span style="color: #ff0000;">16</span><span style="color: #66cc66;">]</span>
+InitBoot:
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ax</span>,<span style="color: #ff0000;">0</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ds</span>,<span style="color: #46aa03; font-weight:bold;">ax</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ss</span>,<span style="color: #46aa03; font-weight:bold;">ax</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">sp</span>,0xFFFF
+&nbsp;
+    <span style="color: #00007f;">cli</span>    <span style="color: #adadad; font-style: italic;">; Interrupts ausschalten</span>
+    <span style="color: #00007f;">lgdt</span> <span style="color: #66cc66;">[</span>gdtr<span style="color: #66cc66;">]</span> <span style="color: #adadad; font-style: italic;">; GDT Pointer laden</span>
+&nbsp;
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,<span style="color: #46aa03; font-weight:bold;">cr0</span> <span style="color: #adadad; font-style: italic;">; In PMode wechseln, indem das niedrigste</span>
+    <span style="color: #00007f;">or</span> <span style="color: #46aa03; font-weight:bold;">al</span>,<span style="color: #ff0000;">1</span><span style="color: #adadad; font-style: italic;">; Steuerungsbit von cr0 geändert wird</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">cr0</span>,<span style="color: #46aa03; font-weight:bold;">eax</span> <span style="color: #adadad; font-style: italic;">; muss über Umweg über ein anderes Register gemacht werden</span>
+&nbsp;
+    <span style="color: #00007f;">jmp</span> codesel:PMode<span style="color: #adadad; font-style: italic;">; FarJump zu einer 32-Bit PMode Funktion</span>
+&nbsp;
+<span style="color: #66cc66;">[</span>BITS <span style="color: #ff0000;">32</span><span style="color: #66cc66;">]</span>
+PMode:
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ax</span>,datasel   <span style="color: #adadad; font-style: italic;">; Segmentregister laden</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ds</span>,<span style="color: #46aa03; font-weight:bold;">ax</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">es</span>,<span style="color: #46aa03; font-weight:bold;">ax</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">fs</span>,<span style="color: #46aa03; font-weight:bold;">ax</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">gs</span>,<span style="color: #46aa03; font-weight:bold;">ax</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ss</span>,<span style="color: #46aa03; font-weight:bold;">ax</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">esp</span>,0x90000  <span style="color: #adadad; font-style: italic;">; Stack aufsetzen</span>
+&nbsp;
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span style="color: #adadad; font-style: italic;">;; PageDirectory  &nbsp;: 0x8000&nbsp;;;</span>
+<span style="color: #adadad; font-style: italic;">;; 0te PageTable  &nbsp;: 0x9000&nbsp;;;</span>
+<span style="color: #adadad; font-style: italic;">;; 768te PageTable&nbsp;: 0xA000&nbsp;;;</span>
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+&nbsp;
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span style="color: #adadad; font-style: italic;">;; PageDirectory an Adresse 0x8000 initialisieren&nbsp;;;</span>
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+InitPageDirectoryAndPageTables:
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,<span style="color: #ff0000;">0</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ecx</span>,<span style="color: #ff0000;">4096</span>*<span style="color: #ff0000;">3</span>   <span style="color: #adadad; font-style: italic;">; PageDirectory und 2 PageTables mit 0en füllen</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">edi</span>,0x8000
+    <span style="color: #00007f;">rep</span> <span style="color: #00007f;">stosd</span>
+&nbsp;
+WritePageDirectoryEntries:
+    <span style="color: #00007f;">mov</span> <span style="color: #0000ff;">DWORD</span><span style="color: #66cc66;">[</span>0x8000<span style="color: #ff0000;">+0</span><span style="color: #66cc66;">]</span>,<span style="color: #66cc66;">(</span>0x9000 | <span style="color: #ff0000;">000000000111b</span><span style="color: #66cc66;">)</span>    <span style="color: #adadad; font-style: italic;">; 0te PageTable in </span>
+PageDirectory schreiben
+    <span style="color: #00007f;">mov</span> <span style="color: #0000ff;">DWORD</span><span style="color: #66cc66;">[</span>0x8000<span style="color: #ff0000;">+3072</span><span style="color: #66cc66;">]</span>,<span style="color: #66cc66;">(</span>0xA000 | <span style="color: #ff0000;">000000000111b</span><span style="color: #66cc66;">)</span> <span style="color: #adadad; font-style: italic;">; 768te PageTable in </span>
+PageDirectory schreiben
+&nbsp;
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span style="color: #adadad; font-style: italic;">;; 0te PageTable an Adresse 0x9000 initialisieren   &nbsp;;;</span>
+<span style="color: #adadad; font-style: italic;">;; Virt. Speicher 0-4 MB wird mit phs. Speicher 0-4 MB gemappt&nbsp;;;</span>
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+InitPageTable0:
+    <span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">ebx</span>,<span style="color: #46aa03; font-weight:bold;">ebx</span>
+    <span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">edx</span>,<span style="color: #46aa03; font-weight:bold;">edx</span>
+    .Loop1:
+  <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,<span style="color: #46aa03; font-weight:bold;">edx</span>
+  <span style="color: #00007f;">or</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,<span style="color: #ff0000;">000000000111b</span>
+  <span style="color: #00007f;">mov</span> <span style="color: #66cc66;">[</span>0x9000+<span style="color: #46aa03; font-weight:bold;">ebx</span><span style="color: #66cc66;">]</span>,<span style="color: #46aa03; font-weight:bold;">eax</span>
+  <span style="color: #00007f;">add</span> <span style="color: #46aa03; font-weight:bold;">ebx</span>,<span style="color: #ff0000;">4</span>
+  <span style="color: #00007f;">add</span> <span style="color: #46aa03; font-weight:bold;">edx</span>,<span style="color: #ff0000;">4096</span>
+  <span style="color: #00007f;">cmp</span> <span style="color: #46aa03; font-weight:bold;">edx</span>,<span style="color: #ff0000;">4096</span>*<span style="color: #ff0000;">1024</span>
+  <span style="color: #00007f;">jne</span> .Loop1
+&nbsp;
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span style="color: #adadad; font-style: italic;">;; 0te PageTable an Adresse 0xA000 initialisieren;;</span>
+<span style="color: #adadad; font-style: italic;">;; Virt. Speicher 0xC0000000 bis 0xC0001000 wird mit phs. &nbsp;;;</span>
+<span style="color: #adadad; font-style: italic;">;; Speicher 0xB8000 bis 0xB9000 gemappt&nbsp;!  &nbsp;;;</span>
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+InitPageTable768:
+    <span style="color: #00007f;">mov</span> <span style="color: #0000ff;">DWORD</span><span style="color: #66cc66;">[</span>0xA000<span style="color: #66cc66;">]</span>,<span style="color: #66cc66;">(</span>0xB8000 | <span style="color: #ff0000;">000000000111b</span><span style="color: #66cc66;">)</span><span style="color: #adadad; font-style: italic;">; 0te Page mit phys. Adresse </span>
+beschreiben
+&nbsp;
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span style="color: #adadad; font-style: italic;">;; Paging im Steuerungsregister CR0 aktivieren&nbsp;;;</span>
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+WritePageDirectoryAddrIntoCR3:
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,0x8000    <span style="color: #adadad; font-style: italic;">; pyhsikalische Adresse von der PageDirectory in CR3 </span>
+schreiben
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">cr3</span>,<span style="color: #46aa03; font-weight:bold;">eax</span>
+&nbsp;
+ActivatePaging:
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,<span style="color: #46aa03; font-weight:bold;">cr0</span>  <span style="color: #adadad; font-style: italic;">; Paging aktivieren</span>
+    <span style="color: #00007f;">or</span> <span style="color: #46aa03; font-weight:bold;">eax</span>,<span style="color: #ff0000;">10000000000000000000000000000000b</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">cr0</span>,<span style="color: #46aa03; font-weight:bold;">eax</span>
+&nbsp;
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span style="color: #adadad; font-style: italic;">;; An 0xC0000000 schreiben, das dann auf 0xB8000 (Videotextspeicher)&nbsp;;;</span>
+<span style="color: #adadad; font-style: italic;">;; geschrieben wird;;</span>
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+&nbsp;
+VideotextspeicherTest:
+    <span style="color: #00007f;">mov</span> <span style="color: #0000ff;">BYTE</span><span style="color: #66cc66;">[</span>0xC0000000<span style="color: #66cc66;">]</span>,<span style="color: #7f007f;">'P'</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #0000ff;">BYTE</span><span style="color: #66cc66;">[</span>0xC0000002<span style="color: #66cc66;">]</span>,<span style="color: #7f007f;">'A'</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #0000ff;">BYTE</span><span style="color: #66cc66;">[</span>0xC0000004<span style="color: #66cc66;">]</span>,<span style="color: #7f007f;">'G'</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #0000ff;">BYTE</span><span style="color: #66cc66;">[</span>0xC0000006<span style="color: #66cc66;">]</span>,<span style="color: #7f007f;">'I'</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #0000ff;">BYTE</span><span style="color: #66cc66;">[</span>0xC0000008<span style="color: #66cc66;">]</span>,<span style="color: #7f007f;">'N'</span>
+    <span style="color: #00007f;">mov</span> <span style="color: #0000ff;">BYTE</span><span style="color: #66cc66;">[</span>0xC000000A<span style="color: #66cc66;">]</span>,<span style="color: #7f007f;">'G'</span>
+    <span style="color: #00007f;">jmp</span> $
+&nbsp;
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; == GDT ==&nbsp;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span style="color: #adadad; font-style: italic;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+&nbsp;
+gdtr:  <span style="color: #adadad; font-style: italic;">; Desktiptortabelle</span>
+    <span style="color: #0000ff;">dw</span> gdt_end-gdt<span style="color: #ff0000;">-1</span>   <span style="color: #adadad; font-style: italic;">; Limit</span>
+    <span style="color: #0000ff;">dd</span> gdt   <span style="color: #adadad; font-style: italic;">; Basisadresse</span>
+gdt:
+    <span style="color: #0000ff;">dd</span> <span style="color: #ff0000;">0</span>,<span style="color: #ff0000;">0</span>   <span style="color: #adadad; font-style: italic;">; Null-Deskriptor</span>
+codesel equ $-gdt
+    <span style="color: #0000ff;">dw</span> 0xFFFF<span style="color: #adadad; font-style: italic;">; Segmentgröße 0..15</span>
+    <span style="color: #0000ff;">dw</span> 0x0000<span style="color: #adadad; font-style: italic;">; Segmentadresse 0..15</span>
+    <span style="color: #0000ff;">db</span> 0x00  <span style="color: #adadad; font-style: italic;">; Segmentadresse 16..23</span>
+    <span style="color: #0000ff;">db</span> 0x9A  <span style="color: #adadad; font-style: italic;">; Zugriffsberechtigung und Typ</span>
+    <span style="color: #0000ff;">db</span> 0xCF  <span style="color: #adadad; font-style: italic;">; Zusatzinformationen und Segmentgröße 16...19</span>
+    <span style="color: #0000ff;">db</span> 0x00  <span style="color: #adadad; font-style: italic;">; Segmentadresse 24..31</span>
+datasel equ $-gdt
+    <span style="color: #0000ff;">dw</span> 0xFFFF<span style="color: #adadad; font-style: italic;">; Segmentgröße 0..15</span>
+    <span style="color: #0000ff;">dw</span> 0x0000<span style="color: #adadad; font-style: italic;">; Segmentadresse 0..15</span>
+    <span style="color: #0000ff;">db</span> 0x00  <span style="color: #adadad; font-style: italic;">; Segmentadresse 16..23</span>
+    <span style="color: #0000ff;">db</span> 0x92  <span style="color: #adadad; font-style: italic;">; Zugriffsberechtigung und Typ</span>
+    <span style="color: #0000ff;">db</span> 0xCF  <span style="color: #adadad; font-style: italic;">; Zusatzinformationen und Segmentgröße 16...19</span>
+    <span style="color: #0000ff;">db</span> 0x00  <span style="color: #adadad; font-style: italic;">; Segmentadresse 24..31</span>
+gdt_end
+&nbsp;
+times <span style="color: #ff0000;">510</span>-<span style="color: #66cc66;">(</span>$-$$<span style="color: #66cc66;">)</span> <span style="color: #0000ff;">db</span> <span style="color: #ff0000;">0</span>
+<span style="color: #0000ff;">dw</span> 0xAA55</pre>
+<h2> <span class="mw-headline" id="OS-Showcase"> OS-Showcase </span></h2>
+<p>In dieser Ausgabe handelt es sich im OS-Showcase um "StormOS".
+</p>
+<h3> <span class="mw-headline" id=".C3.9Cberblick:"> Überblick: </span></h3>
+<p>StormOS ist ein OS Projekt, das sich noch früh in der Entwicklung 
+befindet. Ähnlich wie MenuetOS hat StormOS eine nur im Ansatz vorhandene
+ Shell, stattdessen wird eine GUI eingesetzt, die sich aber ebenfalls 
+noch früh in der Entwicklung befindet. Auch wenn es in letzter Zeit 
+anders erschien, an StormOS wird immer noch gearbeitet. Das OS wird 
+derzeit komplett neu in C++ gecodet.
+</p>
+<h3> <span class="mw-headline" id="Entstehung_von_StormOS:"> Entstehung von StormOS: </span></h3>
+<p>Mit 16 Jahren hatte Thunder aus Litauen (eine Republik in der 
+ehemaligen UdSSR, auch da werden OS’es gecodet&nbsp;;) ) die Idee, ein 
+eigenes OS zu bauen. Nach einigem Suchen startete er indem er Assembler 
+und C lernte und viele Tech Docs las. Er schrieb das OS GOOS, das noch 
+komplett im Textmodus lief. Die nächste Version hatte bereits den Namen 
+StormOS und lief im Protected Mode. Nur eine Version später kam die GUI 
+und ersetzte die Shell völlig. Mit StormOS belegte Thunder den dritten 
+Platz eines Computerwettbewerbs in der Kaunas University, bei der er zur
+ Zeit studiert.
+</p>
+<h4> <span class="mw-headline" id="Features:"> Features: </span></h4>
+<p>Es macht eigentlich wenig Sinn, hier Features aufzuzählen, da man 
+noch nicht viel sieht. Dennoch habe ich die wichtigsten Features 
+rauskopiert:
+</p>
+<ul><li> GUI works up to 1024x768x32bpp screen resolution using VESA 2.0 LFB 
+</li></ul>
+<p>(Linear Frame Buffer)
+</p>
+<ul><li> Window moving
+</li><li> Video mode refresh rate control (VESA 3.0 required)
+</li><li> BMP file support
+</li><li> Storm OS has its own Tahoma font
+</li><li> PIT - Programable Interval Timer - set at 100Hz
+</li><li> RTC - Real Time Clock
+</li><li> PS/2 mouse
+</li><li> DIN or PS/2 keyboard
+</li><li> Determines RAM size
+</li><li> Determines VRAM LFB start in linear memory
+</li></ul>
+<p>Multitasking, Paging, Memory Managment, Floppy Treiber, usw. sind bis
+ jetzt gar nicht oder erst im Ansatz vorhanden. Die GUI ist ebenfalls 
+noch sehr früh in der Entwicklung, sie beschränkt sich auf Fenstertests.
+</p><p>Source Code:
+Das OS ist komplett Open Source. Der Source Code ist zwar praktisch ohne
+ Kommentare, ist aber dennoch halbwegs verständlich, da es 
+vergleichsweise wenig Code ist (eigentlich logisch, da ja bisher nur 
+wenige Features vorhanden sind). Nach dem Neuschreiben des Codes in C++ 
+wird der Code weitaus strukturierter sein und eventuell auch mehr 
+Kommentare haben.
+</p><p>Screenshots:
+Neue Screenshots sind verfügbar, wenn der Kernel neu geschrieben ist.
+</p>
+<h3> <span class="mw-headline" id="Fakten:"> Fakten: </span></h3>
+<p><b>Name:</b> StormOS<br>
+<b>Aktuellste Version:</b> 0.14c<br>
+<b>Zahl der Entwickler:</b> 1<br>
+<b>Name der/des Autor(en):</b> Thunder<br>
+<b>Website:</b> www.stormos.net<br>
+<b>PMode/RMode:</b> Protected Mode<br>
+<b>Programmiersprache:</b> ASM &amp; C, bald C++<br>
+</p>
+<h2> <span class="mw-headline" id="Interview"> Interview </span></h2>
+<p>In dieser Ausgabe mit Roshl.
+</p><p><b>Redaktion:</b><br>
+Wie kamst du zum OS-Dev?
+</p><p><b>Roshl:</b><br>
+Wir hatten irgendwann bei mir zuhause das Problem, dass mein Dad und ich
+ einen Rechner hatten und wir beide Internet nutzen wollten (gerade zu 
+den DSL-Anfangszeiten). Router hatten wir keinen und über 
+Verbindungssharing von Microsoft wollte es nicht so recht klappen. Zeit 
+verging... Da wir noch einen uralten Rechner übrig hatten, kam mir der 
+Gedanke, man könnte ja mal versuchen, sich was Routendes selbst zu 
+machen. Linux mochte ich persönlich noch nie, also musste theoretisch 
+was neues her. Dann hab ich etwas gesucht und festgestellt, Mensch, 
+könnte schwerer werden als du dachtest, ich konnte da grade mal C ein 
+klein wenig. (Zeitlich kann man das jetzt einordnen 1-2 Monate bevor ich
+ bei LowLevel im Forum gemeldet bin.)
+</p><p><b>Redaktion:</b><br>
+Ah... Und wie gings dann weiter?
+</p><p><b>Roshl:</b><br>
+Also habe ich erstmal C fertig gelernt und dann C++ angeschlossen (das 
+dauerte nur 2 Wochen). Irgendwie hatte ich meine Probleme damit zu 
+verstehen was Pointer sind, wozu die gut sind usw. Aber egal, drauf 
+geschissen und Assembler gelernt. 4 Wochen später war Asm sowas wie 
+meine Muttersprache, naja abgesehen davon, dass meine Mutter nicht mal 
+weiss was Asm ist^^. Und da habe ich auch die Pointer kapiert gehabt, in
+ Asm sind die irgendwie logischer. Dann kam ich wieder zurück zur Idee 
+mit dem OS und hab einfach mal gesucht und bin spontan hier bei LowLevel
+ gelandet. Daraufhin habe ich einfach mal das Coding angefangen^^. Mit 
+dem OS-Coding habe ich inzwischen aber mehr oder weniger aufgehört.
+</p><p><b>Redaktion:</b><br>
+In welchem Stadium befindet sich dein OS?
+</p><p><b>Roshl:</b><br>
+Um ehrlich zu sein in keinem, dass irgendwie verwendbar wäre. Ich habe 
+an vieles Ecken hier und da gecodet so, dass vieles theoretisch 
+funktionieren könnte, aber es fehlen die bindenen Glieder. Und irgendwie
+ fand ich C / C++ mit der Zeit als relativ ungeeignet zum Programmieren 
+für Betriebssysteme.
+</p><p><b>Redaktion:</b><br>
+Der Meinung bin ich auch.&nbsp;:-)
+</p><p><b>Roshl:</b><br>
+Assembler wiederum dauert zu lange um damit anständig zu coden.
+</p><p><b>Redaktion:</b><br>
+</p>
+<dl><dt>-) Arbeitest du auch beruflich mit deinem Können aus dem OS-Dev-Bereich?
+</dt></dl>
+<p><b>Roshl:</b><br>
+Bin momentan auch wieder dabei eine Programmiersprache zu coden. Hey ich
+ bin Zivi, da braucht man sowas nun wirklich nicht&nbsp;;-). Aber in 
+Zukunft werde ich auf jeden Fall in eine Richtung gehen, die etwas mit 
+Computern zu tun hat.
+</p><p><b>Redaktion:</b><br>
+Ah.
+</p><p><b>Roshl:</b><br>
+Ihr werdet also sicher noch von mir hören *g*, entweder wenn ich den 
+Quantencomputer erfunden oder die Weltherrschaft errungen habe^^.
+</p><p><b>Redaktion:</b><br>
+Siehst du für "berufliche OS-Dever" eine Chanche?
+</p><p><b>Roshl:</b><br>
+Ja, auf jeden Fall. Bei Microsoft arbeiten viele, die nach meiner 
+Definition OS-Dever sind, und die verdienen ihr Geld damit. Allerdings 
+wird das Wissen, das man beim OS-Coden erlangt, sicher in allen 
+Bereichen der Programmierung hilfreich sein. Z. B. denke ich, dass jeder
+ von uns den CPUID Befehl der x86 CPU's kennt, wenn nun einer in der 
+Spieleentwicklung arbeitet, kann er leicht herrausfinden ob er z. B. SSE
+ und andere Features nutzen kann. Recht hilfreich auf jeden Fall!
+</p><p><b>Redaktion:</b><br>
+Stimmt. Wie schätzt du die kommerziellen Chancen für neue Betriebssysteme ein?
+</p><p><b>Roshl:</b><br>
+Momentan eher gering, da Microsoft's Windows doch ein Monopol inne hat. 
+Es ist eigententlich recht Benutzerfreundlich und stabil, bei wem das 
+nicht der Fall ist, der hat einfach seltsame Hardwarekombinationen oder 
+ein Talent Digne nicht zum Laufen zu bekommen. Linux...hm...naja, ich 
+persönlich mag es nicht so. Naja, da gibt es ja natürlich noch andere, 
+Zeta z.B. ist noch recht unbekannt, könnte aber Potential haben, da wird
+ man abwarten müssen. Da ein Betriebssystem nur erfolgreich sein kann 
+wenn auch Software dafür entwickelt wird, ist es für Neulinge schwer, 
+sich zu etablieren, wenn die OS-Entwickler nicht schon alles 
+dazuliefern.
+</p><p><b>Redaktion:</b><br>
+Wie definierst du überhaupt den Begriff "OS", "Betriebssystem".
+</p><p><b>Roshl:</b><br>
+Das ist schwer zu beantworten. Einerseits besteht ein OS für 
+hauptsächlich aus dem Kernel. Der würe allerdings unnütz ohne eine API, 
+mit der ja Programme geschrieben werden müssen. Und Ohne Anwendungen ist
+ das tollste OS leider auch nutzlos. Definieren wir es mal so: Ein 
+Betriebssystem ist die Gesamtheit aller Programme (Kernel und Treiber 
+sind dabei auch nur Programme), die die gröstmögliche Funktionalität am 
+Computer bereitstellt. Klingt doch schon fast poetisch oder?
+</p><p><b>Redaktion:</b><br>
+Ja.&nbsp;:-) Nun gut. Ich denke, wir werden wohl bald zum Ende kommen 
+mit unserem Interview. Abschliessend noch eine Frage, die mich 
+besonderst beschäftigt: Hat sich das Problem mit euren beiden 
+Internetverbindungen, was ja Auslöser deiner Begegnung mit dem OS-Dev 
+war, mittlerweile gelöst und wenn ja, wie?
+</p><p><b>Roshl:</b><br>
+Ja es hat sich gelöst, wir haben letztlich einfach einen Router gekauft.
+ Manchmal ist es eben doch besser ein altes Rad zu nehmen, als ein neues
+ zu erfinden.
+</p><p><b>Redaktion:</b><br>
+</p>
+<dl><dd>-) Danke für das Interview.
+</dd></dl>
+<p><b>Roshl:</b><br>
+Kein Problem!
+</p>
+<h2> <span class="mw-headline" id="Kolumne"> Kolumne </span></h2>
+<h3> <span class="mw-headline" id="Computer_sind_wie_Autos"> Computer sind wie Autos </span></h3>
+<p>Mein erster Computer war ein Pentium 1 mit 16 MB RAM und einer 2 GB 
+Festplatte, einer der ersten PCs, der mit Win95 ausgeliefert wurde. Wenn
+ man sich aber nun wirklich mit Computern beschäftigen will, dann kann 
+man sich vorstellen, welche Abstraktion eine GUI, und Windows sowieso, 
+zwischen Hardware und User schafft. Zunächst ist das vollkommen 
+uninteressant, da sich der geneigte Windows User so oder so nicht über 
+den Desktop hinaus wagt. Will man aber nach ein paar Jahren doch über 
+den Tellerrand sehen, so türmen sich schon die ersten Mauern auf. Da 
+wäre zum einen die schiere Menge an Informationen, welche man erst 
+einmal bändigen muss. Hat man sich dann durch die Kilometer langen Texte
+ gelesen, kommt die Anwendung in der Praxis, die auch nicht immer dem 
+theoretischen Vorwissen entspricht. Und so kommt es wie es kommen muss, 
+man stellt fest, dass Erfahrung und Hingabe den Profi vom 08/15 User 
+unterscheidet.
+</p><p>Sicher werdet ihr euch jetzt fragen, was das alles mit Autos zu 
+tun. Die Antwort ist ganz einfach: "nichts". Im Grunde könnte man jede 
+andere ausreichend fortschrittliche Technologie nehmen. Je weiter 
+fortgeschritten die Technik ist, um so schwieriger ist es, meiner 
+Meinung nach, Zugang zu finden.
+</p><p>Mit 15 Jahren habe ich begonnen, mich richtig mit Computern 
+auseinanderzusetzen und habe begonnen, die Kilometer langen Texte 
+durchzulesen. Ich muss sagen, dass mich nichts mehr beindruckt hat. Die 
+Open-Source-Szene ist ja für ihre Dokumentationen bekannt. Langsam 
+öffnete sich das Tor in eine andere Welt.
+</p><p>Besonders beeindruckt war ich vom Konzept des UNIX Betriebssystems. Aber das ist wieder eine andere Geschichte... 
+</p>
+<h2> <span class="mw-headline" id="Bericht_ausm_Forum"> Bericht ausm Forum </span></h2>
+<p>Jetzt hat es mit dem CommOS richtig begonnen. Der Name für das neue 
+System wurde auch schon festgelegt, es soll, wie 50% der Befragten 
+meinten, LOST heissen. Nur 34% waren für Isotope und gar nur 15% für 
+LowCOS.
+Der Bootloader für das System ist jetzt GRUB und nicht mehr der von 
+Roshl geschriebene. Der Kernel Milestone 0 ist fertig, mit Milestone 1 
+wird bald begonnen.
+Auch ein Kernel-Team wurde schon gebildet, das den Micro-Nanokernel für 
+das System schreiben wird. Über die GUI wird auch schon heftig 
+diskutiert, sogar jede Menge Designvorschläge sind schon eingegangen und
+ es war auch schon einiges tolles dabei!
+Leider tut sich momentan recht wenig im Forum des CommOS. Mal sehen, wie
+ es sich entwickelt.
+</p>
+<h2> <span class="mw-headline" id="Vermischtes"> Vermischtes </span></h2>
+<h3> <span class="mw-headline" id="Xen"> Xen </span></h3>
+<p>Xen ist in der Version 2.0.7 am 4.8.2005 erschienen. Xen ist eine 
+Virtualisierungssoftware ähnlich wie VMWare GSX Server und bei <a href="http://www.cl.cam.oc.uk/Research/SR6/netos/xen" class="external free" rel="nofollow">http://www.cl.cam.oc.uk/Research/SR6/netos/xen</a>
+ erhältlich. Im Unterschied zu VMWare versucht Xen keine 100%ge 
+Emulation. Das hat zur Folge, dass das Gastsystem angepasst werden muss 
+und sich andererseits der Aufwand zur Emulation verringert, um die 
+Performance zu verbessern. Als Hostsystem (Domain 0 genannt) lassen sich
+ modifizierte Linux- und NetBSD-Kernel einsetzen. Die Palette an 
+Gastsystemen (Domain U) ist breiter, dort eignen sich momentan auch Plan
+ 9 und FreeBSD. Windows lässt sich wegen rechtlichen Beschränkungen 
+nicht einsetzen. Es wurde probeweise von einer Universität im Rahmen der
+ Shared Source-Lizenz modifiziert, jedoch erlaubt diese keine 
+Veröffentlichung der Modifikationen. Die Systeme kommunizieren über ein 
+Xen-internes Netzwerk. Um die Arbeitsweise von Xen etwas mehr zu 
+betrachten, sieht man sich am besten den Beispielkernel an. Hier in 
+diesem Artikel betrachten wir den 1. Schritt, den Bootvorgang. Der Start
+ ist unspektakulär, Xen übergibt die Kontrolle an den Kernel und 
+speichert in ESI die Addresse einer Struktur vom typ start_info_t. Dies 
+ist vergleichbar mit GRUB's Verhalten bei Multiboot-Kerneln, man sollte 
+jedoch bedenken das man flexibel sein muss bei seinem Bootcode. Xen ist 
+vollständig frei unter GPL-Lizenz verfügbar, jedoch stellen Kernel, 
+welche das Hypercall-Interface benutzen, keine von Xen abgeleiteten 
+Werke dar. Daher kann man für ein Gastsystem eine beliebige Lizenz 
+benutzen.
+</p>
+<h2> <span class="mw-headline" id="Schluss_und_Impressum"> Schluss und Impressum </span></h2>
+<p><b>Schluss</b>
+So. Das war sie. Die lang ersehnte Ausgabe 8. Ich hoffe, sie gefällt 
+euch und erfüllt eure Ansprüche.
+Abschliessend bleibt mir nur noch, mich bei allen zu bedanken, die so 
+tatkräftig an dieser Ausgabe mitgearbeitet haben und euch ein fröhliches
+ und friedliches Weihnachtsfest und einen guten Rutsch ins neue Jahr zu 
+wünschen. Hoffentlich gehen eure Wünsche und Vorschläge in Erfüllung. 
+Mein Wunsch ist, dass sich an Ausgabe 9 noch mehr Leute 
+beteiligen.&nbsp;:)
+<b>Impressum</b>
+Alle hier dargestellten Artikel entsprechen der Meinung der Redakteure 
+und spiegeln nicht unbedingt die Meinung der Redaktion wieder. Jeder 
+Redakteur ist für seinen eigenen Beitrag verantwortlich. Zugehörigkeiten
+ entnehmen Sie bitte der Tabelle. Wir bemühen uns nach bestem Wissen 
+unserem Leser nur richtige Informationen zu bieten, jedoch können wir 
+dies nicht garantieren. Jeder in dieser Ausgabe aufgeführte Code ist 
+unter eigener Gefahr zu benutzen und der Ersteller kann nicht für 
+entstehende Schäden zur Haftung gebracht werden. Jede mit diesem 
+Schriftstück verlinkte Seite wird von uns ausgesucht und eingesehen, 
+jedoch haben wir auf sie keinen Einfluss, und somit distanzieren wir uns
+ hiermit von allen rechtswidrigen Schriften auf verlinkten Seiten.
+</p><p><b>Artikel</b>
+</p>
+<table class="prettytable">
+<tbody><tr>
+<th>Nummer</th><th>Name</th><th>Redakteur</th>
+</tr>
+<tr><td>1.</td><td>Die Redaktion</td><td>Neu, Joachim</td></tr>
+<tr><td>2.</td><td>News</td><td>Neu, Joachim</td></tr>
+<tr><td>3.</td><td>Thema der Ausgabe</td><td>Marcik, Stefan</td></tr>
+<tr><td>4.</td><td>Designtechnisches</td><td>Kleusberg, Martin</td></tr>
+<tr><td>5.</td><td>Architekturtechnisches</td><td>Schumann, Robert</td></tr>
+<tr><td>6.</td><td>Hardwaretechnisches</td><td>Kleissner, Peter</td></tr>
+<tr><td>7.</td><td>Software- &amp; Treibertechnisches</td><td>Zurfluh, 
+Stefan</td></tr>
+
+<tr><td>8.</td><td>Tipps &amp; Tricks</td><td>Sperl, Thomas</td></tr>
+<tr><td>9.</td><td>Codeschnippsel</td><td>Marcik, Stefan</td></tr>
+<tr><td>10.</td><td>OS-Showcase</td><td>Kleusberg, Martin</td></tr>
+<tr><td>11.</td><td>Interview</td><td>Neu, Joachim</td></tr>
+<tr><td>12.</td><td>Kolumne</td><td>Hellstern, Roland</td></tr>
+<tr><td>13.</td><td>Bericht ausm Forum</td><td>Braun, Torsten</td></tr>
+<tr><td>14.</td><td>Vermischtes</td><td>Nock, Joachim</td></tr>
+<tr><td>15.</td><td>Schluss &amp; Impressum</td><td>Neu, Joachim</td></tr>
+</tbody></table>
+<p><b>Redakteure</b>
+</p>
+<table class="prettytable">
+<tbody><tr>
+<th>Name</th><th>Nick</th><th>EMail</th><th>MSN</th><th>ICQ</th><th>WWW</th>
+</tr>
+<tr><td>Kleusberg, 
+Martin</td><td>DarkThing</td><td>mkleusberg@gmx.net</td><td>---</td><td>330-993-375</td><td>---</td></tr>
+<tr><td>Nock, 
+Joachim</td><td>Legend</td><td>jnock@gmx.de</td><td>---</td><td>135-508-655</td><td>---</td></tr>
+<tr><td>Schumann, 
+Robert</td><td>Roshl</td><td>robschu@hotmail.com</td><td>robschu@hotmail.com</td><td>332-061-907</td><td>---</td></tr>
+<tr><td>Neu, 
+Joachim</td><td>joachim_neu</td><td>joachim_neu@web.de</td><td>joachim_neu@web.de</td><td>247-390-343</td><td><a href="http://www.joachim-neu.de/" class="external free" rel="nofollow">http://www.joachim-neu.de</a></td></tr>
+<tr><td>Marcik, 
+Stefan</td><td>Stefan2005</td><td>stefan.marcik@web.de</td><td>---</td><td>338-417-614</td><td>---</td></tr>
+<tr><td>Sperl, 
+Thomas</td><td>SPTH</td><td>spth@priest.com</td><td>---</td><td>---</td><td><a href="http://www.spth.de.vu/" class="external free" rel="nofollow">http://www.spth.de.vu</a></td></tr>
+<tr><td>Zurfluh, 
+Stefan</td><td>sz/elfish_rider</td><td>stefan@stefan-zurfluh.biz</td><td>elfish_rider@hotmail.com</td><td>330-960-734</td><td>---</td></tr>
+<tr><td>Kleissner, Peter</td><td>Toaster &amp; 
+T0ast3r</td><td>T0ast3r@gmx.at</td><td>---</td><td>---</td><td>---</td></tr>
+<tr><td>Braun, 
+Torsten</td><td>T-Head</td><td>webmaster@t-head.de</td><td>---</td><td>201-238-515</td><td><a href="http://www.t-head.de/" class="external free" rel="nofollow">http://www.t-head.de</a></td></tr>
+<tr><td>Hellstern, 
+Roland</td><td>mysticforce</td><td>mysticforce@gmx.de</td><td>---</td><td>---</td><td>---</td></tr>
+</tbody></table>
+<hr>
+<div align="center">
+<p><b>By <a href="mailto:joachim_neu@web.de" class="external text" rel="nofollow">joachim_neu</a>. Alle Rechte vorbehalten</b><br>
+<b>Eintrag ins Wiki: <a href="mailto:pmthequick@gmail.com" class="external text" rel="nofollow">PMTheQuick</a></b><br>
+</p>
+</div>
+<table style="width:100%; background-color: #D0D8FF; border: 1px solid #b8c0e8; text-align:center; margin-bottom: 10px;">
+<tbody><tr>
+<td style="width:33%; text-align:left;">«&nbsp;<a href="http://www.lowlevel.eu/wiki/Ausgabe_7" title="Ausgabe 7">Ausgabe 7</a></td>
+<td style="width:33%; text-align:center;"><b>Navigation</b></td>
+<td style="width:33%; text-align:right;"><a href="http://www.lowlevel.eu/wiki/Ausgabe_9" title="Ausgabe 9">Ausgabe 9</a>&nbsp;»</td>
+</tr>
+</tbody></table>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 601/1000000
+Post-expand include size: 1281/2097152 bytes
+Template argument size: 104/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key lowlevel_wiki:pcache:idhash:1521-0!*!0!!de!*!edit=0 and timestamp 20130611155410 -->
+<div class="printfooter">
+Von „<a href="http://www.lowlevel.eu/wiki/Ausgabe_8">http://www.lowlevel.eu/wiki/Ausgabe_8</a>“</div>
+		<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a href="http://www.lowlevel.eu/wiki/Spezial:Kategorien" title="Spezial:Kategorien">Kategorien</a>: <span dir="ltr"><a href="http://www.lowlevel.eu/wiki/Kategorie:Magazin" title="Kategorie:Magazin">Magazin</a></span> | <span dir="ltr"><a href="http://www.lowlevel.eu/wiki/Kategorie:Tutorials" title="Kategorie:Tutorials">Tutorials</a></span></div></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Ansichten</h5>
+		<div class="pBody">
+			<ul>
+				 <li id="ca-nstab-main" class="selected"><a href="http://www.lowlevel.eu/wiki/Ausgabe_8" title="Seiteninhalt anzeigen [alt-shift-c]" accesskey="c">Seite</a></li>
+				 <li id="ca-talk" class="new"><a href="http://www.lowlevel.eu/w/index.php?title=Diskussion:Ausgabe_8&amp;action=edit&amp;redlink=1" title="Diskussion zum Seiteninhalt [alt-shift-t]" accesskey="t">Diskussion</a></li>
+				 <li id="ca-viewsource"><a href="http://www.lowlevel.eu/w/index.php?title=Ausgabe_8&amp;action=edit" title="Diese Seite ist geschützt. Der Quelltext kann angesehen werden. [alt-shift-e]" accesskey="e">Quelltext anzeigen</a></li>
+				 <li id="ca-history"><a href="http://www.lowlevel.eu/w/index.php?title=Ausgabe_8&amp;action=history" title="Frühere Versionen dieser Seite [alt-shift-h]" accesskey="h">Versionen/Autoren</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Meine Werkzeuge</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="http://www.lowlevel.eu/w/index.php?title=Spezial:Anmelden&amp;returnto=Ausgabe%208" title="Sich anzumelden wird zwar gerne gesehen, ist aber keine Pflicht. [alt-shift-o]" accesskey="o">Anmelden</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+		<a style="background-image: url(/wiki.png);" href="http://www.lowlevel.eu/wiki/Hauptseite" title="Hauptseite"></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+	<div class="generated-sidebar portlet" id="p-navigation">
+		<h5>Navigation</h5>
+		<div class="pBody">
+			<ul>
+				<li id="n-mainpage"><a href="http://www.lowlevel.eu/wiki/Hauptseite" title="Hauptseite anzeigen [alt-shift-z]" accesskey="z">Hauptseite</a></li>
+				<li id="n-Lowlevel-Portal"><a href="http://www.lowlevel.eu/wiki/Lowlevel:Portal">Lowlevel-Portal</a></li>
+				<li id="n-Lowlevel-Forum"><a href="http://forum.lowlevel.eu/">Lowlevel-Forum</a></li>
+				<li id="n-recentchanges"><a href="http://www.lowlevel.eu/wiki/Spezial:Letzte_%C3%84nderungen" title="Liste der letzten Änderungen in Lowlevel [alt-shift-r]" accesskey="r">Letzte Änderungen</a></li>
+				<li id="n-Zuf.C3.A4llige-Seite"><a href="http://www.lowlevel.eu/wiki/Spezial:Zuf%C3%A4llige_Seite">Zufällige Seite</a></li>
+				<li id="n-Wiki-Crashkurs"><a href="http://www.lowlevel.eu/wiki/Wiki-Crashkurs">Wiki-Crashkurs</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Suche</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="/w/index.php" id="searchform">
+				<input name="title" value="Spezial:Suche" type="hidden">
+				<input autocomplete="off" id="searchInput" title="Lowlevel durchsuchen" accesskey="f" name="search" type="search">
+				<input name="go" class="searchButton" id="searchGoButton" value="Seite" title="Gehe direkt zu der Seite, die exakt dem eingegebenen Namen entspricht." type="submit">&nbsp;
+				<input name="fulltext" class="searchButton" id="mw-searchButton" value="Suchen" title="Suche nach Seiten, die diesen Text enthalten" type="submit">
+			</form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Werkzeuge</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="http://www.lowlevel.eu/wiki/Spezial:Linkliste/Ausgabe_8" title="Liste aller Seiten, die hierher verlinken [alt-shift-j]" accesskey="j">Links auf diese Seite</a></li>
+				<li id="t-recentchangeslinked"><a href="http://www.lowlevel.eu/wiki/Spezial:%C3%84nderungen_an_verlinkten_Seiten/Ausgabe_8" title="Letzte Änderungen an Seiten, die von hier verlinkt sind [alt-shift-k]" accesskey="k">Änderungen an verlinkten Seiten</a></li>
+<li id="t-specialpages"><a href="http://www.lowlevel.eu/wiki/Spezial:Spezialseiten" title="Liste aller Spezialseiten [alt-shift-q]" accesskey="q">Spezialseiten</a></li>
+				<li id="t-print"><a href="http://www.lowlevel.eu/w/index.php?title=Ausgabe_8&amp;printable=yes" rel="alternate" title="Druckansicht dieser Seite [alt-shift-p]" accesskey="p">Druckversion</a></li>				<li id="t-permalink"><a href="http://www.lowlevel.eu/w/index.php?title=Ausgabe_8&amp;oldid=7480" title="Dauerhafter Link zu dieser Seitenversion">Permanenter Link</a></li><li id="t-pdf">
+<a href="http://www.lowlevel.eu/w/index.php?title=Spezial:Pdfprint&amp;page=Ausgabe_8">Als PDF ausgeben</a></li>			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer">
+	<div id="f-copyrightico">
+		<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/"><img src="Ausgabe%208%20%13%20Lowlevel_files/88x31.png" alt="Namensnennung - Keine kommerzielle Nutzung - Weitergabe unter gleichen Bedingungen 3.0 Deutschland" height="31" width="88"></a>
+	</div>
+	<div id="f-poweredbyico">
+		<a href="http://www.mediawiki.org/"><img src="Ausgabe%208%20%13%20Lowlevel_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" height="31" width="88"></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> Diese Seite wurde zuletzt am 1. April 2010 um 10:34 Uhr geändert.</li>
+		<li id="viewcount">Diese Seite wurde bisher 10.532-mal abgerufen.</li>
+		<li id="copyright">Der Inhalt ist verfügbar unter der Lizenz <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/" class="external ">Namensnennung - Keine kommerzielle Nutzung - Weitergabe unter gleichen Bedingungen 3.0 Deutschland</a>.</li>
+		<li id="privacy"><a href="http://www.lowlevel.eu/wiki/Lowlevel:Datenschutz" title="Lowlevel:Datenschutz">Datenschutz</a></li>
+		<li id="about"><a href="http://www.lowlevel.eu/wiki/Lowlevel:%C3%9Cber" title="Lowlevel:Über">Über Lowlevel</a></li>
+		<li id="disclaimer"><a href="http://www.lowlevel.eu/wiki/Lowlevel:Impressum" title="Lowlevel:Impressum">Impressum</a></li>
+	</ul>
+</div>
+</div>
+
+<script src="Ausgabe%208%20%13%20Lowlevel_files/load_003.php"></script><script src="Ausgabe%208%20%13%20Lowlevel_files/load.php"></script>
+<script>if ( window.mediaWiki ) {
+	mediaWiki.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "Ausgabe_8", "wgTitle": "Ausgabe 8", "wgAction": "view", "wgArticleId": 1521, "wgIsArticle": true, "wgUserName": null, "wgUserGroups": ["*"], "wgCurRevisionId": 7480, "wgCategories": ["Magazin", "Tutorials"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": [], "wgSearchNamespaces": [0]});
+}
+</script>
+<script>if ( window.mediaWiki ) {
+	mediaWiki.loader.load(["mediawiki.util", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax", "mediawiki.legacy.mwsuggest"]);
+	mediaWiki.loader.go();
+}
+</script><script type="text/javascript" src="Ausgabe%208%20%13%20Lowlevel_files/load_004.php"></script>
+
+<script src="Ausgabe%208%20%13%20Lowlevel_files/load_002.php"></script>
+<script>if ( window.mediaWiki ) {
+	mediaWiki.user.options.set({"ccmeonemails":0,"cols":80,"contextchars":50,"contextlines":5,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":1,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,
+	"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"de","language":"de","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;mediaWiki.loader.state({"user.options":"ready"});
+}
+</script><!-- Served in 0.801 secs. --></body></html>

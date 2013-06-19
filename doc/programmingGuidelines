@@ -113,6 +113,8 @@ CONTENTS
 		Underscores are not allowed, use upper case and lower case letters to
 		differentiate between words. (As in the previous example.)
 		
+		Use const keyword whenever possible.
+		
 	5.2. Variables
 		Use the same specifications as for functions. (See 5.1.)
 		An exception are the counter variables - see 5.4.

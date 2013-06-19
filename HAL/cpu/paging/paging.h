@@ -24,7 +24,7 @@ typedef uint32_t	pageDirEntry;
 typedef uint32_t	pageTableEntry;
 
 void initPaging();
-int8_t mapPage(uint32_t physicalAddr, uint32_t virtualAddr);
+//TODO int8_t mapPage(uint32_t physicalAddr, uint32_t virtualAddr);
 
 #else
 #error "[ERROR] Currently there is only 32 bit support!"
@@ -32,5 +32,6 @@ int8_t mapPage(uint32_t physicalAddr, uint32_t virtualAddr);
 
 #include <string.h>
 #include <errno.h>
+#include <stdMacro.h>
 
 #endif /* _PAGING_H */

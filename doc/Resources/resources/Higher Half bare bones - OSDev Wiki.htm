@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html dir="ltr" class="client-js" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Higher Half bare bones - OSDev Wiki</title>
+<meta charset="UTF-8">
+<meta name="generator" content="MediaWiki 1.18.0">
+<link rel="shortcut icon" href="http://wiki.osdev.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://wiki.osdev.org/opensearch_desc.php" title="OSDev Wiki (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://wiki.osdev.org/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="OSDev Wiki Atom feed" href="http://wiki.osdev.org/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="Higher%20Half%20bare%20bones%20-%20OSDev%20Wiki_files/load.css">
+<style type="text/css" media="all">.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:8b08bdc91c52a9ffba396dccfb5b473c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="Higher%20Half%20bare%20bones%20-%20OSDev%20Wiki_files/load_002.css">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+<script src="Higher%20Half%20bare%20bones%20-%20OSDev%20Wiki_files/load_004.php"></script><script src="Higher%20Half%20bare%20bones%20-%20OSDev%20Wiki_files/load_002.php"></script>
+<script>if(window.mw){
+	mw.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "Higher_Half_bare_bones", "wgTitle": "Higher Half bare bones", "wgCurRevisionId": 13356, "wgArticleId": 1745, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": ["Level 2 Tutorials", "Bare bones tutorials"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": []});
+}
+</script><script>if(window.mw){
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script><script type="text/javascript" src="Higher%20Half%20bare%20bones%20-%20OSDev%20Wiki_files/load.php"></script>
+<style type="text/css">/*<![CDATA[*/
+.source-asm {line-height: normal;}
+.source-asm li, .source-asm pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for asm
+ * CSS class: source-asm, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.asm.source-asm .de1, .asm.source-asm .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.asm.source-asm  {font-family:monospace;}
+.asm.source-asm .imp {font-weight: bold; color: red;}
+.asm.source-asm li, .asm.source-asm .li1 {font-weight: normal; vertical-align:top;}
+.asm.source-asm .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.asm.source-asm .li2 {font-weight: bold; vertical-align:top;}
+.asm.source-asm .kw1 {color: #00007f; font-weight: bold;}
+.asm.source-asm .kw2 {color: #0000ff; font-weight: bold;}
+.asm.source-asm .kw3 {color: #00007f;}
+.asm.source-asm .kw4 {color: #000000; font-weight: bold;}
+.asm.source-asm .kw5 {color: #000000; font-weight: bold;}
+.asm.source-asm .co1 {color: #666666; font-style: italic;}
+.asm.source-asm .co2 {color: #adadad; font-style: italic;}
+.asm.source-asm .es0 {color: #000099; font-weight: bold;}
+.asm.source-asm .br0 {color: #009900; font-weight: bold;}
+.asm.source-asm .sy0 {color: #339933;}
+.asm.source-asm .st0 {color: #7f007f;}
+.asm.source-asm .nu0 {color: #0000ff;}
+.asm.source-asm .ln-xtra, .asm.source-asm li.ln-xtra, .asm.source-asm div.ln-xtra {background-color: #ffc;}
+.asm.source-asm span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style><style type="text/css">/*<![CDATA[*/
+.source-c {line-height: normal;}
+.source-c li, .source-c pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for c
+ * CSS class: source-c, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.c.source-c .de1, .c.source-c .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.c.source-c  {font-family:monospace;}
+.c.source-c .imp {font-weight: bold; color: red;}
+.c.source-c li, .c.source-c .li1 {font-weight: normal; vertical-align:top;}
+.c.source-c .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.c.source-c .li2 {font-weight: bold; vertical-align:top;}
+.c.source-c .kw1 {color: #b1b100;}
+.c.source-c .kw2 {color: #000000; font-weight: bold;}
+.c.source-c .kw3 {color: #000066;}
+.c.source-c .kw4 {color: #993333;}
+.c.source-c .co1 {color: #666666; font-style: italic;}
+.c.source-c .co2 {color: #339933;}
+.c.source-c .coMULTI {color: #808080; font-style: italic;}
+.c.source-c .es0 {color: #000099; font-weight: bold;}
+.c.source-c .es1 {color: #000099; font-weight: bold;}
+.c.source-c .es2 {color: #660099; font-weight: bold;}
+.c.source-c .es3 {color: #660099; font-weight: bold;}
+.c.source-c .es4 {color: #660099; font-weight: bold;}
+.c.source-c .es5 {color: #006699; font-weight: bold;}
+.c.source-c .br0 {color: #009900;}
+.c.source-c .sy0 {color: #339933;}
+.c.source-c .st0 {color: #ff0000;}
+.c.source-c .nu0 {color: #0000dd;}
+.c.source-c .nu6 {color: #208080;}
+.c.source-c .nu8 {color: #208080;}
+.c.source-c .nu12 {color: #208080;}
+.c.source-c .nu16 {color:#800080;}
+.c.source-c .nu17 {color:#800080;}
+.c.source-c .nu18 {color:#800080;}
+.c.source-c .nu19 {color:#800080;}
+.c.source-c .me1 {color: #202020;}
+.c.source-c .me2 {color: #202020;}
+.c.source-c .ln-xtra, .c.source-c li.ln-xtra, .c.source-c div.ln-xtra {background-color: #ffc;}
+.c.source-c span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style><!--[if lt IE 7]><style type="text/css">body{behavior:url("/skins/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Higher_Half_bare_bones action-view skin-vector">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content">
+			<a id="top"></a>
+			<div class="js-messagebox" id="mw-js-message" style="display:none;"></div>
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">Higher Half bare bones</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">From OSDev Wiki</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div dir="ltr" class="mw-content-ltr" lang="en"><table style="font-size:95%; line-height:1.5em; padding:0.25em; float:right; margin: 0 0 8px 15px; clear:right; border:1px solid #aaaaaa; background:#eee; text-align:center;;"><tbody><tr><th>Difficulty level</th></tr><tr><td><a href="http://wiki.osdev.org/File:Difficulty_2.png" class="image"><img alt="Difficulty 2.png" src="Higher%20Half%20bare%20bones%20-%20OSDev%20Wiki_files/Difficulty_2.png" height="14" width="46"></a><br>Medium</td></tr></tbody></table>
+<p>Here is some sample code for a kernel that is loaded by GRUB and is 
+mapped in the upper half of memory. In this case, the kernel is loaded 
+at 1MB in the physical address space (0x00100000), but is mapped at 3GB +
+ 1MB in the virtual address space (0xC0100000). It is recommended that 
+you have a firm grasp of the contents within the <a href="http://wiki.osdev.org/Bare_bones" title="Bare bones" class="mw-redirect">Bare bones tutorial</a> before attempting this.
+</p><p><b>WARNING</b><br>
+This code doesn't work with the default nasm installed on Ubuntu &lt; 
+8.10 (0.99.) You need to download and compile the latest version of 
+nasm.
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul style="display: block;">
+<li class="toclevel-1 tocsection-1"><a href="#loader.asm"><span class="tocnumber">1</span> <span class="toctext">loader.asm</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#kernel.c"><span class="tocnumber">2</span> <span class="toctext">kernel.c</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#linker.ld"><span class="tocnumber">3</span> <span class="toctext">linker.ld</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#Troubleshooting"><span class="tocnumber">4</span> <span class="toctext">Troubleshooting</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#See_Also"><span class="tocnumber">5</span> <span class="toctext">See Also</span></a>
+<ul>
+<li class="toclevel-2 tocsection-6"><a href="#Articles"><span class="tocnumber">5.1</span> <span class="toctext">Articles</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<h2> <span class="mw-headline" id="loader.asm">loader.asm</span></h2>
+<p>This piece of code is taking over control from the Multiboot 
+bootloader. It sets up a page directory with page table entries that 
+identity map the first 4MB, and also map the first 4MB to virtual 3GB. 
+After setting up paging, it unmaps the identity mapping so that the 
+kernel is entirely in the higher half and jumps into the kernel proper.
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1">global _loader                          <span class="co1">; Make entry point visible to linker.</span>
+<span class="kw4">extern</span> _main                            <span class="co1">; _main is defined elsewhere</span>
+&nbsp;
+<span class="co1">; setting up the Multiboot header - see GRUB docs for details</span>
+MODULEALIGN equ  <span class="nu0">1</span>&lt;&lt;<span class="nu0">0</span>             <span class="co1">; align loaded modules on page boundaries</span>
+MEMINFO    <span class="kw4"> equ</span>  <span class="nu0">1</span>&lt;&lt;<span class="nu0">1</span>             <span class="co1">; provide memory map</span>
+FLAGS      <span class="kw4"> equ</span>  MODULEALIGN | MEMINFO  <span class="co1">; this is the Multiboot 'flag' field</span>
+MAGIC      <span class="kw4"> equ</span>    <span class="nu0">0x1BADB002</span>     <span class="co1">; 'magic number' lets bootloader find the header</span>
+CHECKSUM   <span class="kw4"> equ</span> <span class="sy0">-</span><span class="br0">(</span>MAGIC <span class="sy0">+</span> FLAGS<span class="br0">)</span>  <span class="co1">; checksum required</span>
+&nbsp;
+<span class="co1">; This is the virtual base address of kernel space. It must be used to convert virtual</span>
+<span class="co1">; addresses into physical addresses until paging is enabled. Note that this is not</span>
+<span class="co1">; the virtual address where the kernel image itself is loaded -- just the amount that must</span>
+<span class="co1">; be subtracted from a virtual address to get a physical address.</span>
+KERNEL_VIRTUAL_BASE equ <span class="nu0">0xC0000000</span>                  <span class="co1">; 3GB</span>
+KERNEL_PAGE_NUMBER equ <span class="br0">(</span>KERNEL_VIRTUAL_BASE &gt;&gt; <span class="nu0">22</span><span class="br0">)</span>  <span class="co1">; Page directory index of kernel's 4MB PTE.</span>
+&nbsp;
+&nbsp;
+section <span class="kw4">.data</span>
+<span class="kw4">align</span> <span class="nu0">0x1000</span>
+BootPageDirectory<span class="sy0">:</span>
+    <span class="co1">; This page directory entry identity-maps the first 4MB of the 32-bit physical address space.</span>
+    <span class="co1">; All bits are clear except the following:</span>
+    <span class="co1">; bit 7: PS The kernel page is 4MB.</span>
+    <span class="co1">; bit 1: RW The kernel page is read/write.</span>
+    <span class="co1">; bit 0: P  The kernel page is present.</span>
+    <span class="co1">; This entry must be here -- otherwise the kernel will crash immediately after paging is</span>
+    <span class="co1">; enabled because it can't fetch the next instruction! It's ok to unmap this page later.</span>
+    <span class="kw4">dd</span> <span class="nu0">0x00000083</span>
+    times <span class="br0">(</span>KERNEL_PAGE_NUMBER <span class="sy0">-</span> <span class="nu0">1</span><span class="br0">)</span> <span class="kw4">dd</span> <span class="nu0">0</span>                 <span class="co1">; Pages before kernel space.</span>
+    <span class="co1">; This page directory entry defines a 4MB page containing the kernel.</span>
+    <span class="kw4">dd</span> <span class="nu0">0x00000083</span>
+    times <span class="br0">(</span><span class="nu0">1024</span> <span class="sy0">-</span> KERNEL_PAGE_NUMBER <span class="sy0">-</span> <span class="nu0">1</span><span class="br0">)</span> <span class="kw4">dd</span> <span class="nu0">0</span>  <span class="co1">; Pages after the kernel image.</span>
+&nbsp;
+&nbsp;
+section <span class="sy0">.</span>text
+<span class="kw4">align</span> <span class="nu0">4</span>
+MultiBootHeader<span class="sy0">:</span>
+    <span class="kw4">dd</span> MAGIC
+    <span class="kw4">dd</span> FLAGS
+    <span class="kw4">dd</span> CHECKSUM
+&nbsp;
+<span class="co1">; reserve initial kernel stack space -- that's 16k.</span>
+STACKSIZE equ <span class="nu0">0x4000</span>
+&nbsp;
+<span class="co1">; setting up entry point for linker</span>
+loader equ <span class="br0">(</span>_loader <span class="sy0">-</span> <span class="nu0">0xC0000000</span><span class="br0">)</span>
+global loader
+&nbsp;
+_loader<span class="sy0">:</span>
+    <span class="co1">; NOTE: Until paging is set up, the code must be position-independent and use physical</span>
+    <span class="co1">; addresses, not virtual ones!</span>
+    <span class="kw1">mov</span> <span class="kw3">ecx</span><span class="sy0">,</span> <span class="br0">(</span>BootPageDirectory <span class="sy0">-</span> KERNEL_VIRTUAL_BASE<span class="br0">)</span>
+    <span class="kw1">mov</span> <span class="kw3">cr3</span><span class="sy0">,</span> <span class="kw3">ecx</span>                                        <span class="co1">; Load Page Directory Base Register.</span>
+&nbsp;
+    <span class="kw1">mov</span> <span class="kw3">ecx</span><span class="sy0">,</span> cr4
+    <span class="kw1">or</span> <span class="kw3">ecx</span><span class="sy0">,</span> <span class="nu0">0x00000010</span>                          <span class="co1">; Set PSE bit in CR4 to enable 4MB pages.</span>
+    <span class="kw1">mov</span> cr4<span class="sy0">,</span> <span class="kw3">ecx</span>
+&nbsp;
+    <span class="kw1">mov</span> <span class="kw3">ecx</span><span class="sy0">,</span> <span class="kw3">cr0</span>
+    <span class="kw1">or</span> <span class="kw3">ecx</span><span class="sy0">,</span> <span class="nu0">0x80000000</span>                          <span class="co1">; Set PG bit in CR0 to enable paging.</span>
+    <span class="kw1">mov</span> <span class="kw3">cr0</span><span class="sy0">,</span> <span class="kw3">ecx</span>
+&nbsp;
+    <span class="co1">; Start fetching instructions in kernel space.</span>
+    <span class="co1">; Since eip at this point holds the physical address of this command (approximately 0x00100000)</span>
+    <span class="co1">; we need to do a long jump to the correct virtual address of StartInHigherHalf which is</span>
+    <span class="co1">; approximately 0xC0100000.</span>
+    <span class="kw1">lea</span> <span class="kw3">ecx</span><span class="sy0">,</span> <span class="br0">[</span>StartInHigherHalf<span class="br0">]</span>
+    <span class="kw1">jmp</span> <span class="kw3">ecx</span>                                                     <span class="co1">; NOTE: Must be absolute jump!</span>
+&nbsp;
+StartInHigherHalf<span class="sy0">:</span>
+    <span class="co1">; Unmap the identity-mapped first 4MB of physical address space. It should not be needed</span>
+    <span class="co1">; anymore.</span>
+    <span class="kw1">mov</span> <span class="kw5">dword</span> <span class="br0">[</span>BootPageDirectory<span class="br0">]</span><span class="sy0">,</span> <span class="nu0">0</span>
+    <span class="kw1">invlpg</span> <span class="br0">[</span><span class="nu0">0</span><span class="br0">]</span>
+&nbsp;
+    <span class="co1">; NOTE: From now on, paging should be enabled. The first 4MB of physical address space is</span>
+    <span class="co1">; mapped starting at KERNEL_VIRTUAL_BASE. Everything is linked to this address, so no more</span>
+    <span class="co1">; position-independent code or funny business with virtual-to-physical address translation</span>
+    <span class="co1">; should be necessary. We now have a higher-half kernel.</span>
+    <span class="kw1">mov</span> <span class="kw3">esp</span><span class="sy0">,</span> <span class="kw4">stack</span><span class="sy0">+</span>STACKSIZE           <span class="co1">; set up the stack</span>
+    <span class="kw1">push</span> <span class="kw3">eax</span>                           <span class="co1">; pass Multiboot magic number</span>
+&nbsp;
+    <span class="co1">; pass Multiboot info structure -- WARNING: This is a physical address and may not be</span>
+    <span class="co1">; in the first 4MB!</span>
+    <span class="kw1">push</span> <span class="kw3">ebx</span>
+&nbsp;
+    <span class="kw1">call</span>  _main                  <span class="co1">; call kernel proper</span>
+    <span class="kw1">hlt</span>                          <span class="co1">; halt machine should kernel return</span>
+&nbsp;
+&nbsp;
+section <span class="sy0">.</span>bss
+<span class="kw4">align</span> <span class="nu0">32</span>
+<span class="kw4">stack</span><span class="sy0">:</span>
+    resb STACKSIZE      <span class="co1">; reserve 16k stack on a quadword boundary</span></pre></div></div>
+<h2> <span class="mw-headline" id="kernel.c">kernel.c</span></h2>
+<p>This is not exactly your average int main(). Most notably, you do not
+ have any library stuff available. As soon as you write so much as 
+#include &lt;, you have probably made the first mistake. Welcome to 
+kernel land.
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="c source-c"><pre class="de1"><span class="kw4">void</span> _main<span class="br0">(</span> <span class="kw4">void</span><span class="sy0">*</span> mbd<span class="sy0">,</span> <span class="kw4">unsigned</span> <span class="kw4">int</span> magic <span class="br0">)</span>
+<span class="br0">{</span>
+   <span class="co1">//write your kernel here</span>
+<span class="br0">}</span></pre></div></div>
+<h2> <span class="mw-headline" id="linker.ld">linker.ld</span></h2>
+<p>This is a little trickier than it was for the <a href="http://wiki.osdev.org/Bare_bones" title="Bare bones" class="mw-redirect">C kernel tutorial</a>,
+ since you need to distinguish between virtual addresses (which will be 
+in the higher half) and load addresses, which GRUB needs to decide where
+ to put your kernel.
+</p>
+<pre>ENTRY(loader)
+OUTPUT_FORMAT(elf32-i386)
+
+SECTIONS {
+   /* The kernel will live at 3GB + 1MB in the virtual
+      address space, which will be mapped to 1MB in the
+      physical address space. */
+   . = 0xC0100000;
+
+   .text&nbsp;: AT(ADDR(.text) - 0xC0000000) {
+       *(.text)
+       *(.rodata*)
+   }
+
+   .data ALIGN (0x1000)&nbsp;: AT(ADDR(.data) - 0xC0000000) {
+       *(.data)
+   }
+
+   .bss&nbsp;: AT(ADDR(.bss) - 0xC0000000) {
+       _sbss = .;
+       *(COMMON)
+       *(.bss)
+       _ebss = .;
+   }
+}
+</pre>
+<p>Note that we use loader (and not _loader) as our entry point. This is
+ due to the fact that _loader's address is approximately 0xC0100000, if 
+we try to set our eip to that address it will not find our loader 
+function.
+</p>
+<h2> <span class="mw-headline" id="Troubleshooting">Troubleshooting</span></h2>
+<dl><dt>Grub <tt>Error 7: Loading below 1MB is not supported</tt>
+</dt><dd>Many older versions of GRUB ignore the 'physical address hint' of the <a href="http://wiki.osdev.org/ELF" title="ELF">ELF</a> sections. Try to make sure you are using at least GRUB v 0.94.
+</dd></dl>
+<dl><dt>Grub <tt>Error 28: Selected item cannot fit into memory</tt>
+</dt><dd> Make sure your linker script is correct. See the example above. GRUB is attempting to load your kernel at the <i>physical</i> address of 0xC0000000, instead of 0x100000.  The AT commands in the linker script fix this.
+</dd></dl>
+<dl><dt>It doesn't work with BOCHS
+</dt><dd>Some prebuilt versions of Bochs do not support 4MB pages. You may need to build your own with the following options:
+</dd></dl>
+<pre>   --enable-4meg-pages               support 4Megabyte pages extensions
+   --enable-pae                      support Physical Address Extensions
+</pre>
+<dl><dt>I got a page fault (#PF) when accessing my GRUB multiboot info structure
+</dt><dd> The address passed by loader.s is physical, you have to make it virtual to add your virtual base to it.
+</dd><dd> For example, in your loader.s:
+</dd></dl>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1">   <span class="kw1">add</span> <span class="kw3">ebx</span><span class="sy0">,</span> KERNEL_VIRTUAL_BASE <span class="co1">; make the address virtual</span>
+   <span class="kw1">push</span> <span class="kw3">ebx</span> <span class="co1">; push it on the stack for _main()</span></pre></div></div>
+<dl><dd> Don't forget to make all addresses pointing to memory locations in the multiboot info structure also virtual.
+</dd></dl>
+<h2> <span class="mw-headline" id="See_Also">See Also</span></h2>
+<h3> <span class="mw-headline" id="Articles">Articles</span></h3>
+<ul><li><a href="http://wiki.osdev.org/Bare_bones" title="Bare bones" class="mw-redirect">Bare bones</a>
+</li></ul>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 179/1000000
+Post-expand include size: 342/2097152 bytes
+Template argument size: 52/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key wikidb:pcache:idhash:1745-0!*!0!!en!2!* and timestamp 20130613164256 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Retrieved from "<a href="http://wiki.osdev.org/index.php?title=Higher_Half_bare_bones&amp;oldid=13356">http://wiki.osdev.org/index.php?title=Higher_Half_bare_bones&amp;oldid=13356</a>"				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a href="http://wiki.osdev.org/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="http://wiki.osdev.org/Category:Level_2_Tutorials" title="Category:Level 2 Tutorials">Level 2 Tutorials</a></li><li><a href="http://wiki.osdev.org/Category:Bare_bones_tutorials" title="Category:Bare bones tutorials">Bare bones tutorials</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+		<li id="pt-login"><a href="http://wiki.osdev.org/index.php?title=Special:UserLogin&amp;returnto=Higher_Half_bare_bones" title="You are encouraged to log in; however, it is not mandatory [alt-shift-o]" accesskey="o">Log in</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li id="ca-nstab-main" class="selected"><span><a href="http://wiki.osdev.org/Higher_Half_bare_bones" title="View the content page [alt-shift-c]" accesskey="c">Page</a></span></li>
+					<li id="ca-talk"><span><a href="http://wiki.osdev.org/Talk:Higher_Half_bare_bones" title="Discussion about the content page [alt-shift-t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="http://wiki.osdev.org/Higher_Half_bare_bones">Read</a></span></li>
+					<li id="ca-viewsource"><span><a href="http://wiki.osdev.org/index.php?title=Higher_Half_bare_bones&amp;action=edit" title="This page is protected.
+You can view its source [alt-shift-e]" accesskey="e">View source</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://wiki.osdev.org/index.php?title=Higher_Half_bare_bones&amp;action=history" title="Past revisions of this page [alt-shift-h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/index.php" id="searchform">
+		<input name="title" value="Special:Search" type="hidden">
+				<input name="search" title="Search OSDev Wiki [alt-shift-f]" accesskey="f" id="searchInput" type="search">		<input name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton" type="submit">		<input name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton" type="submit">			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(/skins/common/images/osdev.png);" href="http://wiki.osdev.org/Main_Page" title="Visit the main page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id="p-navigation">
+	<h5>Navigation</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage"><a href="http://wiki.osdev.org/Main_Page" title="Visit the main page [alt-shift-z]" accesskey="z">Main Page</a></li>
+			<li id="n-portal"><a href="http://forum.osdev.org/" rel="nofollow" title="About the project, what you can do, where to find things">Forums</a></li>
+			<li id="n-FAQ"><a href="http://wiki.osdev.org/Category:FAQ">FAQ</a></li>
+			<li id="n-OS-Projects"><a href="http://wiki.osdev.org/Projects">OS Projects</a></li>
+			<li id="n-randompage"><a href="http://wiki.osdev.org/Special:Random" title="Load a random page [alt-shift-x]" accesskey="x">Random page</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- about -->
+<div class="portal" id="p-about">
+	<h5>About</h5>
+	<div class="body">
+		<ul>
+			<li id="n-This-site"><a href="http://wiki.osdev.org/OSDevWiki:About">This site</a></li>
+			<li id="n-Joining"><a href="http://wiki.osdev.org/OSDevWiki:Joining">Joining</a></li>
+			<li id="n-Editing-help"><a href="http://wiki.osdev.org/OSDevWiki:Editing">Editing help</a></li>
+			<li id="n-recentchanges"><a href="http://wiki.osdev.org/Special:RecentChanges" title="A list of recent changes in the wiki [alt-shift-r]" accesskey="r">Recent changes</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /about -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- TOOLBOX -->
+<div class="portal" id="p-tb">
+	<h5>Toolbox</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="http://wiki.osdev.org/Special:WhatLinksHere/Higher_Half_bare_bones" title="A list of all wiki pages that link here [alt-shift-j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="http://wiki.osdev.org/Special:RecentChangesLinked/Higher_Half_bare_bones" title="Recent changes in pages linked from this page [alt-shift-k]" accesskey="k">Related changes</a></li>
+			<li id="t-specialpages"><a href="http://wiki.osdev.org/Special:SpecialPages" title="A list of all special pages [alt-shift-q]" accesskey="q">Special pages</a></li>
+			<li><a href="http://wiki.osdev.org/index.php?title=Higher_Half_bare_bones&amp;printable=yes" rel="alternate">Printable version</a></li>
+			<li id="t-permalink"><a href="http://wiki.osdev.org/index.php?title=Higher_Half_bare_bones&amp;oldid=13356" title="Permanent link to this revision of the page">Permanent link</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- LANGUAGES -->
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 12 May 2012, at 12:17.</li>
+											<li id="footer-info-viewcount">This page has been accessed 25,631 times.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="http://wiki.osdev.org/OSDev_Wiki:Privacy_policy" title="OSDev Wiki:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="http://wiki.osdev.org/OSDev_Wiki:About" title="OSDev Wiki:About">About OSDev Wiki</a></li>
+											<li id="footer-places-disclaimer"><a href="http://wiki.osdev.org/OSDev_Wiki:General_disclaimer" title="OSDev Wiki:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-poweredbyico">
+						<a href="http://www.mediawiki.org/"><img src="Higher%20Half%20bare%20bones%20-%20OSDev%20Wiki_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" height="31" width="88"></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		<script src="Higher%20Half%20bare%20bones%20-%20OSDev%20Wiki_files/load_006.php"></script>
+<script>if(window.mw){
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax"]);
+}
+</script><script type="text/javascript" src="Higher%20Half%20bare%20bones%20-%20OSDev%20Wiki_files/load_003.php"></script>
+<script src="Higher%20Half%20bare%20bones%20-%20OSDev%20Wiki_files/load_005.php"></script>
+<script>if(window.mw){
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: wikidb:resourceloader:filter:minify-js:4:19a4b18a9ac79a6b8c60b24af4668814 */
+}
+</script><!-- Served in 0.088 secs. -->
+	
+
+</body></html>
