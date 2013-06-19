@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html dir="ltr" class="client-js" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Synchronization Primitives - OSDev Wiki</title>
+<meta charset="UTF-8">
+<meta name="generator" content="MediaWiki 1.18.0">
+<link rel="shortcut icon" href="http://wiki.osdev.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://wiki.osdev.org/opensearch_desc.php" title="OSDev Wiki (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://wiki.osdev.org/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="OSDev Wiki Atom feed" href="http://wiki.osdev.org/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="Synchronization%20Primitives%20-%20OSDev%20Wiki_files/load.css">
+<style type="text/css" media="all">.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:8b08bdc91c52a9ffba396dccfb5b473c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="Synchronization%20Primitives%20-%20OSDev%20Wiki_files/load_002.css">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+<script src="Synchronization%20Primitives%20-%20OSDev%20Wiki_files/load_003.php"></script><script src="Synchronization%20Primitives%20-%20OSDev%20Wiki_files/load_002.php"></script>
+<script>if(window.mw){
+	mw.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "Synchronization_Primitives", "wgTitle": "Synchronization Primitives", "wgCurRevisionId": 12886, "wgArticleId": 1889, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": ["IPC", "Synchronization"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": []});
+}
+</script><script>if(window.mw){
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script><script type="text/javascript" src="Synchronization%20Primitives%20-%20OSDev%20Wiki_files/load.php"></script>
+<style type="text/css">/*<![CDATA[*/
+.source-c {line-height: normal;}
+.source-c li, .source-c pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for c
+ * CSS class: source-c, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.c.source-c .de1, .c.source-c .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.c.source-c  {font-family:monospace;}
+.c.source-c .imp {font-weight: bold; color: red;}
+.c.source-c li, .c.source-c .li1 {font-weight: normal; vertical-align:top;}
+.c.source-c .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.c.source-c .li2 {font-weight: bold; vertical-align:top;}
+.c.source-c .kw1 {color: #b1b100;}
+.c.source-c .kw2 {color: #000000; font-weight: bold;}
+.c.source-c .kw3 {color: #000066;}
+.c.source-c .kw4 {color: #993333;}
+.c.source-c .co1 {color: #666666; font-style: italic;}
+.c.source-c .co2 {color: #339933;}
+.c.source-c .coMULTI {color: #808080; font-style: italic;}
+.c.source-c .es0 {color: #000099; font-weight: bold;}
+.c.source-c .es1 {color: #000099; font-weight: bold;}
+.c.source-c .es2 {color: #660099; font-weight: bold;}
+.c.source-c .es3 {color: #660099; font-weight: bold;}
+.c.source-c .es4 {color: #660099; font-weight: bold;}
+.c.source-c .es5 {color: #006699; font-weight: bold;}
+.c.source-c .br0 {color: #009900;}
+.c.source-c .sy0 {color: #339933;}
+.c.source-c .st0 {color: #ff0000;}
+.c.source-c .nu0 {color: #0000dd;}
+.c.source-c .nu6 {color: #208080;}
+.c.source-c .nu8 {color: #208080;}
+.c.source-c .nu12 {color: #208080;}
+.c.source-c .nu16 {color:#800080;}
+.c.source-c .nu17 {color:#800080;}
+.c.source-c .nu18 {color:#800080;}
+.c.source-c .nu19 {color:#800080;}
+.c.source-c .me1 {color: #202020;}
+.c.source-c .me2 {color: #202020;}
+.c.source-c .ln-xtra, .c.source-c li.ln-xtra, .c.source-c div.ln-xtra {background-color: #ffc;}
+.c.source-c span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style><!--[if lt IE 7]><style type="text/css">body{behavior:url("/skins/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Synchronization_Primitives action-view skin-vector">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content">
+			<a id="top"></a>
+			<div class="js-messagebox" id="mw-js-message" style="display:none;"></div>
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">Synchronization Primitives</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">From OSDev Wiki</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div dir="ltr" class="mw-content-ltr" lang="en"><p>All the techniques presented here are basic building blocks to address the problem of <i>process synchronization</i>.
+ E.g. given programs that are running independently from each other on 
+the same machine, how can one ensure some properties about what 
+combination of operations are allowed and what combinations are not.
+</p><p>Among other examples of real-world problems, we're looking for technique that can grant:
+</p>
+<ul><li> Mutual exclusion of processes: a portion of code cannot be executing by two process simultaneously.
+</li><li> Rendezvous: one process must not perform one operation (e.g. 
+generating a summary) before other processes have completed their 
+operations.
+</li><li> Shared readers/Single writer approach of resource locking: 
+many process may be reading a table at the same time, but only one can 
+write at a time and it should prevent readers to access the table until 
+the table has returned to a consistent state.
+</li></ul>
+<dl><dd> <i>Note: A good synchronization implementation should not only guarantee </i><b>correctness</b><i>, but also </i><b>fairness</b><i> (all process have equal chance to get the access) and </i><b>non-starvation</b><i> (any waiting process will eventually have the resource).</i>
+</dd></dl>
+<p><br>
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Semaphores"><span class="tocnumber">1</span> <span class="toctext">Semaphores</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Mutexes"><span class="tocnumber">2</span> <span class="toctext">Mutexes</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Spinlocks"><span class="tocnumber">3</span> <span class="toctext">Spinlocks</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#See_Also"><span class="tocnumber">4</span> <span class="toctext">See Also</span></a>
+<ul>
+<li class="toclevel-2 tocsection-5"><a href="#Threads"><span class="tocnumber">4.1</span> <span class="toctext">Threads</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<h2> <span class="mw-headline" id="Semaphores"> Semaphores </span></h2>
+<p>Semaphores are one of the oldest and most widely used methods of ensuring <a href="http://wiki.osdev.org/Mutual_Exclusion" title="Mutual Exclusion">Mutual Exclusion</a>
+ between two or more processes. A semaphore is a special integer 
+variable which is (usually) initialized to 1, and can only altered by a 
+pair of functions. Each of these functions, historically called <i>p</i> and <i>v</i> (from the Dutch words <i>proberen</i>, to try, and <i>verhogen</i>, to increment), must be an <a href="http://wiki.osdev.org/Atomic_operation" title="Atomic operation">Atomic operation</a>. Each semaphore has an associated queue for processes waiting on the resource it guards.
+</p>
+<ul><li> The function <i>p</i>, also called <tt>wait()</tt> (or <tt>test()</tt>),
+ decrements the value of the semaphore, and if the semaphore is 
+negative, puts the process on the waiting queue until the semaphore is 
+released by the process holding it.
+</li></ul>
+<ul><li> The function <i>v</i>, also called <tt>signal()</tt> (or <tt>release()</tt>),
+ increments the semaphore and, if it is still negative, indicates to the
+ scheduler to wake the next waiting process in the queue.
+</li></ul>
+<p>Note that a general semaphore can do much more than just guaranteeing
+ mutual exclusion. Some FIFO queue (single reader and single writer) can
+ for instance be implemented by using one semaphore counting "how many 
+messages are available" and another one counting "how many free slots 
+are available"
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="c source-c"><pre class="de1"> Message queue<span class="br0">[</span>N<span class="br0">]</span><span class="sy0">;</span>
+ Semaphore slots<span class="sy0">=</span>new Semaphore<span class="br0">(</span>N<span class="br0">)</span><span class="sy0">;</span>
+ Semaphore messages<span class="sy0">=</span>new Semaphore<span class="br0">(</span><span class="nu0">0</span><span class="br0">)</span><span class="sy0">;</span>
+ <span class="kw4">int</span> last_read<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">,</span> last_written<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span>
+&nbsp;
+ Message get<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span>
+   Message m<span class="sy0">;</span>
+   messages.<span class="me1">wait</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+   m<span class="sy0">=</span>queue<span class="br0">[</span>last_read<span class="br0">]</span><span class="sy0">;</span> last_read<span class="sy0">=</span><span class="br0">(</span>last_read<span class="sy0">+</span><span class="nu0">1</span><span class="br0">)</span><span class="sy0">%</span>N<span class="sy0">;</span>
+   slots.<span class="me1">signal</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+   <span class="kw1">return</span> m<span class="sy0">;</span>
+ <span class="br0">}</span>
+&nbsp;
+ <span class="kw4">void</span> put<span class="br0">(</span>Message m<span class="br0">)</span> <span class="br0">{</span>
+   slots.<span class="me1">wait</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+   queue<span class="br0">[</span>last_written<span class="br0">]</span><span class="sy0">=</span>m<span class="sy0">;</span> last_written<span class="sy0">=</span><span class="br0">(</span>last_written<span class="sy0">+</span><span class="nu0">1</span><span class="br0">)</span><span class="sy0">%</span>N<span class="sy0">;</span>
+   messages.<span class="me1">signal</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+ <span class="br0">}</span></pre></div></div>
+<h2> <span class="mw-headline" id="Mutexes"> Mutexes </span></h2>
+<p>A variant on this, called a <i>binary semaphore</i> uses a boolean value instead of an integer. In that case, <i>p</i> tests the value of the semaphore, and if it is true, sets it to false, and if false, waits. The binary <i>v</i>
+ function checks the waiting queue, and if it is empty, set the 
+semaphore to true; otherwise, it indicates to the scheduler to wake the 
+next queued process.
+</p><p>In either form, it is important that a process release a 
+semaphore once it has finished using the resource it guards, otherwise 
+the resource could be left inaccessible.
+</p><p>Note that while "semaphore" is a globally-unique semantic items, 
+"mutex" is a fuzzy name and system designers tends to have "their own 
+mutex" which may look more like a spinlock or like a binary semaphore or
+ like a general semaphore...
+</p>
+<h2> <span class="mw-headline" id="Spinlocks"> Spinlocks </span></h2>
+<p>Spinlocks try to address the same problem of <a href="http://wiki.osdev.org/Mutual_Exclusion" title="Mutual Exclusion">Mutual Exclusion</a>,
+ but without relying on a scheduler infrastructure to make the process 
+sleep if the resource is busy. Instead, a spinlock will keep checking 
+the value until it has changed and usually relies on some atomic <tt>test_and_set</tt> instruction on the CPU to perform its task (See <a rel="nofollow" class="external text" href="http://developer.intel.com/design/pentium4/manuals/index_new.htm">Intel Manuals</a> to see how <tt>xchg</tt> can be used to mimmic <tt>test_and_set</tt> virtual operation).
+</p><p>While poorly used spinlocks will lead to severe performance 
+penalty in single-cpu systems, wise use on multi-cpu may achieve higher 
+throughput.
+</p><p>If you need more information on spinlocks, you're suggested to walk through these documents:
+</p>
+<ul><li> <a rel="nofollow" class="external text" href="http://osdev.berlios.de/spinlock_part1.html">Spinlocks 1</a>
+</li><li> <a rel="nofollow" class="external text" href="http://osdev.berlios.de/spinlock_part2.html">Spinlocks 2</a>
+</li><li> <a rel="nofollow" class="external text" href="http://osdev.berlios.de/spinlock_part3.html">Spinlocks 3</a>
+</li></ul>
+<p><b>*Note for IA-32 programmers*: If you consider to use spinlocks, be
+ aware that the P4 / Xeon CPUs will falsely detect a possible memory 
+order violation as the spinloop finishes, resulting in an large 
+additional performance penalty. Place a PAUSE instruction into the 
+spinlock to avoid this undesirable behavior. Refer to the <a rel="nofollow" class="external text" href="http://developer.intel.com/design/pentium4/manuals/index_new.htm">Intel Manuals</a> for more information.</b>
+</p><p><br>
+</p>
+<h2> <span class="mw-headline" id="See_Also">See Also</span></h2>
+<h3> <span class="mw-headline" id="Threads">Threads</span></h3>
+<ul><li><a href="http://forum.osdev.org/viewtopic.php?t=9440" class="extiw" title="topic:9440">Userland only Semaphores</a>
+</li><li><a href="http://forum.osdev.org/viewtopic.php?t=10363" class="extiw" title="topic:10363">Spinlocks that disable interrupts</a>
+</li><li><a href="http://forum.osdev.org/viewtopic.php?t=9699" class="extiw" title="topic:9699">SMP compatibility</a>
+</li><li><a href="http://forum.osdev.org/viewtopic.php?t=14261" class="extiw" title="topic:14261">Mutex Implementation</a>
+</li><li><a href="http://forum.osdev.org/viewtopic.php?t=11903" class="extiw" title="topic:11903">Mutexs, Spinlocks and all that jazz</a>
+</li><li><a href="http://forum.osdev.org/viewtopic.php?t=7500" class="extiw" title="topic:7500">Spinlocks &amp; Semaphores</a>
+</li></ul>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 40/1000000
+Post-expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key wikidb:pcache:idhash:1889-0!*!0!!en!*!* and timestamp 20130612220858 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Retrieved from "<a href="http://wiki.osdev.org/index.php?title=Synchronization_Primitives&amp;oldid=12886">http://wiki.osdev.org/index.php?title=Synchronization_Primitives&amp;oldid=12886</a>"				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a href="http://wiki.osdev.org/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="http://wiki.osdev.org/Category:IPC" title="Category:IPC">IPC</a></li><li><a href="http://wiki.osdev.org/Category:Synchronization" title="Category:Synchronization">Synchronization</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+		<li id="pt-login"><a href="http://wiki.osdev.org/index.php?title=Special:UserLogin&amp;returnto=Synchronization_Primitives" title="You are encouraged to log in; however, it is not mandatory [alt-shift-o]" accesskey="o">Log in</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li id="ca-nstab-main" class="selected"><span><a href="http://wiki.osdev.org/Synchronization_Primitives" title="View the content page [alt-shift-c]" accesskey="c">Page</a></span></li>
+					<li id="ca-talk"><span><a href="http://wiki.osdev.org/Talk:Synchronization_Primitives" title="Discussion about the content page [alt-shift-t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="http://wiki.osdev.org/Synchronization_Primitives">Read</a></span></li>
+					<li id="ca-viewsource"><span><a href="http://wiki.osdev.org/index.php?title=Synchronization_Primitives&amp;action=edit" title="This page is protected.
+You can view its source [alt-shift-e]" accesskey="e">View source</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://wiki.osdev.org/index.php?title=Synchronization_Primitives&amp;action=history" title="Past revisions of this page [alt-shift-h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/index.php" id="searchform">
+		<input name="title" value="Special:Search" type="hidden">
+				<input name="search" title="Search OSDev Wiki [alt-shift-f]" accesskey="f" id="searchInput" type="search">		<input name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton" type="submit">		<input name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton" type="submit">			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(/skins/common/images/osdev.png);" href="http://wiki.osdev.org/Main_Page" title="Visit the main page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id="p-navigation">
+	<h5>Navigation</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage"><a href="http://wiki.osdev.org/Main_Page" title="Visit the main page [alt-shift-z]" accesskey="z">Main Page</a></li>
+			<li id="n-portal"><a href="http://forum.osdev.org/" rel="nofollow" title="About the project, what you can do, where to find things">Forums</a></li>
+			<li id="n-FAQ"><a href="http://wiki.osdev.org/Category:FAQ">FAQ</a></li>
+			<li id="n-OS-Projects"><a href="http://wiki.osdev.org/Projects">OS Projects</a></li>
+			<li id="n-randompage"><a href="http://wiki.osdev.org/Special:Random" title="Load a random page [alt-shift-x]" accesskey="x">Random page</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- about -->
+<div class="portal" id="p-about">
+	<h5>About</h5>
+	<div class="body">
+		<ul>
+			<li id="n-This-site"><a href="http://wiki.osdev.org/OSDevWiki:About">This site</a></li>
+			<li id="n-Joining"><a href="http://wiki.osdev.org/OSDevWiki:Joining">Joining</a></li>
+			<li id="n-Editing-help"><a href="http://wiki.osdev.org/OSDevWiki:Editing">Editing help</a></li>
+			<li id="n-recentchanges"><a href="http://wiki.osdev.org/Special:RecentChanges" title="A list of recent changes in the wiki [alt-shift-r]" accesskey="r">Recent changes</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /about -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- TOOLBOX -->
+<div class="portal" id="p-tb">
+	<h5>Toolbox</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="http://wiki.osdev.org/Special:WhatLinksHere/Synchronization_Primitives" title="A list of all wiki pages that link here [alt-shift-j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="http://wiki.osdev.org/Special:RecentChangesLinked/Synchronization_Primitives" title="Recent changes in pages linked from this page [alt-shift-k]" accesskey="k">Related changes</a></li>
+			<li id="t-specialpages"><a href="http://wiki.osdev.org/Special:SpecialPages" title="A list of all special pages [alt-shift-q]" accesskey="q">Special pages</a></li>
+			<li><a href="http://wiki.osdev.org/index.php?title=Synchronization_Primitives&amp;printable=yes" rel="alternate">Printable version</a></li>
+			<li id="t-permalink"><a href="http://wiki.osdev.org/index.php?title=Synchronization_Primitives&amp;oldid=12886" title="Permanent link to this revision of the page">Permanent link</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- LANGUAGES -->
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 2 March 2012, at 08:04.</li>
+											<li id="footer-info-viewcount">This page has been accessed 24,396 times.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="http://wiki.osdev.org/OSDev_Wiki:Privacy_policy" title="OSDev Wiki:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="http://wiki.osdev.org/OSDev_Wiki:About" title="OSDev Wiki:About">About OSDev Wiki</a></li>
+											<li id="footer-places-disclaimer"><a href="http://wiki.osdev.org/OSDev_Wiki:General_disclaimer" title="OSDev Wiki:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-poweredbyico">
+						<a href="http://www.mediawiki.org/"><img src="Synchronization%20Primitives%20-%20OSDev%20Wiki_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" height="31" width="88"></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		<script src="Synchronization%20Primitives%20-%20OSDev%20Wiki_files/load_006.php"></script>
+<script>if(window.mw){
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax"]);
+}
+</script><script type="text/javascript" src="Synchronization%20Primitives%20-%20OSDev%20Wiki_files/load_004.php"></script>
+<script src="Synchronization%20Primitives%20-%20OSDev%20Wiki_files/load_005.php"></script>
+<script>if(window.mw){
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: wikidb:resourceloader:filter:minify-js:4:19a4b18a9ac79a6b8c60b24af4668814 */
+}
+</script><!-- Served in 0.348 secs. -->
+	
+
+</body></html>

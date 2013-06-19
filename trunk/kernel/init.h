@@ -28,7 +28,7 @@
 void init();
 
 //For reading information passed from bootloader
-#include <boot/boot.h>
+#include <boot/multiboot.h>
 //For printing out text to video memory
 #include <print.h>
 //Setting up a global descriptor table
@@ -37,10 +37,11 @@ void init();
 #include <cpu/IDT/idt.h>
 //For initializing the timer
 #include <PIT/timer.h>
+//TODO comment
 #include <intHandlers/timerInt.h>
 //For initializing the keyboard
 #include <intHandlers/keyboardInt.h>
-//For using the speaker ;)
-#include <sound/speaker.h>
+//using the physical memory manager
+#include <mem/physical/pMem.h>
 
 #endif /* _INIT_H */

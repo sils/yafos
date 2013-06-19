@@ -2,8 +2,9 @@
 
 #if ARCH == 32
 
-pageDirEntry	pageDir[1024];
-pageTableEntry	pageTable[1024];
+//Lets first do the memory manager...
+//pageDirEntry	pageDir[1024] PAGE_ALIGNED;
+//pageTableEntry	KernelPageTable[1024] PAGE_ALIGNED;
 
 #define stdDirEntry(tableAdress)	P_PRESENT | P_ADDR(tableAdress) | P_RW\
 									| P_WRITE_THROUGH | P_PAGE_SIZE
@@ -15,7 +16,7 @@ pageTableEntry	pageTable[1024];
 #define P_PRESENT		0x01
 #define P_RW			0x02
 #define P_SUPER			0x04
-#define P_WRITE_THROUGH	0x08 //TODO what is write through? See wiki, cache
+#define P_WRITE_THROUGH	0x08
 #define P_NO_CACHE		0x10
 #define P_USED			0x20
 #if PAGE_SIZE == 0x1000
@@ -29,18 +30,21 @@ pageTableEntry	pageTable[1024];
 #define P_DIR_OFFS(a)	(0xFFC00000 & (a)) >> 22
 
 void initPaging()
-{
+{/*
 	//set 1024 * 4 bytes to zero
-	memset(pageDir, 0x1000, 0);
+	memset(pageDir, 0x1000, 0);*/
 }
 
-int8_t mapPage(uint32_t physicalAddr, uint32_t virtualAddr)
+int8_t mapPage()//uint32_t physicalAddr, uint32_t virtualAddr)
 {
-	if(P_PRESENT & pageDir[P_DIR_OFFS(virtualAddr)])
+	return -NOT_IMPLEMENTED;
+	/*if(P_PRESENT & pageDir[P_DIR_OFFS(virtualAddr)])
 	{
-		uint32_t pTable = P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
-		return -NOT_IMPLEMENTED;
 		//page table exists
+		uint32_t pTable = P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
+		
+		
+		return -NOT_IMPLEMENTED;
 	}
 	else
 	{
@@ -48,7 +52,7 @@ int8_t mapPage(uint32_t physicalAddr, uint32_t virtualAddr)
 		//allocate 1024 bytes of memory
 		//pageDir[P_DIR_OFFS(virtualAddr)] = stdDirEntry(memaddr);
 		//create page table
-	}
+	}*/
 }
 
 #else

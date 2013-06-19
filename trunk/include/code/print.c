@@ -11,6 +11,9 @@ void printFatalErr()
 
 void printDebug()
 {
+	#ifdef DEBUG
+	//printit
+	#endif
 }
 
 // TODO place this where it belongs -> POSIX???

@@ -15,8 +15,11 @@
 #define _CMOS_H
 
 #include <time.h>
+#include <stdint.h>
 
 struct tm getCmosTime();//TODO
 //TODO some macros
+
+#include <sys/io.h>
 
 #endif /* _CMOS_H */

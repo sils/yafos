@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html dir="ltr" class="client-js" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Multitasking Systems - OSDev Wiki</title>
+<meta charset="UTF-8">
+<meta name="generator" content="MediaWiki 1.18.0">
+<link rel="shortcut icon" href="http://wiki.osdev.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://wiki.osdev.org/opensearch_desc.php" title="OSDev Wiki (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://wiki.osdev.org/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="OSDev Wiki Atom feed" href="http://wiki.osdev.org/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="Multitasking%20Systems%20-%20OSDev%20Wiki_files/load.css">
+<style type="text/css" media="all">.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:8b08bdc91c52a9ffba396dccfb5b473c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="Multitasking%20Systems%20-%20OSDev%20Wiki_files/load_002.css">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+<script src="Multitasking%20Systems%20-%20OSDev%20Wiki_files/load_003.php"></script><script src="Multitasking%20Systems%20-%20OSDev%20Wiki_files/load_002.php"></script>
+<script>if(window.mw){
+	mw.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "Multitasking_Systems", "wgTitle": "Multitasking Systems", "wgCurRevisionId": 9294, "wgArticleId": 1474, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": ["Task Models"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": []});
+}
+</script><script>if(window.mw){
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script><script type="text/javascript" src="Multitasking%20Systems%20-%20OSDev%20Wiki_files/load.php"></script>
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/skins/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Multitasking_Systems action-view skin-vector">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content">
+			<a id="top"></a>
+			<div class="js-messagebox" id="mw-js-message" style="display:none;"></div>
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">Multitasking Systems</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">From OSDev Wiki</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div dir="ltr" class="mw-content-ltr" lang="en"><p>Multitasking 
+Systems are operating systems (or even system extensions) which divide 
+available processor time between several tasks automatically, creating 
+the illusion that the tasks are running simultaneously.
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Types_of_Multitasking_Systems"><span class="tocnumber">1</span> <span class="toctext">Types of Multitasking Systems</span></a>
+<ul>
+<li class="toclevel-2 tocsection-2"><a href="#Cooperative_Multitasking"><span class="tocnumber">1.1</span> <span class="toctext">Cooperative Multitasking</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="#Preemptive_Multitasking"><span class="tocnumber">1.2</span> <span class="toctext">Preemptive Multitasking</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-4"><a href="#How_does_it_work"><span class="tocnumber">2</span> <span class="toctext">How does it work</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#See_Also"><span class="tocnumber">3</span> <span class="toctext">See Also</span></a>
+<ul>
+<li class="toclevel-2 tocsection-6"><a href="#Articles"><span class="tocnumber">3.1</span> <span class="toctext">Articles</span></a></li>
+<li class="toclevel-2 tocsection-7"><a href="#Threads"><span class="tocnumber">3.2</span> <span class="toctext">Threads</span></a></li>
+<li class="toclevel-2 tocsection-8"><a href="#External_Links"><span class="tocnumber">3.3</span> <span class="toctext">External Links</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<h2> <span class="mw-headline" id="Types_of_Multitasking_Systems">Types of Multitasking Systems</span></h2>
+<p>There are many ways multitasking can be achieved.
+</p>
+<h3> <span class="mw-headline" id="Cooperative_Multitasking">Cooperative Multitasking</span></h3>
+<p>This concept runs an application until it exits or yields control 
+back to the OS. Examples for cooperative multitasking systems are pre-X 
+MacOS, or Windows 3.x.
+</p><p>In some single language cooperative multitasking systems, such as
+ Oberon and ruby, the compiler/interpreter automatically ensures that 
+the code will periodically yield control; it allows such program to run 
+in multi-threading on non-preemptive OS such as DOS. As yielding isn't 
+necessary anymore, I'm not sure if we can still say it's cooperative 
+multitasking.
+</p>
+<h3> <span class="mw-headline" id="Preemptive_Multitasking">Preemptive Multitasking</span></h3>
+<p>In a preemptive multitasking system, the OS can take away control 
+from (preempt) an application after a time slice is used up or a signal 
+occurred. An example would be e.g. Linux, *BSD, post-3.x Windows, BeOS, 
+or AmigaOS.
+</p><p>You can further subdivide these systems into those who can preempt applications, and those who can preempt <i>the kernel itself</i>.
+ Linux (pre-2.6 kernel) is an example of the former, while e.g. AmigaOS 
+is an example for the latter. This is a major concern for multimedia 
+applications or any "soft" [Real-Time Systems] because a non-preemptive 
+kernel introduces latencies that can ruin such "near real-time" 
+performance.
+</p>
+<h2> <span class="mw-headline" id="How_does_it_work">How does it work</span></h2>
+<p>You have programs running. Each program has some binary code to be 
+executed by the processor and an execution context made of e.g. 
+registers state, <a href="http://wiki.osdev.org/Stack" title="Stack">stack</a> content, etc.
+</p><p>Since you have a single CPU, you have a single program executed 
+at a given moment and its execution context is the state of the cpu's 
+registers while you may have plenty of programs sleeping, waiting for 
+their turn with their context saved in OS's datastructures, right&nbsp;?
+</p><p>Now, the OS has set up a timer interrupt, which causes the OS 
+call a specific interrupt service routine at regular interval. When the 
+timeslot for the current program runs out, the routine will save the 
+current CPU context into a datastructure, select a new program to be run
+ for the next timeslot, and load the CPU registers with the values that 
+were saved in that process's datastructure.
+</p><p>If you still want to figure out, imagine a machine with an 
+accumulator and a stack pointer. You can save the machine state, switch 
+and restore another machine state with
+</p>
+<pre>PUSH                          &nbsp;;; put the accumulator's content on stack
+LOAD [current_pid]            &nbsp;;; load the current PID in the accumulator
+STORE_SP [context_table+ACC]  &nbsp;;; save the stack of the suspended task
+
+;; get somehow the PID for the next task into ACC, without using the stack
+
+LOAD_SP [context_table+ACC]   &nbsp;;; load the stack of the chosen task
+STORE [current_pid]           &nbsp;;; store it's PID
+POP                           &nbsp;;; get back the accumulator's content
+IRET                          &nbsp;;; end of interrupt
+</pre>
+<p>Now imagine two programs on that machine, e.g.
+</p>
+<pre>IMM 0 &nbsp;;; into accumulator
+here:
+INC   &nbsp;;; accumulator++
+JMP here
+</pre>
+<p>and
+</p>
+<pre>IMM 0
+there:
+DEC &nbsp;;; accumulator --
+JMP there
+</pre>
+<p>Sketch on a papersheet the memory of the machine, with the pid_table,
+ the two stacks , the current_pid variable, and then go. You should be 
+able to emulate the behavior of that machine if --say-- you have a 
+interrupt every 10+some_number_you_get_by_rolling_a_dice machine 
+instructions.
+</p><p>And you'll see it can continue working on program 1 after it has been interrupted for 10+ instructions by program 2.
+</p><p>Of course "10+dice" is not enough to get decent performances. On 
+modern systems, your timeslice is usually of a few milliseconds, which 
+makes millions of instructions! Moreover, you don't always switch when 
+the timer arise (because you might want the system clock more accurate 
+than the switching rate) and you can switch on other events (e.g. 
+because a program needs to wait for something or because something 
+important like the end of a disk request happened).
+</p>
+<h2> <span class="mw-headline" id="See_Also">See Also</span></h2>
+<h3> <span class="mw-headline" id="Articles">Articles</span></h3>
+<ul><li><a href="http://wiki.osdev.org/Context_Switching" title="Context Switching">Context Switching</a>
+</li><li><a href="http://wiki.osdev.org/Monotasking_Systems" title="Monotasking Systems">Monotasking Systems</a>
+</li><li><a href="http://wiki.osdev.org/Scheduling_Algorithms" title="Scheduling Algorithms">Scheduling Algorithms</a>
+</li></ul>
+<h3> <span class="mw-headline" id="Threads">Threads</span></h3>
+<ul><li><a href="http://forum.osdev.org/viewtopic.php?t=9669" class="extiw" title="topic:9669">Designing a kernel to be preemptible</a>
+</li><li><a href="http://forum.osdev.org/viewtopic.php?t=812" class="extiw" title="topic:812">Making a fully preemptible kernel</a>
+</li></ul>
+<h3> <span class="mw-headline" id="External_Links"> External Links </span></h3>
+<ul><li><a href="http://wikipedia.org/wiki/Computer_multitasking" class="extiw" title="wikipedia:Computer multitasking"> Computer Multitasking</a> on Wikipedia.
+</li></ul>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 79/1000000
+Post-expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key wikidb:pcache:idhash:1474-0!*!0!!en!*!* and timestamp 20130612203219 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Retrieved from "<a href="http://wiki.osdev.org/index.php?title=Multitasking_Systems&amp;oldid=9294">http://wiki.osdev.org/index.php?title=Multitasking_Systems&amp;oldid=9294</a>"				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a href="http://wiki.osdev.org/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="http://wiki.osdev.org/Category:Task_Models" title="Category:Task Models">Task Models</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+		<li id="pt-login"><a href="http://wiki.osdev.org/index.php?title=Special:UserLogin&amp;returnto=Multitasking_Systems" title="You are encouraged to log in; however, it is not mandatory [alt-shift-o]" accesskey="o">Log in</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li id="ca-nstab-main" class="selected"><span><a href="http://wiki.osdev.org/Multitasking_Systems" title="View the content page [alt-shift-c]" accesskey="c">Page</a></span></li>
+					<li id="ca-talk" class="new"><span><a href="http://wiki.osdev.org/index.php?title=Talk:Multitasking_Systems&amp;action=edit&amp;redlink=1" title="Discussion about the content page [alt-shift-t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="http://wiki.osdev.org/Multitasking_Systems">Read</a></span></li>
+					<li id="ca-viewsource"><span><a href="http://wiki.osdev.org/index.php?title=Multitasking_Systems&amp;action=edit" title="This page is protected.
+You can view its source [alt-shift-e]" accesskey="e">View source</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://wiki.osdev.org/index.php?title=Multitasking_Systems&amp;action=history" title="Past revisions of this page [alt-shift-h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/index.php" id="searchform">
+		<input name="title" value="Special:Search" type="hidden">
+				<input name="search" title="Search OSDev Wiki [alt-shift-f]" accesskey="f" id="searchInput" type="search">		<input name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton" type="submit">		<input name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton" type="submit">			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(/skins/common/images/osdev.png);" href="http://wiki.osdev.org/Main_Page" title="Visit the main page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id="p-navigation">
+	<h5>Navigation</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage"><a href="http://wiki.osdev.org/Main_Page" title="Visit the main page [alt-shift-z]" accesskey="z">Main Page</a></li>
+			<li id="n-portal"><a href="http://forum.osdev.org/" rel="nofollow" title="About the project, what you can do, where to find things">Forums</a></li>
+			<li id="n-FAQ"><a href="http://wiki.osdev.org/Category:FAQ">FAQ</a></li>
+			<li id="n-OS-Projects"><a href="http://wiki.osdev.org/Projects">OS Projects</a></li>
+			<li id="n-randompage"><a href="http://wiki.osdev.org/Special:Random" title="Load a random page [alt-shift-x]" accesskey="x">Random page</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- about -->
+<div class="portal" id="p-about">
+	<h5>About</h5>
+	<div class="body">
+		<ul>
+			<li id="n-This-site"><a href="http://wiki.osdev.org/OSDevWiki:About">This site</a></li>
+			<li id="n-Joining"><a href="http://wiki.osdev.org/OSDevWiki:Joining">Joining</a></li>
+			<li id="n-Editing-help"><a href="http://wiki.osdev.org/OSDevWiki:Editing">Editing help</a></li>
+			<li id="n-recentchanges"><a href="http://wiki.osdev.org/Special:RecentChanges" title="A list of recent changes in the wiki [alt-shift-r]" accesskey="r">Recent changes</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /about -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- TOOLBOX -->
+<div class="portal" id="p-tb">
+	<h5>Toolbox</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="http://wiki.osdev.org/Special:WhatLinksHere/Multitasking_Systems" title="A list of all wiki pages that link here [alt-shift-j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="http://wiki.osdev.org/Special:RecentChangesLinked/Multitasking_Systems" title="Recent changes in pages linked from this page [alt-shift-k]" accesskey="k">Related changes</a></li>
+			<li id="t-specialpages"><a href="http://wiki.osdev.org/Special:SpecialPages" title="A list of all special pages [alt-shift-q]" accesskey="q">Special pages</a></li>
+			<li><a href="http://wiki.osdev.org/index.php?title=Multitasking_Systems&amp;printable=yes" rel="alternate">Printable version</a></li>
+			<li id="t-permalink"><a href="http://wiki.osdev.org/index.php?title=Multitasking_Systems&amp;oldid=9294" title="Permanent link to this revision of the page">Permanent link</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- LANGUAGES -->
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 29 November 2009, at 20:32.</li>
+											<li id="footer-info-viewcount">This page has been accessed 35,193 times.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="http://wiki.osdev.org/OSDev_Wiki:Privacy_policy" title="OSDev Wiki:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="http://wiki.osdev.org/OSDev_Wiki:About" title="OSDev Wiki:About">About OSDev Wiki</a></li>
+											<li id="footer-places-disclaimer"><a href="http://wiki.osdev.org/OSDev_Wiki:General_disclaimer" title="OSDev Wiki:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-poweredbyico">
+						<a href="http://www.mediawiki.org/"><img src="Multitasking%20Systems%20-%20OSDev%20Wiki_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" height="31" width="88"></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		<script src="Multitasking%20Systems%20-%20OSDev%20Wiki_files/load_006.php"></script>
+<script>if(window.mw){
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax"]);
+}
+</script><script type="text/javascript" src="Multitasking%20Systems%20-%20OSDev%20Wiki_files/load_004.php"></script>
+<script src="Multitasking%20Systems%20-%20OSDev%20Wiki_files/load_005.php"></script>
+<script>if(window.mw){
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: wikidb:resourceloader:filter:minify-js:4:19a4b18a9ac79a6b8c60b24af4668814 */
+}
+</script><!-- Served in 0.094 secs. -->
+	
+
+</body></html>

@@ -15,10 +15,23 @@
 #define _STDMACRO_H
 
 //For structs, lets use typedefs
-#define STRUCT		typedef struct
-#define PACKED		__attribute__((packed))
+#define STRUCT			typedef struct
+#define PACKED			__attribute__((packed))
+#define PAGE_ALIGNED	__attribute__((aligned (1024)))
 
 //Using assembly
-#define ASM			__asm__ __volatile__
+#define ASM				__asm__ __volatile__
+
+//sould make some things a little bit easier
+#define KB				1024
+#define MB				1024*KB
+#define GB				1024*MB
+#define TB				1024*TB
+
+//for endless loops
+#define true			1
+#define TRUE			1
+#define false			0
+#define FALSE			0
 
 #endif /* _STDMACRO_H */

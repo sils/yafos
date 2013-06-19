@@ -20,6 +20,10 @@
 #define NULL 0
 #endif /* NULL */
 
+//the following is additional to the POSIX standard:
+#define MIN(a,b)	a>b?b:a
+#define MAX(a,b)	a<b?b:a
+
 #endif /* _STDLIB_H */
 
 

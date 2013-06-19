@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html class="client-firefox client-firefox-2 client-gecko client-linux" dir="ltr" lang="de"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Advanced Power Management – Lowlevel</title>
+<meta name="generator" content="MediaWiki 1.17.2">
+<link rel="shortcut icon" href="http://www.lowlevel.eu/Favicon.png">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.lowlevel.eu/w/opensearch_desc.php" title="Lowlevel (de)">
+<link rel="EditURI" type="application/rsd+xml" href="http://www.lowlevel.eu/w/api.php?action=rsd">
+<link title="Creative Commons" type="application/rdf+xml" href="http://www.lowlevel.eu/w/index.php?title=Advanced_Power_Management&amp;action=creativecommons" rel="meta">
+<link rel="copyright" href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/">
+<link rel="alternate" type="application/atom+xml" title="Atom-Feed für „Lowlevel“" href="http://www.lowlevel.eu/w/index.php?title=Spezial:Letzte_%C3%84nderungen&amp;feed=atom">
+<link rel="stylesheet" href="Advanced%20Power%20Management%20%13%20Lowlevel_files/load_002.css">
+<link rel="stylesheet" href="Advanced%20Power%20Management%20%13%20Lowlevel_files/main.css" media="screen">
+<!--[if lt IE 5.5000]><link rel="stylesheet" href="/w/skins/monobook/IE50Fixes.css?301" media="screen" /><![endif]-->
+<!--[if IE 5.5000]><link rel="stylesheet" href="/w/skins/monobook/IE55Fixes.css?301" media="screen" /><![endif]-->
+<!--[if IE 6]><link rel="stylesheet" href="/w/skins/monobook/IE60Fixes.css?301" media="screen" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" href="/w/skins/monobook/IE70Fixes.css?301" media="screen" /><![endif]--><meta name="ResourceLoaderDynamicStyles" content=""><link rel="stylesheet" href="Advanced%20Power%20Management%20%13%20Lowlevel_files/load.css">
+<link rel="stylesheet" href="Advanced%20Power%20Management%20%13%20Lowlevel_files/load.css">
+<link rel="stylesheet" href="Advanced%20Power%20Management%20%13%20Lowlevel_files/load.css">
+
+<link href="Advanced%20Power%20Management%20%13%20Lowlevel_files/FF2Fixes.css" rel="stylesheet" type="text/css"></head>
+<body class="mediawiki ltr capitalize-all-nouns ns-0 ns-subject page-Advanced_Power_Management skin-monobook">
+<div id="globalWrapper">
+<div id="column-content"><div id="content">
+	<a id="top"></a>
+	
+	<h1 id="firstHeading" class="firstHeading">Advanced Power Management</h1>
+	<div id="bodyContent">
+		<div id="siteSub">Aus Lowlevel</div>
+		<div id="contentSub"></div>
+		<div id="jump-to-nav">Wechseln zu: <a href="#column-one">Navigation</a>, <a href="#searchInput">Suche</a></div>
+		<!-- start content -->
+<div id="Template_Stub">
+<table style="background-color: #D0D8FF; margin: 0 0em; padding: 0 0px; border: 1px solid #b8c0e8" border="0" cellpadding="0" cellspacing="10" width="100%">
+<tbody><tr>
+<td> Diese Seite oder Abschnitt ist zwar komplett, es wird aber folgende Verbesserungen gewünscht:<br>
+<p><i>Tutorial fertigschreiben</i>
+</p><p>Hilf Lowlevel, den Artikel zu verbessern.
+</p>
+</td></tr></tbody></table>
+</div>
+<p><br>
+<b>Advanced Power Management</b> (<b>APM</b>) ist ein Standard für Power-Management, der von Intel und Microsoft entwickelt wurde. Um die <a href="http://www.lowlevel.eu/wiki/Advanced_Power_Management#Real-Mode_Schnittstelle" title="Advanced Power Management"> Real-Mode Schnittstelle</a> zu nutzen, sollte bereits ein <a href="http://www.lowlevel.eu/wiki/Real_Mode" title="Real Mode">Real Mode</a>-Betriebssystem oder ein Betriebssystem, das den <a href="http://www.lowlevel.eu/wiki/Virtual_8086_Mode" title="Virtual 8086 Mode">Virtual 8086 Mode</a> unterstützt, vorhanden sein. Für die <a href="http://www.lowlevel.eu/wiki/Advanced_Power_Management#Protected-Mode_Schnittstelle" title="Advanced Power Management"> Protected-Mode Schnittstelle</a> sollte ein lauffähiges <a href="http://www.lowlevel.eu/wiki/Protected_Mode" title="Protected Mode">Protected Mode</a>-Betriebssystem, das zumindest Funktionen zum Verändern der <a href="http://www.lowlevel.eu/wiki/GDT" title="GDT" class="mw-redirect">GDT</a> bereitstellt, vorhanden sein.
+</p><p><br>
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Inhaltsverzeichnis</h2> <span class="toctoggle">[<a href="#" class="internal" id="togglelink">Verbergen</a>]</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Allgemeines"><span class="tocnumber">1</span> <span class="toctext">Allgemeines</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Real-Mode-Schnittstelle"><span class="tocnumber">2</span> <span class="toctext">Real-Mode-Schnittstelle</span></a>
+<ul>
+<li class="toclevel-2 tocsection-3"><a href="#Initialisierung"><span class="tocnumber">2.1</span> <span class="toctext">Initialisierung</span></a>
+<ul>
+<li class="toclevel-3 tocsection-4"><a href="#Versionskontrolle"><span class="tocnumber">2.1.1</span> <span class="toctext">Versionskontrolle</span></a></li>
+<li class="toclevel-3 tocsection-5"><a href="#Schnittstellen"><span class="tocnumber">2.1.2</span> <span class="toctext">Schnittstellen</span></a>
+<ul>
+<li class="toclevel-4 tocsection-6"><a href="#Verbinden"><span class="tocnumber">2.1.2.1</span> <span class="toctext">Verbinden</span></a></li>
+<li class="toclevel-4 tocsection-7"><a href="#Trennen"><span class="tocnumber">2.1.2.2</span> <span class="toctext">Trennen</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-8"><a href="#Ger.C3.A4te_kontrollieren"><span class="tocnumber">2.2</span> <span class="toctext">Geräte kontrollieren</span></a>
+<ul>
+<li class="toclevel-3 tocsection-9"><a href="#Power_Management_aktivieren"><span class="tocnumber">2.2.1</span> <span class="toctext">Power Management aktivieren</span></a></li>
+<li class="toclevel-3 tocsection-10"><a href="#Ger.C3.A4tezustand_setzen"><span class="tocnumber">2.2.2</span> <span class="toctext">Gerätezustand setzen</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-11"><a href="#Alles_zusammen"><span class="tocnumber">2.3</span> <span class="toctext">Alles zusammen</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-12"><a href="#Protected-Mode_Schnittstelle"><span class="tocnumber">3</span> <span class="toctext">Protected-Mode Schnittstelle</span></a></li>
+<li class="toclevel-1 tocsection-13"><a href="#Siehe_auch"><span class="tocnumber">4</span> <span class="toctext">Siehe auch</span></a></li>
+<li class="toclevel-1 tocsection-14"><a href="#Weblinks"><span class="tocnumber">5</span> <span class="toctext">Weblinks</span></a></li>
+</ul>
+</td></tr></tbody></table>
+<h2> <span class="mw-headline" id="Allgemeines">Allgemeines</span></h2>
+<p>Der APM-Standard definiert drei Schnittstellen, mit denen das Betriebssystem arbeiten kann.
+</p><p>Diese Schnittstellen sind:
+</p>
+<ol><li>Das Real-Mode-Interface
+</li><li>Das 16-Bit-Protected-Mode-Interface
+</li><li>Das 32-Bit-Protected-Mode-Interface. 
+</li></ol>
+<p>Nur eine dieser Schnittstellen kann gleichzeitig genutzt werden.
+<br>Bevor eine dieser Schnittstellen genutzt werden kann, muss das 
+Betriebssystem kontrollieren, ob APM vorhanden ist, denn einige neue 
+Computer unterstützen APM nicht mehr.
+<br>Wenn APM unterstützt wird, muss das Betriebssystem sich als nächstes
+ mit einer Schnittstelle verbinden. Es ist eine gute Idee das 
+Trennkommando zu senden, bevor man sich mit einer Schnittstelle 
+verbindet.
+</p><p><br>
+</p>
+<h2> <span class="mw-headline" id="Real-Mode-Schnittstelle">Real-Mode-Schnittstelle</span></h2>
+<h3> <span class="mw-headline" id="Initialisierung">Initialisierung</span></h3>
+<h4> <span class="mw-headline" id="Versionskontrolle">Versionskontrolle</span></h4>
+<p>Diese Funktion kontrolliert, ob APM unterstützt wird:
+</p>
+ <pre class="asm"><span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,53h            <span style="color: #adadad; font-style: italic;">;Das APM-Kommando     </span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>,<span style="color: #ff0000;">00h</span>            <span style="color: #adadad; font-style: italic;">;Versionsanzeigebefehl</span>
+<span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">bx</span>,<span style="color: #46aa03; font-weight:bold;">bx</span>             <span style="color: #adadad; font-style: italic;">;Geräte-ID (0 = APM BIOS)</span>
+<span style="color: #00007f;">int</span> 15h               <span style="color: #adadad; font-style: italic;">;Die BIOS-Funktion über Interrupt 15h aufrufen</span>
+<span style="color: #00007f;">jc</span> APM_error          <span style="color: #adadad; font-style: italic;">;Wenn das Carry-Flag gesetzt wurde, gab es einen Fehler (APM_error ist eigenes Label)</span>
+                      <span style="color: #adadad; font-style: italic;">;Die Funktion war erfolgreich</span>
+                      <span style="color: #adadad; font-style: italic;">;AX = APM-Versionsnummer</span>
+                          <span style="color: #adadad; font-style: italic;">;AH = Major revision number (im BCD-Format)</span>
+                          <span style="color: #adadad; font-style: italic;">;AL = Minor revision number (auch BCD-Format)</span>
+                      <span style="color: #adadad; font-style: italic;">;BX = ASCII-Zeichen „P“ (in BH) und „M“ (in BL)</span>
+                      <span style="color: #adadad; font-style: italic;">;CX = APM-Flags (Weiteres in der offiziellen Dokumentation)</span>
+&nbsp;</pre>
+<h4> <span class="mw-headline" id="Schnittstellen">Schnittstellen</span></h4>
+<h5> <span class="mw-headline" id="Verbinden">Verbinden</span></h5>
+<p>Diese Funktion verbindet sich zu einer der Schnittstellen, basierend auf der Variable <i>interface_number</i>, die folgende Werte haben kann:
+</p>
+<pre>01h = Real-Mode-Interface
+02h = 16-Bit-Protected-Mode-Interface
+03h = 32-Bit-Protected-Mode-Interface
+</pre>
+ <pre class="asm"><span style="color: #adadad; font-style: italic;">;Verbinden zu einer APM-Schnittstelle</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,53h               <span style="color: #adadad; font-style: italic;">;Dies ist das APM-Kommando</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>,<span style="color: #66cc66;">[</span>interface_number<span style="color: #66cc66;">]</span><span style="color: #adadad; font-style: italic;">;Siehe oben</span>
+<span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">bx</span>,<span style="color: #46aa03; font-weight:bold;">bx</span>                <span style="color: #adadad; font-style: italic;">;Geräte-ID (0 = APM BIOS)</span>
+<span style="color: #00007f;">int</span> 15h                  <span style="color: #adadad; font-style: italic;">;</span>
+<span style="color: #00007f;">jc</span> APM_error             <span style="color: #adadad; font-style: italic;">;Wenn das Carry-Flag gesetzt wurde, gab es einen Fehler (APM_error ist eigenes Label)</span>
+                         <span style="color: #adadad; font-style: italic;">;Die Funktion war erfolgreich</span>
+                         <span style="color: #adadad; font-style: italic;">;Die Rückgabewerte sind unterschiedlich für jede Schnittstelle</span>
+                         <span style="color: #adadad; font-style: italic;">;Die Real-Mode-Schnittstelle gibt nichts zurück.</span>
+&nbsp;
+&nbsp;
+interface_number <span style="color: #0000ff;">db</span> <span style="color: #ff0000;">01h</span>  <span style="color: #adadad; font-style: italic;">;Siehe oben</span>
+&nbsp;</pre>
+<h5> <span class="mw-headline" id="Trennen">Trennen</span></h5>
+<p>Diese Funktion trennt alle Schnittstellen, die verbunden sind. 
+</p>
+ <pre class="asm"><span style="color: #adadad; font-style: italic;">;Jede Schnittstelle trennen</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,53h               <span style="color: #adadad; font-style: italic;">;dies ist das APM-Kommando</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>,<span style="color: #ff0000;">04h</span>               <span style="color: #adadad; font-style: italic;">;Trennbefehl</span>
+<span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">bx</span>,<span style="color: #46aa03; font-weight:bold;">bx</span>                <span style="color: #adadad; font-style: italic;">;Geräte-ID (0 = APM BIOS)</span>
+<span style="color: #00007f;">int</span> 15h                  <span style="color: #adadad; font-style: italic;">;Die BIOS-Funktion über Interrupt 15h aufrufen</span>
+<span style="color: #00007f;">jc</span> .disconnect_error     <span style="color: #adadad; font-style: italic;">;Wenn das Carry-Flag gesetzt wird, kontrollieren, was für ein Fehler auftrat</span>
+<span style="color: #00007f;">jmp</span> .no_error
+&nbsp;
+.disconnect_error:       <span style="color: #adadad; font-style: italic;">;Der Fehlercode ist in AH.</span>
+<span style="color: #00007f;">cmp</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,<span style="color: #ff0000;">03h</span>               <span style="color: #adadad; font-style: italic;">;Wenn der Fehlercode nicht 03h ist, gab es einen Fehler</span>
+<span style="color: #00007f;">jne</span> APM_error            <span style="color: #adadad; font-style: italic;">;Der Fehlercode 03h bedeutet, dass keine Schnittstelle vebunden war. (APM_error ist eigenes Label)</span>
+&nbsp;
+.no_error:
+                         <span style="color: #adadad; font-style: italic;">;Die Funktion war erfolgreich</span>
+                         <span style="color: #adadad; font-style: italic;">;Nichts wurde zurückgegeben</span>
+&nbsp;</pre>
+<h3> <span class="mw-headline" id="Ger.C3.A4te_kontrollieren">Geräte kontrollieren</span></h3>
+<p>Nachdem das Betriebssystem sich mit einer Schnittstelle verbunden 
+hat, kann es anfangen Geräte zu kontrollieren, aber als erstes muss es 
+das Power Management aktivieren.
+</p>
+<h4> <span class="mw-headline" id="Power_Management_aktivieren">Power Management aktivieren</span></h4>
+<p>Diese Funktion aktiviert das Power Management für alle Geräte. Das ist schneller, als es für jedes einzeln zu aktivieren.
+</p>
+ <pre class="asm"><span style="color: #adadad; font-style: italic;">;Power Management für alle Geräte aktivieren</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,53h              <span style="color: #adadad; font-style: italic;">;Dies ist das APM-Kommando</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>,<span style="color: #ff0000;">08h</span>              <span style="color: #adadad; font-style: italic;">;Den Status des Power Managements wechseln...</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">bx</span>,<span style="color: #ff0000;">0001h</span>            <span style="color: #adadad; font-style: italic;">;...bei allen Geräten zu...</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">cx</span>,<span style="color: #ff0000;">0001h</span>            <span style="color: #adadad; font-style: italic;">;...Power Management an.</span>
+<span style="color: #00007f;">int</span> 15h                 <span style="color: #adadad; font-style: italic;">;Die BIOS-Funktion über Interrupt 15h aufrufen</span>
+<span style="color: #00007f;">jc</span> APM_error            <span style="color: #adadad; font-style: italic;">;Wenn das Carry-Flag gesetzt wurde, gab es einen Fehler (APM_error ist eigenes Label)</span>
+                        <span style="color: #adadad; font-style: italic;">;Keine Rückgabe</span>
+&nbsp;</pre>
+<p>Um das Power Management nur für ein bestimmtes Gerät zu aktivieren, 
+muss die Geräte-ID in der Dokumentation nachgeschlagen und statt 0001h 
+in BX eingetragen werden.
+</p>
+<h4> <span class="mw-headline" id="Ger.C3.A4tezustand_setzen">Gerätezustand setzen</span></h4>
+<p>Diese Funktion setzt alle Geräte auf den Zustand, den die Variable <i>power_state</i> angibt. Gültige Werte für <i>power_state</i> sind:
+</p>
+<pre>01h = Standby
+02h = Suspend
+03h = Off
+   
+20h...7Fh = OEM-defined power states
+</pre>
+<p>Um nur den Status eines bestimmten Gerätes zu ändern, muss die 
+Geräte-ID in der Dokumentation nachgeschlagen und statt 0001h in BX 
+eingetragen werden.
+</p>
+ <pre class="asm"><span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,53h              <span style="color: #adadad; font-style: italic;">;Dies ist das APM-Kommando</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>,<span style="color: #ff0000;">07h</span>              <span style="color: #adadad; font-style: italic;">;Setze den Status...</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">bx</span>,<span style="color: #ff0000;">0001h</span>            <span style="color: #adadad; font-style: italic;">;...aller Geräte...</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">cx</span>,<span style="color: #66cc66;">[</span>power_state<span style="color: #66cc66;">]</span>    <span style="color: #adadad; font-style: italic;">;...zu (siehe oben)</span>
+<span style="color: #00007f;">int</span> 15h                 <span style="color: #adadad; font-style: italic;">;Die BIOS-Funktion über Interrupt 15h aufrufen</span>
+<span style="color: #00007f;">jc</span> APM_error            <span style="color: #adadad; font-style: italic;">;Wenn das Carry-Flag gesetzt wurde, gab es einen Fehler (APM_error ist eigenes Label)</span>
+                        <span style="color: #adadad; font-style: italic;">;Keine Rückgabe</span>
+&nbsp;
+power_state <span style="color: #0000ff;">db</span> <span style="color: #ff0000;">03h</span>      <span style="color: #adadad; font-style: italic;">;Siehe oben </span>
+&nbsp;</pre>
+<h3> <span class="mw-headline" id="Alles_zusammen">Alles zusammen</span></h3>
+<p>Zum Abschluss des Real-Mode-Teils noch eine Funktion zum Herunterfahren des Computers:
+</p>
+ <pre class="asm">shutdown: 
+<span style="color: #00007f;">pusha</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,53h            <span style="color: #adadad; font-style: italic;">;Das APM-Komando     </span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>,<span style="color: #ff0000;">00h</span>            <span style="color: #adadad; font-style: italic;">;Versionsanzeigebefehl</span>
+<span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">bx</span>,<span style="color: #46aa03; font-weight:bold;">bx</span>             <span style="color: #adadad; font-style: italic;">;Geräte-ID (0 = APM BIOS)</span>
+<span style="color: #00007f;">int</span> 15h               <span style="color: #adadad; font-style: italic;">;Die BIOS-Funktion über Interrupt 15h aufrufen</span>
+<span style="color: #00007f;">jc</span> APM_error          <span style="color: #adadad; font-style: italic;">;Wenn das Carry-Flag gesetzt wurde, gab es einen Fehler (APM_error ist eigenes Label)</span>
+&nbsp;
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,53h               <span style="color: #adadad; font-style: italic;">;dies ist das APM-Kommando</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>,<span style="color: #ff0000;">04h</span>               <span style="color: #adadad; font-style: italic;">;Trennbefehl</span>
+<span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">bx</span>,<span style="color: #46aa03; font-weight:bold;">bx</span>                <span style="color: #adadad; font-style: italic;">;Geräte-ID (0 = APM BIOS)</span>
+<span style="color: #00007f;">int</span> 15h                  <span style="color: #adadad; font-style: italic;">;Die BIOS-Funktion über Interrupt 15h aufrufen</span>
+<span style="color: #00007f;">jc</span> .disconnect_error     <span style="color: #adadad; font-style: italic;">;Wenn das Carry-Flag gesetzt wird, kontrollieren, was für ein Fehler auftrat</span>
+<span style="color: #00007f;">jmp</span> .no_error
+&nbsp;
+.disconnect_error:       <span style="color: #adadad; font-style: italic;">;Der Fehlercode ist in AH.</span>
+<span style="color: #00007f;">cmp</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,<span style="color: #ff0000;">03h</span>               <span style="color: #adadad; font-style: italic;">;Wenn der Fehlercode nicht 03h ist, gab es einen Fehler</span>
+<span style="color: #00007f;">jne</span> APM_error            <span style="color: #adadad; font-style: italic;">;Der Fehlercode 03h bedeutet, dass keine Schnittstelle vebunden war. (APM_error ist eigenes Label)</span>
+&nbsp;
+.no_error:
+&nbsp;
+<span style="color: #adadad; font-style: italic;">;Verbinden zu einer APM-Schnittstelle</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,53h               <span style="color: #adadad; font-style: italic;">;Dies ist das APM-Kommando</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>,<span style="color: #66cc66;">[</span>interface_number<span style="color: #66cc66;">]</span><span style="color: #adadad; font-style: italic;">;Siehe oben</span>
+<span style="color: #00007f;">xor</span> <span style="color: #46aa03; font-weight:bold;">bx</span>,<span style="color: #46aa03; font-weight:bold;">bx</span>                <span style="color: #adadad; font-style: italic;">;Geräte-ID (0 = APM BIOS)</span>
+<span style="color: #00007f;">int</span> 15h                  <span style="color: #adadad; font-style: italic;">;</span>
+<span style="color: #00007f;">jc</span> APM_error             <span style="color: #adadad; font-style: italic;">;Wenn das Carry-Flag gesetzt wurde, gab es einen Fehler </span>
+&nbsp;
+<span style="color: #adadad; font-style: italic;">;Power Management für alle Geräte aktivieren</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,53h              <span style="color: #adadad; font-style: italic;">;Dies ist das APM-Kommando</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>,<span style="color: #ff0000;">08h</span>              <span style="color: #adadad; font-style: italic;">;Den Status des Power Managements wechseln...</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">bx</span>,<span style="color: #ff0000;">0001h</span>            <span style="color: #adadad; font-style: italic;">;...bei allen Geräten zu...</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">cx</span>,<span style="color: #ff0000;">0001h</span>            <span style="color: #adadad; font-style: italic;">;...Power Management an.</span>
+<span style="color: #00007f;">int</span> 15h                 <span style="color: #adadad; font-style: italic;">;Die BIOS-Funktion über Interrupt 15h aufrufen</span>
+<span style="color: #00007f;">jc</span> APM_error            <span style="color: #adadad; font-style: italic;">;Wenn das Carry-Flag gesetzt wurde, gab es einen Fehler</span>
+&nbsp;
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">ah</span>,53h              <span style="color: #adadad; font-style: italic;">;Dies ist das APM-Kommando</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">al</span>,<span style="color: #ff0000;">07h</span>              <span style="color: #adadad; font-style: italic;">;Setze den Status...</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">bx</span>,<span style="color: #ff0000;">0001h</span>            <span style="color: #adadad; font-style: italic;">;...aller Geräte...</span>
+<span style="color: #00007f;">mov</span> <span style="color: #46aa03; font-weight:bold;">cx</span>,<span style="color: #66cc66;">[</span>power_state<span style="color: #66cc66;">]</span>    <span style="color: #adadad; font-style: italic;">;...zu (siehe oben)</span>
+<span style="color: #00007f;">int</span> 15h                 <span style="color: #adadad; font-style: italic;">;Die BIOS-Funktion über Interrupt 15h aufrufen</span>
+<span style="color: #00007f;">jc</span> APM_error            <span style="color: #adadad; font-style: italic;">;Wenn das Carry-Flag gesetzt wurde gab es einen Fehler</span>
+                        <span style="color: #adadad; font-style: italic;">;Keine Rückgabe</span>
+&nbsp;
+&nbsp;
+APM_error:
+<span style="color: #00007f;">popa</span>
+<span style="color: #00007f;">ret</span>
+&nbsp;
+interface_number <span style="color: #0000ff;">db</span> <span style="color: #ff0000;">01h</span> <span style="color: #adadad; font-style: italic;">;Real-Mode-Schnittstelle</span>
+power_state <span style="color: #0000ff;">db</span> <span style="color: #ff0000;">03h</span>      <span style="color: #adadad; font-style: italic;">;Power off</span>
+&nbsp;</pre>
+<h2> <span class="mw-headline" id="Protected-Mode_Schnittstelle">Protected-Mode Schnittstelle</span></h2>
+<p>TODO: ergänzen
+</p>
+<h2> <span class="mw-headline" id="Siehe_auch">Siehe auch</span></h2>
+<ul><li> <a href="http://www.lowlevel.eu/wiki/ACPI" title="ACPI" class="mw-redirect">ACPI</a>: Ein neuerer Standard für Power Management (unter anderem)
+</li></ul>
+<h2> <span class="mw-headline" id="Weblinks">Weblinks</span></h2>
+<ul><li> <a href="http://www.microsoft.com/whdc/archive/amp_12.mspx" class="external text" rel="nofollow">Offizielle Spezifikation von Microsoft und Intel zu Version 1.2 von APM</a>
+</li><li> <a href="http://wiki.osdev.org/APM" class="external text" rel="nofollow">APM bei OSDev.org</a>
+</li></ul>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 117/1000000
+Post-expand include size: 380/2097152 bytes
+Template argument size: 24/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key lowlevel_wiki:pcache:idhash:2221-0!*!0!!de!*!edit=0 and timestamp 20130613141842 -->
+<div class="printfooter">
+Von „<a href="http://www.lowlevel.eu/wiki/Advanced_Power_Management">http://www.lowlevel.eu/wiki/Advanced_Power_Management</a>“</div>
+		<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a href="http://www.lowlevel.eu/wiki/Spezial:Kategorien" title="Spezial:Kategorien">Kategorien</a>: <span dir="ltr"><a href="http://www.lowlevel.eu/wiki/Kategorie:TODO" title="Kategorie:TODO">TODO</a></span> | <span dir="ltr"><a href="http://www.lowlevel.eu/wiki/Kategorie:Tutorials" title="Kategorie:Tutorials">Tutorials</a></span></div></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Ansichten</h5>
+		<div class="pBody">
+			<ul>
+				 <li id="ca-nstab-main" class="selected"><a href="http://www.lowlevel.eu/wiki/Advanced_Power_Management" title="Seiteninhalt anzeigen [alt-shift-c]" accesskey="c">Seite</a></li>
+				 <li id="ca-talk" class="new"><a href="http://www.lowlevel.eu/w/index.php?title=Diskussion:Advanced_Power_Management&amp;action=edit&amp;redlink=1" title="Diskussion zum Seiteninhalt [alt-shift-t]" accesskey="t">Diskussion</a></li>
+				 <li id="ca-viewsource"><a href="http://www.lowlevel.eu/w/index.php?title=Advanced_Power_Management&amp;action=edit" title="Diese Seite ist geschützt. Der Quelltext kann angesehen werden. [alt-shift-e]" accesskey="e">Quelltext anzeigen</a></li>
+				 <li id="ca-history"><a href="http://www.lowlevel.eu/w/index.php?title=Advanced_Power_Management&amp;action=history" title="Frühere Versionen dieser Seite [alt-shift-h]" accesskey="h">Versionen/Autoren</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Meine Werkzeuge</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="http://www.lowlevel.eu/w/index.php?title=Spezial:Anmelden&amp;returnto=Advanced%20Power%20Management" title="Sich anzumelden wird zwar gerne gesehen, ist aber keine Pflicht. [alt-shift-o]" accesskey="o">Anmelden</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+		<a style="background-image: url(/wiki.png);" href="http://www.lowlevel.eu/wiki/Hauptseite" title="Hauptseite"></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+	<div class="generated-sidebar portlet" id="p-navigation">
+		<h5>Navigation</h5>
+		<div class="pBody">
+			<ul>
+				<li id="n-mainpage"><a href="http://www.lowlevel.eu/wiki/Hauptseite" title="Hauptseite anzeigen [alt-shift-z]" accesskey="z">Hauptseite</a></li>
+				<li id="n-Lowlevel-Portal"><a href="http://www.lowlevel.eu/wiki/Lowlevel:Portal">Lowlevel-Portal</a></li>
+				<li id="n-Lowlevel-Forum"><a href="http://forum.lowlevel.eu/">Lowlevel-Forum</a></li>
+				<li id="n-recentchanges"><a href="http://www.lowlevel.eu/wiki/Spezial:Letzte_%C3%84nderungen" title="Liste der letzten Änderungen in Lowlevel [alt-shift-r]" accesskey="r">Letzte Änderungen</a></li>
+				<li id="n-Zuf.C3.A4llige-Seite"><a href="http://www.lowlevel.eu/wiki/Spezial:Zuf%C3%A4llige_Seite">Zufällige Seite</a></li>
+				<li id="n-Wiki-Crashkurs"><a href="http://www.lowlevel.eu/wiki/Wiki-Crashkurs">Wiki-Crashkurs</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Suche</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="/w/index.php" id="searchform">
+				<input name="title" value="Spezial:Suche" type="hidden">
+				<input autocomplete="off" id="searchInput" title="Lowlevel durchsuchen" accesskey="f" name="search" type="search">
+				<input name="go" class="searchButton" id="searchGoButton" value="Seite" title="Gehe direkt zu der Seite, die exakt dem eingegebenen Namen entspricht." type="submit">&nbsp;
+				<input name="fulltext" class="searchButton" id="mw-searchButton" value="Suchen" title="Suche nach Seiten, die diesen Text enthalten" type="submit">
+			</form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Werkzeuge</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="http://www.lowlevel.eu/wiki/Spezial:Linkliste/Advanced_Power_Management" title="Liste aller Seiten, die hierher verlinken [alt-shift-j]" accesskey="j">Links auf diese Seite</a></li>
+				<li id="t-recentchangeslinked"><a href="http://www.lowlevel.eu/wiki/Spezial:%C3%84nderungen_an_verlinkten_Seiten/Advanced_Power_Management" title="Letzte Änderungen an Seiten, die von hier verlinkt sind [alt-shift-k]" accesskey="k">Änderungen an verlinkten Seiten</a></li>
+<li id="t-specialpages"><a href="http://www.lowlevel.eu/wiki/Spezial:Spezialseiten" title="Liste aller Spezialseiten [alt-shift-q]" accesskey="q">Spezialseiten</a></li>
+				<li id="t-print"><a href="http://www.lowlevel.eu/w/index.php?title=Advanced_Power_Management&amp;printable=yes" rel="alternate" title="Druckansicht dieser Seite [alt-shift-p]" accesskey="p">Druckversion</a></li>				<li id="t-permalink"><a href="http://www.lowlevel.eu/w/index.php?title=Advanced_Power_Management&amp;oldid=9451" title="Dauerhafter Link zu dieser Seitenversion">Permanenter Link</a></li><li id="t-pdf">
+<a href="http://www.lowlevel.eu/w/index.php?title=Spezial:Pdfprint&amp;page=Advanced_Power_Management">Als PDF ausgeben</a></li>			</ul>
+		</div>
+	</div>
+	<div id="p-lang" class="portlet">
+		<h5>In anderen Sprachen</h5>
+		<div class="pBody">
+			<ul>
+				<li class="interwiki-en"><a href="http://wiki.osdev.org/APM" title="APM">English</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer">
+	<div id="f-copyrightico">
+		<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/"><img src="Advanced%20Power%20Management%20%13%20Lowlevel_files/88x31.png" alt="Namensnennung - Keine kommerzielle Nutzung - Weitergabe unter gleichen Bedingungen 3.0 Deutschland" height="31" width="88"></a>
+	</div>
+	<div id="f-poweredbyico">
+		<a href="http://www.mediawiki.org/"><img src="Advanced%20Power%20Management%20%13%20Lowlevel_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" height="31" width="88"></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> Diese Seite wurde zuletzt am 5. Februar 2011 um 14:16 Uhr geändert.</li>
+		<li id="viewcount">Diese Seite wurde bisher 2.037-mal abgerufen.</li>
+		<li id="copyright">Der Inhalt ist verfügbar unter der Lizenz <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/" class="external ">Namensnennung - Keine kommerzielle Nutzung - Weitergabe unter gleichen Bedingungen 3.0 Deutschland</a>.</li>
+		<li id="privacy"><a href="http://www.lowlevel.eu/wiki/Lowlevel:Datenschutz" title="Lowlevel:Datenschutz">Datenschutz</a></li>
+		<li id="about"><a href="http://www.lowlevel.eu/wiki/Lowlevel:%C3%9Cber" title="Lowlevel:Über">Über Lowlevel</a></li>
+		<li id="disclaimer"><a href="http://www.lowlevel.eu/wiki/Lowlevel:Impressum" title="Lowlevel:Impressum">Impressum</a></li>
+	</ul>
+</div>
+</div>
+
+<script src="Advanced%20Power%20Management%20%13%20Lowlevel_files/load_003.php"></script><script src="Advanced%20Power%20Management%20%13%20Lowlevel_files/load.php"></script>
+<script>if ( window.mediaWiki ) {
+	mediaWiki.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "Advanced_Power_Management", "wgTitle": "Advanced Power Management", "wgAction": "view", "wgArticleId": 2221, "wgIsArticle": true, "wgUserName": null, "wgUserGroups": ["*"], "wgCurRevisionId": 9451, "wgCategories": ["TODO", "Tutorials"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": [], "wgSearchNamespaces": [0]});
+}
+</script>
+<script>if ( window.mediaWiki ) {
+	mediaWiki.loader.load(["mediawiki.util", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax", "mediawiki.legacy.mwsuggest"]);
+	mediaWiki.loader.go();
+}
+</script><script type="text/javascript" src="Advanced%20Power%20Management%20%13%20Lowlevel_files/load_004.php"></script>
+
+<script src="Advanced%20Power%20Management%20%13%20Lowlevel_files/load_002.php"></script>
+<script>if ( window.mediaWiki ) {
+	mediaWiki.user.options.set({"ccmeonemails":0,"cols":80,"contextchars":50,"contextlines":5,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":1,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,
+	"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"de","language":"de","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;mediaWiki.loader.state({"user.options":"ready"});
+}
+</script><!-- Served in 0.501 secs. --></body></html>

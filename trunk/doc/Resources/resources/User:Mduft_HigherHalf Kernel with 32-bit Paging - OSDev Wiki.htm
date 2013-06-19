@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html dir="ltr" class="client-js" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>User:Mduft/HigherHalf Kernel with 32-bit Paging - OSDev Wiki</title>
+<meta charset="UTF-8">
+<meta name="generator" content="MediaWiki 1.18.0">
+<link rel="shortcut icon" href="http://wiki.osdev.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://wiki.osdev.org/opensearch_desc.php" title="OSDev Wiki (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://wiki.osdev.org/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="OSDev Wiki Atom feed" href="http://wiki.osdev.org/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="User:Mduft_HigherHalf%20Kernel%20with%2032-bit%20Paging%20-%20OSDev%20Wiki_files/load.css">
+<style type="text/css" media="all">.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:8b08bdc91c52a9ffba396dccfb5b473c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="User:Mduft_HigherHalf%20Kernel%20with%2032-bit%20Paging%20-%20OSDev%20Wiki_files/load_002.css">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+<script src="User:Mduft_HigherHalf%20Kernel%20with%2032-bit%20Paging%20-%20OSDev%20Wiki_files/load_003.php"></script><script src="User:Mduft_HigherHalf%20Kernel%20with%2032-bit%20Paging%20-%20OSDev%20Wiki_files/load_002.php"></script>
+<script>if(window.mw){
+	mw.config.set({"wgCanonicalNamespace": "User", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 2, "wgPageName": "User:Mduft/HigherHalf_Kernel_with_32-bit_Paging", "wgTitle": "Mduft/HigherHalf Kernel with 32-bit Paging", "wgCurRevisionId": 11041, "wgArticleId": 2942, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": ["In Progress"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": []});
+}
+</script><script>if(window.mw){
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script><script type="text/javascript" src="User:Mduft_HigherHalf%20Kernel%20with%2032-bit%20Paging%20-%20OSDev%20Wiki_files/load.php"></script>
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/skins/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-2 ns-subject page-User_Mduft_HigherHalf_Kernel_with_32-bit_Paging action-view skin-vector">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content">
+			<a id="top"></a>
+			<div class="js-messagebox" id="mw-js-message" style="display:none;"></div>
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">User:Mduft/HigherHalf Kernel with 32-bit Paging</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">From OSDev Wiki</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div dir="ltr" class="mw-content-ltr" lang="en"><center>
+<table style="border: 1px solid #cfcfbf; margin-top: 25px; margin-bottom: 25px; background-color: #f0f0ff; text-align: center;">
+<tbody><tr>
+<td>
+<p><a href="http://wiki.osdev.org/File:Under_Construction.png" class="image" title="This page is under construction!"><img alt="This page is under construction!" src="User:Mduft_HigherHalf%20Kernel%20with%2032-bit%20Paging%20-%20OSDev%20Wiki_files/Under_Construction.png" height="50" width="50"></a>
+This page is a work in progress and may thus be incomplete. Its content may be changed in the near future.
+</p>
+</td>
+<td>
+</td></tr></tbody></table>
+</center>
+<table id="toc" class="toc tochidden"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="#" class="internal" id="togglelink">show</a>]&nbsp;</span></div>
+<ul style="display: none;">
+<li class="toclevel-1 tocsection-1"><a href="#Welcome"><span class="tocnumber">1</span> <span class="toctext">Welcome</span></a>
+<ul>
+<li class="toclevel-2 tocsection-2"><a href="#QEMU"><span class="tocnumber">1.1</span> <span class="toctext">QEMU</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-3"><a href="#Boot_code_Structure"><span class="tocnumber">2</span> <span class="toctext">Boot code Structure</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#Thinking_about_it"><span class="tocnumber">3</span> <span class="toctext">Thinking about it</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#boot.S"><span class="tocnumber">4</span> <span class="toctext">boot.S</span></a>
+<ul>
+<li class="toclevel-2 tocsection-6"><a href="#Global_symbols"><span class="tocnumber">4.1</span> <span class="toctext">Global symbols</span></a></li>
+<li class="toclevel-2 tocsection-7"><a href="#The_required_.data_stuff"><span class="tocnumber">4.2</span> <span class="toctext">The required .data stuff</span></a>
+<ul>
+<li class="toclevel-3 tocsection-8"><a href="#Use_the_.data_section"><span class="tocnumber">4.2.1</span> <span class="toctext">Use the .data section</span></a></li>
+<li class="toclevel-3 tocsection-9"><a href="#Make_room_for_the_PD_and_PTs"><span class="tocnumber">4.2.2</span> <span class="toctext">Make room for the PD and PTs</span></a></li>
+<li class="toclevel-3 tocsection-10"><a href="#Make_room_for_the_Stack"><span class="tocnumber">4.2.3</span> <span class="toctext">Make room for the Stack</span></a></li>
+<li class="toclevel-3 tocsection-11"><a href="#Strings"><span class="tocnumber">4.2.4</span> <span class="toctext">Strings</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-12"><a href="#The_actual_code"><span class="tocnumber">4.3</span> <span class="toctext">The actual code</span></a>
+<ul>
+<li class="toclevel-3 tocsection-13"><a href="#Use_the_.text_Section"><span class="tocnumber">4.3.1</span> <span class="toctext">Use the .text Section</span></a></li>
+<li class="toclevel-3 tocsection-14"><a href="#Now_for_the_exception_to_the_rule"><span class="tocnumber">4.3.2</span> <span class="toctext">Now for the exception to the rule</span></a></li>
+<li class="toclevel-3 tocsection-15"><a href="#Required_symbols_for_the_screen_buffer"><span class="tocnumber">4.3.3</span> <span class="toctext">Required symbols for the screen buffer</span></a></li>
+<li class="toclevel-3 tocsection-16"><a href="#The_entry_point"><span class="tocnumber">4.3.4</span> <span class="toctext">The entry point</span></a></li>
+<li class="toclevel-3 tocsection-17"><a href="#The_simple_printing_function"><span class="tocnumber">4.3.5</span> <span class="toctext">The simple printing function</span></a></li>
+<li class="toclevel-3 tocsection-18"><a href="#Initialize_Paging"><span class="tocnumber">4.3.6</span> <span class="toctext">Initialize Paging</span></a>
+<ul>
+<li class="toclevel-4 tocsection-19"><a href="#Getting_the_PD_and_PTs_right"><span class="tocnumber">4.3.6.1</span> <span class="toctext">Getting the PD and PTs right</span></a></li>
+<li class="toclevel-4 tocsection-20"><a href="#The_real_mapping"><span class="tocnumber">4.3.6.2</span> <span class="toctext">The real mapping</span></a></li>
+<li class="toclevel-4 tocsection-21"><a href="#Enable_paging"><span class="tocnumber">4.3.6.3</span> <span class="toctext">Enable paging</span></a></li>
+<li class="toclevel-4 tocsection-22"><a href="#Cleanup"><span class="tocnumber">4.3.6.4</span> <span class="toctext">Cleanup</span></a></li>
+</ul>
+</li>
+<li class="toclevel-3 tocsection-23"><a href="#Mapping_single_pages"><span class="tocnumber">4.3.7</span> <span class="toctext">Mapping single pages</span></a>
+<ul>
+<li class="toclevel-4 tocsection-24"><a href="#Setup"><span class="tocnumber">4.3.7.1</span> <span class="toctext">Setup</span></a></li>
+<li class="toclevel-4 tocsection-25"><a href="#Find_the_PT_in_the_PD"><span class="tocnumber">4.3.7.2</span> <span class="toctext">Find the PT in the PD</span></a></li>
+<li class="toclevel-4 tocsection-26"><a href="#Calculate_PTE_address"><span class="tocnumber">4.3.7.3</span> <span class="toctext">Calculate PTE address</span></a></li>
+<li class="toclevel-4 tocsection-27"><a href="#Settings_the_PTE"><span class="tocnumber">4.3.7.4</span> <span class="toctext">Settings the PTE</span></a></li>
+<li class="toclevel-4 tocsection-28"><a href="#Cleanup_2"><span class="tocnumber">4.3.7.5</span> <span class="toctext">Cleanup</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-29"><a href="#Conclusion"><span class="tocnumber">4.4</span> <span class="toctext">Conclusion</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-30"><a href="#link.ld"><span class="tocnumber">5</span> <span class="toctext">link.ld</span></a>
+<ul>
+<li class="toclevel-2 tocsection-31"><a href="#Basic_setup"><span class="tocnumber">5.1</span> <span class="toctext">Basic setup</span></a></li>
+<li class="toclevel-2 tocsection-32"><a href="#The_output_Sections"><span class="tocnumber">5.2</span> <span class="toctext">The output Sections</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-33"><a href="#Compile_and_link"><span class="tocnumber">6</span> <span class="toctext">Compile and link</span></a></li>
+<li class="toclevel-1 tocsection-34"><a href="#Running"><span class="tocnumber">7</span> <span class="toctext">Running</span></a></li>
+<li class="toclevel-1 tocsection-35"><a href="#Thanks"><span class="tocnumber">8</span> <span class="toctext">Thanks</span></a></li>
+</ul>
+</td></tr></tbody></table>
+<h1> <span class="mw-headline" id="Welcome"> Welcome </span></h1>
+<p>Hi, and welcome to this small tutorial. It is assembled from the 
+code, that i have written for my own hobby OS. As a prerequisite i 
+recommend that you make yourself familiar with the AT&amp;T x86 
+assembler syntax used by the GNU assembler (which i will be using here).
+ I will try to explain everything i do in very much detail, but still - 
+it's not trivial&nbsp;:)
+</p><p>I also suggest you have the Intel Processor Documentation(s) at 
+hand, especially Volume 3a, which explains 32-bit paging and all the 
+related structure, etc.
+</p>
+<h2> <span class="mw-headline" id="QEMU"> QEMU </span></h2>
+<p>As a side note, i want to use this to advertise <a href="http://wiki.osdev.org/Qemu" title="Qemu" class="mw-redirect">qemu</a>
+ as a development utility (no i'm not affiliated with 'em&nbsp;;)). I 
+use it very much, and it is really, really useful. For example you can 
+investigate the current page tables of your kernel right after loading 
+CR3, which prove very usefull when writing this code. Also having a 
+symbolic debugger (although "symbolic" is not so much usefull in 
+assembler&nbsp;;p) is the bare minimum you should be equipped with when 
+going on the kernel development route...
+</p><p>Additionally, you don't have to worry about boot loaders and such, as long as your kernel is multiboot compliant.
+</p>
+<h1> <span class="mw-headline" id="Boot_code_Structure"> Boot code Structure </span></h1>
+<p>I will give a rough outline of the kernel (if you can call my 3-filer a kernel&nbsp;;p) as i will explain it here:
+</p>
+<ul><li> boot.S: This is the main meat of the startup code. it will contain code to:
+<ul><li> setup a initial stack.
+</li><li> setup initial paging structures (the kernel PD, and two PTs)
+</li><li> identity map the low 1MB, and all of the kernel.
+</li><li> map all the kernel to the higher half
+</li><li> enable paging
+</li><li> call the C kernel
+</li><li> write "PANIC!" on the screen in nice white-on-red letters
+<dl><dd>(this is why you read this, right?)
+</dd></dl>
+</li></ul>
+</li><li> link.ld: This will contain the instructions for the linker.
+</li></ul>
+<p>Also, i plan to provide the original files i use in my kernel, so you
+ can have a closer look at them. When reading through them, you will 
+mention, that i have (basic) C++ support in them. You either don't have 
+to worry about it, or can use it to extend your own kernel in this 
+direction.
+</p><p>(you can find <a rel="nofollow" class="external text" href="http://dev.gentoo.org/%7Emduft/osdev/boot.S">boot.s here</a>, and <a rel="nofollow" class="external text" href="http://dev.gentoo.org/%7Emduft/osdev/link.ld">link.ld here</a>)
+</p>
+<h1> <span class="mw-headline" id="Thinking_about_it"> Thinking about it </span></h1>
+<p>At first, i want you to think a little about what we will need, and what we want to accomplish.
+</p><p>We want to have a kernel, which runs (not loads!) at a high 
+address. At such a high address, that it may be, that there is not so 
+much <b>physical</b> memory, that this address is available. So we need virtual memory (or a segmentation trick, described in <i><a href="http://wiki.osdev.org/Higher_Half_With_GDT" title="Higher Half With GDT">Higher Half With GDT</a></i>).
+ We will use paging, to map our kernel to a high address after it has 
+been loaded to a low address (which should be always available 
+physically).
+</p><p>For this to work correctly, the <i>code</i> in our kernel needs to know about this. Most of the kernel will have to be <i>linked</i>
+ to a high address, so we don't need to worry about this anymore, once 
+we're over the bootstrap phase. The initial bootstrap code, in contrast,
+ needs to be linked to a low address, <b>or</b> be completely position independent.
+</p><p>For the paging stuff, we will need to have at least a PD (Page 
+Directory) for the kernel, and two PTs (Page Tables). Why two, you might
+ ask. The reason is, we need one PT for the low addresses (the lower 
+1MB, and the kernel in lower half), and one for the addresses in the 
+higher half. If your kernel grows larger and larger, it might even 
+require more PTs, and you will for sure need to deal with PDs and PTs a 
+lot when it comes to processes, where probably each process will have 
+it's own PD and associated PTs.
+</p><p>For this tutorial i chose some very common addresses: 
+</p>
+<ul><li> 0x100000 as the physical load address of the kernel. This is the location the bootloader will load our kernel to.
+</li><li> 0xC0000000 as the <i>offset</i> into the higher half.
+</li></ul>
+<p>Those two added together, are the address where the kernel will 
+finally be running (so 0xC0100000). You will see the use of 
+KERNEL_HIGH_VMA all through the code to take into account the offset to 
+the higher half. This is, because the linker assigns higher half 
+addresses to some of the symbols. Since our kernel is loaded to lower 
+half and "thinks" it is running in higher half, we need to be careful 
+when using the addresses of symbols assigned by the linker. During the 
+initial bootstrap, i'm doing a lot of adjustments from higher to lower 
+half, so things are accessible as long as we don't have paging set up.
+</p>
+<h1> <span class="mw-headline" id="boot.S"> boot.S </span></h1>
+<p>Now for the real code. i will go through it, and explain every section as thorough as possible.
+</p>
+<h2> <span class="mw-headline" id="Global_symbols"> Global symbols </span></h2>
+<p>We will have only one single global symbol for this file, and thats 
+the entry point of the kernel. So the file starts with the following 
+line:
+</p>
+<pre>.global bootstrap_ia32
+</pre>
+<h2> <span class="mw-headline" id="The_required_.data_stuff"> The required .data stuff </span></h2>
+<p>We will need some room in our kernel to do the things we want to. 
+However, we don't (yet) have means to dynamically allocate things, and 
+we don't want to worry too much, so we will simple reserve all the 
+required space in the executable itself. this way, the linker will take 
+care of the kernels bounds, and the bootloader (or qemu in our case), 
+will take care about loading, and checking for enough room, etc., etc.
+</p>
+<h3> <span class="mw-headline" id="Use_the_.data_section"> Use the .data section </span></h3>
+<p>First, we'll tell the assembler, that we want to put the following stuff in the .data section of the output file:
+</p>
+<pre>.section .data
+</pre>
+<h3> <span class="mw-headline" id="Make_room_for_the_PD_and_PTs"> Make room for the PD and PTs </span></h3>
+<p>Then, we need room for the PD and PTs. I'll reserve some space for them like this:
+</p>
+<pre># the kernel page directory, lowest page table (for the low 1MB identity 
+# mapping in kernel space) and the kernel page table, used to map the
+# kernel itself from physical 0x100000 to 0xC0000000).
+
+.align 0x1000
+_kernel_pd:
+   .space 0x1000, 0x00
+_kernel_pt:
+   .space 0x1000, 0x00
+_kernel_low_pt:
+   .space 0x1000, 0x00
+</pre>
+<p>The above tells the assembler to pad the current position in the 
+output file until it is aligned to 4K (0x1000 -&gt; 4096). The we 
+reserver three times 4K of space for the PD and PTs. These symbols will 
+end up in the .data section of the kernel, and thus will be there as 
+soon as the bootloader loaded the kernel. No need to worry about 
+allocating those from "somewhere".
+</p>
+<h3> <span class="mw-headline" id="Make_room_for_the_Stack"> Make room for the Stack </span></h3>
+<p>Another thing we will need from the very start, is the stack. we 
+won't have time to defer it's creation until we can allocate memory, so 
+we need to put it in here too. Of course you can make it way smaller if 
+you like; Linux uses 16K or 8K if you tell it to do so.
+</p>
+<pre># a whopping 64K of initial stack space.
+.set INITSTACKSIZE, 0x10000
+initstack:
+   .space INITSTACKSIZE, 0x00
+</pre>
+<h3> <span class="mw-headline" id="Strings"> Strings </span></h3>
+<p>The last thing in the .data section are our strings we will be using 
+from within the assembler code. There are not many of them, just the 
+"PANIC!" i promised above&nbsp;:)
+</p>
+<pre>_msg_panic:
+   .asciz "PANIC!"
+</pre>
+<h2> <span class="mw-headline" id="The_actual_code"> The actual code </span></h2>
+<p>... or not quite yet. At least we tell the assembler to put the following things in the .text section.
+</p>
+<h3> <span class="mw-headline" id="Use_the_.text_Section"> Use the .text Section </span></h3>
+<p>The following tells the assembler to use the .text section. Also, i 
+tell it to produce 32-bit code, which is not really a necessety, but i 
+like to make it clear.
+</p>
+<pre>.section .text
+.code32
+</pre>
+<h3> <span class="mw-headline" id="Now_for_the_exception_to_the_rule"> Now for the exception to the rule </span></h3>
+<p>... the MultiBoot Header. It is put in the .text section for a 
+special reason. The multiboot specification states, that the header <b>must</b>
+ appear longword-aligned aligned somewher in the first 8192 bytes of the
+ kernel. As you will see later on in the linker script, the .text 
+section is the first section in the kernel, and thus has to contain the 
+header.
+</p>
+<pre>.set ALIGN,         1&lt;&lt;0             # align loaded modules on page boundaries
+.set MEMINFO,       1&lt;&lt;1             # provide memory map
+.set FLAGS,         ALIGN | MEMINFO  # this is the Multiboot 'flag' field
+.set MAGIC,         0x1BADB002       # 'magic number' lets bootloader find the header
+.set CHECKSUM,      -(MAGIC + FLAGS) # checksum required
+
+.align 4
+
+multiboot_header:
+   .long MAGIC
+   .long FLAGS
+   .long CHECKSUM
+</pre>
+<p>The above first sets some "absolute" symbols. They have a fixed 
+value, and can be used as constants. The it sets the alignment of the 
+following to 4 (longword; remember? the header has to be aligned like 
+this... most likely, we could omit this, since it is the first thing in 
+the file anyway, and the chance that we are misaligned here is very 
+small to impossible. but still.. better be on the safe side).
+</p><p>A good thing to know is, that the ".set symbols" are present in the symbol table of the output file, but <i>do not take up any space</i>
+ in the file at the current location. This means, for example, that the 
+current alignment does not change because of their declaration. We're 
+still at the very same position in the output file.
+</p>
+<h3> <span class="mw-headline" id="Required_symbols_for_the_screen_buffer"> Required symbols for the screen buffer </span></h3>
+<p>We also need some helpers for handling the screen (clearing it, and then, the point of the whole tutorial: printing "PANIC!"):
+</p>
+<pre>.set VIDEO_RAM,     0xB8000          # Video Memory, used to print to the screen.
+.set VIDEO_DWORDS,  0x3E8            # The count of DWORDs (!) the screen buffer is large.
+</pre>
+<h3> <span class="mw-headline" id="The_entry_point"> The entry point </span></h3>
+<p>Now the entry point function, the one that will be visible from the 
+outside world. We will start by setting up the inital stack. Because (as
+ we all know, right?) the stack grows downwards in memory, we need to 
+set the ESP register to point to <i>the end</i> of the stack space.
+</p>
+<pre>bootstrap_ia32:
+   # setup the stack
+   mov   $(initstack + INITSTACKSIZE),&nbsp;%esp
+
+   # adjust address to be physical, stack is in data segment, which is linked to
+   # the kernels virtual higher half address.
+   subl  $KERNEL_HIGH_VMA,&nbsp;%esp
+</pre>
+<p>This will put the address of the <i>initstack</i> symbol, with the 
+length of the stack added to it, into ESP, the stack pointer. What you 
+do not know yet (and what i will explain in detail when we come to the 
+linker script): the stack symbol (as it is in the .data section) is 
+assigned a higher half address by the linker. Thus we cannot yet access 
+it, because we're still running in the lower half now. If we would not 
+subtract the offset into the higher half, where the kernel will be 
+mapped after paging is enabled, the kernel would <b>maybe</b> still run 
+fine - as long as the machine has enough memory, so accessing the higher
+ half address works (however i haven't tried this!).
+</p><p>Next, we'll want to setup some form of initial paging, which 
+enables the kernel to run code off the higher half addresses, and use 
+all the other things that will be linked there.
+</p>
+<pre>   # setup boot paging to map kernel to higher half
+   call init_boot_paging_ia32
+</pre>
+<p>I will discuss the init_boot_paging_ia32 function in detail just a 
+few lines further down. Let's first finish the entry point, as it is not
+ so complex.
+</p><p>Imagine, we have paging setup all right (the 
+init_boot_paging_ia32 function did it's job, whatever this means), and 
+can now use the correct higher half addresses all over the place. The 
+first thing we'll want to do, is to try whether it really works, and 
+relocate the stack from the lower to the higher half.
+</p><p>"Relocate" is maybe a bad word for what we're doing. Either way, we're accessing the same <b>physical</b> memory, because we mapped the higher half to the lower half physical addresses. In fact, we can use <b>both</b>
+ addresses just fine. Also, if you, say, write a byte to 0x100000 
+(please don't&nbsp;;)), it will immediately appear at 0xC0100000 too; 
+it's the same memory location.
+</p>
+<pre>   # adjust stack registers to point to the now mapped stack as virtual address
+   addl  $KERNEL_HIGH_VMA,&nbsp;%esp
+   mov  &nbsp;%esp,&nbsp;%ebp
+</pre>
+<p>Now the stack is used from it's higher half mapped address.
+</p><p>Since we have all set up now, we can test the lower 1MB mapping 
+very easily, by trying to clear the screen, which will access the screen
+ buffer at 0xB8000. If the mapping doesn't work, this will cause one or 
+the other exception, double fault and tripple fault&nbsp;:)
+</p>
+<pre>   mov $VIDEO_RAM,&nbsp;%edi
+   mov $VIDEO_DWORDS,&nbsp;%ecx
+   mov $0x07200720,&nbsp;%eax
+   rep stosl
+</pre>
+<p>This fill all the screen buffer with light-grey-on-black colored 
+blanks, and thus clear it. (Each word is built like this: 0x0000 -&gt; 
+background (0 = black), 0x0700 -&gt; foreground (7 = light grey), 0x0020
+ -&gt; " " (blank)).
+</p><p>The only thing left to do (except error handling), is to call the
+ main C kernel from here. First we push the parameters passed by the 
+Multiboot compliant bootloader on the stack.
+</p>
+<pre>   # push parameters to the entry point (grub parameters)
+   push &nbsp;%eax
+   push &nbsp;%ebx
+
+   #call boot # uncomment this if you have a C kernel entry function at hand&nbsp;:)
+</pre>
+<p>My kernel main C function happens to be named "boot", but thats of 
+course up to you. Now, actually there is all we need. Still we will want
+ to make sure, that if boot ever returns, the CPU does not continue to 
+execute junk or code it shouldn't, so we will halt the CPU. <b>Note:</b> You'll probably want to halt all APs too, if you put SMP support in your kernel...
+</p>
+<pre>the_end:
+   mov $_msg_panic,&nbsp;%eax
+   call boot_print_msg
+   # halt the cpu... the kernel stopped.
+   cli
+   hlt
+</pre>
+<p>I think it is pretty obvious: the above loads the "PANIC!" message 
+into EAX, calls the print function (i will show it to you in a 
+second...), then disables interupts and halts the CPU.
+</p>
+<h3> <span class="mw-headline" id="The_simple_printing_function"> The simple printing function </span></h3>
+<p>Ok, before we start with the paging code, here is the printing 
+function i have to write the "PANIC!" on the screen. I'll leave it to 
+you to figure out how it works, i guess things like these are described a
+ lot in th wiki&nbsp;:)
+</p>
+<pre>boot_print_msg:
+   # eax: address of the string to print.
+   push&nbsp;%edx
+   push&nbsp;%ebx
+
+   mov $VIDEO_RAM,&nbsp;%edx
+
+   _print_loop:
+       movb (%eax),&nbsp;%bl
+       xorb&nbsp;%bh,&nbsp;%bh
+       cmpb $0x0,&nbsp;%bl
+       je _end_print
+       orw $0x4F00,&nbsp;%bx
+       movw&nbsp;%bx, (%edx)
+       add $0x2,&nbsp;%edx
+       inc&nbsp;%eax
+       jmp _print_loop
+   _end_print:
+
+   pop&nbsp;%ebx
+   pop&nbsp;%edx
+</pre>
+<h3> <span class="mw-headline" id="Initialize_Paging"> Initialize Paging </span></h3>
+<p>The following is my init function for the paging. It makes the PD 
+point to the correct PTs. It also calls another function to fill the PTs
+ with the correct entries (it "maps" virtual to physical addresses). 
+Let's start with the top of the function:
+</p>
+<pre>init_boot_paging_ia32:
+   # save registers used here.
+   push&nbsp;%eax
+   push&nbsp;%ebx
+   push&nbsp;%edx
+   push&nbsp;%ecx
+</pre>
+<p>At the end of the function, we will restore the registers, so the 
+code behaves nicely, and doe not overwrite reigsters set by the 
+bootloader (remember: grub passes two parameters in EAX and EBX).
+</p>
+<h4> <span class="mw-headline" id="Getting_the_PD_and_PTs_right"> Getting the PD and PTs right </span></h4>
+<p>Now, to insert the PDEs in the PD, we need to have the correct 
+physical addresses of the PD and PTs. Those symbols (_kernel_pd, 
+_kernel_pt, _kernel_low_pt; we declared those above in the .data 
+section, remember?) are assigned <b>higher half</b> addresses by the 
+linker, as you will see later on, when i explain the linker script. 
+Since the higher half addresses are merely an "alias" to the lower half 
+addresses, we can simply subtract the offset into higher half, to get 
+the actual physical load address of those symbols. This way, we can 
+access them without paging enabled.
+</p>
+<pre>   mov  $_kernel_pd,&nbsp;%eax          # get virtual address of kernel pd
+   sub  $KERNEL_HIGH_VMA,&nbsp;%eax     # adjust to physical address
+</pre>
+<p>EAX now contains the <i>physical</i> address of the kernels PD. Now 
+the same for the "low" PT (the one mapping the first 1MB of the memory, 
+and all the physical kernel addresses, as the kernel is loaded right 
+above 1MB. With this single PT, we can map up to 4MB, that makes room 
+for a approximately 3MB kernel above the 1MB low memory).
+</p>
+<pre>   mov  $_kernel_low_pt,&nbsp;%ebx      # get virtual address of kernel low pt
+   sub  $KERNEL_HIGH_VMA,&nbsp;%ebx     # adjust to physical address
+</pre>
+<p>If we want to set a PDE containing this PT, we just need to set the present flag. (<b>Note:</b> i <i>don't</i>
+ clear the lower 12 bits of the address intentionally; it is not 
+required, as i can be sure, that the structures are correctly aligned 
+the way i declared them in the .data section - just in case you wonder 
+if i forgot it&nbsp;;)).
+</p>
+<pre>   or   $0x1,&nbsp;%ebx                 # set present flag
+</pre>
+<p>EBX is now in the correct form for a PDE, the only thing left to do, 
+is actually set the entry in the PD (whos address is loaded into EAX):
+</p>
+<pre>   mov &nbsp;%ebx, (%eax)               # set the pde
+</pre>
+<p>This was easy. The next one is a little more tricky. The low PT has 
+the advantage of beeing at index zero of the PD. The higher half PT for 
+the kernel doesn't have this advantage; we will first have to calculate 
+the offset into the PD, where we want to set the PDE.
+</p>
+<pre>   push&nbsp;%eax
+   mov  $KERNEL_HIGH_VMA,&nbsp;%eax     # get virtual address offset
+   shr  $22, &nbsp;%eax                 # calculate index in the pd
+   mov  $4,&nbsp;%ecx
+   mul &nbsp;%ecx                       # calculate byte offset (4bytes each entry)
+   mov &nbsp;%eax,&nbsp;%edx
+   pop &nbsp;%eax
+</pre>
+<p>The above code does this: It first saves the EAX register, as we'll 
+need it's value again later (and restores it at the end, see?). Then it 
+loads the higher half kernel offset into EAX. I need this for a special 
+reason: I assume, that all the kernel fits entirely into the one PT for 
+now. I need to have <i>any</i> virtual address that should be mapped by 
+the kernel PT. From there i can extract the Index that the PDE should 
+have in the PD. It is not really required to load the actual offset here
+ (although it's the clearest way i can think of). Anything linked to 
+higher half will do (for example the address of the _kernel_pd or 
+_kernel_pt symbols themselves). Next, EAX is right shifted by 22 bits to
+ extract the <i>index</i> into the PD. Since all entries are 4 bytes 
+each, we need to multiply the index with 4, to get the offset of the PDE
+ from the PD base address. This offset is saved in the EDX register for 
+later use.
+</p><p>To get the right position for our PDE, we now just have to add the offset to the PD base pointer, we loaded before.
+</p>
+<pre>   push&nbsp;%eax                       # save the real address for later
+   add &nbsp;%edx,&nbsp;%eax                 # move the pointer in the pd to the correct entry.
+</pre>
+<p>Now that we know the correct location, the code to set the _kernel_pt
+ PDE entry is very similar to the one used for the _kernel_low_pt, so 
+i'll leave it up to you to figure out those four lines:
+</p>
+<pre>   mov  $_kernel_pt,&nbsp;%ebx          # get virtual address of kernel main pt
+   sub  $KERNEL_HIGH_VMA,&nbsp;%ebx     # adjust to physical address
+   or   $0x1,&nbsp;%ebx                 # mark present
+   mov &nbsp;%ebx, (%eax)               # set the pde
+</pre>
+<p>If we reach this position in the code, the PD and it's PDEs are don. 
+It points to the correct physical addresses, and we don't need to worry 
+about it anymore, except when enabling paging below, where we will move 
+the pointer to the PD into the CR3 register.
+</p>
+<h4> <span class="mw-headline" id="The_real_mapping"> The real mapping </span></h4>
+<p>For this code, we will, again, have to assume for a moment, that we have a working function called <i>boot_map_page_ia32</i> which takes the following parameters:
+</p>
+<ol><li> EBX: the physical address of the kernel PD
+</li><li> ECX: the virtual address which we want to map
+</li><li> EDX: the physical address that the virtual address should be "redirected" to.
+</li></ol>
+<p>After calling the function with the correct parameters, accessing the
+ given virtual address will really access the physical memory we passed 
+in EDX. We'll come to the real implementation of the function a little 
+further down the road (not too long to wait, don't worry&nbsp;;)).
+</p><p>We need to map 3 things:
+</p>
+<ol><li> We have to "identity map" the lowest MB in memory (except the 
+first page! we don't want to be able to access 0x0; this should cause an
+ exception!). Identity mapping means that the virtual and physical 
+address are the same. We need this to be able to use some fixed 
+addresses (video buffer at 0xB8000 for example). We could, of course, 
+also map the low MB somewhere else, and adjust all pointers to the new 
+location.
+</li><li> We have to identity map all the kernel in lower half. If we 
+wouldn't do this, enabling paging would lead to an immediate page fault,
+ then double fault, then tripple fault the CPU. This is because our EIP 
+is currently somewhere in the physical load range of the kernel. after 
+enabling paging, the CPU tries to fetch the next instruction, but the 
+address it tries to read is a <i>virtual</i> one now! if the virtual 
+address is not the same as the physical one, the CPU won't get the next 
+instruction. (In fact, it will probably page fault, if nothing is mapped
+ at that location).
+</li><li> Last but not least, we have to map all the kernel into higher 
+half, so we can call the C kernel entry later on. This mapping is merely
+ an "alias" to the lower half kernel. After all mappings are complete, 
+we can access the <i>same</i> physical memory through <i>both</i> the 
+higher and lower half addresses. If we like to, we can later on remove 
+the lower half mapping, so that the only way to access the kernel's 
+memory is through the higher half pointers.
+</li></ol>
+<p>Ok, let's go. first, we need to have the physical address of the 
+kernel PD in EBX. A few lines up, i pushed EAX, which contained the 
+address we want. So all we have to do, is pop it off the stack now.
+</p>
+<pre>   pop &nbsp;%ebx                       # pop saved address of the kernel PD
+</pre>
+<p>Now we're ready to loop over the first MB. I'll set 0x100000 (1MB) 
+into ECX, which will contain the virtual address we want to map. Each 
+iteration will decrease ECX by 0x1000 (one page, 4K), and call the 
+mapping function. We stop (without calling the mapping function), if ECX
+ reaches zero.
+</p>
+<pre>   mov  $0x100000,&nbsp;%ecx            # map the low 1MB
+
+   _idmap_first_mb_loop:
+       mov&nbsp;%ecx,&nbsp;%edx              # phys == virt (identity mapping)
+       call boot_map_page_ia32     # do the mapping
+       sub $0x1000,&nbsp;%ecx           # one page down.
+       jnz _idmap_first_mb_loop    # if not zero, continue (DON'T map zero&nbsp;:))
+</pre>
+<p>As you can see, the loop sets EDX to the same value as ECX, and thus "identity maps" all of those addresses. (<b>Hint:</b> later on, when you run your kernel in qemu, you can look at the mappings easily by typing "info tlb" in the qemu monitor).
+</p><p>That was easy, right? Now for something slightly more sophisticated. We'll identity map <i>and</i>
+ "high-map" the kernel in one go. For this, we'll have to know the 
+bounds of the kernel. The linker script provides a few additional 
+symbols, which help us there. The KERNEL_BOOT_VMA symbol is the absolute
+ physical start address of the kernel, so we'll start there (i put it 
+into ECX and increment by a page each loop run, until we reach the end 
+of the kernel). The end of the kernel is determined by looking at the 
+_core_end symbol. <b>But</b>: carefull; the _core_end symbol (as you will see when looking at the linker script) is linked to higher half, so to get the <i>physical</i> end of the kernel, we need to subtract the higher half offset again.
+</p>
+<pre>   mov  $KERNEL_BOOT_VMA,&nbsp;%ecx     # this is the _very_ beginning&nbsp;:)
+   mov  $_core_end,&nbsp;%eax           # virtual address of end
+   sub  $KERNEL_HIGH_VMA,&nbsp;%eax     # now it is physical.
+</pre>
+<p>Now that we have all values set up (EBX, which is required too, 
+wasn't changed in the meantime, so no need to worry about it; it has the
+ correct value), we can go for the actual loop:
+</p>
+<pre>   _map_kernel:
+       mov&nbsp;%ecx,&nbsp;%edx              # phys == virt (identity mapping)
+       call boot_map_page_ia32     # do the mapping
+
+       push&nbsp;%ecx
+       add $KERNEL_HIGH_VMA,&nbsp;%ecx  # now map the virtual address to the same physical one
+       call boot_map_page_ia32     # do it
+       pop&nbsp;%ecx
+
+       add $0x1000,&nbsp;%ecx           # on to the next page.
+       cmp&nbsp;%eax,&nbsp;%ecx
+       jle _map_kernel             # continue untill all the kernel is mapped.
+</pre>
+<p>This first sets EDX to identity map ECX, and creates the mapping 
+(like in the last loop). But then, surprise, surprise, something more 
+happens: I save ECX, as i need it's value as is a few lines further 
+down. The i adjust ECX to point to the same address as before, <i>but in higher half</i>.
+ Calling the mapping function now creates a mapping from higher half 
+(virtual) to lower half (physical) memory. Then, ECX is restored, so we 
+can check for the kernel bounds and continue the loop. ECX is moved on 
+to the next page we want to map. ECX is less-or-equal to the upper 
+kernel bounds, we continue, otherwise we're done.
+</p>
+<h4> <span class="mw-headline" id="Enable_paging"> Enable paging </span></h4>
+<p>That's it. We're nearly done. All the mappings are in place, all the 
+PD and PTs are ready to be used (hopefully&nbsp;;)). Now we can give it a
+ try by activating all of this, which is really simple:
+</p>
+<pre>   mov &nbsp;%ebx,&nbsp;%cr3                 # use the kernel pd
+   mov &nbsp;%cr0,&nbsp;%eax                 # get the current cr0 value
+   or   $(1 &lt;&lt; 31),&nbsp;%eax           # enable paging
+   mov &nbsp;%eax,&nbsp;%cr0                 # now re-set the cr0 register.
+</pre>
+<p>First, EBX is moved to CR3, which is the PD base pointer in 32-bit 
+paging. Then, the paging bit is set in CR0, and that's it. Lets keep our
+ fingers crossed that things continue to work&nbsp;;)
+</p>
+<h4> <span class="mw-headline" id="Cleanup"> Cleanup </span></h4>
+<p>Last thing to do for this function is to restore all the registers 
+and return to the bootstrap_ia32 function. The first thing there will 
+be, if you remember, adjusting the stack to use the virtual higher half 
+addresses...
+</p>
+<pre>   # restore register values.
+   pop &nbsp;%ecx
+   pop &nbsp;%edx
+   pop &nbsp;%ebx
+   pop &nbsp;%eax
+
+   ret
+</pre>
+<h3> <span class="mw-headline" id="Mapping_single_pages"> Mapping single pages </span></h3>
+<p>Oh - wait; we're not quite there, right? i think there is one more 
+function we deferred for later implementation... the one that maps a 
+single page, which we used above in the loops: boot_map_page_ia32.
+</p>
+<h4> <span class="mw-headline" id="Setup"> Setup </span></h4>
+<p>Always the same boring function starts...
+</p>
+<pre>boot_map_page_ia32:
+   # ebx: physical addr of kernel PD
+   # ecx: the virtual address to map
+   # edx: the physical address to map to
+
+   push&nbsp;%eax
+   push&nbsp;%ebx
+   push&nbsp;%ecx
+   push&nbsp;%edx
+</pre>
+<p>Additionally, we will immediately push some of the parameters, as we 
+need to calculate offsets from them, and later have those values 
+unmodified.
+</p>
+<pre>   push&nbsp;%edx                       # push physical address
+   push&nbsp;%ecx                       # push virtual address
+</pre>
+<h4> <span class="mw-headline" id="Find_the_PT_in_the_PD"> Find the PT in the PD </span></h4>
+<p>The first real code will find out, which PT we will have to use to be
+ able to map the virtual address. If the given address is not within the
+ two PTs we have already set up, the kernel will panic immediately (of 
+course; there is no logic to create new PTs on the fly).
+</p>
+<pre>   mov &nbsp;%ecx,&nbsp;%eax
+   shr  $22,&nbsp;%eax
+   mov  $4,&nbsp;%ecx
+   mul &nbsp;%ecx                       # now we have the offset in eax
+   add &nbsp;%eax,&nbsp;%ebx                 # now ebx points to the phys addr of a pt if present
+   mov  (%ebx),&nbsp;%eax
+</pre>
+<p>To get the correct index, the above first loads the virtual address 
+from ECX into EAX, then shifts it 22 bits to the right, as this will, 
+again, result in the index into the PD, required to find the PT for this
+ address. Then again, we have to multiply it by four, as each entry in 
+the PD is four bytes long. Finally the calculated offset (now in EAX) is
+ added to the physical address of the PD, which is passed in EBX 
+(remember?). From this address, we can now load the PDE into EAX. Please
+ remember that this now is <b>not</b> and address yet, as it has flags ORed into it. We'll have to clear those flags before we can use it.
+</p><p>But first, just to be sure, we check if the present flag is set 
+in the PDE, otherwise the given virtual address is out of bounds.
+</p>
+<pre>   mov &nbsp;%eax,&nbsp;%ecx
+   and  $0x1,&nbsp;%ecx                 # check present flag
+   cmp  $0x0,&nbsp;%ecx
+   je the_end                      # if zero, PANIC!
+</pre>
+<p>Now, as i said, we'll have to extract the physical PT address from the PDE.
+</p>
+<pre>   and  $0xFFFFF000,&nbsp;%eax          # clear off possible flags from the PDE.
+</pre>
+<h4> <span class="mw-headline" id="Calculate_PTE_address"> Calculate PTE address </span></h4>
+<p>Finally, we have the correct physical address of a valid PT in EAX. 
+We no can use this to find the correct slot in there, and set a PTE for 
+our virtual address.
+</p><p>Remember, at the entrance of the function, we pushed both the 
+physical, and then the virtual address passed in; now we need the 
+virtual address again to calculate the correct index into the PT from 
+it, so pop it off the stack:
+</p>
+<pre>   pop &nbsp;%edx                       # the virtual address.
+</pre>
+<p>The following code will calculate the index, and put it into EBX:
+</p>
+<pre>   push&nbsp;%eax
+   mov &nbsp;%edx,&nbsp;%eax
+   shr  $0xC,&nbsp;%eax                 # shift right to discard non-significant bits.
+   and  $0x3FF,&nbsp;%eax               # and away not-relevant bits on the left.
+   mov  $0x4,&nbsp;%ecx                 # each entry is 4 bytes
+   mul &nbsp;%ecx
+   mov &nbsp;%eax,&nbsp;%ebx                 # now in ebx: the offset into the PT for the PTE.
+   pop &nbsp;%eax
+</pre>
+<p>EAX is preserved (first pushed, then poped at the end of this 
+section), as you can see. Then, I put the virtual address to map (in 
+EDX) into EAX. After that, right-shift the whole thing by twelve bits. 
+Now clear off the uninteresting bits on the left side, so only the range
+ described in the intel manuals is left over. This is the part of the 
+address that serves as index into the PT. As always, we now have to 
+multiply it by four, since all PT entries are (exactly like the PD 
+entries) 4 bytes long. The result is put into the EBX register.
+</p>
+<h4> <span class="mw-headline" id="Settings_the_PTE"> Settings the PTE </span></h4>
+<p>Let's evaluate our current state. EBX contains the <i>offset</i> from
+ the PT base address for our virtual address to map. EAX still contains 
+the base address of the PT. What we now additionally need is the 
+physical address we have to map to. At the start of the function we 
+pushed it on the stack, so pop it off now.
+</p>
+<pre>   pop &nbsp;%edx                       # the phsyical target address
+</pre>
+<p>Now calculate the final location of the PTE, by adding up the base address and the offset, in EAX and EBX respectively.
+</p>
+<pre>   add &nbsp;%ebx,&nbsp;%eax                 # add offset to pt. this is the final location now.
+</pre>
+<p>To get a valid (and more important: <i>present</i>) PTE, we need to 
+OR some flags, in this case only the present flag to the final physical 
+address. Then we can put the PTE (made up of the address and the present
+ flag) to the location we just looked up in the PT (which is in EAX).
+</p>
+<pre>   or   $0x1,&nbsp;%edx                 # mark present...
+   mov &nbsp;%edx, (%eax)               # and insert into pt.
+</pre>
+<h4> <span class="mw-headline" id="Cleanup_2"> Cleanup </span></h4>
+<p>The rest is cleanup (restore registers), and return.
+</p>
+<pre>   pop&nbsp;%edx
+   pop&nbsp;%ecx
+   pop&nbsp;%ebx
+   pop&nbsp;%eax
+   ret
+</pre>
+<h2> <span class="mw-headline" id="Conclusion"> Conclusion </span></h2>
+<p>Wow. That was quite some code. i know, it is hard to get all this into the head&nbsp;;)
+</p><p>Please also note, that some of the code is not exactly the best, 
+fastest way to do things, but the one how i understood the concepts 
+best. If you have suggestions, feel free to tell me! I'm eager to hear 
+how you would improve the code!
+</p>
+<h1> <span class="mw-headline" id="link.ld"> link.ld </span></h1>
+<p>To be able to actually <i>build</i> the kernel, you'll need one more 
+file: the linker script, which tells the linker where to put things, 
+which addresses to assign, and what symbols to create to help the boot 
+code... Let's have a look at the contents:
+</p>
+<h2> <span class="mw-headline" id="Basic_setup"> Basic setup </span></h2>
+<p>The file starts with a few global symbols and instructions for the linker:
+</p>
+<pre>OUTPUT_FORMAT(elf32-i386)
+ENTRY(bootstrap_ia32)
+KERNEL_BOOT_VMA = 0x00100000;
+KERNEL_HIGH_VMA = 0xC0000000;
+</pre>
+<p>This tells the linker, that we want a 32-bit elf executable, 
+containig i386 code, that our entry-point function is named 
+"bootstrap_ia32" (as defined in boot.S). Also two very important 
+absolute symbols are defined: KERNEL_BOOT_VMA, which denotes the 
+physical start address of the kernel, and KERNEL_HIGH_VMA, which denotes
+ the <b>offset</b> from the BOOT_VMA to the higher half (It is important to understand, that these are <i>symbols</i>, not just constants you can use from withing the linker script. Those symbols are usable from the code (which we did alread)).
+</p>
+<h2> <span class="mw-headline" id="The_output_Sections"> The output Sections </span></h2>
+<p>Next comes the definition of the sections <i>in the output file</i>. This is only indirectly related to the sections in the <i>input files</i>.
+ We can more or less freely move/rename and merge sections from the 
+input to the output. Also, we can tell the linker that special files 
+should be treated specially, which is of great value.
+</p><p>Let's have a look at the beginning of the section definition:
+</p>
+<pre>SECTIONS{
+   . = KERNEL_BOOT_VMA;
+</pre>
+<p>This tells the linker, that the current physical address in the 
+output file (denoted by '.') should be set to KERNEL_BOOT_VMA, which we 
+defined as the start of the kernel.
+</p><p>The next thing tells the linker how to handle the <i>code</i> from our boot.S file (but not the data!):
+</p>
+<pre>   .boot&nbsp;:{ 
+       */boot.o (.text)
+   }  
+</pre>
+<p>This creates a section called .boot in the output file. The linker 
+puts into this section the contents of all .text section from all input 
+files <i>whos name ends in '/boot.o'</i> (This means that passing our boot.o to the linker as 'boot.o' doesn't work, we'll need './boot.o' or some other <i>path</i> to the file). We'll only have one single of those objects, so thats cool with us&nbsp;:)
+</p><p>Also the above make the linker assign addresses from 
+KERNEL_BOOT_VMA onwards to the .text symbols from boot.o, so we're 
+linked to lower half here.
+</p><p><b>Note:</b> it would have been cool to have the PD and PT 
+structures in the .boot section too, so we don't have to mess with 
+KERNEL_HIGH_VMA offsets in the code all the time. However all i could 
+come up with failed, so i had to put them into the .data section (and i 
+tried a lot...)
+</p><p>The next instructions tell the linker, to set the current offset 
+from which addresses are assigned to the higher half, which means, from 
+here on, all symbols will be linked to higher half. Also, a symbol 
+(_core_start) is assigned the current address. This symbol can be used 
+from the C code if required.
+</p>
+<pre>   . += KERNEL_HIGH_VMA;
+   _core_start = .;
+</pre>
+<p>Now, let's define the rest of the sections. First, we'll need a .text
+ section, containing all the kernel code. The section is aligned on a 
+page boundary, and the <i>physical</i> address is set to lower half, by subtracting the higher half offset again.
+</p>
+<pre>   .text ALIGN(0x1000)&nbsp;: AT(ADDR(.text) - KERNEL_HIGH_VMA) {
+       _core_code = .;
+       *(EXCLUDE_FILE (*/boot.o) .text)
+
+       /* all readonly data is merged with this section, too */
+       *(.rodata*)
+   }
+</pre>
+<p>One more noteworthy thing from above is, that the 'boot.o' file is now <i>excluded</i> from the .text section, as it's .text contents is already in the .boot section, linked to lower half.
+</p><p>The next section to define, is the .data section, which contains read/write data symbols.
+</p>
+<pre>   .data ALIGN (0x1000)&nbsp;: AT(ADDR(.data) - KERNEL_HIGH_VMA) {
+       _core_data = .;
+       *(.data)
+   }
+</pre>
+<p>This should be pretty clear now, given what we know from above. The 
+section is page aligned, and the physical load address is set to the 
+lower half. A symbol is declared, denoting the start of the section, and
+ all .data sections from all input files (also 'boot.o'!) are included 
+here.
+</p><p>The last section to define is the .bss section. It will also 
+contain common symbols, if there are some (currently there should not we
+ any; one can create those with the .comm and .lcomm gnu assembler 
+pseudo directives):
+</p>
+<pre>   .bss ALIGN (0x1000)&nbsp;: AT(ADDR(.bss) - KERNEL_HIGH_VMA) {
+       _core_bss = .;
+       *(COMMON)
+       *(.bss)
+       . = ALIGN(4096);
+       _core_ebss = .;
+   }
+</pre>
+<p>Again, page aligned, and the address is adjusted to lower half. 
+Multiple input sections are merged into this one output section (COMMON 
+is special and means all symbols that are marked *COM* if you look at a 
+objdump -x output for a given object file).
+</p><p>This section is padded until the current page is full, and an 
+"end-symbol" is declared. this is, so that we could be able to clear the
+ .bss section (but with elf, this is not necessary, as the bootloader 
+has to do this already for us...).
+</p><p>finally, another symbol is declared to denote the end of the 
+kernel. We use this symbol in the code to determine the size of the 
+kernel, and thus the amount of memory we need to map for the kernel to 
+work.
+</p>
+<pre>   /* 4K alignment is guaranteed! */
+   _core_end = .;
+}
+</pre>
+<p>That's it. You should be able to compile and link the boot code now.
+</p>
+<h1> <span class="mw-headline" id="Compile_and_link"> Compile and link </span></h1>
+<p>You should be able to compile and link the kernel like this:
+</p><p>gcc -Wall -Werror -Wextra -ffreestanding -fno-rtti -fno-exceptions  -O0 -g -c -o boot.o boot.S
+ld -T link.ld  -o kernel ./boot.o
+</p>
+<h1> <span class="mw-headline" id="Running"> Running </span></h1>
+<p>I suggest using qemu:
+</p><p>qemu -kernel kernel
+</p><p>if things worked out, you should see "PANIC!" on the screen now! 
+congratulations, paging worked. If nothing seems to happen, you did 
+something wrong, and if the screen constantly flickers, you have done 
+somethings wrong too (and the machine triple faults and resets 
+continuously). I hope though, that there are no errors in the code i 
+showed here.
+</p>
+<h1> <span class="mw-headline" id="Thanks"> Thanks </span></h1>
+<p>Thanks for reading, and <b>Good luck!</b>
+</p>
+<!-- 
+NewPP limit report
+Preprocessor node count: 182/1000000
+Post-expand include size: 347/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key wikidb:pcache:idhash:2942-0!*!0!!en!2!* and timestamp 20130614111332 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Retrieved from "<a href="http://wiki.osdev.org/index.php?title=User:Mduft/HigherHalf_Kernel_with_32-bit_Paging&amp;oldid=11041">http://wiki.osdev.org/index.php?title=User:Mduft/HigherHalf_Kernel_with_32-bit_Paging&amp;oldid=11041</a>"				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a href="http://wiki.osdev.org/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="http://wiki.osdev.org/Category:In_Progress" title="Category:In Progress">In Progress</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+		<li id="pt-login"><a href="http://wiki.osdev.org/index.php?title=Special:UserLogin&amp;returnto=User%3AMduft%2FHigherHalf_Kernel_with_32-bit_Paging" title="You are encouraged to log in; however, it is not mandatory [alt-shift-o]" accesskey="o">Log in</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li id="ca-nstab-user" class="selected"><span><a href="http://wiki.osdev.org/User:Mduft/HigherHalf_Kernel_with_32-bit_Paging" title="View the user page [alt-shift-c]" accesskey="c">User page</a></span></li>
+					<li id="ca-talk" class="new"><span><a href="http://wiki.osdev.org/index.php?title=User_talk:Mduft/HigherHalf_Kernel_with_32-bit_Paging&amp;action=edit&amp;redlink=1" title="Discussion about the content page [alt-shift-t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="http://wiki.osdev.org/User:Mduft/HigherHalf_Kernel_with_32-bit_Paging">Read</a></span></li>
+					<li id="ca-viewsource"><span><a href="http://wiki.osdev.org/index.php?title=User:Mduft/HigherHalf_Kernel_with_32-bit_Paging&amp;action=edit" title="This page is protected.
+You can view its source [alt-shift-e]" accesskey="e">View source</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://wiki.osdev.org/index.php?title=User:Mduft/HigherHalf_Kernel_with_32-bit_Paging&amp;action=history" title="Past revisions of this page [alt-shift-h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/index.php" id="searchform">
+		<input name="title" value="Special:Search" type="hidden">
+				<input name="search" title="Search OSDev Wiki [alt-shift-f]" accesskey="f" id="searchInput" type="search">		<input name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton" type="submit">		<input name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton" type="submit">			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(/skins/common/images/osdev.png);" href="http://wiki.osdev.org/Main_Page" title="Visit the main page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id="p-navigation">
+	<h5>Navigation</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage"><a href="http://wiki.osdev.org/Main_Page" title="Visit the main page [alt-shift-z]" accesskey="z">Main Page</a></li>
+			<li id="n-portal"><a href="http://forum.osdev.org/" rel="nofollow" title="About the project, what you can do, where to find things">Forums</a></li>
+			<li id="n-FAQ"><a href="http://wiki.osdev.org/Category:FAQ">FAQ</a></li>
+			<li id="n-OS-Projects"><a href="http://wiki.osdev.org/Projects">OS Projects</a></li>
+			<li id="n-randompage"><a href="http://wiki.osdev.org/Special:Random" title="Load a random page [alt-shift-x]" accesskey="x">Random page</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- about -->
+<div class="portal" id="p-about">
+	<h5>About</h5>
+	<div class="body">
+		<ul>
+			<li id="n-This-site"><a href="http://wiki.osdev.org/OSDevWiki:About">This site</a></li>
+			<li id="n-Joining"><a href="http://wiki.osdev.org/OSDevWiki:Joining">Joining</a></li>
+			<li id="n-Editing-help"><a href="http://wiki.osdev.org/OSDevWiki:Editing">Editing help</a></li>
+			<li id="n-recentchanges"><a href="http://wiki.osdev.org/Special:RecentChanges" title="A list of recent changes in the wiki [alt-shift-r]" accesskey="r">Recent changes</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /about -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- TOOLBOX -->
+<div class="portal" id="p-tb">
+	<h5>Toolbox</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="http://wiki.osdev.org/Special:WhatLinksHere/User:Mduft/HigherHalf_Kernel_with_32-bit_Paging" title="A list of all wiki pages that link here [alt-shift-j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="http://wiki.osdev.org/Special:RecentChangesLinked/User:Mduft/HigherHalf_Kernel_with_32-bit_Paging" title="Recent changes in pages linked from this page [alt-shift-k]" accesskey="k">Related changes</a></li>
+			<li id="t-contributions"><a href="http://wiki.osdev.org/Special:Contributions/Mduft" title="A list of contributions of this user">User contributions</a></li>
+			<li id="t-log"><a href="http://wiki.osdev.org/index.php?title=Special:Log&amp;user=Mduft">Logs</a></li>
+			<li id="t-specialpages"><a href="http://wiki.osdev.org/Special:SpecialPages" title="A list of all special pages [alt-shift-q]" accesskey="q">Special pages</a></li>
+			<li><a href="http://wiki.osdev.org/index.php?title=User:Mduft/HigherHalf_Kernel_with_32-bit_Paging&amp;printable=yes" rel="alternate">Printable version</a></li>
+			<li id="t-permalink"><a href="http://wiki.osdev.org/index.php?title=User:Mduft/HigherHalf_Kernel_with_32-bit_Paging&amp;oldid=11041" title="Permanent link to this revision of the page">Permanent link</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- LANGUAGES -->
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 11 December 2010, at 03:02.</li>
+											<li id="footer-info-viewcount">This page has been accessed 2,244 times.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="http://wiki.osdev.org/OSDev_Wiki:Privacy_policy" title="OSDev Wiki:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="http://wiki.osdev.org/OSDev_Wiki:About" title="OSDev Wiki:About">About OSDev Wiki</a></li>
+											<li id="footer-places-disclaimer"><a href="http://wiki.osdev.org/OSDev_Wiki:General_disclaimer" title="OSDev Wiki:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-poweredbyico">
+						<a href="http://www.mediawiki.org/"><img src="User:Mduft_HigherHalf%20Kernel%20with%2032-bit%20Paging%20-%20OSDev%20Wiki_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" height="31" width="88"></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		<script src="User:Mduft_HigherHalf%20Kernel%20with%2032-bit%20Paging%20-%20OSDev%20Wiki_files/load_006.php"></script>
+<script>if(window.mw){
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax"]);
+}
+</script><script type="text/javascript" src="User:Mduft_HigherHalf%20Kernel%20with%2032-bit%20Paging%20-%20OSDev%20Wiki_files/load_004.php"></script>
+<script src="User:Mduft_HigherHalf%20Kernel%20with%2032-bit%20Paging%20-%20OSDev%20Wiki_files/load_005.php"></script>
+<script>if(window.mw){
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: wikidb:resourceloader:filter:minify-js:4:19a4b18a9ac79a6b8c60b24af4668814 */
+}
+</script><!-- Served in 0.608 secs. -->
+	
+
+</body></html>

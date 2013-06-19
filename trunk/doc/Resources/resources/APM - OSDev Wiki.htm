@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html dir="ltr" class="client-js" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>APM - OSDev Wiki</title>
+<meta charset="UTF-8">
+<meta name="generator" content="MediaWiki 1.18.0">
+<link rel="shortcut icon" href="http://wiki.osdev.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://wiki.osdev.org/opensearch_desc.php" title="OSDev Wiki (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://wiki.osdev.org/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="OSDev Wiki Atom feed" href="http://wiki.osdev.org/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="APM%20-%20OSDev%20Wiki_files/load.css">
+<style type="text/css" media="all">.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:8b08bdc91c52a9ffba396dccfb5b473c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="APM%20-%20OSDev%20Wiki_files/load_002.css">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+<script src="APM%20-%20OSDev%20Wiki_files/load_003.php"></script><script src="APM%20-%20OSDev%20Wiki_files/load_002.php"></script>
+<script>if(window.mw){
+	mw.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "APM", "wgTitle": "APM", "wgCurRevisionId": 12362, "wgArticleId": 1441, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": ["In Progress", "Power management"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": []});
+}
+</script><script>if(window.mw){
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script><script type="text/javascript" src="APM%20-%20OSDev%20Wiki_files/load.php"></script>
+<style type="text/css">/*<![CDATA[*/
+.source-asm {line-height: normal;}
+.source-asm li, .source-asm pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for asm
+ * CSS class: source-asm, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.asm.source-asm .de1, .asm.source-asm .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.asm.source-asm  {font-family:monospace;}
+.asm.source-asm .imp {font-weight: bold; color: red;}
+.asm.source-asm li, .asm.source-asm .li1 {font-weight: normal; vertical-align:top;}
+.asm.source-asm .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.asm.source-asm .li2 {font-weight: bold; vertical-align:top;}
+.asm.source-asm .kw1 {color: #00007f; font-weight: bold;}
+.asm.source-asm .kw2 {color: #0000ff; font-weight: bold;}
+.asm.source-asm .kw3 {color: #00007f;}
+.asm.source-asm .kw4 {color: #000000; font-weight: bold;}
+.asm.source-asm .kw5 {color: #000000; font-weight: bold;}
+.asm.source-asm .co1 {color: #666666; font-style: italic;}
+.asm.source-asm .co2 {color: #adadad; font-style: italic;}
+.asm.source-asm .es0 {color: #000099; font-weight: bold;}
+.asm.source-asm .br0 {color: #009900; font-weight: bold;}
+.asm.source-asm .sy0 {color: #339933;}
+.asm.source-asm .st0 {color: #7f007f;}
+.asm.source-asm .nu0 {color: #0000ff;}
+.asm.source-asm .ln-xtra, .asm.source-asm li.ln-xtra, .asm.source-asm div.ln-xtra {background-color: #ffc;}
+.asm.source-asm span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style><!--[if lt IE 7]><style type="text/css">body{behavior:url("/skins/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-APM action-view skin-vector">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content">
+			<a id="top"></a>
+			<div class="js-messagebox" id="mw-js-message" style="display:none;"></div>
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">APM</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">From OSDev Wiki</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div dir="ltr" class="mw-content-ltr" lang="en"><p>APM (Advanced Power Management) is a <a href="http://wiki.osdev.org/Category:Power_management" title="Category:Power management">Power Management</a> standard, developed by Intel and Microsoft, which allows the operating system to control the amount of power sent to devices. <a href="http://wiki.osdev.org/ACPI" title="ACPI">ACPI</a> replaces APM as the main power management system for operating systems, mainly because <a href="http://wiki.osdev.org/SMP" title="SMP" class="mw-redirect">SMP</a> and APM do not mix well.
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#APM_Initialization"><span class="tocnumber">1</span> <span class="toctext">APM Initialization</span></a>
+<ul>
+<li class="toclevel-2 tocsection-2"><a href="#Installation_Check"><span class="tocnumber">1.1</span> <span class="toctext">Installation Check</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="#Connecting_to_an_interface"><span class="tocnumber">1.2</span> <span class="toctext">Connecting to an interface</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="#Disconnecting_from_an_Interface"><span class="tocnumber">1.3</span> <span class="toctext">Disconnecting from an Interface</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-5"><a href="#Controlling_Devices"><span class="tocnumber">2</span> <span class="toctext">Controlling Devices</span></a>
+<ul>
+<li class="toclevel-2 tocsection-6"><a href="#Enabling_Power_Management"><span class="tocnumber">2.1</span> <span class="toctext">Enabling Power Management</span></a></li>
+<li class="toclevel-2 tocsection-7"><a href="#Setting_Power_States"><span class="tocnumber">2.2</span> <span class="toctext">Setting Power States</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-8"><a href="#APM_Reliability"><span class="tocnumber">3</span> <span class="toctext">APM Reliability</span></a></li>
+<li class="toclevel-1 tocsection-9"><a href="#See_Also"><span class="tocnumber">4</span> <span class="toctext">See Also</span></a>
+<ul>
+<li class="toclevel-2 tocsection-10"><a href="#Articles"><span class="tocnumber">4.1</span> <span class="toctext">Articles</span></a></li>
+<li class="toclevel-2 tocsection-11"><a href="#External_Links"><span class="tocnumber">4.2</span> <span class="toctext">External Links</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<h2> <span class="mw-headline" id="APM_Initialization"> APM Initialization </span></h2>
+<p>The APM standard defines three interfaces through which it the APM 
+BIOS and the operating system can communicate. They are the Real Mode 
+Interface, the 16bit Protected Mode Interface, and the 32bit Protected 
+Mode Interface. Only one of the interfaces may be in use at any given 
+time. Before any of the interfaces can be used, the operating system 
+must check if APM is actually supported (many very new computers don't 
+support AMP anymore) and if it is, connect to one of its interfaces. It 
+is a good idea to send a disconnect command prior to connecting to an 
+interface. 
+</p>
+<h3> <span class="mw-headline" id="Installation_Check"> Installation Check </span></h3>
+<p>This function checks if AMP is even supported. It must be preformed in <b>Real Mode</b> (or vm86 mode).
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1"><span class="co1">;preform an installation check</span>
+<span class="kw1">mov</span> <span class="kw3">ah</span><span class="sy0">,</span><span class="nu0">53h</span>            <span class="co1">;this is an APM command</span>
+<span class="kw1">mov</span> <span class="kw3">al</span><span class="sy0">,</span><span class="nu0">00h</span>            <span class="co1">;installation check command</span>
+<span class="kw1">xor</span> <span class="kw3">bx</span><span class="sy0">,</span><span class="kw3">bx</span>             <span class="co1">;device id (0 = APM BIOS)</span>
+<span class="kw1">int</span> <span class="nu0">15h</span>               <span class="co1">;call the BIOS function through interrupt 15h</span>
+<span class="kw1">jc</span> APM_error          <span class="co1">;if the carry flag is set there was an error</span>
+                      <span class="co1">;the function was successful</span>
+                      <span class="co1">;AX = APM version number</span>
+                          <span class="co1">;AH = Major revision number (in BCD format)</span>
+                          <span class="co1">;AL = Minor revision number (also BCD format)</span>
+                      <span class="co1">;BX = ASCII characters "P" (in BH) and "M" (in BL)</span>
+                      <span class="co1">;CX = APM flags (see the official documentation for more details)</span></pre></div></div>
+<h3> <span class="mw-headline" id="Connecting_to_an_interface"> Connecting to an interface </span></h3>
+<p>This function connects to an APM interface based on the value of <code>interface_number</code> which should be one of the following:
+</p>
+<pre>01h = Real Mode Interface
+02h = 16bit Protected Mode Interface
+03h = 32bit Protected Mode Interface
+</pre>
+<p>It must be preformed in <b>Real Mode</b> (or vm86 mode).
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1"><span class="co1">;connect to an APM interface</span>
+<span class="kw1">mov</span> <span class="kw3">ah</span><span class="sy0">,</span><span class="nu0">53h</span>               <span class="co1">;this is an APM command</span>
+<span class="kw1">mov</span> <span class="kw3">al</span><span class="sy0">,</span><span class="br0">[</span>interface_number<span class="br0">]</span><span class="co1">;see above description</span>
+<span class="kw1">xor</span> <span class="kw3">bx</span><span class="sy0">,</span><span class="kw3">bx</span>                <span class="co1">;device id (0 = APM BIOS)</span>
+<span class="kw1">int</span> <span class="nu0">15h</span>                  <span class="co1">;call the BIOS function through interrupt 15h</span>
+<span class="kw1">jc</span> APM_error             <span class="co1">;if the carry flag is set there was an error</span>
+                         <span class="co1">;the function was successful</span>
+                         <span class="co1">;The return values are different for each interface.</span>
+                         <span class="co1">;The Real Mode Interface returns nothing.</span>
+                         <span class="co1">;See the official documentation for the </span>
+                         <span class="co1">;return values for the protected mode interfaces.</span></pre></div></div>
+<h3> <span class="mw-headline" id="Disconnecting_from_an_Interface"> Disconnecting from an Interface </span></h3>
+<p>This function will disconnect from whatever interface is connected 
+when it is called. If no interface is connected or an error occurs it 
+will set the carry flag upon return. It may be preformed in <b>any</b> APM interface mode.
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1"><span class="co1">;disconnect from any APM interface</span>
+<span class="kw1">mov</span> <span class="kw3">ah</span><span class="sy0">,</span><span class="nu0">53h</span>               <span class="co1">;this is an APM command</span>
+<span class="kw1">mov</span> <span class="kw3">al</span><span class="sy0">,</span><span class="nu0">04h</span>               <span class="co1">;interface disconnect command</span>
+<span class="kw1">xor</span> <span class="kw3">bx</span><span class="sy0">,</span><span class="kw3">bx</span>                <span class="co1">;device id (0 = APM BIOS)</span>
+<span class="kw1">int</span> <span class="nu0">15h</span>                  <span class="co1">;call the BIOS function through interrupt 15h</span>
+<span class="kw1">jc</span> <span class="sy0">.</span>disconnect_error            <span class="co1">;if the carry flag is set see what the fuss is about. </span>
+<span class="kw1">jmp</span> <span class="sy0">.</span>no_error
+&nbsp;
+<span class="sy0">.</span>disconnect_error<span class="sy0">:</span>       <span class="co1">;the error code is in ah.</span>
+<span class="kw1">cmp</span> <span class="kw3">ah</span><span class="sy0">,</span><span class="nu0">03h</span>               <span class="co1">;if the error code is anything but 03h there was an error.</span>
+<span class="kw1">jne</span> APM_error            <span class="co1">;the error code 03h means that no interface was connected in the first place.</span>
+&nbsp;
+<span class="sy0">.</span>no_error<span class="sy0">:</span>
+                         <span class="co1">;the function was successful</span>
+                         <span class="co1">;Nothing is returned.</span></pre></div></div>
+<h2> <span class="mw-headline" id="Controlling_Devices"> Controlling Devices </span></h2>
+<p>After the operating system has connected to an APM interface it can 
+begin to control the power state of various devices in the computer. 
+Before a given device can be controlled, however, power management for 
+that device must be enabled. Only then can the actual power state of the
+ device be set.
+</p>
+<h3> <span class="mw-headline" id="Enabling_Power_Management"> Enabling Power Management </span></h3>
+<p>This function will enable power management for all devices. This is, 
+by far, faster than enabling power management for each device 
+separately.
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1"><span class="co1">;Enable power management for all devices</span>
+<span class="kw1">mov</span> <span class="kw3">ah</span><span class="sy0">,</span><span class="nu0">53h</span>              <span class="co1">;this is an APM command</span>
+<span class="kw1">mov</span> <span class="kw3">al</span><span class="sy0">,</span><span class="nu0">08h</span>              <span class="co1">;Change the state of power management...</span>
+<span class="kw1">mov</span> <span class="kw3">bx</span><span class="sy0">,</span><span class="nu0">0001h</span>            <span class="co1">;...on all devices to...</span>
+<span class="kw1">mov</span> <span class="kw3">cx</span><span class="sy0">,</span><span class="nu0">0001h</span>            <span class="co1">;...power management on.</span>
+<span class="kw1">int</span> <span class="nu0">15h</span>                 <span class="co1">;call the BIOS function through interrupt 15h</span>
+<span class="kw1">jc</span> APM_error            <span class="co1">;if the carry flag is set there was an error</span></pre></div></div>
+<p>To enable power management for a specific device, find the device 
+number for the device in the APM documentation, and put the device 
+number in bx instead of 0001h.
+</p>
+<h3> <span class="mw-headline" id="Setting_Power_States"> Setting Power States </span></h3>
+<p>This function will set the power state of every device to the value of <code>power_state</code> which may be one of the following.
+</p>
+<pre>01h = Standby
+02h = Suspend
+03h = Off
+
+20h...7Fh = OEM-defined power states 
+</pre>
+<p>To set the power state for a specific device, find the device number 
+for the device in the APM documentation, and put the device number in bx
+ instead of 0001h.
+</p>
+<div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="asm source-asm"><pre class="de1"><span class="co1">;Set the power state for all devices</span>
+<span class="kw1">mov</span> <span class="kw3">ah</span><span class="sy0">,</span><span class="nu0">53h</span>              <span class="co1">;this is an APM command</span>
+<span class="kw1">mov</span> <span class="kw3">al</span><span class="sy0">,</span><span class="nu0">07h</span>              <span class="co1">;Set the power state...</span>
+<span class="kw1">mov</span> <span class="kw3">bx</span><span class="sy0">,</span><span class="nu0">0001h</span>            <span class="co1">;...on all devices to...</span>
+<span class="kw1">mov</span> <span class="kw3">cx</span><span class="sy0">,</span><span class="br0">[</span>power_state<span class="br0">]</span>    <span class="co1">;see above</span>
+<span class="kw1">int</span> <span class="nu0">15h</span>                 <span class="co1">;call the BIOS function through interrupt 15h</span>
+<span class="kw1">jc</span> APM_error            <span class="co1">;if the carry flag is set there was an error</span></pre></div></div>
+<h2> <span class="mw-headline" id="APM_Reliability"> APM Reliability </span></h2>
+<p>Because APM is used by calling BIOS functions, it is much simpler to 
+implement in an operating system. These BIOS functions, however, may be 
+buggy or broken on some BIOSes. This is one of the main reasons why <a href="http://wiki.osdev.org/ACPI" title="ACPI">ACPI</a> has succeeded. 
+</p>
+<ul><li> <a rel="nofollow" class="external text" href="http://lxr.linux.no/source/arch/x86/kernel/apm_32.c#L1990">A list of defective BIOSes</a>
+</li></ul>
+<h2> <span class="mw-headline" id="See_Also"> See Also </span></h2>
+<h3> <span class="mw-headline" id="Articles"> Articles </span></h3>
+<ul><li> <a href="http://wiki.osdev.org/Shutdown" title="Shutdown">Shutdown</a>
+</li><li> <a href="http://wiki.osdev.org/ATA/ATAPI_Power_Management" title="ATA/ATAPI Power Management">ATA/ATAPI Power Management</a>
+</li></ul>
+<h3> <span class="mw-headline" id="External_Links"> External Links </span></h3>
+<ul><li> <a rel="nofollow" class="external text" href="http://www.microsoft.com/whdc/archive/amp_12.mspx">Official document by Intel and Microsoft describing the APM standard version 1.2</a>
+</li></ul>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 130/1000000
+Post-expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key wikidb:pcache:idhash:1441-0!*!0!!en!*!* and timestamp 20130613022725 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Retrieved from "<a href="http://wiki.osdev.org/index.php?title=APM&amp;oldid=12362">http://wiki.osdev.org/index.php?title=APM&amp;oldid=12362</a>"				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a href="http://wiki.osdev.org/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="http://wiki.osdev.org/Category:In_Progress" title="Category:In Progress">In Progress</a></li><li><a href="http://wiki.osdev.org/Category:Power_management" title="Category:Power management">Power management</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+		<li id="pt-login"><a href="http://wiki.osdev.org/index.php?title=Special:UserLogin&amp;returnto=APM" title="You are encouraged to log in; however, it is not mandatory [alt-shift-o]" accesskey="o">Log in</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li id="ca-nstab-main" class="selected"><span><a href="http://wiki.osdev.org/APM" title="View the content page [alt-shift-c]" accesskey="c">Page</a></span></li>
+					<li id="ca-talk" class="new"><span><a href="http://wiki.osdev.org/index.php?title=Talk:APM&amp;action=edit&amp;redlink=1" title="Discussion about the content page [alt-shift-t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="http://wiki.osdev.org/APM">Read</a></span></li>
+					<li id="ca-viewsource"><span><a href="http://wiki.osdev.org/index.php?title=APM&amp;action=edit" title="This page is protected.
+You can view its source [alt-shift-e]" accesskey="e">View source</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://wiki.osdev.org/index.php?title=APM&amp;action=history" title="Past revisions of this page [alt-shift-h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/index.php" id="searchform">
+		<input name="title" value="Special:Search" type="hidden">
+				<input name="search" title="Search OSDev Wiki [alt-shift-f]" accesskey="f" id="searchInput" type="search">		<input name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton" type="submit">		<input name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton" type="submit">			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(/skins/common/images/osdev.png);" href="http://wiki.osdev.org/Main_Page" title="Visit the main page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id="p-navigation">
+	<h5>Navigation</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage"><a href="http://wiki.osdev.org/Main_Page" title="Visit the main page [alt-shift-z]" accesskey="z">Main Page</a></li>
+			<li id="n-portal"><a href="http://forum.osdev.org/" rel="nofollow" title="About the project, what you can do, where to find things">Forums</a></li>
+			<li id="n-FAQ"><a href="http://wiki.osdev.org/Category:FAQ">FAQ</a></li>
+			<li id="n-OS-Projects"><a href="http://wiki.osdev.org/Projects">OS Projects</a></li>
+			<li id="n-randompage"><a href="http://wiki.osdev.org/Special:Random" title="Load a random page [alt-shift-x]" accesskey="x">Random page</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- about -->
+<div class="portal" id="p-about">
+	<h5>About</h5>
+	<div class="body">
+		<ul>
+			<li id="n-This-site"><a href="http://wiki.osdev.org/OSDevWiki:About">This site</a></li>
+			<li id="n-Joining"><a href="http://wiki.osdev.org/OSDevWiki:Joining">Joining</a></li>
+			<li id="n-Editing-help"><a href="http://wiki.osdev.org/OSDevWiki:Editing">Editing help</a></li>
+			<li id="n-recentchanges"><a href="http://wiki.osdev.org/Special:RecentChanges" title="A list of recent changes in the wiki [alt-shift-r]" accesskey="r">Recent changes</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /about -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- TOOLBOX -->
+<div class="portal" id="p-tb">
+	<h5>Toolbox</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="http://wiki.osdev.org/Special:WhatLinksHere/APM" title="A list of all wiki pages that link here [alt-shift-j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="http://wiki.osdev.org/Special:RecentChangesLinked/APM" title="Recent changes in pages linked from this page [alt-shift-k]" accesskey="k">Related changes</a></li>
+			<li id="t-specialpages"><a href="http://wiki.osdev.org/Special:SpecialPages" title="A list of all special pages [alt-shift-q]" accesskey="q">Special pages</a></li>
+			<li><a href="http://wiki.osdev.org/index.php?title=APM&amp;printable=yes" rel="alternate">Printable version</a></li>
+			<li id="t-permalink"><a href="http://wiki.osdev.org/index.php?title=APM&amp;oldid=12362" title="Permanent link to this revision of the page">Permanent link</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- LANGUAGES -->
+<div class="portal" id="p-lang">
+	<h5>In other languages</h5>
+	<div class="body">
+		<ul>
+			<li class="interwiki-de"><a href="http://www.lowlevel.eu/wiki/Advanced_Power_Management" title="Advanced Power Management">Deutsch</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 18 December 2011, at 23:19.</li>
+											<li id="footer-info-viewcount">This page has been accessed 13,794 times.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="http://wiki.osdev.org/OSDev_Wiki:Privacy_policy" title="OSDev Wiki:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="http://wiki.osdev.org/OSDev_Wiki:About" title="OSDev Wiki:About">About OSDev Wiki</a></li>
+											<li id="footer-places-disclaimer"><a href="http://wiki.osdev.org/OSDev_Wiki:General_disclaimer" title="OSDev Wiki:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-poweredbyico">
+						<a href="http://www.mediawiki.org/"><img src="APM%20-%20OSDev%20Wiki_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" height="31" width="88"></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		<script src="APM%20-%20OSDev%20Wiki_files/load_006.php"></script>
+<script>if(window.mw){
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax"]);
+}
+</script><script type="text/javascript" src="APM%20-%20OSDev%20Wiki_files/load_004.php"></script>
+<script src="APM%20-%20OSDev%20Wiki_files/load_005.php"></script>
+<script>if(window.mw){
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: wikidb:resourceloader:filter:minify-js:4:19a4b18a9ac79a6b8c60b24af4668814 */
+}
+</script><!-- Served in 0.264 secs. -->
+	
+
+</body></html>
