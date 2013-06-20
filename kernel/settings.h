@@ -14,15 +14,6 @@
 #ifndef _SETTINGS_H
 #define _SETTINGS_H
 
-//Architecture
-#ifdef __i386__
-#define ARCH		32
-#elif __x86_64__
-#define ARCH		64
-#else
-#error "Unsupported architecture!"
-#endif
-
 //Memory
 //let a page be 4 KiB
 #define PAGE_SIZE	(0x400)
@@ -30,9 +21,9 @@
 //#define USE_GRUB_MAP
 
 //Debug settings
-#define DEBUG
+//#define DEBUG
 
 //Sound settings
-#define IRQ_0_FREQ	80
+#define IRQ_0_FREQ	150
 
 #endif /* _SETTINGS_H */

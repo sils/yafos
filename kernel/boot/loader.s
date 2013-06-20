@@ -7,6 +7,8 @@
 ; 		TODO read multiboot structure and pass it to the kernel
 ; 		Call the kernel
 ; 		Halt the system if the kernel returns
+;		TODO rewrite asm code to as compatible syntax and split it architecture
+;		dependent
 ;
 ; Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
 ; Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)

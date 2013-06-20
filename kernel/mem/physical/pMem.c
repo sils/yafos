@@ -1,6 +1,6 @@
 #include "pMem.h"
 
-#if ARCH == 32
+#ifdef __i386__
 static uint32_t bitmap[BITMAP_SIZE];
 
 static uint32_t lastFreeIndex;
@@ -84,7 +84,6 @@ void pMemSet(const uintptr_t start, uint32_t count)
 	uintptr_t tmp = start/PAGE_SIZE;
 	for(; count > 0; count--)
 	{
-		uint32_t t = bitmap[tmp/32];
 		CLEARBIT(bitmap[tmp/32], tmp % 32);
 		tmp++;
 	}
