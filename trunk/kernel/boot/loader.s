@@ -48,8 +48,9 @@ loader:
 	cli
 	; set up stack
 	mov		esp, stack
+	; TODO WONT USE IT NOW
 	; ebx contains adress of multiboot structure
-	push	ebx
+	; push	ebx
 	; init function is defined in init.c
 	call	init
 	; If the kernel returns halt the system
