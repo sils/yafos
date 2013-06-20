@@ -31,7 +31,8 @@ void 	pMemInit();
 void printFreeMem();
 void printAllocMem();
 
-#if ARCH == 32
+//TODO this is hardware dependent and definitely goes to the HAL!
+#ifdef __i386__
 void *	pMemAlloc(uint32_t count);
 void	pMemFreeAdv(const uintptr_t addr, uint32_t count);
 #define pMemFree(addr)	pMemFreeAdv((addr),1)

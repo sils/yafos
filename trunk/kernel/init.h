@@ -5,7 +5,6 @@
  * 		Set up a interrupt descriptor table
  * 		Set up a timer for time measurement
  * 		Set up physical memory management
- * 		TODO Test it
  * 		TODO Set up virtual memory management
  * 		TODO Set up heap management
  * 		TODO Load modules via multiboot compliant loader

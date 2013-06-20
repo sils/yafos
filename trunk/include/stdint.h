@@ -27,16 +27,16 @@ typedef short				int16_t;
 typedef unsigned short		uint16_t;
 typedef long				int32_t;
 typedef unsigned long		uint32_t;
-#if ARCH == 64
+#ifdef __x86_64__
 #warning "Assumed LP64 mode!"
 typedef long long			int64_t;
 typedef unsigned long long	uint64_t;
 #endif
 
-#if ARCH == 32
+#ifdef __i386__
 typedef uint32_t			uintptr_t;
 typedef int32_t				intptr_t;
-#elif ARCH == 64
+#elif defined __x86_64__
 typedef uint64_t			uintptr_t;
 typedef int64_t				intptr_t;
 #endif

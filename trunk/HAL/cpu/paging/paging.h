@@ -1,7 +1,6 @@
 /* paging.h
  * 
- * Provides hardware dependend functions to set up paging. (In 32 bit mode right
- * now.)
+ * Includes hardware dependend paging headers.
  *
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -15,23 +14,10 @@
 #ifndef _PAGING_H
 #define _PAGING_H
 
-#include <settings.h>
-#include <stdint.h>
-
-#if ARCH == 32
-
-typedef uint32_t	pageDirEntry;
-typedef uint32_t	pageTableEntry;
-
-void initPaging();
-//TODO int8_t mapPage(uint32_t physicalAddr, uint32_t virtualAddr);
-
+#ifdef __i386__
+#include "x86_paging.h"
 #else
-#error "[ERROR] Currently there is only 32 bit support!"
-#endif /* ARCH == 32 */
-
-#include <string.h>
-#include <errno.h>
-#include <stdMacro.h>
+#error "Unsupported architecture."
+#endif
 
 #endif /* _PAGING_H */

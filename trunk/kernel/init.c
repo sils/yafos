@@ -20,6 +20,10 @@ void init()
 	kprintf("- Interrupt descriptor table\n");
 	kprintf("- Time measuring\n");
 	kprintf("- Beeping\n");
+	kprintf("- Physical memory management\n");
+	
+	sti();
+	
 	#ifdef DEBUG
 	kprintf("\n--- FOR DEBUG PURPOSES ---\n");
 	kprintf("MEMORY MANAGER:\nInitialize:\n");
@@ -37,8 +41,6 @@ void init()
 	kprintf("got new mem at %x\n",pMemAlloc(7));
 	printAllocMem();
 	#endif
-	
-	sti();
 	
 	for(;;)
 	{

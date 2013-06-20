@@ -1,4 +1,4 @@
-/* cmos.h
+/* x86_cmos.h
  * 
  * Provides functions to read and write abstract data to the CMOS.
  * 
