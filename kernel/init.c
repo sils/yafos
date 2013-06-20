@@ -25,7 +25,13 @@ void init(multiBoot * mbStruct)
 	kprintf("MEMORY MANAGER:\nInitialize:\n");
 	pMemInit();
 	kprintf("Initialization complete.\n");
-	printMem();
+	printAllocMem();
+	pMemAlloc(3);
+	uintptr_t tmp = pMemAlloc(32);
+	pMemAlloc(1);
+	printAllocMem();
+	pMemFreeAdv(tmp, 3);
+	printAllocMem();
 	#endif
 	
 	sti();

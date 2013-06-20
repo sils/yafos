@@ -23,15 +23,17 @@
 #define ASM				__asm__ __volatile__
 
 //sould make some things a little bit easier
-#define KB				1024
-#define MB				1024*KB
-#define GB				1024*MB
-#define TB				1024*TB
+#define KB				(1024)
+#define MB				(1024*KB)
+#define GB				(1024*MB)
+#define TB				(1024*TB)
 
 //for endless loops
 #define true			1
 #define TRUE			1
 #define false			0
 #define FALSE			0
+
+//TODO macros for setting bits: clear, set, toggle
 
 #endif /* _STDMACRO_H */

@@ -25,7 +25,7 @@
 
 //Memory
 //let a page be 4 KiB
-#define PAGE_SIZE	0x1000
+#define PAGE_SIZE	(0x400)
 //wether to use available space from below 1MB
 //#define USE_GRUB_MAP
 

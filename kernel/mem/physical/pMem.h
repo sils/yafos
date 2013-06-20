@@ -15,7 +15,7 @@
 #define _PMEM_H
 
 #include <stdint.h>
-#include <settings.h>//TODO try to make functions page size independent!
+#include <settings.h>
 #ifdef USE_GRUB_MAP
 #include <boot/multiboot.h>
 #endif
@@ -28,7 +28,8 @@ void	pMemInit(const mMap * mMapAddr, const uint32_t mMapLen);//TODO
 void 	pMemInit();
 #endif
 
-void printMem();
+void printFreeMem();
+void printAllocMem();
 
 #if ARCH == 32
 void *	pMemAlloc(uint32_t count);
