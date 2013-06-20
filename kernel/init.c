@@ -1,7 +1,7 @@
 #include "init.h"
 
 //This function is called by the assembler code provided in init.s
-void init(multiBoot * mbStruct)
+void init()
 {
 	//TODO think about ways of storing strings and setting a standard language and so on.
 	//Would be nice to have this on kernel level ;)
@@ -27,10 +27,14 @@ void init(multiBoot * mbStruct)
 	kprintf("Initialization complete.\n");
 	printAllocMem();
 	pMemAlloc(3);
-	uintptr_t tmp = pMemAlloc(32);
+	uintptr_t tmp = (uintptr_t)pMemAlloc(32);
 	pMemAlloc(1);
 	printAllocMem();
 	pMemFreeAdv(tmp, 3);
+	printAllocMem();
+	pMemAlloc(1);
+	printAllocMem();
+	kprintf("got new mem at %x\n",pMemAlloc(7));
 	printAllocMem();
 	#endif
 	

@@ -52,6 +52,7 @@ void pMemInit()
 	
 	#ifdef USE_GRUB_MAP
 	#error "NOT FULLY IMPLEMENTED YET!"
+	//TODO don't start at one MB if USE_GRUB_MAP
 	mMap * tmp = mMapAddr + mMapLen;
 	while(mMapAddr < tmp)
 	{
@@ -69,22 +70,22 @@ void pMemInit()
 void pMemFreeAdv(const uintptr_t addr, uint32_t count)
 {
 	uintptr_t tmp = addr/PAGE_SIZE;
+	
+	lastFreeIndex = tmp;
 	for(; count > 0; count--)
 	{
-		bitmap[tmp/32] |= 1<<(tmp % 32);
+		SETBIT(bitmap[tmp/32], tmp % 32);
 		tmp++;
 	}
-	lastFreeIndex = tmp;
 }
 
-//TODO use macros for bitset and so on
 void pMemSet(const uintptr_t start, uint32_t count)
 {
 	uintptr_t tmp = start/PAGE_SIZE;
 	for(; count > 0; count--)
 	{
-		bitmap[tmp/32] &= ~(1<<(tmp % 32));
-		//kprintf("[SET] Index: %u, bit %u\n[SET] BITMAP IS: %x\n", tmp/32, tmp%32, bitmap[tmp/32]);
+		uint32_t t = bitmap[tmp/32];
+		CLEARBIT(bitmap[tmp/32], tmp % 32);
 		tmp++;
 	}
 	lastFreeIndex = tmp;
@@ -103,7 +104,7 @@ void * pMemAlloc(const uint32_t count)
 	{
 		if(bitmap[lastFreeIndex/32])
 		{
-			if(1<<(lastFreeIndex % 32))
+			if(bitmap[lastFreeIndex/32] & (1<<(lastFreeIndex % 32)))
 			{
 				tmpcount++;
 			}
@@ -114,11 +115,6 @@ void * pMemAlloc(const uint32_t count)
 			
 			if(tmpcount >= count)
 			{
-				if(tmpcount != count)
-				{
-					kprintf("MAJOR ERROR! Something wrong in the pMemManager");
-					//TODO halt kernel
-				}
 				pMemSet(tmp=(lastFreeIndex - tmpcount + 1)*PAGE_SIZE, count);
 				return (void*)tmp;
 			}
