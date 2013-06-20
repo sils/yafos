@@ -5,20 +5,37 @@ static uint32_t bitmap[BITMAP_SIZE];
 
 static uint32_t lastFreeIndex;
 
-void printMem()
+#ifdef DEBUG
+void printFreeMem()
 {
-	uint32_t tmp = 0;
-	kprintf("MEMORY MAP:\n");
+	uint32_t tmp = MB/(32*PAGE_SIZE);
+	kprintf("FREE MEMORY MAP:\n");
 	while(tmp<BITMAP_SIZE)
 	{
-		kprintf("GAS: %x       Bitmap: %x\n", tmp/32, bitmap[tmp/32]);
-		if(bitmap[tmp/32])
+		if(bitmap[tmp])
 		{
-			kprintf("Map: %x       Bitmap: %x\n", tmp/32, bitmap[tmp/32]);
+			kprintf("Map: %x       Bitmap: %x\n", tmp, bitmap[tmp]);
 		}
-		tmp +=32;
+		tmp++;
 	}
+	kprintf("Done.\n");
 }
+
+void printAllocMem()
+{
+	uint32_t tmp = MB/(32*PAGE_SIZE);
+	kprintf("ALLOC MEMORY MAP:\n");
+	while(tmp < (BITMAP_SIZE/32))
+	{
+		if(bitmap[tmp] != 0xFFFFFFFF)
+		{
+			kprintf("Map: %x       Bitmap: %x\n", tmp, bitmap[tmp]);
+		}
+		tmp++;
+	}
+	kprintf("Done.\n");
+}
+#endif /* DEBUG */
 
 #ifdef USE_GRUB_MAP
 void pMemInit(const mMap * mMapAddr, const uint32_t mMapLen)
@@ -28,9 +45,10 @@ void pMemInit()
 {
 	char * tmp;
 	
-	tmp =  (char *)bitmap + MB;
-	memset((char *)bitmap, MB, 0);
-	memset(tmp, 4*BITMAP_SIZE - MB, 1);
+	tmp =  (char *)bitmap + MB/(8*PAGE_SIZE);//size in BYTES!
+	
+	memset((char *)bitmap, 0, MB/(8*PAGE_SIZE));
+	memset(tmp, 0xFF, 4*BITMAP_SIZE - MB/(8*PAGE_SIZE));
 	
 	#ifdef USE_GRUB_MAP
 	#error "NOT FULLY IMPLEMENTED YET!"
@@ -50,10 +68,23 @@ void pMemInit()
 
 void pMemFreeAdv(const uintptr_t addr, uint32_t count)
 {
-	uintptr_t tmp   = addr/PAGE_SIZE;
+	uintptr_t tmp = addr/PAGE_SIZE;
 	for(; count > 0; count--)
 	{
 		bitmap[tmp/32] |= 1<<(tmp % 32);
+		tmp++;
+	}
+	lastFreeIndex = tmp;
+}
+
+//TODO use macros for bitset and so on
+void pMemSet(const uintptr_t start, uint32_t count)
+{
+	uintptr_t tmp = start/PAGE_SIZE;
+	for(; count > 0; count--)
+	{
+		bitmap[tmp/32] &= ~(1<<(tmp % 32));
+		//kprintf("[SET] Index: %u, bit %u\n[SET] BITMAP IS: %x\n", tmp/32, tmp%32, bitmap[tmp/32]);
 		tmp++;
 	}
 	lastFreeIndex = tmp;
@@ -88,7 +119,8 @@ void * pMemAlloc(const uint32_t count)
 					kprintf("MAJOR ERROR! Something wrong in the pMemManager");
 					//TODO halt kernel
 				}
-				return (void*)((lastFreeIndex - tmpcount + 1)*PAGE_SIZE);
+				pMemSet(tmp=(lastFreeIndex - tmpcount + 1)*PAGE_SIZE, count);
+				return (void*)tmp;
 			}
 			
 			lastFreeIndex++;
