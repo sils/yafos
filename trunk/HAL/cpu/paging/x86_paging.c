@@ -7,10 +7,8 @@
 
 pageDirEntry *	pageDir;
 
-#define stdDirEntry(tableAdress)	(P_PRESENT | P_ADDR(tableAdress) | P_RW\
-									| P_WRITE_THROUGH | P_PAGE_SIZE)
-#define stdTableEntry(pageAdress)	(P_PRESENT | P_ADDR(pageAdress ) | P_RW\
-									| P_WRITE_THROUGH)
+#define stdDirEntry(tableAdress)	(P_PRESENT | P_ADDR(tableAdress) | P_RW)
+#define stdTableEntry(pageAdress)	(P_PRESENT | P_ADDR(pageAdress ) | P_RW)
 
 #define P_ADDR(addr)	(addr & 0xFFFFF000)
 //flags
@@ -20,7 +18,7 @@ pageDirEntry *	pageDir;
 #define P_WRITE_THROUGH	0x08
 #define P_NO_CACHE		0x10
 #define P_USED			0x20
-#if PAGE_SIZE == 0x400
+#if PAGE_SIZE == 0x1000
 #define P_PAGE_SIZE		0x00
 #else
 #warning "Using anothern page size than 1024 was never tried!"
@@ -28,7 +26,7 @@ pageDirEntry *	pageDir;
 //dependend on some bit in some register...
 #endif /* PAGE_SIZE == 0x1000 */
 
-#define P_TABLE_OFFS(a)	(((a)<<10) >> 12)
+#define P_TABLE_OFFS(a)	(((a)<<10) >> 22)
 #define P_DIR_OFFS(a)	((a) >> 22)
 
 extern inline void initPaging()
@@ -40,8 +38,7 @@ extern inline void initPaging()
 
 int8_t loadPageTable()
 {
-	kprintf("First pdir entry: %x\n", pageDir[0]);
-	//uint32_t cr0 = activatePaging((void *)pageDir);
+	uint32_t cr0 = activatePaging((void *)pageDir);
 	//TODO check cr0
 	return 0;
 }
@@ -52,6 +49,7 @@ int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 	
 	if(P_PRESENT & pageDir[P_DIR_OFFS(virtualAddr)])
 	{
+		kprintf("PTOFFS: %x\n", P_TABLE_OFFS(virtualAddr));
 		pTable = (pageTableEntry *)P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
 		if(P_PRESENT & pTable[P_TABLE_OFFS(virtualAddr)])
 		{

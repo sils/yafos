@@ -14,9 +14,11 @@
 #ifndef _SETTINGS_H
 #define _SETTINGS_H
 
+#include <stdMacro.h>
+
 //Memory
 //let a page be 4 KiB
-#define PAGE_SIZE	(0x400)
+#define PAGE_SIZE	(4*KB)
 //wether to use available space from below 1MB
 //#define USE_GRUB_MAP
 

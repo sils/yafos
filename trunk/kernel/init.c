@@ -33,7 +33,15 @@ void init()
 	initPaging();
 	kprintf("[PAG] Done.\n");
 	kprintf("[MBT] Kernel is from\n         %x\n      to %x\n", KERNEL_START, KERNEL_END);
-	kprintf("[PAG] Set identity map of kernel...\n");
+	kprintf("[PAG] Set identity map of kernel and framebuffer memory...\n");
+	
+	//map framebuffer memory
+	if((errno = -mapPage(FB_MEM_LOCATION, FB_MEM_LOCATION)) != 0)
+	{
+		kprintf("[ERR] mapPage returned %u.\n", errno);
+	}
+	
+	
 	uintptr_t addr = (uintptr_t)KERNEL_START;
 	for(; addr < (uintptr_t)KERNEL_END; addr += PAGE_SIZE)
 	{
@@ -46,6 +54,11 @@ void init()
 	kprintf("[PAG] Acitvating paging...\n");
 	kprintf("[PAG] Result: %u\n", -loadPageTable());
 	kprintf("[PAG] Done.\n");
+	
+	kprintf("[PAG] Generating page fault...\n");
+	int *i = (void*)0x2000000;
+	*i = 5;
+	
 	#endif
 	
 	for(;;)
