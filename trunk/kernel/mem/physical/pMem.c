@@ -44,11 +44,10 @@ void pMemInit()
 {
 	char * tmp;
 	
-	tmp =  (char *)bitmap + MB/(8*PAGE_SIZE);//size in BYTES!
+	tmp =  (char *)bitmap + (uint32_t)KERNEL_END/(8*PAGE_SIZE);//size in BYTES!
 	
-	memset((char *)bitmap, 0, MB/(8*PAGE_SIZE));
-	memset(tmp, 0xFF, 4*BITMAP_SIZE - MB/(8*PAGE_SIZE));
-	
+	memset(tmp,				0xFF, 4*BITMAP_SIZE - (uint32_t)KERNEL_END/(8*PAGE_SIZE));
+	memset((char *)bitmap,	0x00, (uint32_t)KERNEL_END/(8*PAGE_SIZE));
 	#ifdef USE_GRUB_MAP
 	#error "NOT FULLY IMPLEMENTED YET!"
 	//TODO don't start at one MB if USE_GRUB_MAP
@@ -66,7 +65,7 @@ void pMemInit()
 	}
 	#endif /* USE_GRUB_MAP */
 	
-	lastFreeIndex = MB/PAGE_SIZE;
+	lastFreeIndex = (uint32_t)KERNEL_END/PAGE_SIZE;
 }
 
 void pMemFreeAdv(const uintptr_t addr, uint32_t count)
@@ -95,7 +94,6 @@ void pMemSet(const uintptr_t start, uint32_t count)
 void * pMemAlloc(const uint32_t count)
 {
 	uint32_t tmp = lastFreeIndex, tmpcount = 0;
-	
 	if(count == 0)
 	{
 		return NULL;
@@ -124,7 +122,7 @@ void * pMemAlloc(const uint32_t count)
 			if(lastFreeIndex >= BITMAP_SIZE)
 			{
 				tmpcount = 0;
-				lastFreeIndex = MB/PAGE_SIZE;
+				lastFreeIndex = (uint32_t)KERNEL_END/PAGE_SIZE;
 			}
 		}
 		else

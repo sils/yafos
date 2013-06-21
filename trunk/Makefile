@@ -45,7 +45,7 @@ OBJFILES= $(addsuffix .o,$(basename $(SRCS)))
 
 # EMULATOR SETTINGS
 EMUL	=qemu-system-i386
-EDEBUG	=-gdb tcp::1234
+EDEBUG	=-gdb tcp::1234 -d int -D ./qemu.log
 
 default: kernel.img
 

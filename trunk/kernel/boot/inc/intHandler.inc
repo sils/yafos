@@ -100,6 +100,7 @@ commonInt:
     push eax
 
     ; get to kernel segment
+    ; TODO get some global variables for the segments
     mov ax, 0x10
     mov ds, ax
     mov es, ax

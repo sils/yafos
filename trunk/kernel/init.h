@@ -33,6 +33,8 @@ void init();
 #include <cpu/GDT/gdt.h>
 //Setting up an interrupt descriptor table
 #include <cpu/IDT/idt.h>
+//paging greets!
+#include <cpu/paging/paging.h>
 //For initializing the timer
 #include <PIT/timer.h>
 //TODO comment

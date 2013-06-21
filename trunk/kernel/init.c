@@ -12,6 +12,7 @@ void init()
 	initStdTimer(IRQ_0_FREQ);
 	registerTimerHandler(IRQ0);//TODO move this to initStdTimer
 	installIdt();
+	pMemInit();
 	registerKbdHandler(IRQ1);
 	kprintf("%s",welcomeString);
 	kprintf("...to this eco-friendly green system!\n");
@@ -26,20 +27,25 @@ void init()
 	
 	#ifdef DEBUG
 	kprintf("\n--- FOR DEBUG PURPOSES ---\n");
-	kprintf("MEMORY MANAGER:\nInitialize:\n");
-	pMemInit();
-	kprintf("Initialization complete.\n");
-	printAllocMem();
-	pMemAlloc(3);
-	uintptr_t tmp = (uintptr_t)pMemAlloc(32);
-	pMemAlloc(1);
-	printAllocMem();
-	pMemFreeAdv(tmp, 3);
-	printAllocMem();
-	pMemAlloc(1);
-	printAllocMem();
-	kprintf("got new mem at %x\n",pMemAlloc(7));
-	printAllocMem();
+	
+	kprintf("TESTING PAGING:\n");
+	kprintf("[PAG] INIT...\n");
+	initPaging();
+	kprintf("[PAG] Done.\n");
+	kprintf("[MBT] Kernel is from\n         %x\n      to %x\n", KERNEL_START, KERNEL_END);
+	kprintf("[PAG] Set identity map of kernel...\n");
+	uintptr_t addr = (uintptr_t)KERNEL_START;
+	for(; addr < (uintptr_t)KERNEL_END; addr += PAGE_SIZE)
+	{
+		if((errno = -mapPage(addr, addr)) != 0)
+		{
+			kprintf("[ERR] mapPage returned %u.\n", errno);
+		}
+	}
+	kprintf("[PAG] Done.\n");
+	kprintf("[PAG] Acitvating paging...\n");
+	kprintf("[PAG] Result: %u\n", -loadPageTable());
+	kprintf("[PAG] Done.\n");
 	#endif
 	
 	for(;;)

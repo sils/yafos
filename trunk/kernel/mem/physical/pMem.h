@@ -16,9 +16,6 @@
 
 #include <stdint.h>
 #include <settings.h>
-#ifdef USE_GRUB_MAP
-#include <boot/multiboot.h>
-#endif
 #include <stdMacro.h>
 //TODO determine memory size
 
@@ -46,5 +43,6 @@ void	pMemFreeAdv(const uintptr_t addr, uint32_t count);
 
 #include <string.h>
 #include <print.h>
+#include <boot/multiboot.h>
 
 #endif /* _PMEM_H */
