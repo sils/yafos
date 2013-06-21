@@ -29,13 +29,9 @@ void printFreeMem();
 void printAllocMem();
 
 //TODO this is hardware dependent and definitely goes to the HAL!
-#ifdef __i386__
 void *	pMemAlloc(uint32_t count);
 void	pMemFreeAdv(const uintptr_t addr, uint32_t count);
 #define pMemFree(addr)	pMemFreeAdv((addr),1)
-#else
-#error "Unsupported Architecture!"
-#endif
 
 //BITMAP_SIZE*32 are exactly enought bits to adress 4GB of PAGES (!)
 //TODO make a macro for changing the 4GB
