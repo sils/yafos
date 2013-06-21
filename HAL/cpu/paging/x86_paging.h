@@ -24,6 +24,9 @@ typedef uint32_t	pageTableEntry;
 void initPaging();
 int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr);
 
+//TODO returns cr0 - check it
+extern int32_t activatePaging(void *pageDirAddr);
+
 #include <string.h>
 #include <errno.h>
 #include <stdMacro.h>

@@ -1,6 +1,6 @@
-; loader/include.inc
+; loader/debug.inc
 ;
-; Includes all nessecary assembler code.
+; Provides macros to call debug C functions
 ;
 ; Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
 ; Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -10,7 +10,19 @@
 ; Foundation, either version 3 of the License, or (at your option) any later
 ; version.
 
-%include "kernel/boot/inc/debug.inc"
-%include "kernel/boot/inc/intHandler.inc"
-%include "kernel/boot/inc/gdtFlush.inc"
-%include "kernel/boot/inc/paging.inc"
+extern kprintf
+
+%macro PRINTVAL 2
+
+; store eax
+push eax
+push %2
+push %1
+
+call kprintf
+
+sub esp, 8
+; restore eax
+pop eax
+
+%endmacro
