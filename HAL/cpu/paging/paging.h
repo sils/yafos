@@ -1,6 +1,6 @@
 /* paging.h
  * 
- * Includes hardware dependend paging headers.
+ * Header file for paging.
  *
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -14,8 +14,14 @@
 #ifndef _PAGING_H
 #define _PAGING_H
 
+#include <stdint.h>
+
+void initPaging();
+uint32_t loadPageTable();
+int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr);
+
 #ifdef __i386__
-#include "x86_paging.h"
+#define _X86_PAGING_H
 #else
 #error "Unsupported architecture."
 #endif
