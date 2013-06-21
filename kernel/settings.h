@@ -21,7 +21,7 @@
 //#define USE_GRUB_MAP
 
 //Debug settings
-//#define DEBUG
+#define DEBUG
 
 //Sound settings
 #define IRQ_0_FREQ	150

@@ -23,6 +23,7 @@ activatePaging:
 	add esp, 4
 	; set page directory address (first parameter)
 	pop eax
+	
 	mov cr3, eax
 	
 	; activate paging
@@ -32,3 +33,6 @@ activatePaging:
 	
 	; set stack pointer properly
 	sub esp, 8
+	ret
+
+msg db "[ASM] %x",0x0a,0

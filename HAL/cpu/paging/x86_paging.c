@@ -5,8 +5,7 @@
 //	2. ifdefs in architecture dependend code files
 #ifdef _X86_PAGING_H
 
-pageDirEntry	pageDir[1024] PAGE_ALIGNED;
-//pageTableEntry	KernelPageTable[1024] PAGE_ALIGNED;
+pageDirEntry *	pageDir;
 
 #define stdDirEntry(tableAdress)	(P_PRESENT | P_ADDR(tableAdress) | P_RW\
 									| P_WRITE_THROUGH | P_PAGE_SIZE)
@@ -29,18 +28,28 @@ pageDirEntry	pageDir[1024] PAGE_ALIGNED;
 //dependend on some bit in some register...
 #endif /* PAGE_SIZE == 0x1000 */
 
-#define P_TABLE_OFFS(a)	((0x003FF000 & (a)) >> 12)
-#define P_DIR_OFFS(a)	((0xFFC00000 & (a)) >> 22)
+#define P_TABLE_OFFS(a)	(((a)<<10) >> 12)
+#define P_DIR_OFFS(a)	((a) >> 22)
 
 extern inline void initPaging()
 {
 	//set 1024 * 4 bytes to zero
-	memset(pageDir, 0x1000, 0);
+	pageDir = (pageDirEntry *)pMemAlloc((1024*sizeof(pageDirEntry))/PAGE_SIZE);
+	memset(pageDir, 0, 1024*sizeof(pageDirEntry));
+}
+
+int8_t loadPageTable()
+{
+	kprintf("First pdir entry: %x\n", pageDir[0]);
+	//uint32_t cr0 = activatePaging((void *)pageDir);
+	//TODO check cr0
+	return 0;
 }
 
 int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 {
 	pageTableEntry* pTable;
+	
 	if(P_PRESENT & pageDir[P_DIR_OFFS(virtualAddr)])
 	{
 		pTable = (pageTableEntry *)P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
@@ -56,9 +65,9 @@ int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 	}
 	else
 	{
-		kprintf("size: (should be 4): %u\n", (1024*sizeof(pageTableEntry))/PAGE_SIZE);
-		//create page table, 1024 entries
-		pageDir[P_DIR_OFFS(virtualAddr)]  = stdDirEntry((uintptr_t)pMemAlloc((1024*sizeof(pageTableEntry))/PAGE_SIZE));
+		//create page table, 1024 entries;
+		pageDir[P_DIR_OFFS(virtualAddr)]  = stdDirEntry(
+			(uintptr_t)pMemAlloc((1024*sizeof(pageTableEntry))/PAGE_SIZE));
 		//it's page aligned!
 		pTable = (pageTableEntry *)P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
 		pTable[P_TABLE_OFFS(virtualAddr)] = stdTableEntry(physicalAddr);

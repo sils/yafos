@@ -12,7 +12,7 @@
 
 extern kprintf
 
-%macro PRINTVAL 2
+%macro PRINT 2
 
 ; store eax
 push eax
@@ -21,8 +21,9 @@ push %1
 
 call kprintf
 
-sub esp, 8
-; restore eax
-pop eax
+chlp:
+cli
+hlt
+jmp chlp
 
 %endmacro
