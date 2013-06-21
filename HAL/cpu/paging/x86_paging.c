@@ -40,7 +40,7 @@ int8_t loadPageTable()
 {
 	uint32_t cr0 = activatePaging((void *)pageDir);
 	//TODO check cr0
-	return 0;
+	return SUCCESS;
 }
 
 int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
@@ -49,7 +49,6 @@ int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 	
 	if(P_PRESENT & pageDir[P_DIR_OFFS(virtualAddr)])
 	{
-		kprintf("PTOFFS: %x\n", P_TABLE_OFFS(virtualAddr));
 		pTable = (pageTableEntry *)P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
 		if(P_PRESENT & pTable[P_TABLE_OFFS(virtualAddr)])
 		{
