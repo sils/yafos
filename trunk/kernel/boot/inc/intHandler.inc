@@ -110,7 +110,7 @@ commonInt:
     ; push pointer to stack
     push esp
     call generalIntHandler; Call into our C code.
-    ; no need to pop esp from stack
+    ; no need to pop esp from stack - 32 bit specific!
     add esp, 4
 
     ;return to original segment

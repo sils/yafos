@@ -23,7 +23,7 @@
 //TODO determine memory size
 
 #ifdef USE_GRUB_MAP
-void	pMemInit(const mMap * mMapAddr, const uint32_t mMapLen);//TODO
+void	pMemInit(const mMap * mMapAddr, const uint32_t mMapLen);
 #else
 void 	pMemInit();
 #endif
@@ -41,7 +41,8 @@ void	pMemFreeAdv(const uintptr_t addr, uint32_t count);
 #endif
 
 //BITMAP_SIZE*32 are exactly enought bits to adress 4GB of PAGES (!)
-#define BITMAP_SIZE		((GB/PAGE_SIZE)/8)
+//TODO make a macro for changing the 4GB
+#define BITMAP_SIZE		((GB/PAGE_SIZE) >> 3)
 
 #include <string.h>
 #include <print.h>

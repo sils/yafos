@@ -65,7 +65,7 @@ gdtPtr   tgdtPtr;
 	G_GRAN | G_32 | G_GRAN)
 #define SET_ZERO_GATE(index)					gdtSetGate((index),0,0,0,0)
 
-extern void gdtFlush();
+extern void jumpToSegment(uint8_t dataSegment, uint8_t codeSegment);
 #include <sys/io.h>
 
 #endif /* _GDT_H */

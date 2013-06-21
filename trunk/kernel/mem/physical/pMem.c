@@ -1,6 +1,5 @@
 #include "pMem.h"
 
-#ifdef __i386__
 static uint32_t bitmap[BITMAP_SIZE];
 
 static uint32_t lastFreeIndex;
@@ -53,6 +52,9 @@ void pMemInit()
 	#ifdef USE_GRUB_MAP
 	#error "NOT FULLY IMPLEMENTED YET!"
 	//TODO don't start at one MB if USE_GRUB_MAP
+	//use space within the first MB to store the bitmap -> let the bitmap begin
+	//	at 1MB
+	//TODO determine memory size... :(
 	mMap * tmp = mMapAddr + mMapLen;
 	while(mMapAddr < tmp)
 	{
@@ -136,7 +138,3 @@ void * pMemAlloc(const uint32_t count)
 	
 	return NULL;
 }
-
-#else
-#error "64-bit mode is not supported by physical memory manager YET."
-#endif

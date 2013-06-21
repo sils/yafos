@@ -30,5 +30,7 @@ void installGdt(void)
 	
 	//flush! :)
 	cli();
-	gdtFlush();
+	lgdt(tgdtPtr);
+	//far jump to segment nessecary
+	jumpToSegment(0x10, 0x08);
 }

@@ -1,6 +1,8 @@
 #include "paging.h"
 
-//TODO update code guidelines
+//TODO update code guidelines:
+//	1. where to put macros
+//	2. ifdefs in architecture dependend code files
 #ifdef _X86_PAGING_H
 
 pageDirEntry	pageDir[1024] PAGE_ALIGNED;
@@ -22,6 +24,7 @@ pageDirEntry	pageDir[1024] PAGE_ALIGNED;
 #if PAGE_SIZE == 0x400
 #define P_PAGE_SIZE		0x00
 #else
+#warning "Using anothern page size than 1024 was never tried!"
 #define P_PAGE_SIZE		0x80//this would be either 2 MiB or 4 MiB
 //dependend on some bit in some register...
 #endif /* PAGE_SIZE == 0x1000 */
@@ -29,7 +32,7 @@ pageDirEntry	pageDir[1024] PAGE_ALIGNED;
 #define P_TABLE_OFFS(a)	((0x003FF000 & (a)) >> 12)
 #define P_DIR_OFFS(a)	((0xFFC00000 & (a)) >> 22)
 
-void initPaging()
+extern inline void initPaging()
 {
 	//set 1024 * 4 bytes to zero
 	memset(pageDir, 0x1000, 0);
@@ -37,13 +40,19 @@ void initPaging()
 
 int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 {
+	pageTableEntry* pTable;
 	if(P_PRESENT & pageDir[P_DIR_OFFS(virtualAddr)])
 	{
-		//page table exists
-		//uint32_t pTable = P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
-		
-		
-		return -NOT_IMPLEMENTED;
+		pTable = (pageTableEntry *)P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
+		if(P_PRESENT & pTable[P_TABLE_OFFS(virtualAddr)])
+		{
+			return -OBJECT_PRESENT;
+		}
+		else
+		{
+			pTable[P_TABLE_OFFS(virtualAddr)] = stdTableEntry(physicalAddr);
+			return SUCCESS;
+		}
 	}
 	else
 	{
@@ -51,10 +60,10 @@ int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 		//create page table, 1024 entries
 		pageDir[P_DIR_OFFS(virtualAddr)]  = stdDirEntry((uintptr_t)pMemAlloc((1024*sizeof(pageTableEntry))/PAGE_SIZE));
 		//it's page aligned!
-		pageTableEntry* pTable = (pageTableEntry *)P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
+		pTable = (pageTableEntry *)P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
 		pTable[P_TABLE_OFFS(virtualAddr)] = stdTableEntry(physicalAddr);
 		
-		return 0;
+		return SUCCESS;
 	}
 }
 
