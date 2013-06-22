@@ -17,27 +17,25 @@ void init()
 	//TODO move the whole paging initialization stuff to some subfile
 	initPaging();
 	//map framebuffer memory
-	if((errno = -mapPage(0xB8000, FB_MEM_LOCATION)) != 0)
-	{
-		fatalErr("Failed mapping %x to %x. Error code: %u.", 0xB8000,
-				 FB_MEM_LOCATION, errno);
-	}
+	assertSuccess(mapPage(0xB8000, FB_MEM_LOCATION));
 	
 	uintptr_t addr = (uintptr_t)KERNEL_START;
 	for(; addr < (uintptr_t)KERNEL_END; addr += PAGE_SIZE)
 	{
-		if((errno = -mapPage(addr, addr)) != 0)
-		{
-			fatalErr("Failed mapping %x to %x. Error code: %u.", addr,
-				 addr, errno);
-		}
+		assertSuccess(mapPage(addr, addr));
 	}
 	loadPageTable();
 	
 	clearScreen();
 	
 	kprintf("%s",welcomeString);
-	kprintf("...to this amazingly blue system!\n\n");
+	kprintf("...to the blue ocean!\n\n");
+	kprintf("\n            _../|_\n");
+	kprintf("          ='__  _~-.\n");
+	kprintf("              \\'  ~-`\\._\n");
+	kprintf("                    |/~`\n");
+	kprintf("   .    .    .    .    .    .    .\n");
+	kprintf("_.`(._.`(._.`(._.`(._.`(._.`(._.`(.\n\n");
 	
 	printDebug("--- WHAT WORKS RIGHT NOW ---");
 	printDebug("- Global descriptor table");

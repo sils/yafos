@@ -16,13 +16,16 @@
 #ifndef _ERRNO_H
 #define _ERRNO_H
 
+#include <stdint.h>
+
 enum
 {
 	SUCCESS = 0,
 	NOT_IMPLEMENTED,
 	UNSUPPORTED_ARCH,
 	ERANGE,
-	OBJECT_PRESENT//TODO get a better name for this
+	OBJECT_PRESENT,//TODO get a better name for this
+	MAX_ERRNO
 };
 
 typedef uint8_t		uerr_t;
@@ -31,9 +34,10 @@ typedef int8_t		err_t;
 uerr_t errno;
 
 //halts the kernel if an error code is returned TODO
-void assertSuccess(err_t errCode);
-
+void assertSuccess(const err_t errCode);
 //prints a readable warning message, if an error is returned TODO
-void printErrCode(err_t errCode);
+void printErrMsg(const err_t errCode);
+//returns a readable text for the given error code
+char * getErrText(const err_t errCode);
 
 #endif /* _ERRNO_H */
