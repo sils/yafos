@@ -5,6 +5,7 @@
 # Compiles the 32-bit crosscompiler using crosstool-ng.
 #
 # Copyright (C) 2013 Matthias Riegler. All Rights Reserved.
+# Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
 # Written by Matthias Riegler (riegler.matthias2@gmail.com)
 # 
 # This program is free software. You can redistribute it and/or modify it under

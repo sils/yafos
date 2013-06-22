@@ -25,6 +25,15 @@ enum
 	OBJECT_PRESENT//TODO get a better name for this
 };
 
-uint8_t errno;
+typedef uint8_t		uerr_t;
+typedef int8_t		err_t;
+
+uerr_t errno;
+
+//halts the kernel if an error code is returned TODO
+void assertSuccess(err_t errCode);
+
+//prints a readable warning message, if an error is returned TODO
+void printErrCode(err_t errCode);
 
 #endif /* _ERRNO_H */

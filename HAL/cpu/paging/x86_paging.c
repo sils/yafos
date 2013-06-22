@@ -19,7 +19,6 @@
 #ifdef _X86_PAGING_H
 
 #include <string.h>
-#include <errno.h>
 #include <stdMacro.h>
 #include <mem/physical/pMem.h>
 
@@ -64,7 +63,7 @@ extern inline uint32_t loadPageTable()
 	return activatePaging((void *)pageDir);
 }
 
-int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
+err_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 {
 	pageTableEntry* pTable;
 	
@@ -83,11 +82,11 @@ int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 	}
 	else
 	{
-		//create page table, 1024 entries;
-		pageDir[P_DIR_OFFS(virtualAddr)]  = stdDirEntry(
-			(uintptr_t)pMemAlloc((1024*sizeof(pageTableEntry))/PAGE_SIZE));
-		//it's page aligned!
-		pTable = (pageTableEntry *)P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
+		//create empty page table, 1024 entries;
+		pTable =(pageTableEntry *)pMemAlloc((1024*sizeof(pageTableEntry))/PAGE_SIZE);
+		memset(pTable, 0, 1024*sizeof(pageTableEntry));
+		
+		pageDir[P_DIR_OFFS(virtualAddr)] = stdDirEntry((uintptr_t)pTable);
 		pTable[P_TABLE_OFFS(virtualAddr)] = stdTableEntry(physicalAddr);
 		
 		return SUCCESS;

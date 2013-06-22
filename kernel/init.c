@@ -7,54 +7,50 @@ void init()
 	//Would be nice to have this on kernel level ;)
 	char welcomeString[] = "_             _  _____   _        __    ___    _    _   _____   _ \n\\\\           // |  ___| | |      / _|  /   \\  | \\  / | |  ___| | |\n \\\\    _    //  | |__   | |     / /   /  _  \\ |  \\/  | | |__   | |\n  \\\\  /_\\  //   |  __|  | |     | |   | |_| | | |\\/| | |  __|  |_|\n   \\\\// \\\\//    | |___  | |___  \\ \\_  \\     / | |  | | | |___   _ \n    \\/   \\/     |_____| |_____|  \\__|  \\___/  |_|  |_| |_____| |_|\n";
 	
-	clearScreen();
 	installGdt();
 	initStdTimer(IRQ_0_FREQ);
 	registerTimerHandler(IRQ0);//TODO move this to initStdTimer
 	installIdt();
 	pMemInit();
 	registerKbdHandler(IRQ1);
-	kprintf("%s",welcomeString);
-	kprintf("...to this eco-friendly green system!\n");
-	kprintf("\n--- WHAT WORKS RIGHT NOW ---\n");
-	kprintf("- Global descriptor table\n");
-	kprintf("- Interrupt descriptor table\n");
-	kprintf("- Time measuring\n");
-	kprintf("- Beeping\n");
-	kprintf("- Physical memory management\n");
-	
 	sti();
-	
-	#ifdef DEBUG
-	kprintf("\n--- FOR DEBUG PURPOSES ---\n");
-	
-	kprintf("TESTING PAGING:\n");
-	
-	kprintf("[PAG] Acitvating paging...\n");
+	//TODO move the whole paging initialization stuff to some subfile
 	initPaging();
-	
 	//map framebuffer memory
 	if((errno = -mapPage(0xB8000, FB_MEM_LOCATION)) != 0)
 	{
-		kprintf("[ERR] mapPage returned %u.\n", errno);
+		fatalErr("Failed mapping %x to %x. Error code: %u.", 0xB8000,
+				 FB_MEM_LOCATION, errno);
 	}
-	
 	
 	uintptr_t addr = (uintptr_t)KERNEL_START;
 	for(; addr < (uintptr_t)KERNEL_END; addr += PAGE_SIZE)
 	{
 		if((errno = -mapPage(addr, addr)) != 0)
 		{
-			kprintf("[ERR] mapPage returned %u.\n", errno);
+			fatalErr("Failed mapping %x to %x. Error code: %u.", addr,
+				 addr, errno);
 		}
 	}
 	loadPageTable();
-	kprintf("[PAG] Done.\n");
 	
-	kprintf("[PAG] Generating page fault...\n");
+	clearScreen();
+	
+	kprintf("%s",welcomeString);
+	kprintf("...to this amazingly blue system!\n\n");
+	
+	printDebug("--- WHAT WORKS RIGHT NOW ---");
+	printDebug("- Global descriptor table");
+	printDebug("- Interrupt descriptor table");
+	printDebug("- Time measuring");
+	printDebug("- Beeping");
+	printDebug("- Physical memory management");
+	printDebug("- Paging");
+	
+	#ifdef DEBUG
+	printMsg("Generating page fault...");
 	int *i = (void*)0x2000000;
 	*i = 5;
-	
 	#endif
 	
 	for(;;)

@@ -17,13 +17,24 @@
 
 #include <stdint.h>
 #include <stdarg.h>
+#include <settings.h>
 
 // kernel version of printf
-void kprintf(const char *, ...);
+void kprintf   (const char *, ...);
+void vkprintf  (const char *, va_list);
+
+// abstract versions which add a \n automatically and so on
+// for printing errors
+void printErr  (const char *, ...);
+// halts the kernel additionally
+void fatalErr  (const char *, ...);
+// prints only if DEBUG is defined
+void printDebug(const char *, ...);
+void printMsg  (const char *, ...);
 // puts a colored char to the screen
 void put(const unsigned char, const uint8_t);
 // prints a string to the screen
-void print(char *);
+void print(const char *);
 // clears the screen ;)
 void clearScreen();
 
@@ -37,7 +48,7 @@ void clearScreen();
 
 //TODO find nice and friendly standard colors wich are used for the whole system
 //standard colors
-#define STDBG	T_GREEN
+#define STDBG	T_BLUE
 #define STDFG	T_WHITE
 #define STDCOL	COLCODE(STDFG, STDBG)
 
@@ -66,7 +77,7 @@ void clearScreen();
 #define FB_LINES	25
 #define FB_COLUMNS	80
 
-#define FB_MEM_LOCATION	0xB8000
+#define FB_MEM_LOCATION	0xC8000
 
 #include <string.h>
 #include <sys/io.h>
