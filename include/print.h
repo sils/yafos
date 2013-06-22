@@ -77,7 +77,7 @@ void clearScreen();
 #define FB_LINES	25
 #define FB_COLUMNS	80
 
-#define FB_MEM_LOCATION	0xC8000
+#define FB_MEM_LOCATION	0xB8000
 
 #include <string.h>
 #include <sys/io.h>

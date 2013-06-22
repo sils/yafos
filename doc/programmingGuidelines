@@ -220,10 +220,13 @@ CONTENTS
 	functions to easily check an error value and print a readable message to the
 	user or even halt the kernel:
 		//halts the kernel if an error code is returned
-		assertSuccess(err_t errCode);
+		void assertSuccess(const err_t errCode);
 		
 		//prints a readable warning message, if an error is returned
-		printErrCode(err_t errCode);
+		void printErrMsg(const err_t errCode);
+		
+		//returns a readable text for the given error code
+		char * getErrText(const err_t errCode);
 
 
 11. NEW CONVENTIONS
