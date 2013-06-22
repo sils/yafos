@@ -32,19 +32,13 @@ INSTALL THE TOOLCHAIN
 	YAFOS has it's own toolchain to provide independency from gcc updates. (They
 	may do harm. TODO make some research on using more of the options given by an
 	own compiler.)
-	There are currently binaries for Archlinux, 64 bit (host ;)) available in
-		tools/cc32/bin/arch64
-	Copy these to
-		~/yafoscc/i386-yafos-elf/bin/
-	(You'll have to create the directory before.)
 
-	If you are using an yet unsupported system you may compile your own
-	crosscompiler using
+	You may compile a crosscompiler using:
 		make cc32
 	This will do everything automatically. If it fails, see that all needed
 	software is installed (e.g. wget, bison, gperf, gawk) and retry after doing
 		rm -R /tmp/ct-ng
-	Since there may be temporary files saved.
+	since there may be temporary files saved.
 	The script will create a working directory in your home directory
 		~/cc
 	If this already exists it will append 'c' until it doesn't. It should remove
@@ -52,14 +46,17 @@ INSTALL THE TOOLCHAIN
 	use after building the toolchain.
 	
 	Be sure to install qemu before trying to test. Alternatively you can create
-	an ISO with grub and the kernel and reboot everytime you want to test. Good
-	luck ;)
+	an ISO with grub and the kernel and reboot everytime you want to test.
+	
+	Have fun!
 
 BUILD
 	Be sure to read and follow the instructions given in [INSTALL THE TOOLCHAIN].
 	Just execute 'make run' to compile the kernel and start the qemu emulator.
 	Qemu may be interfaced with gdb via the command:
 		target remote localhost:1234
+	
+	Be sure to take a look at the switches provided in kernel/settings.h
 
 CONTRIBUTING
 	To open all project files we have an editor independend project file. (Yes,

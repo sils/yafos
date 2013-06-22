@@ -4,7 +4,6 @@ uint8_t initChannel(uint16_t freq, uint8_t channel, uint8_t mode)
 {
 	if(freq < PIT_MINFREQ)
 	{
-		kprintf("[ERROR] FREQUENCY IS TOO LOW!\n");
 		return -ERANGE;
 	}
 	

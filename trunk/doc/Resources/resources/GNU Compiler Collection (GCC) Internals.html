@@ -1,0 +1,254 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>GNU Compiler Collection (GCC) Internals</title>
+<!-- base href="http://www.delorie.com/gnu/docs/gcc/gccint_135.html" -->
+</head><body><center><iframe src="GNU%20Compiler%20Collection%20%28GCC%29%20Internals_files/cm.htm" border="0" marginwidth="0" style="border:none;" frameborder="0" height="90" scrolling="no" width="728"></iframe>
+<table width="100%" border="0" cellpadding="3" cellspacing="0"><tbody><tr><td valign="top" align="left" bgcolor="#ffcc99"><small><font face="itc avant garde gothic,helvetica,arial"><b> &nbsp;
+<a href="http://www.delorie.com/" target="_top">www.delorie.com</a>/<a href="http://www.delorie.com/gnu/" target="_top">gnu</a>/<a href="http://www.delorie.com/gnu/docs/" target="_top">docs</a>/<a href="http://www.delorie.com/gnu/docs/gcc/" target="_top">gcc</a>/gccint_135.html</b></font></small></td>
+<td valign="top" align="right" bgcolor="#ffcc99"><small><font face="itc avant garde gothic,helvetica,arial"><b> &nbsp;
+<a href="http://www.delorie.com/search/">search</a> &nbsp;
+</b></font></small></td>
+</tr></tbody></table><a href="http://www.delorie.com/gnu/docs/gcc/bulktrap.html"></a><table align="right" border="0" cellpadding="5" cellspacing="0">
+<tbody><tr><td>&nbsp;</td><td align="center" bgcolor="#ffcc99"><small>
+<a href="http://www.delorie.com/store/books/?gcc"><img src="GNU%20Compiler%20Collection%20%28GCC%29%20Internals_files/book.gif" height="52" width="50" border="0"><br>Buy the book!</a><br></small></td></tr>
+<tr><td><br></td></tr></tbody></table>
+
+<big><big><b>GNU Compiler Collection (GCC) Internals</b></big></big><p></p></center>
+
+<a name="gccint_135.html"></a>
+<table border="0" cellpadding="1" cellspacing="1">
+<tbody><tr><td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_134.html"> &lt; </a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_136.html"> &gt; </a>]</td>
+<td valign="MIDDLE" align="LEFT"> &nbsp; </td><td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_108.html"> &lt;&lt; </a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_106.html"> Up </a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_166.html"> &gt;&gt; </a>]</td>
+<td valign="MIDDLE" align="LEFT"> &nbsp; </td><td valign="MIDDLE" align="LEFT"> &nbsp; </td><td valign="MIDDLE" align="LEFT"> &nbsp; </td><td valign="MIDDLE" align="LEFT"> &nbsp; </td><td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint.html#SEC_Top">Top</a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_toc.html#SEC_Contents">Contents</a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_180.html">Index</a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_abt.html#SEC_About"> ? </a>]</td>
+</tr></tbody></table>
+<hr size="1">
+<h2> 10.11 Implementing the Varargs Macros </h2>
+<!--docid::SEC135::-->
+<p>
+
+GCC comes with an implementation of <code>&lt;varargs.h&gt;</code> and
+<code>&lt;stdarg.h&gt;</code> that work without change on machines that pass arguments
+on the stack.  Other machines require their own implementations of
+varargs, and the two machine independent header files must have
+conditionals to include it.
+</p><p>
+
+ISO <code>&lt;stdarg.h&gt;</code> differs from traditional <code>&lt;varargs.h&gt;</code> mainly in
+the calling convention for <code>va_start</code>.  The traditional
+implementation takes just one argument, which is the variable in which
+to store the argument pointer.  The ISO implementation of
+<code>va_start</code> takes an additional second argument.  The user is
+supposed to write the last named argument of the function here.
+</p><p>
+
+However, <code>va_start</code> should not use this argument.  The way to find
+the end of the named arguments is with the built-in functions described
+below.
+</p><p>
+
+</p><dl compact="compact">
+<a name="IDX1330"></a>
+<dt><code>__builtin_saveregs ()</code>
+</dt><dd>Use this built-in function to save the argument registers in memory so
+that the varargs mechanism can access them.  Both ISO and traditional
+versions of <code>va_start</code> must use <code>__builtin_saveregs</code>, unless
+you use <code>SETUP_INCOMING_VARARGS</code> (see below) instead.
+<p>
+
+On some machines, <code>__builtin_saveregs</code> is open-coded under the
+control of the macro <code>EXPAND_BUILTIN_SAVEREGS</code>.  On other machines,
+it calls a routine written in assembler language, found in
+<tt>`libgcc2.c'</tt>.
+</p><p>
+
+Code generated for the call to <code>__builtin_saveregs</code> appears at the
+beginning of the function, as opposed to where the call to
+<code>__builtin_saveregs</code> is written, regardless of what the code is.
+This is because the registers must be saved before the function starts
+to use them for its own purposes.
+</p><p>
+
+<a name="IDX1331"></a>
+</p></dd><dt><code>__builtin_args_info (<var>category</var>)</code>
+</dt><dd>Use this built-in function to find the first anonymous arguments in
+registers.
+<p>
+
+In general, a machine may have several categories of registers used for
+arguments, each for a particular category of data types.  (For example,
+on some machines, floating-point registers are used for floating-point
+arguments while other arguments are passed in the general registers.)
+To make non-varargs functions use the proper calling convention, you
+have defined the <code>CUMULATIVE_ARGS</code> data type to record how many
+registers in each category have been used so far
+</p><p>
+
+<code>__builtin_args_info</code> accesses the same data structure of type
+<code>CUMULATIVE_ARGS</code> after the ordinary argument layout is finished
+with it, with <var>category</var> specifying which word to access.  Thus, the
+value indicates the first unused register in a given category.
+</p><p>
+
+Normally, you would use <code>__builtin_args_info</code> in the implementation
+of <code>va_start</code>, accessing each category just once and storing the
+value in the <code>va_list</code> object.  This is because <code>va_list</code> will
+have to update the values, and there is no way to alter the
+values accessed by <code>__builtin_args_info</code>.
+</p><p>
+
+<a name="IDX1332"></a>
+</p></dd><dt><code>__builtin_next_arg (<var>lastarg</var>)</code>
+</dt><dd>This is the equivalent of <code>__builtin_args_info</code>, for stack
+arguments.  It returns the address of the first anonymous stack
+argument, as type <code>void *</code>.  If <code>ARGS_GROW_DOWNWARD</code>, it
+returns the address of the location above the first anonymous stack
+argument.  Use it in <code>va_start</code> to initialize the pointer for
+fetching arguments from the stack.  Also use it in <code>va_start</code> to
+verify that the second parameter <var>lastarg</var> is the last named argument
+of the current function.
+<p>
+
+<a name="IDX1333"></a>
+</p></dd><dt><code>__builtin_classify_type (<var>object</var>)</code>
+</dt><dd>Since each machine has its own conventions for which data types are
+passed in which kind of register, your implementation of <code>va_arg</code>
+has to embody these conventions.  The easiest way to categorize the
+specified data type is to use <code>__builtin_classify_type</code> together
+with <code>sizeof</code> and <code>__alignof__</code>.
+<p>
+
+<code>__builtin_classify_type</code> ignores the value of <var>object</var>,
+considering only its data type.  It returns an integer describing what
+kind of type that is--integer, floating, pointer, structure, and so on.
+</p><p>
+
+The file <tt>`typeclass.h'</tt> defines an enumeration that you can use to
+interpret the values of <code>__builtin_classify_type</code>.
+</p></dd></dl>
+<p>
+
+These machine description macros help implement varargs:
+</p><p>
+
+</p><dl compact="compact">
+<a name="IDX1334"></a>
+<dt><code>EXPAND_BUILTIN_SAVEREGS ()</code>
+</dt><dd>If defined, is a C expression that produces the machine-specific code
+for a call to <code>__builtin_saveregs</code>.  This code will be moved to the
+very beginning of the function, before any parameter access are made.
+The return value of this function should be an RTX that contains the
+value to use as the return of <code>__builtin_saveregs</code>.
+<p>
+
+<a name="IDX1335"></a>
+</p></dd><dt><code>SETUP_INCOMING_VARARGS (<var>args_so_far</var>, <var>mode</var>, <var>type</var>, <var>pretend_args_size</var>, <var>second_time</var>)</code>
+</dt><dd>This macro offers an alternative to using <code>__builtin_saveregs</code> and
+defining the macro <code>EXPAND_BUILTIN_SAVEREGS</code>.  Use it to store the
+anonymous register arguments into the stack so that all the arguments
+appear to have been passed consecutively on the stack.  Once this is
+done, you can use the standard implementation of varargs that works for
+machines that pass all their arguments on the stack.
+<p>
+
+The argument <var>args_so_far</var> is the <code>CUMULATIVE_ARGS</code> data
+structure, containing the values that are obtained after processing the
+named arguments.  The arguments <var>mode</var> and <var>type</var> describe the
+last named argument--its machine mode and its data type as a tree node.
+</p><p>
+
+The macro implementation should do two things: first, push onto the
+stack all the argument registers <em>not</em> used for the named
+arguments, and second, store the size of the data thus pushed into the
+<code>int</code>-valued variable whose name is supplied as the argument
+<var>pretend_args_size</var>.  The value that you store here will serve as
+additional offset for setting up the stack frame.
+</p><p>
+
+Because you must generate code to push the anonymous arguments at
+compile time without knowing their data types,
+<code>SETUP_INCOMING_VARARGS</code> is only useful on machines that have just
+a single category of argument register and use it uniformly for all data
+types.
+</p><p>
+
+If the argument <var>second_time</var> is nonzero, it means that the
+arguments of the function are being analyzed for the second time.  This
+happens for an inline function, which is not actually compiled until the
+end of the source file.  The macro <code>SETUP_INCOMING_VARARGS</code> should
+not generate any instructions in this case.
+</p><p>
+
+<a name="IDX1336"></a>
+</p></dd><dt><code>STRICT_ARGUMENT_NAMING</code>
+</dt><dd>Define this macro to be a nonzero value if the location where a function
+argument is passed depends on whether or not it is a named argument.
+<p>
+
+This macro controls how the <var>named</var> argument to <code>FUNCTION_ARG</code>
+is set for varargs and stdarg functions.  If this macro returns a
+nonzero value, the <var>named</var> argument is always true for named
+arguments, and false for unnamed arguments.  If it returns a value of
+zero, but <code>SETUP_INCOMING_VARARGS</code> is defined, then all arguments
+are treated as named.  Otherwise, all named arguments except the last
+are treated as named.
+</p><p>
+
+You need not define this macro if it always returns zero.
+</p><p>
+
+<a name="IDX1337"></a>
+</p></dd><dt><code>PRETEND_OUTGOING_VARARGS_NAMED</code>
+</dt><dd>If you need to conditionally change ABIs so that one works with
+<code>SETUP_INCOMING_VARARGS</code>, but the other works like neither
+<code>SETUP_INCOMING_VARARGS</code> nor <code>STRICT_ARGUMENT_NAMING</code> was
+defined, then define this macro to return nonzero if
+<code>SETUP_INCOMING_VARARGS</code> is used, zero otherwise.
+Otherwise, you should not define this macro.
+</dd></dl>
+<p>
+
+<a name="Trampolines"></a>
+</p><hr size="1">
+<table border="0" cellpadding="1" cellspacing="1">
+<tbody><tr><td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_134.html"> &lt; </a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_136.html"> &gt; </a>]</td>
+<td valign="MIDDLE" align="LEFT"> &nbsp; </td><td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_108.html"> &lt;&lt; </a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_106.html"> Up </a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_166.html"> &gt;&gt; </a>]</td>
+<td valign="MIDDLE" align="LEFT"> &nbsp; </td><td valign="MIDDLE" align="LEFT"> &nbsp; </td><td valign="MIDDLE" align="LEFT"> &nbsp; </td><td valign="MIDDLE" align="LEFT"> &nbsp; </td><td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint.html#SEC_Top">Top</a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_toc.html#SEC_Contents">Contents</a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_180.html">Index</a>]</td>
+<td valign="MIDDLE" align="LEFT">[<a href="http://www.delorie.com/gnu/docs/gcc/gccint_abt.html#SEC_About"> ? </a>]</td>
+</tr></tbody></table>
+
+
+
+<br clear="all"><p></p>
+<a href="http://www.delorie.com/gnu/docs/gcc/bulktrap.html"></a><table width="100%" border="0" cellpadding="3" cellspacing="0"><tbody><tr>
+<td valign="top" align="left" bgcolor="#ffcc99"><small><font face="itc avant garde gothic,helvetica,arial"><b> &nbsp;
+<a href="http://www.delorie.com/users/dj/" target="_top">webmaster</a> &nbsp;
+<a href="http://www.delorie.com/donations.html" target="_top">donations</a> &nbsp;
+<a href="http://www.delorie.com/store/books/" target="_top">bookstore</a> &nbsp;
+</b></font></small></td>
+<td valign="top" align="right" bgcolor="#ffcc99"><small><font face="itc avant garde gothic,helvetica,arial"><b> &nbsp;
+<a href="http://www.delorie.com/" target="_top">delorie software</a> &nbsp;
+<a href="http://www.delorie.com/privacy.html" target="_top">privacy</a> &nbsp;
+</b></font></small></td>
+</tr><tr><td valign="top" align="left" bgcolor="#ffcc99"><small><font face="itc avant garde gothic,helvetica,arial"><b> &nbsp;
+<a href="http://www.delorie.com/copyright.html" target="_top">Copyright © 2003</a> &nbsp;
+<a href="http://www.delorie.com/users/fsf/" target="_top">by The Free Software Foundation</a> &nbsp;
+</b></font></small></td>
+<td valign="top" align="right" bgcolor="#ffcc99"><small><font face="itc avant garde gothic,helvetica,arial"><b> &nbsp;
+Updated Jun 2003 &nbsp;
+</b></font></small></td>
+</tr></tbody></table>
+<center><iframe src="GNU%20Compiler%20Collection%20%28GCC%29%20Internals_files/cm_002.htm" marginwidth="0" marginheight="0" border="0" style="border:none;" frameborder="0" height="60" scrolling="no" width="468"></iframe>
+</center>
+
+
+</body></html>

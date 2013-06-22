@@ -10,6 +10,7 @@
 #		Missing dependencies for arch: wget, gperf
 #
 # Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
+# Copyright (C) 2013 Matthias Riegler. All Rights Reserved.
 # Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
 # 
 # This program is free software. You can redistribute it and/or modify it under

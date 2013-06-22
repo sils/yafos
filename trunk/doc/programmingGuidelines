@@ -10,13 +10,13 @@ CONTENTS
 6.  BRACES AND BRACKETS
 7.  INDENTATION
 8.  LOCAL AND GLOBAL VARIABLES
-9.  COMMENTS
+9.  COMMENTS AND DEBUG PRINTING
 10. ERROR HANDLING
 11. NEW CONVENTIONS
 
 
 1.  READING THIS DOCUMENT
-	//TODO must and shall
+	//TODO
 
 
 2.  HEADER
@@ -26,7 +26,7 @@ CONTENTS
 		Make sure that over every header file and in all code files without such
 		a header file one finds the following header:
 
-/* dir/filename.h
+/* dir/filename.[hcsinc]+
  *
  * Short description. Optional a link to a documentation file in doc/
  *
@@ -41,9 +41,11 @@ CONTENTS
 		
 		(In other languages the first two signs of every line might have to be
 		altered.)
-		If a code file includes a header file wich belongs to the code file
-		(stdint.c -> stdint.h) this header does not have to be placed in the
-		code file.
+		If a hardware dependend code file uses a hardware independend header
+		file (as it should) both shall have a header.
+		
+		If you edit a file, you may place your copyright in the header
+		ADDITIONAL to the ones that are there.
 		
 	2.2. Function prototypes
 		Every function which is not only used in the corresponding code file has
@@ -185,10 +187,17 @@ CONTENTS
 	only visible in this code file.
 
 
-9.  COMMENTS
-	Comments must not exceed the 80th column of every document. (you can make
-	this visible in your grafical editor. Maybe even somehow in VIM and friends)
-	Write comments whenever you want - but do it in english.
+9.  COMMENTS AND DEBUG PRINTING
+	Comments must not exceed the 80th column of every document. Write comments
+	whenever you see it's needed - but do it in english.
+	
+	For printing out debug values or statements simply use the function
+		printDebug(char * format, ...);
+	The prototype lies in <print.h>. For printing errors and fatal errors use
+	these function:
+		printErr(char * format, ...);
+		fatalErr(char * format, ...);
+	which lie in the same header. Note that the latter one will halt the kernel!
 
 
 10. ERROR HANDLING
@@ -199,6 +208,22 @@ CONTENTS
 		return -NOT_IMPLEMENTED;
 	Since the constants in errno.h are positive, don't forget the sign! Also
 	make sure your function doesn't return an unsigned value.
+	
+	If a function returns an error value you may use the following types defined
+	in <errno.h>:
+		uerr_t
+		err_t
+	which have guaranteed as enought bits to hold any error value defined in
+	<errno.h>.
+	
+	When a function returns an error value, you may also use the following
+	functions to easily check an error value and print a readable message to the
+	user or even halt the kernel:
+		//halts the kernel if an error code is returned
+		assertSuccess(err_t errCode);
+		
+		//prints a readable warning message, if an error is returned
+		printErrCode(err_t errCode);
 
 
 11. NEW CONVENTIONS

@@ -15,10 +15,11 @@
 #define _PAGING_H
 
 #include <stdint.h>
+#include <errno.h>
 
 void initPaging();
 uint32_t loadPageTable();
-int8_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr);
+err_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr);
 
 #ifdef __i386__
 #define _X86_PAGING_H

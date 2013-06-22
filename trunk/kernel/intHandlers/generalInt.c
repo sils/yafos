@@ -29,7 +29,7 @@ void generalIntHandler(registers_t *regs)
 	
 	if(regs->intNo <= 16)
 	{
-		kprintf("Unhandled exception (%x). Message: %s\nHalting kernel.\n",
+		fatalErr("Unhandled exception (%x). Message: %s",
 			regs->intNo, exceptionMessage[regs->intNo]);
 		for(;;)
 			hlt();
@@ -43,7 +43,7 @@ void generalIntHandler(registers_t *regs)
 		}
 		else
 		{
-			kprintf("Unhandled interrupt (%x)!\n", regs->intNo);
+			printErr("Unhandled interrupt (%x)!\n", regs->intNo);
 		}
 	}
 }
