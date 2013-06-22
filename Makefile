@@ -33,9 +33,15 @@ CFLAGS	= $(ARCH) $(WARNLEV) $(EXCLUDE) $(INCDIRS) $(DEBUG) $(OPT)
 
 CC32	= ~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-gcc
 CC64	= ~/yafoscc/x86_64-yafos-elf/bin/x86_64-yafos-elf-gcc
+CCARM   = ~/yafoscc/arm-yafos-elf/bin/arm-yafos-elf-gcc
+
+AS32	= ~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-as
+AS64	= ~/yafoscc/x86_64-yafos-elf/bin/x86_64-yafos-elf-as
+ASARM   = ~/yafoscc/arm-yafos-elf/bin/arm-yafos-elf-as
+
 LD32	= ~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-ld
 LD64	= ~/yafoscc/x86_64-yafos-elf/bin/x86_64-yafos-elf-ld
-
+LDARM   = ~/yafoscc/arm-yafos-elf/bin/arm-yafos-elf-ld
 
 # Linker script
 LDFLAGS	= -T linker.ld
@@ -62,6 +68,8 @@ cc32:
 	bash ./tools/cc32/toolchain.sh
 cc64:	
 	bash ./tools/cc64/toolchain.sh
+ccarm:
+	bash ./tools/arm32/toolchain.sh
 
 .s.o:
 	nasm -f elf -o $@ $<
