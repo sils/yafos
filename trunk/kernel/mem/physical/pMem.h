@@ -20,7 +20,7 @@
 //TODO determine memory size
 
 #ifdef USE_GRUB_MAP
-void	pMemInit(const mMap * mMapAddr, const uint32_t mMapLen);
+void	pMemInit(const mMap_t * mMapAddr, const uint32_t mMapLen);
 #else
 void 	pMemInit();
 #endif

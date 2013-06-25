@@ -29,13 +29,13 @@ STRUCT
 	uint8_t  zero;
 	uint8_t  attr;
 	uint16_t entryHigh;
-} PACKED idtEntry;
+} PACKED idtEntry_t;
 
 STRUCT
 {
 	uint16_t  limit;
 	void     *base;
-} PACKED idtPtr;
+} PACKED idtPtr_t;
 
 // interrupt handler routines
 extern void isr0 ();
@@ -97,8 +97,8 @@ extern void irq15();
 
 #define CALC_SEL(param) (param)*8
 
-static idtEntry idt[IDT_ENTRIES];
-static idtPtr   tidtPtr;
+static idtEntry_t idt[IDT_ENTRIES];
+static idtPtr_t   tidtPtr;
 
 static void idtSetGate(const uint8_t index, const uint32_t entry, const uint16_t selector, const uint16_t attr)
 {
@@ -111,10 +111,10 @@ static void idtSetGate(const uint8_t index, const uint32_t entry, const uint16_t
 
 void installIdt(void)
 {
-	tidtPtr.limit = (sizeof(idtEntry) * IDT_ENTRIES)-1;
+	tidtPtr.limit = (sizeof(idtEntry_t) * IDT_ENTRIES)-1;
 	tidtPtr.base  = idt;
 	
-	memset((void *)idt, 0, sizeof(idtEntry)*IDT_ENTRIES);
+	memset((void *)idt, 0, sizeof(idtEntry_t) *IDT_ENTRIES);
 	
 	//set gates for all exceptions
 	idtSetGate(0 , (uint32_t)isr0 , CALC_SEL(1), I_PRESENT|I_DPL(0)|I_INT_GATE);

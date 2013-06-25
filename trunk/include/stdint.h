@@ -21,6 +21,9 @@
 
 #include <settings.h>
 
+//in addition to posix
+typedef unsigned char		bool;
+
 typedef signed char			int8_t;
 typedef unsigned char		uint8_t;
 typedef short				int16_t;
