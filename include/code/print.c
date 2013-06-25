@@ -56,7 +56,7 @@ void clearScreen()
 		else videoram[i]=BLANK;
 }
 
-static void setCursor(int pos)
+static void setCursor(const int pos)
 {
 	outb(FB_CMD,  FB_HIGH_B);
 	outb(FB_DATA, (pos>>8) & 0xFF);
@@ -192,17 +192,31 @@ void printErr(const char *format, ...)
 	kprintf("\n------------------------ END OF MESSAGE ----------------------\n\n");
 }
 
+#ifdef DEBUG
+void fatalErrAdv(const char *format, const char *file, const char *function,
+				 uint16_t line, ...)
+#else
 void fatalErr(const char *format, ...)
+#endif
 {
-	kprintf("\n\nKERNEL PANIC\n");
-	kprintf("  The system seems to be in a bad state and will be halted.\n");
-	kprintf("  Message of invoking function:\n");
+	kprintf("\n\nWRONG KEROSENE!\n");
+	kprintf("\nAn unrecoverable error occurred!\n");
+#ifdef DEBUG
+	kprintf("    File:     %s\n    Line:     %u\n", file, line);
+	kprintf("    Function: %s\n\n", function);
+#endif
+	kprintf("The function left the following message:\n");
 	kprintf("---------------------------- MESSAGE -------------------------\n");
 	va_list args;
+#ifdef DEBUG
+	va_start(args, line);
+#else
 	va_start(args, format);
+#endif
 	vkprintf(format, args);
 	va_end(args);
 	kprintf("\n------------------------ END OF MESSAGE ----------------------");
+	kprintf("\n\nThe kernel will be halted.\n");
 	while(1)
 	{
 		cli();

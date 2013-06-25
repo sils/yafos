@@ -31,9 +31,6 @@ void generalIntHandler(registers_t *regs)
 	{
 		fatalErr("Unhandled exception (%x). Message: %s",
 			regs->intNo, exceptionMessage[regs->intNo]);
-		for(;;)
-			hlt();
-		//TODO standardize exception handling
 	}
 	else
 	{

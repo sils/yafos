@@ -17,9 +17,17 @@
 #include <stdint.h>
 #include <errno.h>
 
+//TODO provide a possibility to map the page tables used by the kernel to the
+//programs
+
 void initPaging();
 uint32_t loadPageTable();
+void setPageDir(void *pDir);
 err_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr);
+//TODO
+err_t mapRegion(uintptr_t physicalStart, uintptr_t virtualStart,
+				uintptr_t physicalEnd);
+//TODO unmap
 
 #ifdef __i386__
 #define _X86_PAGING_H

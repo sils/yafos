@@ -25,12 +25,18 @@ void vkprintf  (const char *, va_list);
 
 // abstract versions which add a \n automatically and so on
 // for printing errors
-void printErr  (const char *, ...);
+void printErr(const char *, ...);
 // halts the kernel additionally
-void fatalErr  (const char *, ...);
+#ifdef DEBUG
+#define fatalErr(fmt, ...) fatalErrAdv((fmt), __FILE__, __func__, __LINE__,\
+	##__VA_ARGS__)
+void fatalErrAdv(const char *, const char *, const char *, uint16_t, ...);
+#else
+void fatalErr(const char *, ...);
+#endif
 // prints only if DEBUG is defined
 void printDebug(const char *, ...);
-void printMsg  (const char *, ...);
+void printMsg(const char *, ...);
 // puts a colored char to the screen
 void put(const unsigned char, const uint8_t);
 // prints a string to the screen

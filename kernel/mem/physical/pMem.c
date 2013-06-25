@@ -37,7 +37,7 @@ void printAllocMem()
 #endif /* DEBUG */
 
 #ifdef USE_GRUB_MAP
-void pMemInit(const mMap * mMapAddr, const uint32_t mMapLen)
+void pMemInit(const mMap_t * mMapAddr, const uint32_t mMapLen)
 #else
 void pMemInit()
 #endif
@@ -54,7 +54,7 @@ void pMemInit()
 	//use space within the first MB to store the bitmap -> let the bitmap begin
 	//	at 1MB
 	//TODO determine memory size... :(
-	mMap * tmp = mMapAddr + mMapLen;
+	mMap_t * tmp = mMapAddr + mMapLen;
 	while(mMapAddr < tmp)
 	{
 		if(mMapAddr->type == 1)

@@ -1,6 +1,6 @@
-/* init.c
+/* modules.h
  * 
- * Defines some constants for easily adjust settings
+ * Provides functions for loading and unloading modules from and to kernel.
  *
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -11,21 +11,12 @@
  * version.
  */
 
-#ifndef _SETTINGS_H
-#define _SETTINGS_H
+#ifndef _MODULES_H
+#define _MODULES_H
 
-#include <stdMacro.h>
+#include <errno.h>
 
-//Memory
-//let a page be 4 KiB
-#define PAGE_SIZE	(4*KB)
-//wether to use available space from below 1MB
-//#define USE_GRUB_MAP
+//TODO will load a module and start it as a task
+err_t loadModule(const void *startAddr, const void *endAddr);
 
-//Debug settings
-#define DEBUG
-
-//Sound settings
-#define IRQ_0_FREQ	150
-
-#endif /* _SETTINGS_H */
+#endif /* _MODULES_H */

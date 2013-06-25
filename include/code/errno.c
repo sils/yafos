@@ -22,7 +22,8 @@ char errMessage[MAX_ERRNO][27] =
 	"Yet unimplemented feature!",
 	"Unsupported architecture!",
 	"Out of range!",
-	"Object already exists!"
+	"Object already exists!",
+	"A subroutine failed!"
 };
 
 char * getErrText(const err_t errCode)
@@ -35,20 +36,25 @@ char * getErrText(const err_t errCode)
 		}
 		return errMessage[0];
 	}
+	return "Function executed successfully.";
 }
 
-extern inline void assertSuccess(const err_t errCode)
+extern inline bool assertSuccess(const err_t errCode)
 {
 	if(errCode != SUCCESS)
 	{
-		fatalErr(getErrText(errCode));
+		//will halt the kernel, no return needed
+		fatalErr("%s", getErrText(errCode));
 	}
+	return true;
 }
 
-extern inline void printErrMsg(const err_t errCode)
+extern inline bool verify(const err_t errCode)
 {
 	if(errCode != SUCCESS)
 	{
-		printErr(getErrText(errCode));
+		printErr("%s", getErrText(errCode));
+		return false;
 	}
+	return true;
 }

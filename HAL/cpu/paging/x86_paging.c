@@ -27,7 +27,7 @@ extern int32_t activatePaging(void *pageDirAddr);
 typedef uint32_t	pageDirEntry;
 typedef uint32_t	pageTableEntry;
 
-pageDirEntry *	pageDir;
+static pageDirEntry *	pageDir;
 
 #define stdDirEntry(tableAdress)	(P_PRESENT | P_ADDR(tableAdress) | P_RW)
 #define stdTableEntry(pageAdress)	(P_PRESENT | P_ADDR(pageAdress ) | P_RW)
@@ -60,7 +60,27 @@ extern inline void initPaging()
 
 extern inline uint32_t loadPageTable()
 {
+	//TODO search cr register
 	return activatePaging((void *)pageDir);
+}
+
+extern inline void setPageDir(void *pDir)
+{
+	pageDir = pDir;
+}
+
+err_t mapRegion(uintptr_t physicalStart, uintptr_t virtualStart,
+				uintptr_t physicalEnd)
+{
+	uintptr_t addr = (uintptr_t)physicalStart;
+	for(; addr < physicalEnd; addr += PAGE_SIZE)
+	{
+		if(!verify(mapPage(addr,  (addr - physicalStart) + virtualStart)))
+		{
+			return -ERR_IN_SUBFUNC;
+		}
+	}
+	return SUCCESS;
 }
 
 err_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)

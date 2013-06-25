@@ -24,7 +24,6 @@
 	#define IRQ0 0x20
 #endif
 
-//TODO parameters for remapIRQs
 void remapIrqs(void);
 void maskIrqs(uint16_t mask);
 #define endInterrupt(intNo)	(intNo)<IRQ8\

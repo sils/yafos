@@ -20,6 +20,8 @@
 #include <stdint.h>
 #include <stdMacro.h>
 
+//TODO look for drives here
+
 //defined by linker script
 extern uint8_t kernelStart;
 extern uint8_t kernelEnd;
@@ -37,7 +39,7 @@ STRUCT
 	uint32_t lengthHigh;
 	//if type==1 it's freely available
 	uint32_t type;
-} PACKED mMap;
+} PACKED mMap_t;
 
 STRUCT
 {
@@ -50,10 +52,10 @@ STRUCT
 	void *		modsAddr;
 	uint32_t	syms[4];
 	uint32_t	mMapLength;
-	mMap *		mMapAddr;
+	mMap_t *	mMapAddr;
 	//further information is not needed for now
 	//if needed: look at the mentioned pdf at page 11.
-} PACKED multiBoot;
+} PACKED multiBoot_t;
 
 #define MB_MEM_SET(flags)	(flags & 0b0000001)
 #define MB_DEV_SET(flags)	(flags & 0b0000010)

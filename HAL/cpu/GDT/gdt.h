@@ -27,18 +27,18 @@ STRUCT
 	uint8_t  access;
 	uint8_t  granularity;
 	uint8_t  baseHigh;
-} PACKED gdtEntry;
+} PACKED gdtEntry_t;
 
 STRUCT
 {
 	uint16_t limit;
 	void    *base;
-} PACKED gdtPtr;
+} PACKED gdtPtr_t;
 
 #define GDT_ENTRIES 3
 void installGdt(void);
-gdtEntry gdt[GDT_ENTRIES];
-gdtPtr   tgdtPtr;
+gdtEntry_t gdt[GDT_ENTRIES];
+gdtPtr_t   tgdtPtr;
 
 // See http://wiki.osdev.org/Global_Descriptor_Table for more information
 #define G_ACCESSED	0x01

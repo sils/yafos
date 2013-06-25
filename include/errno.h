@@ -24,7 +24,8 @@ enum
 	NOT_IMPLEMENTED,
 	UNSUPPORTED_ARCH,
 	ERANGE,
-	OBJECT_PRESENT,//TODO get a better name for this
+	OBJECT_PRESENT,
+	ERR_IN_SUBFUNC,
 	MAX_ERRNO
 };
 
@@ -33,10 +34,10 @@ typedef int8_t		err_t;
 
 uerr_t errno;
 
-//halts the kernel if an error code is returned TODO
-void assertSuccess(const err_t errCode);
-//prints a readable warning message, if an error is returned TODO
-void printErrMsg(const err_t errCode);
+//halts the kernel if an error code is returned
+bool assertSuccess(const err_t errCode);
+//prints a readable warning message, if an error is returned
+bool verify(const err_t errCode);
 //returns a readable text for the given error code
 char * getErrText(const err_t errCode);
 
