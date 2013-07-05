@@ -46,6 +46,14 @@ static void scrollUp()
 	}
 }
 
+static void setCursor(const int pos)
+{
+	outb(FB_CMD,  FB_HIGH_B);
+	outb(FB_DATA, (pos>>8) & 0xFF);
+	outb(FB_CMD,  FB_LOW_B);
+	outb(FB_DATA, pos & 0xFF);
+}
+
 void clearScreen()
 {
 	uint16_t i;
@@ -54,14 +62,7 @@ void clearScreen()
 		if(i % 2)
 			videoram[i]=COLCODE(STDFG, STDBG);
 		else videoram[i]=BLANK;
-}
-
-static void setCursor(const int pos)
-{
-	outb(FB_CMD,  FB_HIGH_B);
-	outb(FB_DATA, (pos>>8) & 0xFF);
-	outb(FB_CMD,  FB_LOW_B);
-	outb(FB_DATA, pos & 0xFF);
+	setCursor(GET_POS(0,0));
 }
 
 void put(const unsigned char val, const uint8_t color)

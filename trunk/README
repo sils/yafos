@@ -36,7 +36,8 @@ INSTALL THE TOOLCHAIN
 	You may compile a crosscompiler using:
 		make cc32
 	This will do everything automatically. If it fails, see that all needed
-	software is installed (e.g. wget, bison, gperf, gawk) and retry after doing
+	software is installed (lists for some distributions in the makefile) and retry
+	after doing
 		rm -R /tmp/ct-ng
 	since there may be temporary files saved.
 	The script will create a working directory in your home directory

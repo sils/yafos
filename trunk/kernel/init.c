@@ -15,15 +15,17 @@ void init()
 	registerKbdHandler(IRQ1);
 	sti();
 	//TODO move the whole paging initialization stuff to some subfile
+	clearScreen();
 	initPaging();
-	//map framebuffer memory
-	assertSuccess(mapPage(0xB8000, FB_MEM_LOCATION));
 	
 	uintptr_t addr = (uintptr_t)KERNEL_START;
 	for(; addr < (uintptr_t)KERNEL_END; addr += PAGE_SIZE)
 	{
 		assertSuccess(mapPage(addr, addr));
 	}
+	
+	//map framebuffer memory
+	assertSuccess(mapPage(0xB8000, FB_MEM_LOCATION));
 	loadPageTable();
 	
 	clearScreen();
