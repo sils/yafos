@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''rules.cc
+'''codeChecker.py
 ' 
 ' Checks codefiles for formal mistakes
 '
@@ -18,25 +18,46 @@ import os			#get path
 import re			#regular expressions
 import sys,inspect		#get script location
 import pkgutil			#dynamic import
+from printColor import printWarning, printNotification, printInformation
+import errors
 
 def parseArgs():
-	""" parsing of arguments and configuration of help output 
+	""" parsing of arguments and configuration of help output
 	
 	:returns: passed arguments in dictionary structure
 
 	"""
-	parser = argparse.ArgumentParser(description='process and help') 
+	#python files in rules/
+	ruleChoices=[packageName for importer, packageName, _ in \
+	pkgutil.iter_modules([os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],"rules")))])]
+	#classes defined in errors.py
+	errorChoices=[errorType for errorType,errorClass in inspect.getmembers(errors) if inspect.isclass(errorClass)and errorType!='Error']
+
+	#configuration of help and arguments
+	parser = argparse.ArgumentParser(
+			formatter_class=argparse.RawDescriptionHelpFormatter,
+			description='''\
+	This codeChecker script checks your source code for formatting mistakes
+    ''',
+			epilog='''\
+	Possible choices for rulefiles (-c):
+	{}
+	Possible choices for errortypes (-e/-i):
+	{}
+	'''.format(ruleChoices, errorChoices))
 	parser.add_argument('-d', nargs='+', metavar='DIR', help="Directories or files to be checked") #DONE
 	parser.add_argument('-dd', nargs='+', metavar='DIR', help="Directories and sub directories to be checked ") #DONE
 	parser.add_argument('-c', nargs='+', metavar='FILE', help="Rulefiles to be used") #DONE
 	parser.add_argument('-f', nargs='+', metavar='EXT', help="filetypes to be checkes") #DONE
 	parser.add_argument('-b', nargs='+', metavar='EXT', help = "filetypes to be ignored") #DONE 
-	parser.add_argument('-a', action='store_true', help= "check for all errors") #TODO
-	parser.add_argument('-e', nargs='+', metavar='ERR', help="check errors with given error codes") #TODO
-	parser.add_argument('-i', nargs='+', metavar='ERR', help="show information about given error code") #TODO
+	parser.add_argument('-a', action='store_true', help= "check for all errors") #DONE
+	parser.add_argument('-e', nargs='+', metavar='ERR', choices=errorChoices, help="check errors with given error codes") #DONE
+	parser.add_argument('-i', nargs='+', metavar='ERR', choices=errorChoices, help="show information about given error code") #TODO
 	parser.add_argument('-r', action='store_true', help="FILENAME is to be interpreted as regular expression") #DONE
-	parser.add_argument('-v', action='store_true', help="enable verbosity") #TODO
-	return vars(parser.parse_args())
+	parser.add_argument('-v', action='store_true', help="enable verbosity") #DONE
+	localArgVars = vars(parser.parse_args())
+	if localArgVars['v']: printNotification("parsed args: "+str(localArgVars))
+	return localArgVars
 
 def collectFilePaths(singleLevelDirs=[],multiLevelDirs=[],fileTypePicks=[],fileTypeBans=[],verbosity=False):
 	""" returns a list of absolute filenames of all files that should be checked
@@ -63,11 +84,11 @@ def collectFilePaths(singleLevelDirs=[],multiLevelDirs=[],fileTypePicks=[],fileT
 				elif os.path.isdir(dir):
 					filePaths.extend([os.path.join(dir,f) for f in os.listdir(dir) if os.path.isfile(os.path.join(dir,f))])
 				else:
-					print("WARNING:", dir, "is not a valid file or directory and will be ignored!") #TODO hervorheben?
+					printWarning(dir+" is not a valid file or directory and will be ignored!")
 			except PermissionError:
-				print("WARNING:", dir, "is not accessible and will be ignored!") #TODO hervorheben?
+				printWarning(dir+ 'is not accessible and will be ignored')
 
-# recursive function used to collect filenames from subdirectories
+	# recursive function used to collect filenames from subdirectories
 	def recursiveCollect(dir):
 		"""recursively collects filenames from directories and all their subdirectories
 
@@ -83,8 +104,7 @@ def collectFilePaths(singleLevelDirs=[],multiLevelDirs=[],fileTypePicks=[],fileT
 				elif os.path.isdir(os.path.join(dir,f)):
 					tempFilePathList.extend(recursiveCollect(os.path.join(dir,f)))
 		except PermissionError:
-			print("WARNING:", dir, "is not accessible and will be ignored!") #TODO hervorheben?
-
+			printWarning(dir+"is not accessible and will be ignored!")
 		return tempFilePathList
 
 	# collect all files from multiLevelDirs
@@ -96,9 +116,9 @@ def collectFilePaths(singleLevelDirs=[],multiLevelDirs=[],fileTypePicks=[],fileT
 				if os.path.isdir(dir):
 					filePaths.extend(recursiveCollect(dir))
 				else:
-					print("WARNING", dir, "is not a valid directory and will be ignored!") #TODO hervorheben?
+					printWarning(dir+"is not a valid directory and will be ignored!") #TODO hervorheben?
 			except PermissionError:
-				print("WARNING:", dir, "is not accessible and will be ignored!") #TODO hervorheben?
+				printWarning(dir+"is not accessible and will be ignored!") #TODO hervorheben?
 
 	#remove duplicates:
 	filePaths = list(set(filePaths))
@@ -122,9 +142,10 @@ def collectFilePaths(singleLevelDirs=[],multiLevelDirs=[],fileTypePicks=[],fileT
 					del filePaths[i]
 
 	#return list with absolute file paths
+	if verbosity: printNotification("collected following Files: "+str(filePaths))
 	return sorted(filePaths)
 
-def collectRules(ruleFileNames=[], ruleFileNamesAreRegular=False, verbosity=False):
+def collectRules(useAllRules=False, ruleFileNames=[], ruleFileNamesAreRegular=False, errorTypes=[], verbosity=False):
 	"""imports rules from rules/ and returns list of importet rules
 
 	:ruleFileNames: rule files to be used
@@ -132,51 +153,67 @@ def collectRules(ruleFileNames=[], ruleFileNamesAreRegular=False, verbosity=Fals
 	:verbosity: enables verbose output
 	:returns: list of importet rules
 
-	"""
+	"""	
 	#rule list
 	ruleList=[]
 	
 	#rules folder, ALWAYS FOUND!
 	rulesDirectory = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],"rules")))
-	if verbosity: print("rulesDirectory:", rulesDirectory)
+	if verbosity: printNotification("rulesDirectory: "+rulesDirectory)
 	if rulesDirectory not in sys.path:
 		sys.path.insert(0, rulesDirectory)
-	#import modules according to -c and -r
-	for importer, packageName, _ in pkgutil.iter_modules([rulesDirectory]):
-		if ruleFileNames:
-			if ruleFileNamesAreRegular:
-				match=False
-				for regularRuleFileNameExpression in ruleFileNames:
-					if re.search(regularRuleFileNameExpression, packageName): # if package_name fits the regular Expression
-						match=True
-				if match==True:
-					if packageName not in sys.modules:
-						module = importer.find_module(packageName).load_module(packageName)
-						if verbosity: print("Module loaded:", module)
-			else:
-				for ruleFileName in ruleFileNames:
-					if packageName == ruleFileName or packageName == ruleFileName.split('.')[0]: #with or without '.xxx' ending
-						if packageName not in sys.modules:
-							module = importer.find_module(packageName).load_module(packageName)
-							if verbosity: print("Module loaded:", module)
-		else:
-			if packageName not in sys.modules:
-				module = importer.find_module(packageName).load_module(packageName)
-				if verbosity: print("Module loaded:", module)
+	
+	# collect Rules according to -a, -c, -r and -e parameters:
+	for importer, packageName, _ in pkgutil.iter_modules([rulesDirectory]): # all modules in rules/
+		module = importer.find_module(packageName).load_module(packageName)
+		for functionName,function in inspect.getmembers(module): 
+			if inspect.isfunction(function):								# all functions of module
+				if (useAllRules or ((not ruleFileNames) and (not errorTypes))):										# if -a, others don't matter
+					ruleList.append(function)
+					if verbosity: printNotification("Collected Function: "+packageName+"."+functionName)
+				else:												# not -a
+					if ruleFileNames:									# if -c
+						if ruleFileNamesAreRegular:							# if -c and -r
+							match=False
+							for regularRuleFileNameExpression in ruleFileNames:
+								if re.search(regularRuleFileNameExpression, packageName):
+									match=True
+							if match==True:
+								ruleList.append(function)
+								if verbosity: printNotification("Collected Function: "+packageName+"."+functionName)
+						else:												# if -c and not -r
+							for ruleFileName in ruleFileNames:
+								if ruleFileName == packageName:
+									ruleList.append(function)
+									if verbosity: printNotification("Collected Function: "+packageName+"."+functionName)
+					if errorTypes:										# if -e
+						for errorType in errorTypes:
+							if re.search(errorType, function.__doc__):
+								ruleList.append(function)
+								if verbosity: printNotification("Collected Function: "+packageName+"."+functionName)
 
+	# clean, print and return ruleList
+	ruleList = list(set(ruleList))
+	if verbosity: printNotification("ruleList: "+str(ruleList))
+	return ruleList
 
+def printErrorInformation(errorList):
+	"""prints error information, not yet "in a nice way"
 
+	:errorList: List of errors to inform about
+	:returns: None
 
+	"""
+	for errorType in errorList:
+		printInformation(errorType,eval("errors."+errorType+".__doc__"))
+	if errorType: printInformation('','') # for a nice blue line at the bottom ;)
 
-#	for ruleFile in os.listdir(rulesDirectory):
-#		if ruleFile != '__pycache__':
-#			ruleFile=ruleFile[:-3]
-#			print(ruleFile)
-#			import ruleFile
-#			exp=ruleFile+"."+ruleFile+"()"
-#			print("EXP:", exp)
-#			exec(exp)
+#MAIN ROUTINE
 argVars=parseArgs()
-#print(argVars)
-#print(collectFilePaths(argVars['d'],argVars['dd'],argVars['f'],argVars['b'],argVars['v']))
-collectRules(argVars['c'],argVars['r'], argVars['v'])
+printErrorInformation(argVars['i'])
+filePathList = collectFilePaths(argVars['d'],argVars['dd'],argVars['f'],argVars['b'],argVars['v'])
+ruleFunctionList = collectRules(argVars['a'], argVars['c'],argVars['r'], argVars['e'], argVars['v'])
+
+for function in ruleFunctionList:
+	function()
+
