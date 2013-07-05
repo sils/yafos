@@ -24,10 +24,6 @@
 #define cli()			ASM("cli")
 #define sti()			ASM("sti")
 #define nop()			ASM("nop")
-#define callint8		ASM("int $0x08")
-#define callint13		ASM("int $0x13")
-#define callint20		ASM("int $0x20")
-#define callint3		ASM("int $0x03") //TODO lets call user specified interrupt ;)
 
 //load tables
 #define lidt(idtptr)	ASM("lidt %0" : : "m" (idtptr));

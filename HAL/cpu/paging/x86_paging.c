@@ -21,6 +21,7 @@
 #include <string.h>
 #include <stdMacro.h>
 #include <mem/physical/pMem.h>
+#include <cpu/paging/pagedAlloc.h>
 
 extern int32_t activatePaging(void *pageDirAddr);
 
@@ -28,6 +29,7 @@ typedef uint32_t	pageDirEntry;
 typedef uint32_t	pageTableEntry;
 
 static pageDirEntry *	pageDir;
+static bool active;
 
 #define stdDirEntry(tableAdress)	(P_PRESENT | P_ADDR(tableAdress) | P_RW)
 #define stdTableEntry(pageAdress)	(P_PRESENT | P_ADDR(pageAdress ) | P_RW)
@@ -53,14 +55,21 @@ static pageDirEntry *	pageDir;
 
 extern inline void initPaging()
 {
+	active = false;
+	
 	//set 1024 * 4 bytes to zero
 	pageDir = (pageDirEntry *)pMemAlloc((1024*sizeof(pageDirEntry))/PAGE_SIZE);
 	memset(pageDir, 0, 1024*sizeof(pageDirEntry));
+	mapPage((uintptr_t)pageDir, (uintptr_t)pageDir);
+	
+	//map space for future page tables
+	pagedMemInit(8*MB);
 }
 
 extern inline uint32_t loadPageTable()
 {
 	//TODO search cr register
+	active = true;
 	return activatePaging((void *)pageDir);
 }
 
@@ -103,11 +112,23 @@ err_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 	else
 	{
 		//create empty page table, 1024 entries;
-		pTable =(pageTableEntry *)pMemAlloc((1024*sizeof(pageTableEntry))/PAGE_SIZE);
+		if(active)
+		{
+			pTable =(pageTableEntry *)pagedMemAlloc((1024*sizeof(pageTableEntry))/PAGE_SIZE);
+		}
+		else
+		{
+			pTable =(pageTableEntry *)pMemAlloc((1024*sizeof(pageTableEntry))/PAGE_SIZE);
+		}
 		memset(pTable, 0, 1024*sizeof(pageTableEntry));
 		
 		pageDir[P_DIR_OFFS(virtualAddr)] = stdDirEntry((uintptr_t)pTable);
 		pTable[P_TABLE_OFFS(virtualAddr)] = stdTableEntry(physicalAddr);
+		
+		if(!active)
+		{
+			mapPage((uintptr_t)pTable, (uintptr_t)pTable);
+		}
 		
 		return SUCCESS;
 	}

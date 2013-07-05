@@ -24,7 +24,6 @@ void initPaging();
 uint32_t loadPageTable();
 void setPageDir(void *pDir);
 err_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr);
-//TODO
 err_t mapRegion(uintptr_t physicalStart, uintptr_t virtualStart,
 				uintptr_t physicalEnd);
 //TODO unmap

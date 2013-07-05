@@ -1,6 +1,6 @@
-/* init.c
+/* pagedAlloc.h
  * 
- * Defines some constants for easily adjust settings
+ * For getting memory that is guaranteed mapped.
  *
  * Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
  * Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -11,21 +11,13 @@
  * version.
  */
 
-#ifndef _SETTINGS_H
-#define _SETTINGS_H
+#ifndef _PAGEDALLOC_H
+#define _PAGEDALLOC_H
 
-#include <stdMacro.h>
+#include <stdint.h>
 
-//Memory
-//let a page be 4 KiB
-#define PAGE_SIZE	(4*KB)
-//wether to use available space from below 1MB
-//#define USE_GRUB_MAP
+void pagedMemInit(uint32_t size);
+void *pagedMemAlloc(const uint8_t count);
+void pagedMemFree(const uintptr_t addr, uint8_t count);
 
-//Debug settings
-//#define DEBUG
-
-//Sound settings
-#define IRQ_0_FREQ	150
-
-#endif /* _SETTINGS_H */
+#endif /* _PAGEDALLOC_H */

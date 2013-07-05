@@ -80,7 +80,7 @@ void pMemFreeAdv(const uintptr_t addr, uint32_t count)
 	}
 }
 
-void pMemSet(const uintptr_t start, uint32_t count)
+static void pMemSet(const uintptr_t start, uint32_t count)
 {
 	uintptr_t tmp = start/PAGE_SIZE;
 	for(; count > 0; count--)

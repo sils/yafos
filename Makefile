@@ -6,7 +6,7 @@
 #	run:	compile all changed files, link and execute qemu
 #	clean:	delete all object files and the kernel image
 #	toolchain: configure the crosscompiler for this user of this system
-#		Missing dependencies for ubuntu: gperf, bison, ncurses-dev, gawk
+#		Missing dependencies for ubuntu: g++, flex, libtool, gperf, bison, ncurses-dev, gawk
 #		Missing dependencies for arch: wget, gperf
 #
 # Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
@@ -22,7 +22,7 @@
 INCDIRS	= -I ./include/ -I ./HAL/ -I ./kernel/
 # Don't let the C compiler do anything from itself
 EXCLUDE	= -nostdlib -nostdinc -fno-builtin -nostartfiles -nodefaultlibs\
--ffreestanding
+-ffreestanding -m32
 # No optimization
 OPT	= -O0
 # All and extra warnings
@@ -32,7 +32,7 @@ DEBUG	= -g
 CFLAGS	= $(ARCH) $(WARNLEV) $(EXCLUDE) $(INCDIRS) $(DEBUG) $(OPT)
 
 
-CC32	= ~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-gcc
+CC32	= gcc
 CC64	= ~/yafoscc/x86_64-yafos-elf/bin/x86_64-yafos-elf-gcc
 CCARM   = ~/yafoscc/arm-yafos-elf/bin/arm-yafos-elf-gcc
 
@@ -40,12 +40,12 @@ AS32	= ~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-as
 AS64	= ~/yafoscc/x86_64-yafos-elf/bin/x86_64-yafos-elf-as
 ASARM   = ~/yafoscc/arm-yafos-elf/bin/arm-yafos-elf-as
 
-LD32	= ~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-ld
+LD32	= ld
 LD64	= ~/yafoscc/x86_64-yafos-elf/bin/x86_64-yafos-elf-ld
 LDARM   = ~/yafoscc/arm-yafos-elf/bin/arm-yafos-elf-ld
 
 # Linker script
-LDFLAGS	= -T linker.ld
+LDFLAGS	= -T linker.ld -melf_i386
 
 SRCS	= $(shell find kernel/ -name '*.[csS]')
 SRCS   += $(shell find include/ -name '*.[csS]')
