@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 '''codeChecker.py
-' 
-' Checks codefiles for formal mistakes
-'
-' Copyright (C) 2013 Fabian Neuschmitd. All Rights Reserved.
-' Written by Fabian Neuschmidt (fabian.neuschmidt@googlemail.com)
-'
-' This program is free software: you can redistribute it and/or modify it under
-' the terms of the GNU General Public License as published by the Free Software
-' Foundation, either version 3 of the License, or (at your option) any later
-' version.
+ 
+Checks code files for formal mistakes
+
+Copyright (C) 2013 Fabian Neuschmidt. All Rights Reserved.
+Written by Fabian Neuschmidt (fabian.neuschmidt@googlemail.com)
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
 '''
 
 #Static imports
@@ -18,7 +18,7 @@ import os			#get path
 import re			#regular expressions
 import sys,inspect		#get script location
 import pkgutil			#dynamic import
-from printColor import printWarning, printNotification, printInformation
+import printColor
 import errors
 
 def parseArgs():
@@ -36,14 +36,12 @@ def parseArgs():
 	#configuration of help and arguments
 	parser = argparse.ArgumentParser(
 			formatter_class=argparse.RawDescriptionHelpFormatter,
-			description='''\
-	This codeChecker script checks your source code for formatting mistakes
-    ''',
+			description=__doc__,
 			epilog='''\
-	Possible choices for rulefiles (-c):
-	{}
-	Possible choices for errortypes (-e/-i):
-	{}
+	\rPossible choices for rulefiles (-c):
+	\r{}
+	\rPossible choices for errortypes (-e/-i):
+	\r{}
 	'''.format(ruleChoices, errorChoices))
 	parser.add_argument('-d', nargs='+', metavar='DIR', help="Directories or files to be checked") #DONE
 	parser.add_argument('-dd', nargs='+', metavar='DIR', help="Directories and sub directories to be checked ") #DONE
@@ -56,7 +54,7 @@ def parseArgs():
 	parser.add_argument('-r', action='store_true', help="FILENAME is to be interpreted as regular expression") #DONE
 	parser.add_argument('-v', action='store_true', help="enable verbosity") #DONE
 	localArgVars = vars(parser.parse_args())
-	if localArgVars['v']: printNotification("parsed args: "+str(localArgVars))
+	if localArgVars['v']: printColor.printNotification("parsed args: "+str(localArgVars))
 	return localArgVars
 
 def collectFilePaths(singleLevelDirs=[],multiLevelDirs=[],fileTypePicks=[],fileTypeBans=[],verbosity=False):
@@ -84,9 +82,9 @@ def collectFilePaths(singleLevelDirs=[],multiLevelDirs=[],fileTypePicks=[],fileT
 				elif os.path.isdir(dir):
 					filePaths.extend([os.path.join(dir,f) for f in os.listdir(dir) if os.path.isfile(os.path.join(dir,f))])
 				else:
-					printWarning(dir+" is not a valid file or directory and will be ignored!")
+					prinColor.printWarning(dir+" is not a valid file or directory and will be ignored!")
 			except PermissionError:
-				printWarning(dir+ 'is not accessible and will be ignored')
+				printColor.printWarning(dir+ 'is not accessible and will be ignored')
 
 	# recursive function used to collect filenames from subdirectories
 	def recursiveCollect(dir):
@@ -104,7 +102,7 @@ def collectFilePaths(singleLevelDirs=[],multiLevelDirs=[],fileTypePicks=[],fileT
 				elif os.path.isdir(os.path.join(dir,f)):
 					tempFilePathList.extend(recursiveCollect(os.path.join(dir,f)))
 		except PermissionError:
-			printWarning(dir+"is not accessible and will be ignored!")
+			printColor.printWarning(dir+"is not accessible and will be ignored!")
 		return tempFilePathList
 
 	# collect all files from multiLevelDirs
@@ -116,9 +114,9 @@ def collectFilePaths(singleLevelDirs=[],multiLevelDirs=[],fileTypePicks=[],fileT
 				if os.path.isdir(dir):
 					filePaths.extend(recursiveCollect(dir))
 				else:
-					printWarning(dir+"is not a valid directory and will be ignored!") #TODO hervorheben?
+					printColor.printWarning(dir+"is not a valid directory and will be ignored!")
 			except PermissionError:
-				printWarning(dir+"is not accessible and will be ignored!") #TODO hervorheben?
+				printColor.printWarning(dir+"is not accessible and will be ignored!") 
 
 	#remove duplicates:
 	filePaths = list(set(filePaths))
@@ -134,15 +132,19 @@ def collectFilePaths(singleLevelDirs=[],multiLevelDirs=[],fileTypePicks=[],fileT
 				del filePaths[i]
 
 	# if '-b' is specified, ignore files with given endings
-	# useless if '-f' is specified, because '-f' has a higher priority
-	elif fileTypeBans:
+
+	if fileTypeBans:
+		if fileTypePicks: fileTypeBans=list(set(fileTypeBans).difference(set(fileTypePicks))) # remove all fileTypeBans that are also fileTypePicks
 		for i in range(len(filePaths)-1,-1,-1):
+			banFilePath=False						# needed if more than one ban to prevent index errors
 			for fTB in fileTypeBans:
 				if re.search(fTB+'$',filePaths[i]):
-					del filePaths[i]
+					banFilePath=True
+			if banFilePath==True:
+				del filePaths[i]
 
 	#return list with absolute file paths
-	if verbosity: printNotification("collected following Files: "+str(filePaths))
+	if verbosity: printColor.printNotification("collected following Files: "+str(filePaths))
 	return sorted(filePaths)
 
 def collectRules(useAllRules=False, ruleFileNames=[], ruleFileNamesAreRegular=False, errorTypes=[], verbosity=False):
@@ -159,7 +161,7 @@ def collectRules(useAllRules=False, ruleFileNames=[], ruleFileNamesAreRegular=Fa
 	
 	#rules folder, ALWAYS FOUND!
 	rulesDirectory = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],"rules")))
-	if verbosity: printNotification("rulesDirectory: "+rulesDirectory)
+	if verbosity: printColor.printNotification("rulesDirectory: "+rulesDirectory)
 	if rulesDirectory not in sys.path:
 		sys.path.insert(0, rulesDirectory)
 	
@@ -170,7 +172,7 @@ def collectRules(useAllRules=False, ruleFileNames=[], ruleFileNamesAreRegular=Fa
 			if inspect.isfunction(function):								# all functions of module
 				if (useAllRules or ((not ruleFileNames) and (not errorTypes))):										# if -a, others don't matter
 					ruleList.append(function)
-					if verbosity: printNotification("Collected Function: "+packageName+"."+functionName)
+					if verbosity: printColor.printNotification("Collected Function: "+packageName+"."+functionName)
 				else:												# not -a
 					if ruleFileNames:									# if -c
 						if ruleFileNamesAreRegular:							# if -c and -r
@@ -180,40 +182,60 @@ def collectRules(useAllRules=False, ruleFileNames=[], ruleFileNamesAreRegular=Fa
 									match=True
 							if match==True:
 								ruleList.append(function)
-								if verbosity: printNotification("Collected Function: "+packageName+"."+functionName)
+								if verbosity: printColor.printNotification("Collected Function: "+packageName+"."+functionName)
 						else:												# if -c and not -r
 							for ruleFileName in ruleFileNames:
 								if ruleFileName == packageName:
 									ruleList.append(function)
-									if verbosity: printNotification("Collected Function: "+packageName+"."+functionName)
+									if verbosity: printColor.printNotification("Collected Function: "+packageName+"."+functionName)
 					if errorTypes:										# if -e
 						for errorType in errorTypes:
 							if re.search(errorType, function.__doc__):
 								ruleList.append(function)
-								if verbosity: printNotification("Collected Function: "+packageName+"."+functionName)
+								if verbosity: printColor.printNotification("Collected Function: "+packageName+"."+functionName)
 
 	# clean, print and return ruleList
 	ruleList = list(set(ruleList))
-	if verbosity: printNotification("ruleList: "+str(ruleList))
+	if verbosity: printColor.printNotification("ruleList: "+str(ruleList))
 	return ruleList
 
-def printErrorInformation(errorList):
+def informAboutErrorTypes(errorList):
 	"""prints error information, not yet "in a nice way"
 
 	:errorList: List of errors to inform about
 	:returns: None
 
 	"""
-	for errorType in errorList:
-		printInformation(errorType,eval("errors."+errorType+".__doc__"))
-	if errorType: printInformation('','') # for a nice blue line at the bottom ;)
+	if errorList:
+		for errorType in errorList:
+			printColor.printInformation(errorType,eval("errors."+errorType+".__doc__"))
+		if errorType: printColor.printInformation('','') # for a nice blue line at the bottom ;)
 
 #MAIN ROUTINE
 argVars=parseArgs()
-printErrorInformation(argVars['i'])
+informAboutErrorTypes(argVars['i'])
 filePathList = collectFilePaths(argVars['d'],argVars['dd'],argVars['f'],argVars['b'],argVars['v'])
 ruleFunctionList = collectRules(argVars['a'], argVars['c'],argVars['r'], argVars['e'], argVars['v'])
 
-for function in ruleFunctionList:
-	function()
-
+for filePath in filePathList:
+	errorList=[]
+	failedRoutines=[]
+#	print('{}\r'.format(filePath), end='') # temporarily, not logged!
+	try:
+		with open(filePath, "r") as file:
+			lineList = file.readlines()
+			lineList=[line[:-1] for line in lineList] # cut off trailing '\n'
+			for function in ruleFunctionList:
+				try:
+					errorList.extend(function(lineList)) # add function output to list
+				except TypeError as err:
+					failedRoutines.append(function.__name__)
+			if not errorList:
+				printColor.printOkFileColor(filePath) # printed if functions returned no errors
+			else:
+				printColor.printErrorFileColor(filePath)
+				printColor.printErrors(errorList)
+			if failedRoutines: [printColor.printWarning("test routine '{}' seems to have failed for this file!".format(routine)) for routine in failedRoutines]
+	except UnicodeDecodeError as UDerr:
+		printColor.printWarningFileColor(filePath)
+		printColor.printWarning("Unable to read this file: {}".format(UDerr))
