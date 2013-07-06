@@ -21,12 +21,11 @@ class CodeIncompleteError(Error):
 	
 	Attributes:
 		line -- source line in which the error appeared
-		message -- explanation of the error
+		insect -- word that raised the error
 	"""
 
-	def __init__(self, line, message):
-		self.line = line
-		self.message = message
+	def __init__(self, line, insect):
+		self.message = "CodeIncompleteError: '{}' found in line {}!".format(insect, line)
 
 class LineTooLongError(Error):
 	"""Exception raised if the length of a line of code exceeds 80 characters
@@ -37,7 +36,6 @@ class LineTooLongError(Error):
 	"""
 
 	def __init__(self, line, message):
-		self.line = line
 		self.message = message
 
 class HeaderIncompleteError(Error):
@@ -48,7 +46,6 @@ class HeaderIncompleteError(Error):
 	"""
 
 	def __init__(self, message):
-		self.line = line
 		self.message = message
 
 class DocumentationIncompleteError(Error):
@@ -59,5 +56,4 @@ class DocumentationIncompleteError(Error):
 	"""
 
 	def __init__(self, message):
-		self.line = line
 		self.message = message

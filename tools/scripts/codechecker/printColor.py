@@ -15,6 +15,7 @@
 '''
 
 import inspect #get name of calling function
+import re
 
 colorCodes = {
 	'black':    '0;30',     'bright gray':  '0;37',
@@ -31,9 +32,15 @@ colorCodes = {
 titleColor = 'bright blue'
 docColor = 'normal'
 functionColor = 'bright blue'
-warningColor = 'bright yellow'
+warningColor = 'yellow'
 notificationColor = 'normal'
-   
+normalColor = 'normal'
+okColor='green'
+errorColor='normal'
+errorFileColor='bright red'
+warningFileColor='bright yellow'
+okFileColor='bright green'
+
 def printColor(text, color='normal', endLine='\n'):
 	"""prints text in color if verbosity is True
 
@@ -52,16 +59,43 @@ def printColor(text, color='normal', endLine='\n'):
 		print(text)
 
 def printWarning(text):
-	printColor(inspect.stack()[1][3]+": ", functionColor, '')
+	if not inspect.stack()[1][3][0] == "<":	printColor(inspect.stack()[1][3]+": ", functionColor, '') 
+	else: printColor("codeChecker: ", functionColor, '')
 	printColor("WARNING: "+text, warningColor)
 
 def printNotification(text):
-	printColor(inspect.stack()[1][3]+": ", functionColor, '')
+	if not inspect.stack()[1][3][0] == "<":	printColor(inspect.stack()[1][3]+": ", functionColor, '') 
+	else: printColor("codeChecker: ", functionColor, '')
 	printColor(text, notificationColor)
 
 def printInformation(title, doc):
 	printColor("{:*^80}".format(title), titleColor)
 	printColor(doc, docColor)
+
+def printOkColor(text):
+	printColor(text, okColor)
+
+def printOkFileColor(text):
+	printColor(text, okFileColor)
+
+def printNormalColor(text):
+	printColor(text)
+
+def printErrorColor(text):
+	printColor(text, errorColor)
+
+def printErrorFileColor(text):
+	printColor(text, errorFileColor)
+
+def printWarningColor(text):
+	printColor(text, warningColor)
+
+def printWarningFileColor(text):
+	printColor(text, warningFileColor)
+
+def printErrors(errorList):
+	for error in errorList:
+		printColor(error, errorColor)
 
 if __name__ == '__main__':
 	print("Welcome to the test routine!")
