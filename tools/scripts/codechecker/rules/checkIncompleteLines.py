@@ -56,7 +56,7 @@ def bugCheck(lineList):
 	returnList=[]
 	for lineNumber in range(len(lineList)):
 		try:
-			if re.search("BUG", lineList[lineNumber]):
+			if re.search("[^E]BUG", lineList[lineNumber]):
 				raise errors.CodeIncompleteError(lineNumber+1,'BUG')
 		except errors.CodeIncompleteError as CIerr:
 			returnList.append(CIerr.message)
