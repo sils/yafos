@@ -27,33 +27,33 @@ class CodeIncompleteError(Error):
 	def __init__(self, line, insect):
 		self.message = "CodeIncompleteError: '{}' found in line {}!".format(insect, line)
 
-class LineTooLongError(Error):
-	"""Exception raised if the length of a line of code exceeds 80 characters
-	
-	Attributes:
-		line -- source line in which the error appeared
-		message -- explanation of the error
-	"""
+#class LineTooLongError(Error):
+#	"""Exception raised if the length of a line of code exceeds 80 characters
+#	
+#	Attributes:
+#		line -- source line in which the error appeared
+#		message -- explanation of the error
+#	"""
+#
+#	def __init__(self, line, message):
+#		self.message = message
+#
+#class HeaderIncompleteError(Error):
+#	"""Exception raised if Header is missiong or not matching global criteria
+#	
+#	Attributes:
+#		message -- explanation of the error
+#	"""
 
-	def __init__(self, line, message):
-		self.message = message
-
-class HeaderIncompleteError(Error):
-	"""Exception raised if Header is missiong or not matching global criteria
-	
-	Attributes:
-		message -- explanation of the error
-	"""
-
-	def __init__(self, message):
-		self.message = message
-
-class DocumentationIncompleteError(Error):
-	"""Exception raised if densiy of comments is too low
-	
-	Attributes:
-		message -- explanation of the error
-	"""
-
-	def __init__(self, message):
-		self.message = message
+#	def __init__(self, message):
+#		self.message = message
+#
+#class DocumentationIncompleteError(Error):
+#	"""Exception raised if densiy of comments is too low
+#	
+#	Attributes:
+#		message -- explanation of the error
+#	"""
+#
+#	def __init__(self, message):
+#		self.message = message

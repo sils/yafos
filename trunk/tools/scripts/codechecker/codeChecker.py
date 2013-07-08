@@ -38,6 +38,9 @@ def parseArgs():
 			formatter_class=argparse.RawDescriptionHelpFormatter,
 			description=__doc__,
 			epilog='''\
+	\rAll these Options are optional, though one of the arguments following arguments must be given:
+	\r-d, -dd, -i
+
 	\rPossible choices for rulefiles (-c):
 	\r{}
 	\rPossible choices for errortypes (-e/-i):
@@ -54,6 +57,7 @@ def parseArgs():
 	parser.add_argument('-r', action='store_true', help="FILENAME is to be interpreted as regular expression") #DONE
 	parser.add_argument('-v', action='store_true', help="enable verbosity") #DONE
 	localArgVars = vars(parser.parse_args())
+	if localArgVars['d']==None and localArgVars['dd']==None and localArgVars['i']==None: localArgVars = vars(parser.parse_args('-h'.split()))
 	if localArgVars['v']: printColor.printNotification("parsed args: "+str(localArgVars))
 	return localArgVars
 
@@ -82,7 +86,7 @@ def collectFilePaths(singleLevelDirs=[],multiLevelDirs=[],fileTypePicks=[],fileT
 				elif os.path.isdir(dir):
 					filePaths.extend([os.path.join(dir,f) for f in os.listdir(dir) if os.path.isfile(os.path.join(dir,f))])
 				else:
-					prinColor.printWarning(dir+" is not a valid file or directory and will be ignored!")
+					printColor.printWarning(dir+" is not a valid file or directory and will be ignored!")
 			except PermissionError:
 				printColor.printWarning(dir+ 'is not accessible and will be ignored')
 
