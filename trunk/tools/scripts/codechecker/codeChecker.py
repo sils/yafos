@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''codeChecker.py
  
 Checks code files for formal mistakes

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''errors.py
 ' 
 ' Defines Errors for format mistakes

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''printColor.py
 ' 
 ' printColor - miniature library that provides a Python print wrapper that
