@@ -45,6 +45,8 @@ void init()
 	printDebug("- Physical memory management");
 	printDebug("- Paging");
 	
+	assertCpuidSupport();
+	
 	printMsg("Testing memory manager...");
 	void * tmp;
 	printMsg(" Got  %u pages at %x", 4, tmp= pMemAlloc(4));
