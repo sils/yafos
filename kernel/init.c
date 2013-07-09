@@ -13,9 +13,7 @@ void init()
 	installIdt();
 	pMemInit();
 	registerKbdHandler(IRQ1);
-	sti();
 	//TODO move the whole paging initialization stuff to some subfile
-	clearScreen();
 	initPaging();
 	
 	uintptr_t addr = (uintptr_t)KERNEL_START;
@@ -26,7 +24,7 @@ void init()
 	
 	//map framebuffer memory
 	assertSuccess(mapPage(0xB8000, FB_MEM_LOCATION));
-	loadPageTable();
+	loadPageTable();//*/
 	
 	clearScreen();
 	
@@ -46,6 +44,17 @@ void init()
 	printDebug("- Beeping");
 	printDebug("- Physical memory management");
 	printDebug("- Paging");
+	
+	printMsg("Testing memory manager...");
+	void * tmp;
+	printMsg(" Got  %u pages at %x", 4, tmp= pMemAlloc(4));
+	printMsg(" Got  %u pages at %x", 4, pMemAlloc(4));
+	printMsg(" Got  %u pages at %x", 400, pMemAlloc(400));
+	printMsg(" Free %u pages at %x", 10, tmp);
+	pMemFreeAdv((uintptr_t)tmp,10);
+	printMsg(" Got  %u pages at %x", 4, pMemAlloc(4));
+	printMsg(" Got  %u pages at %x", 4, pMemAlloc(4));
+	printMsg(" Got  %u pages at %x", 4, pMemAlloc(4));
 	
 	#ifdef DEBUG
 	printMsg("Generating page fault...");

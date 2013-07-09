@@ -18,7 +18,9 @@
 
 //Memory
 //let a page be 4 KiB
-#define PAGE_SIZE	(4*KB)
+#define PAGE_SIZE		(4*KB)
+//size of prepaged memory which is available without need of paging
+#define PAGED_MEM_SIZE	(8*MB)
 //wether to use available space from below 1MB
 //#define USE_GRUB_MAP
 
