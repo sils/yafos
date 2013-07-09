@@ -20,6 +20,7 @@
 
 #include <string.h>
 #include <stdMacro.h>
+#include <settings.h>
 #include <mem/physical/pMem.h>
 #include <cpu/paging/pagedAlloc.h>
 
@@ -55,15 +56,22 @@ static bool active;
 
 extern inline void initPaging()
 {
+	sti();
 	active = false;
 	
-	//set 1024 * 4 bytes to zero
-	pageDir = (pageDirEntry *)pMemAlloc((1024*sizeof(pageDirEntry))/PAGE_SIZE);
+	pageDir = (pageDirEntry *)pMemAlloc((1024*sizeof(pageDirEntry)+PAGE_SIZE-1)
+							/ PAGE_SIZE);
+	
+	if(pageDir == NULL)
+	{
+		fatalErr("Failed allocating memory for page directory!");
+	}
+	
 	memset(pageDir, 0, 1024*sizeof(pageDirEntry));
 	mapPage((uintptr_t)pageDir, (uintptr_t)pageDir);
 	
 	//map space for future page tables
-	pagedMemInit(8*MB);
+	pagedMemInit(PAGED_MEM_SIZE);
 }
 
 extern inline uint32_t loadPageTable()
@@ -114,11 +122,17 @@ err_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 		//create empty page table, 1024 entries;
 		if(active)
 		{
-			pTable =(pageTableEntry *)pagedMemAlloc((1024*sizeof(pageTableEntry))/PAGE_SIZE);
+			pTable =(pageTableEntry *)pagedMemAlloc((1024*sizeof(pageTableEntry)
+													+PAGE_SIZE - 1)/PAGE_SIZE);
 		}
 		else
 		{
-			pTable =(pageTableEntry *)pMemAlloc((1024*sizeof(pageTableEntry))/PAGE_SIZE);
+			pTable =(pageTableEntry *)pMemAlloc((1024*sizeof(pageTableEntry)
+												+PAGE_SIZE - 1)/PAGE_SIZE);
+		}
+		if(pTable == NULL)
+		{
+			fatalErr("Memory allocation failed.");
 		}
 		memset(pTable, 0, 1024*sizeof(pageTableEntry));
 		
