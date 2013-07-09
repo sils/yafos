@@ -14,3 +14,4 @@
 %include "kernel/boot/inc/intHandler.inc"
 %include "kernel/boot/inc/gdtFlush.inc"
 %include "kernel/boot/inc/paging.inc"
+%include "kernel/boot/inc/cpuid.inc"

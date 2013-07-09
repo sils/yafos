@@ -16,8 +16,6 @@
 
 #include <stdint.h>
 
-void cpuid(int code, uint32_t *a, uint32_t *d);//TODO
-
-#include <stdMacro.h>
+void assertCpuidSupport();
 
 #endif /* _CPUINFO_H */
