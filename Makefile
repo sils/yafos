@@ -53,7 +53,7 @@ SRCS   += $(shell find HAL/ -name '*.[csS]')
 OBJFILES= $(addsuffix .o,$(basename $(SRCS)))
 
 # EMULATOR SETTINGS
-EMUL	=qemu-system-i386
+EMUL	=qemu-system-x86_64
 EDEBUG	=-gdb tcp::1234 -d int -D ./qemu.log
 
 default: kernel.img

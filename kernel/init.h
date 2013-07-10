@@ -45,5 +45,7 @@ void init();
 #include <intHandlers/keyboardInt.h>
 //using the physical memory manager
 #include <mem/physical/pMem.h>
+//cpu information
+#include <cpu/cpuInfo.h>
 
 #endif /* _INIT_H */
