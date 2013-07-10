@@ -50,14 +50,14 @@ void init()
 	printMsg("Testing memory manager...");
 	void * tmp;
 	printMsg(" Got  %u pages at %x", 4, tmp= pMemAlloc(4));
-	printMsg(" Got  %u pages at %x", 4, pMemAlloc(4));
 	printMsg(" Got  %u pages at %x", 400, pMemAlloc(400));
 	printMsg(" Free %u pages at %x", 10, tmp);
 	pMemFreeAdv((uintptr_t)tmp,10);
-	printMsg(" Got  %u pages at %x", 4, pMemAlloc(4));
-	printMsg(" Got  %u pages at %x", 4, pMemAlloc(4));
+	printMsg(" Got  %u pages at %x", 8, pMemAlloc(8));
 	printMsg(" Got  %u pages at %x", 4, pMemAlloc(4));
 	
+	printMsg("Vendor string is: %s", getVendor());
+	printMsg("E?X: %x", genCpuId(0x80000001)->edx);
 	#ifdef DEBUG
 	printMsg("Generating page fault...");
 	int *i = (void*)0x2000000;

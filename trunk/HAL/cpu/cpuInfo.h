@@ -16,6 +16,18 @@
 
 #include <stdint.h>
 
+#ifdef __i386__
+STRUCT
+{
+	uint32_t eax, ebx, ecx, edx;
+} PACKED cpuId_t;
+#else
+#error "64 bit is unsupported for now."
+#endif
+
 void assertCpuidSupport();
+extern char *getVendor();
+extern bool evalCpuidSupport();
+extern cpuId_t *genCpuId(uint32_t function);
 
 #endif /* _CPUINFO_H */

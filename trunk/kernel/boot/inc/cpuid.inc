@@ -11,34 +11,95 @@
 ; version.
 
 ; bool evalCpuidSupport()
-;
-; used registers:
-;	eax (may be changed)
-;	ebx (will be restored)
 global evalCpuidSupport
 evalCpuidSupport:
 	push ebx
-	
 	; get flags into eax
 	pushfd
 	pop eax
-	xor eax, 0x200000 ; change ID flag
-	
-	; load it into eflags
+	xor eax, 0x200000
 	push eax
 	popfd
-	; lets see if the flag survived
+	; if the flag survived, cpuid is supported
 	pushfd
 	pop ebx
 	
 	xor ebx, eax
-	je supported
+	je cssupported
 		mov eax, 0
-		
 		pop ebx
 		ret
-	supported:
+	cssupported:
 		mov eax, 1
-		
 		pop ebx
 		ret
+
+cpuInfoVar: times 16 dd 0
+
+; char *getVendor()
+global getVendor
+getVendor:
+	push ebx
+	push ecx
+	push edx
+	
+	xor eax, eax
+	cpuid
+	
+	mov [cpuInfoVar], ebx
+	mov [cpuInfoVar+4], edx
+	mov [cpuInfoVar+8], ecx
+	mov byte [cpuInfoVar+12], 0
+	lea eax, [cpuInfoVar]
+	
+	pop edx
+	pop ecx
+	pop ebx
+	ret
+
+; cpuId_t genCpuId(uint32_t function)
+global genCpuId
+genCpuId:
+	push ebx
+	push ecx
+	push edx
+	
+	mov eax, [esp+16]
+	
+	cpuid
+	
+	mov [cpuInfoVar   ], eax
+	mov [cpuInfoVar+4 ], ebx
+	mov [cpuInfoVar+8 ], ecx
+	mov [cpuInfoVar+12], edx
+	
+	lea eax, [cpuInfoVar]
+	
+	pop edx
+	pop ecx
+	pop ebx
+	ret
+
+; bool longModeSupport()
+global longModeSupport
+longModeSupport:
+	push ebx
+	push ecx
+	push edx
+	
+	mov eax, 0x80000001
+	cpuid
+	; extract the longmode bit
+	and edx, 0x20000000
+	test edx, edx
+	jz lmunsupported
+		mov eax, 1
+		jmp longModeSupportRet
+	lmunsupported:
+		mov eax, 0
+		jmp longModeSupportRet
+longModeSupportRet:
+	pop edx
+	pop ecx
+	pop ebx
+	ret
