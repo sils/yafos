@@ -4,7 +4,7 @@
 ; bridge from an arbitrary multiboot compliant bootloader to the C kernel.
 ; That includes specificly the following tasks:
 ; 		build up a stack
-; 		TODO read multiboot structure and pass it to the kernel
+; 		read multiboot structure and pass it to the kernel
 ; 		Call the kernel
 ; 		Halt the system if the kernel returns
 ;		TODO rewrite asm code to as compatible syntax and split it architecture

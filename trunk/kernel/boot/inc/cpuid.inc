@@ -10,6 +10,10 @@
 ; Foundation, either version 3 of the License, or (at your option) any later
 ; version.
 
+%define CPUID_PAE_BIT	0x00000040
+%define CPUID_FLAG_BIT	0x00200000
+%define CPUID_LM_BIT	0x20000000
+
 ; bool evalCpuidSupport()
 global evalCpuidSupport
 evalCpuidSupport:
@@ -17,7 +21,7 @@ evalCpuidSupport:
 	; get flags into eax
 	pushfd
 	pop eax
-	xor eax, 0x200000
+	xor eax, CPUID_FLAG_BIT
 	push eax
 	popfd
 	; if the flag survived, cpuid is supported
@@ -75,30 +79,6 @@ genCpuId:
 	
 	lea eax, [cpuInfoVar]
 	
-	pop edx
-	pop ecx
-	pop ebx
-	ret
-
-; bool longModeSupport()
-global longModeSupport
-longModeSupport:
-	push ebx
-	push ecx
-	push edx
-	
-	mov eax, 0x80000001
-	cpuid
-	; extract the longmode bit
-	and edx, 0x20000000
-	test edx, edx
-	jz lmunsupported
-		mov eax, 1
-		jmp longModeSupportRet
-	lmunsupported:
-		mov eax, 0
-		jmp longModeSupportRet
-longModeSupportRet:
 	pop edx
 	pop ecx
 	pop ebx

@@ -47,6 +47,8 @@ LDARM   = ~/yafoscc/arm-yafos-elf/bin/arm-yafos-elf-ld
 # Linker script
 LDFLAGS	= -T linker.ld -melf_i386
 
+# TODO find just the .S files with x86 preceeding, making the include.inc
+#	deprecated
 SRCS	= $(shell find kernel/ -name '*.[csS]')
 SRCS   += $(shell find include/ -name '*.[csS]')
 SRCS   += $(shell find HAL/ -name '*.[csS]')
