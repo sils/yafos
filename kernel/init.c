@@ -5,8 +5,6 @@ void init()
 {
 	//TODO think about ways of storing strings and setting a standard language and so on.
 	//Would be nice to have this on kernel level ;)
-	char welcomeString[] = "_             _  _____   _        __    ___    _    _   _____   _ \n\\\\           // |  ___| | |      / _|  /   \\  | \\  / | |  ___| | |\n \\\\    _    //  | |__   | |     / /   /  _  \\ |  \\/  | | |__   | |\n  \\\\  /_\\  //   |  __|  | |     | |   | |_| | | |\\/| | |  __|  |_|\n   \\\\// \\\\//    | |___  | |___  \\ \\_  \\     / | |  | | | |___   _ \n    \\/   \\/     |_____| |_____|  \\__|  \\___/  |_|  |_| |_____| |_|\n";
-	
 	installGdt();
 	initStdTimer(IRQ_0_FREQ);
 	registerTimerHandler(IRQ0);//TODO move this to initStdTimer
@@ -28,8 +26,6 @@ void init()
 	
 	clearScreen();
 	
-	kprintf("%s",welcomeString);
-	kprintf("...to the blue ocean!\n\n");
 	kprintf("\n            _../|_\n");
 	kprintf("          ='__  _~-.\n");
 	kprintf("              \\'  ~-`\\._\n");
@@ -57,7 +53,9 @@ void init()
 	printMsg(" Got  %u pages at %x", 4, pMemAlloc(4));
 	
 	printMsg("Vendor string is: %s", getVendor());
-	printMsg("E?X: %x", genCpuId(0x80000001)->edx);
+	printMsg("Checking if long mode is available...");
+	assertLongModeSupport();
+	printMsg("Long mode is supported.");
 	#ifdef DEBUG
 	printMsg("Generating page fault...");
 	int *i = (void*)0x2000000;

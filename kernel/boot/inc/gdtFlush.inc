@@ -12,9 +12,6 @@
 ; version.
 
 ; void jumpToSegment(uint8_t dataSegment, uint8_t codeSegment)
-;
-; used registers:
-;	eax (may be changed)
 global jumpToSegment
 jumpToSegment:
 	; do not use return address
@@ -34,5 +31,6 @@ jumpToSegment:
 	jmp 0x8:nxt
 nxt:
 	; reset esp properly; two parameters plus return address
+	; TODO after the first todo in this document is finished add 4 to the 8 here
 	sub esp, 0x8
 	ret

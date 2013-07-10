@@ -1,6 +1,6 @@
-; loader/include.inc
+; loader/memory.inc
 ;
-; Includes all nessecary assembler code.
+; Functions for handling memory
 ;
 ; Copyright (C) 2013 Lasse Schuirmann. All Rights Reserved.
 ; Written by Lasse Schuirmann (lasse.schuirmann@gmail.com)
@@ -10,10 +10,11 @@
 ; Foundation, either version 3 of the License, or (at your option) any later
 ; version.
 
-%include "kernel/boot/inc/debug.inc"
-%include "kernel/boot/inc/intHandler.inc"
-%include "kernel/boot/inc/gdtFlush.inc"
-%include "kernel/boot/inc/paging.inc"
-%include "kernel/boot/inc/cpuid.inc"
-%include "kernel/boot/inc/memory.inc"
-%include "kernel/boot/inc/longmode.inc"
+; uint32_t getMemoryAmount()
+global getMemoryAmount
+getMemoryAmount:
+	mov eax, 0xe820
+	; TODO
+	cli
+	hlt
+	ret

@@ -15,6 +15,7 @@
 #define _CPUINFO_H
 
 #include <stdint.h>
+#include <stdMacro.h>
 
 #ifdef __i386__
 STRUCT
@@ -26,6 +27,8 @@ STRUCT
 #endif
 
 void assertCpuidSupport();
+void assertLongModeSupport();
+extern bool longModeSupport();
 extern char *getVendor();
 extern bool evalCpuidSupport();
 extern cpuId_t *genCpuId(uint32_t function);

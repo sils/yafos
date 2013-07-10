@@ -26,12 +26,15 @@ void setPageDir(void *pDir);
 err_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr);
 err_t mapRegion(uintptr_t physicalStart, uintptr_t virtualStart,
 				uintptr_t physicalEnd);
+extern void deactivatePaging();
 //TODO unmap
 
 #ifdef __i386__
-#define _X86_PAGING_H
+	#define _X86_PAGING_H
+#elif defined __x86_64__
+	#define _X8_PAG6ING_H
 #else
-#error "Unsupported architecture."
+	#error "Unsupported architecture."
 #endif
 
 #endif /* _PAGING_H */

@@ -10,13 +10,10 @@
 ; Foundation, either version 3 of the License, or (at your option) any later
 ; version.
 
+%define PAE_ENABLE_BIT	0x00000020
+%define PAGING_BIT		0x80000000
+
 ; uint32_t activatePaging(void *pageDirAddr)
-;
-; used registers:
-;	eax (may be changed)
-;
-; returns:
-;	eax, status of cr0
 global activatePaging
 activatePaging:
 	; jump over return address
@@ -28,11 +25,26 @@ activatePaging:
 	
 	; activate paging
 	mov eax, cr0
-	or  eax, 0x80000000
+	or  eax, PAGING_BIT
 	mov cr0, eax
 	
 	; set stack pointer properly
 	sub esp, 8
 	ret
 
-msg db "[ASM] %x",0x0a,0
+; void enablePAE()
+global enablePAE
+enablePAE:
+	mov eax, cr4
+	or eax, PAE_ENABLE_BIT
+	mov cr4, eax
+	ret
+
+; void deactivatePaging()
+global deactivatePaging
+deactivatePaging:
+	mov eax, cr0
+	and eax, 0x7FFFFFFF
+	mov cr0, eax
+	
+	ret
