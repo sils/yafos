@@ -66,8 +66,8 @@ STRUCT
 
 #ifdef __i386__
 #define _X86_MULTIBOOT_H
-#else
-#error "Unsupported architecture!"
+//#else
+//#error "Unsupported architecture!"
 #endif
 
 #endif /* _MULTIBOOT_H */

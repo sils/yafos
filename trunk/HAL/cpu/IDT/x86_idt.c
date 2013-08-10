@@ -91,7 +91,7 @@ extern void irq15();
 #define I_PRESENT	1<<7
 #define I_DPL(dpl)	((dpl)<<5)
 #define I_STORAGE	1<<4
-#define I_TASK_GATE	0x5//TODO find out about this gate bits EXACTLY
+#define I_TASK_GATE	0x5
 #define I_TRAP_GATE	0xF
 #define I_INT_GATE	0xE
 

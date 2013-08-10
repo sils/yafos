@@ -23,6 +23,7 @@
 #include <settings.h>
 #include <mem/physical/pMem.h>
 #include <cpu/paging/pagedAlloc.h>
+#include <intHandlers/generalInt.h>
 
 extern int32_t activatePaging(void *pageDirAddr);
 
@@ -32,8 +33,7 @@ typedef uint32_t	pageTableEntry;
 static pageDirEntry *	pageDir;
 static bool active;
 
-#define stdDirEntry(tableAdress)	(P_PRESENT | P_ADDR(tableAdress) | P_RW)
-#define stdTableEntry(pageAdress)	(P_PRESENT | P_ADDR(pageAdress ) | P_RW)
+#define stdEntry(tableAdress)	(P_PRESENT | P_ADDR(tableAdress) | P_RW)
 
 #define P_ADDR(addr)	(addr & 0xFFFFF000)
 //flags
@@ -54,6 +54,16 @@ static bool active;
 #define P_TABLE_OFFS(a)	(((a)<<10) >> 22)
 #define P_DIR_OFFS(a)	((a) >> 22)
 
+static void pageFaultHandler(registers_t *regs)
+{
+	uint32_t cr2;
+	ASM("mov %%cr2, %0" : "=r" (cr2));
+	fatalErr("\nA page fault occurred!\n\
+  Adress         : %x\n\
+  Faulting Adress: %x\n\
+  Error Code     : %x\n", regs->eip, cr2, regs->errCode);
+}
+
 extern inline void initPaging()
 {
 	sti();
@@ -72,6 +82,8 @@ extern inline void initPaging()
 	
 	//map space for future page tables
 	pagedMemInit(PAGED_MEM_SIZE);
+	
+	registerIntHandler(0xe,&pageFaultHandler);
 }
 
 extern inline uint32_t loadPageTable()
@@ -104,6 +116,9 @@ err_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 {
 	pageTableEntry* pTable;
 	
+	//it's impossible, that the values are out of range
+	//so probably no unallocated space will be overwritten
+	
 	if(P_PRESENT & pageDir[P_DIR_OFFS(virtualAddr)])
 	{
 		pTable = (pageTableEntry *)P_ADDR(pageDir[P_DIR_OFFS(virtualAddr)]);
@@ -111,41 +126,36 @@ err_t mapPage(uintptr_t physicalAddr, uintptr_t virtualAddr)
 		{
 			return -OBJECT_PRESENT;
 		}
-		else
-		{
-			pTable[P_TABLE_OFFS(virtualAddr)] = stdTableEntry(physicalAddr);
-			return SUCCESS;
-		}
+		pTable[P_TABLE_OFFS(virtualAddr)] = stdEntry(physicalAddr);
+		return SUCCESS;
+	}
+	//create empty page table, 1024 entries;
+	if(active)
+	{
+		pTable =(pageTableEntry *)pagedMemAlloc((1024*sizeof(pageTableEntry)
+												+PAGE_SIZE - 1)/PAGE_SIZE);
 	}
 	else
 	{
-		//create empty page table, 1024 entries;
-		if(active)
-		{
-			pTable =(pageTableEntry *)pagedMemAlloc((1024*sizeof(pageTableEntry)
-													+PAGE_SIZE - 1)/PAGE_SIZE);
-		}
-		else
-		{
-			pTable =(pageTableEntry *)pMemAlloc((1024*sizeof(pageTableEntry)
-												+PAGE_SIZE - 1)/PAGE_SIZE);
-		}
-		if(pTable == NULL)
-		{
-			fatalErr("Memory allocation failed.");
-		}
-		memset(pTable, 0, 1024*sizeof(pageTableEntry));
-		
-		pageDir[P_DIR_OFFS(virtualAddr)] = stdDirEntry((uintptr_t)pTable);
-		pTable[P_TABLE_OFFS(virtualAddr)] = stdTableEntry(physicalAddr);
-		
-		if(!active)
-		{
-			mapPage((uintptr_t)pTable, (uintptr_t)pTable);
-		}
-		
-		return SUCCESS;
+		pTable =(pageTableEntry *)pMemAlloc((1024*sizeof(pageTableEntry)
+											+PAGE_SIZE - 1)/PAGE_SIZE);
 	}
+	if(pTable == NULL)
+	{
+		fatalErr("Memory allocation failed.");
+	}
+	memset(pTable, 0, 1024*sizeof(pageTableEntry));
+	
+	pageDir[P_DIR_OFFS(virtualAddr)] = stdEntry((uintptr_t)pTable);
+	pTable[P_TABLE_OFFS(virtualAddr)] = stdEntry(physicalAddr);
+	
+	if(!active)
+	{
+		assertSuccess(mapRegion((uintptr_t)pTable, (uintptr_t)pTable,
+						(uintptr_t)pTable + 1024*sizeof(pageTableEntry)));
+	}
+	
+	return SUCCESS;
 }
 
 #endif /* _X86_PAGING_H */

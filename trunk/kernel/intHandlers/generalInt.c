@@ -27,25 +27,26 @@ void generalIntHandler(registers_t *regs)
 {
 	//auto EOI is active -> no need to send EOI here :)
 	
-	if(regs->intNo <= 16)
+	if(intHandlers[regs->intNo])
 	{
-		fatalErr("Unhandled exception (%x). Message: %s",
-			regs->intNo, exceptionMessage[regs->intNo]);
+		intHandlers[regs->intNo](regs);
 	}
 	else
 	{
-		if(intHandlers[regs->intNo])
+		if(regs->intNo <= 16)
 		{
-			intHandlers[regs->intNo](regs);
+			fatalErr("Unhandled exception (%x). Message: %s",
+				regs->intNo, exceptionMessage[regs->intNo]);
 		}
-		else
-		{
-			printErr("Unhandled interrupt (%x)!\n", regs->intNo);
-		}
+		printErr("Unhandled interrupt (%x)!\n", regs->intNo);
 	}
 }
 
 extern inline void registerIntHandler(uint16_t id, intHandler func)
 {
+	if(id >= IDT_ENTRIES)
+	{
+		fatalErr("Unable to register interrupt handler!");
+	}
 	intHandlers[id] = func;
 }

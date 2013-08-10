@@ -58,7 +58,7 @@ void init()
 	printMsg("Long mode is supported.");
 	#ifdef DEBUG
 	printMsg("Generating page fault...");
-	int *i = (void*)0x2000000;
+	int *i = (void*)pMemAlloc(1);
 	*i = 5;
 	#endif
 	
