@@ -30,21 +30,22 @@ CURRENT STATUS
 
 INSTALL THE TOOLCHAIN
 	YAFOS has it's own toolchain to provide independency from gcc updates. (They
-	may do harm. TODO make some research on using more of the options given by an
-	own compiler.)
+	may do harm. TODO make some research on using more of the options given by
+	an own compiler.)
 
 	You may compile a crosscompiler using:
 		make cc32
 	This will do everything automatically. If it fails, see that all needed
-	software is installed (lists for some distributions in the makefile) and retry
-	after doing
+	software is installed (lists for some distributions in the makefile) and
+	retry after doing
 		rm -R /tmp/ct-ng
-	since there may be temporary files saved.
+	since there may be temporary files saved which may block the installation
+	process.
 	The script will create a working directory in your home directory
 		~/cc
 	If this already exists it will append 'c' until it doesn't. It should remove
-	it automatically but that's not guaranteed! Feel free to delete it, it has no
-	use after building the toolchain.
+	it automatically but that's not guaranteed! Feel free to delete it manually,
+	it has no use after building the toolchain.
 	
 	Be sure to install qemu before trying to test. Alternatively you can create
 	an ISO with grub and the kernel and reboot everytime you want to test.
@@ -52,7 +53,7 @@ INSTALL THE TOOLCHAIN
 	Have fun!
 
 BUILD
-	Be sure to read and follow the instructions given in [INSTALL THE TOOLCHAIN].
+	Be sure to read and follow the instructions given in [INSTALL THE TOOLCHAIN]
 	Just execute 'make run' to compile the kernel and start the qemu emulator.
 	Qemu may be interfaced with gdb via the command:
 		target remote localhost:1234
@@ -61,7 +62,8 @@ BUILD
 
 CONTRIBUTING
 	To open all project files we have an editor independend project file. (Yes,
-	it's a bash script that just executes your favorite editor with all the files)
+	it's a bash script that just executes your favorite editor with all the
+	files)
 	Be sure that your editor supports tabs or so - else you'll get a lot of
 	windows. (And who wants windows...)
 

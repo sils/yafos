@@ -19,7 +19,7 @@ ENTRY (loader)
 SECTIONS
 {
 	. = 0x100000;
-    
+
     kernelStart = .;
 
     .text ALIGN (0x1000) :
@@ -42,7 +42,7 @@ SECTIONS
     {
         *(.bss)
     }
-    
+
     . = ALIGN(0x1000);
     kernelEnd = .;
 }

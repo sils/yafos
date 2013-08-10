@@ -10,7 +10,7 @@
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
  */
-
+/*
 #include <stdMacro.h>
 #include <stdint.h>
 #include <cpu/paging/paging.h>
@@ -104,4 +104,4 @@ void addTask(const void *physEnt, const void *virtEnt, const void *physEnd)
 	
 	//TODO place it at the end of the qeue
 	//TODO: create the qeue ;)
-}
+}*/

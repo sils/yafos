@@ -22,8 +22,13 @@ STRUCT
 {
 	uint32_t eax, ebx, ecx, edx;
 } PACKED cpuId_t;
+#elif defined __x86_64__
+STRUCT
+{
+	uint64_t eax, ebx, ecx, edx;
+} PACKED cpuId_t;
 #else
-#error "64 bit is unsupported for now."
+#error "Unsupported architecture!"
 #endif
 
 void assertCpuidSupport();

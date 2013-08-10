@@ -10,7 +10,6 @@ static uintptr_t offset;
 static genmem_t obj;
 
 //has to be invoked before paging is enabled!
-//TODO make a kind of class for this bitmap stuff - way too much overhead!
 void pagedMemInit(uint32_t size)
 {
 	//alloc pages

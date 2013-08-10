@@ -32,7 +32,7 @@ extern void deactivatePaging();
 #ifdef __i386__
 	#define _X86_PAGING_H
 #elif defined __x86_64__
-	#define _X8_PAG6ING_H
+	#define _X64_PAGING_H
 #else
 	#error "Unsupported architecture."
 #endif
