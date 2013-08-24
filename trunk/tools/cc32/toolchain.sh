@@ -45,6 +45,8 @@ Consider running this script with a developement user."
 	read
 fi
 
+sudo apt-get install autoconf automake libtool libexpat1-dev libncurses5-dev bison flex patch curl cvs texinfo build-essential subversion gawk python-dev gperf
+
 #until ping -W 5 -c 1 google.com >>/dev/null;
 #do
 #	echo "No internet connection present! You'll be given the output of 'ip link'."
@@ -99,7 +101,7 @@ echo "Applying recursion patch..."
 patch -p1 < patch_makefile_recursion.patch
 echo "Done."
 
-if [ -d "/tmp/ct-ng"]
+if [ -d "/tmp/ct-ng" ]
 then
 	rm -R -f /tmp/ct-ng
 fi
