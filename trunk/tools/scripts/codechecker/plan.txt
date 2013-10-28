@@ -1,0 +1,13 @@
+Alt:			Neu:
+
+-h HELP			-h HELP
+-d DIR			-d DIR
+-dd REC DIR		-d REC DIR
+-c RULES		-f FILTERS
+-f CHECKED		-t TEST
+-b BANNED		-i IGNORE
+-a ALL
+-i INFO
+-r c->REGEX		-ff REGEX-FILTER
+-v VERB			-v VERB
+			-c CONFIG
