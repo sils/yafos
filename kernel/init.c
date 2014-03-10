@@ -22,7 +22,7 @@ void init()
 	
 	//map framebuffer memory
 	assertSuccess(mapPage(0xB8000, FB_MEM_LOCATION));
-	loadPageTable();//*/
+	loadPageTable();
 	
 	clearScreen();
 	
@@ -56,7 +56,7 @@ void init()
 	printMsg("Checking if long mode is available...");
 	assertLongModeSupport();
 	printMsg("Long mode is supported.");
-	#ifdef DEBUG
+	#if 0
 	printMsg("Generating page fault...");
 	int *i = (void*)pMemAlloc(1);
 	*i = 5;

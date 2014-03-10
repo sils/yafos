@@ -25,7 +25,7 @@
 #define PAGED_MEM_SIZE	(8*MB)
 
 //Debug settings
-//#define DEBUG
+#define DEBUG
 
 //Sound settings
 #define IRQ_0_FREQ	150

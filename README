@@ -29,6 +29,9 @@ CURRENT STATUS
 	TODO?
 
 INSTALL THE TOOLCHAIN
+	Currently the own toolchain is disabled (but functional). Skip this
+	paragraph if you want.
+
 	YAFOS has it's own toolchain to provide independency from gcc updates. (They
 	may do harm. TODO make some research on using more of the options given by
 	an own compiler.)
