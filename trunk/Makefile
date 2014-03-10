@@ -32,15 +32,15 @@ DEBUG	= -g
 CFLAGS	= $(ARCH) $(WARNLEV) $(EXCLUDE) $(INCDIRS) $(DEBUG) $(OPT)
 
 
-CC32	= ~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-gcc
+CC32	= gcc #~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-gcc
 CC64	= ~/yafoscc/x86_64-yafos-elf/bin/x86_64-yafos-elf-gcc
 CCARM   = ~/yafoscc/arm-yafos-elf/bin/arm-yafos-elf-gcc
 
-AS32	= ~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-as
+AS32	= as #~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-as
 AS64	= ~/yafoscc/x86_64-yafos-elf/bin/x86_64-yafos-elf-as
 ASARM   = ~/yafoscc/arm-yafos-elf/bin/arm-yafos-elf-as
 
-LD32	= ~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-ld
+LD32	= ld #~/yafoscc/i386-yafos-elf/bin/i386-yafos-elf-ld
 LD64	= ~/yafoscc/x86_64-yafos-elf/bin/x86_64-yafos-elf-ld
 LDARM   = ~/yafoscc/arm-yafos-elf/bin/arm-yafos-elf-ld
 
@@ -60,10 +60,6 @@ EDEBUG	=-gdb tcp::1234 -d int -D ./qemu.log
 
 default: kernel.img
 
-# just to test how parameters can be used - TODO: invoke codechecker script
-echo:
-	echo $(TEXT)
-
 all: clean kernel.img
 
 run: kernel.img
@@ -71,7 +67,7 @@ run: kernel.img
 
 cc32:
 	bash ./tools/cc32/toolchain.sh
-cc64:	
+cc64:
 	bash ./tools/cc64/toolchain.sh
 ccarm:
 	bash ./tools/arm32/toolchain.sh
@@ -89,3 +85,4 @@ kernel.img: $(OBJFILES)
 
 clean:
 	$(RM) $(OBJFILES) kernel.img
+
