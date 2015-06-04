@@ -1,0 +1,3 @@
+[Default]
+bears = ClangCloneDetectionBear
+files = **/*.c
